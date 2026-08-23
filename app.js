@@ -727,7 +727,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="pass-cell"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
                 <td><strong>${r.ti}</strong></td>
                 <td>${r.Po}</td>
-                <td><span class="badge-num" style="width:18px;height:18px;font-size:11px;">${r.IP}</span></td>
+                <td><span class="badge-ip">${r.IP}</span></td>
                 <td><span class="${r.Voltage === 'High' ? 'val-volt-high' : 'val-volt-low'}">${r.Voltage}</span></td>
                 <td>${r.VF}</td>
                 <td>${r.Wire}</td>
