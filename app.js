@@ -347,10 +347,11 @@ document.addEventListener('DOMContentLoaded', () => {
             Voltage: Volt_1,
             VF: VF_1,
             Wire: Wire_1,
-            offsetText: `Offset = ${Offset_1.toFixed(3)} mm`,
+            offsetText: `${Offset_1.toFixed(3)}mm`,
             speedArea: Math.round(SpeedArea_1),
             feedRate: feedRate_1.toFixed(2),
             Ra: Ra_1,
+            tolerance: H <= 50 ? '±0.015mm' : (H <= 150 ? '±0.020mm' : '±0.025mm'),
             rawOffset: Offset_1
         });
 
@@ -379,10 +380,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 Voltage: Volt_2,
                 VF: VF_2,
                 Wire: Wire_2,
-                offsetText: `Lượng bào = ${remain_2.toFixed(3)} mm`,
+                offsetText: `${remain_2.toFixed(3)}mm`,
                 speedArea: speedArea_2,
                 feedRate: feedRate_2.toFixed(2),
-                Ra: isHard ? '1.8 - 2.0' : '2.0 - 2.2'
+                Ra: isHard ? '1.8 - 2.0' : '2.0 - 2.2',
+                tolerance: H <= 50 ? '±0.008mm' : (H <= 150 ? '±0.010mm' : '±0.012mm')
             });
         }
 
@@ -411,10 +413,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 Voltage: Volt_3,
                 VF: VF_3,
                 Wire: Wire_3,
-                offsetText: `Lượng bào = ${remain_3.toFixed(3)} mm`,
+                offsetText: `${remain_3.toFixed(3)}mm`,
                 speedArea: speedArea_3,
                 feedRate: feedRate_3.toFixed(2),
-                Ra: isHard ? '1.0 - 1.2' : '1.2 - 1.4'
+                Ra: isHard ? '1.0 - 1.2' : '1.2 - 1.4',
+                tolerance: H <= 50 ? '±0.005mm' : (H <= 150 ? '±0.006mm' : '±0.008mm')
             });
         }
 
@@ -442,10 +445,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 Voltage: Volt_4,
                 VF: VF_4,
                 Wire: Wire_4,
-                offsetText: `Lượng bào = ${remain_4.toFixed(3)} mm`,
+                offsetText: `${remain_4.toFixed(3)}mm`,
                 speedArea: speedArea_4,
                 feedRate: feedRate_4.toFixed(2),
-                Ra: isHard ? '0.7 - 0.9' : '0.9 - 1.1'
+                Ra: isHard ? '0.7 - 0.9' : '0.9 - 1.1',
+                tolerance: '±0.004mm'
             });
         }
 
@@ -473,10 +477,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 Voltage: Volt_5,
                 VF: VF_5,
                 Wire: Wire_5,
-                offsetText: `Lượng bào = ${remain_5.toFixed(3)} mm`,
+                offsetText: `${remain_5.toFixed(3)}mm`,
                 speedArea: speedArea_5,
                 feedRate: feedRate_5.toFixed(2),
-                Ra: isHard ? '≤ 0.60' : '≤ 0.70'
+                Ra: isHard ? '≤ 0.60' : '≤ 0.70',
+                tolerance: '±0.003mm'
             });
         }
 
@@ -504,10 +509,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 Voltage: Volt_6,
                 VF: VF_6,
                 Wire: Wire_6,
-                offsetText: `Lượng bào = ${remain_6.toFixed(3)} mm`,
+                offsetText: `${remain_6.toFixed(3)}mm`,
                 speedArea: speedArea_6,
                 feedRate: feedRate_6.toFixed(2),
-                Ra: isHard ? '≤ 0.45' : '≤ 0.55'
+                Ra: isHard ? '≤ 0.45' : '≤ 0.55',
+                tolerance: '±0.002mm'
             });
         }
 
@@ -736,6 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${r.speedArea}</td>
                 <td><strong>${r.feedRate}</strong></td>
                 <td class="val-ra">${r.Ra}</td>
+                <td class="val-tolerance">${r.tolerance}</td>
             </tr>
         `).join('');
 
@@ -761,10 +768,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const strat = STRATEGY_CONFIGS[state.strategyLevel] || STRATEGY_CONFIGS[6];
         let text = `AUTOCUT EDM SERVO - BẢNG THÔNG SỐ CẮT\n`;
         text += `Vật liệu: ${state.material} | Chiều dày H: ${state.thickness}mm | Quy trình: ${state.passCount} Pass | Chiến lược: ${strat.name}\n\n`;
-        text += `P\tti(μs)\tPo\tIP\tVolt\tVF\tWire\tOFFSET\tFc(mm2/p)\tFt(mm/p)\tRa\n`;
+        text += `P\tTon\tToff\tIP\tV\tVF\tWire\tOFFSET\tFc(mm2/p)\tFt(mm/p)\tRa\tSai số\n`;
         
         rows.forEach(r => {
-            text += `${r.passName}\t${r.ti}\t${r.Po}\t${r.IP}\t${r.Voltage}\t${r.VF}\t${r.Wire}\t${r.offsetText}\t${r.speedArea}\t${r.feedRate}\t${r.Ra}\n`;
+            text += `${r.passName}\t${r.ti}\t${r.Po}\t${r.IP}\t${r.Voltage}\t${r.VF}\t${r.Wire}\t${r.offsetText}\t${r.speedArea}\t${r.feedRate}\t${r.Ra}\t${r.tolerance}\n`;
         });
 
         navigator.clipboard.writeText(text).then(() => {
@@ -778,7 +785,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.5.0";
+    const CURRENT_VERSION = "2.6.0";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {

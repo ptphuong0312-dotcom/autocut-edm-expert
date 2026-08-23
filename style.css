@@ -921,6 +921,7 @@ body {
 .val-volt-high { color: var(--accent-amber); font-weight: 600; }
 .val-volt-low { color: var(--accent-blue); font-weight: 600; }
 .val-ra { color: var(--accent-green); font-weight: 700; }
+.val-tolerance { color: #38bdf8; font-weight: 600; }
 
 /* CUSTOM INPUT BOX (NẰM DƯỚI BẢNG) */
 .custom-input-box {
@@ -1666,7 +1667,7 @@ body {
         font-size: 9.5px !important;
     }
 
-    .val-offset, .val-ra, .val-volt-high, .val-volt-low {
+    .val-offset, .val-ra, .val-volt-high, .val-volt-low, .val-tolerance {
         color: #000 !important;
         font-weight: 700 !important;
     }
