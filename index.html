@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=2.6.0">
+    <link rel="stylesheet" href="style.css?v=2.7.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -47,18 +47,18 @@
                 <section class="control-panel card">
                     <h2 class="section-title"><span class="badge-num">1</span> Điều kiện Gia công</h2>
 
-                    <!-- 1. VẬT LIỆU (MẶC ĐỊNH SCM420) -->
+                    <!-- 1. VẬT LIỆU (THÉP, ĐỒNG, NHÔM) -->
                     <div class="form-group">
-                        <label class="form-label">Chọn Mác Thép Vật liệu:</label>
+                        <label class="form-label">Chọn Vật Liệu Phôi Gia Công:</label>
                         <div class="material-grid">
                             <label class="radio-card active" data-material="SCM420">
                                 <input type="radio" name="material" value="SCM420" checked>
                                 <div class="radio-card-content">
                                     <div class="card-header-line">
-                                        <span class="mat-name">SCM420 (Mặc định)</span>
+                                        <span class="mat-name">SCM420 (Thép mềm)</span>
                                         <span class="tag tag-soft">HB &lt; 200</span>
                                     </div>
-                                    <p class="mat-desc">Thép hợp kim dẻo mềm (Tương đương 20Cr). Phôi dễ dính bết, yêu cầu tăng Po nghỉ xung và giảm VF.</p>
+                                    <p class="mat-desc">Thép mềm dẻo (20Cr). Phôi dễ dính, tăng Toff nghỉ xung và giảm VF.</p>
                                 </div>
                             </label>
 
@@ -66,10 +66,32 @@
                                 <input type="radio" name="material" value="SCM440">
                                 <div class="radio-card-content">
                                     <div class="card-header-line">
-                                        <span class="mat-name">SCM440</span>
-                                        <span class="tag tag-hard">28 - 32 HRC</span>
+                                        <span class="mat-name">SCM440 (Thép cứng)</span>
+                                        <span class="tag tag-hard">28-32 HRC</span>
                                     </div>
-                                    <p class="mat-desc">Thép tôi cải thiện (Tương đương 40Cr / 42CrMo). Thoát xỉ tốt, bóng gương, ổn định cao.</p>
+                                    <p class="mat-desc">Thép tôi cải thiện (40Cr/42CrMo). Thoát xỉ tốt, bóng gương, ổn định cao.</p>
+                                </div>
+                            </label>
+
+                            <label class="radio-card" data-material="COPPER">
+                                <input type="radio" name="material" value="COPPER">
+                                <div class="radio-card-content">
+                                    <div class="card-header-line">
+                                        <span class="mat-name">Đồng (Cu / Thau)</span>
+                                        <span class="tag tag-copper">Dẫn nhiệt/điện</span>
+                                    </div>
+                                    <p class="mat-desc">Đồng đỏ / Đồng thau. Tản nhiệt nhanh, cần xung bám tải Servo ổn định.</p>
+                                </div>
+                            </label>
+
+                            <label class="radio-card" data-material="ALUMINUM">
+                                <input type="radio" name="material" value="ALUMINUM">
+                                <div class="radio-card-content">
+                                    <div class="card-header-line">
+                                        <span class="mat-name">Nhôm (Al 6061/7075)</span>
+                                        <span class="tag tag-alu">Tốc độ cực cao</span>
+                                    </div>
+                                    <p class="mat-desc">Chảy nhanh, tốc độ vượt trội. Cần tăng Toff xả xỉ chống bám dính dây.</p>
                                 </div>
                             </label>
                         </div>
@@ -606,7 +628,7 @@
         <footer class="app-footer">
             <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
             <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">
-                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v2.6.0 (Ton/Toff/IP/V/VF &amp; Tolerance)</strong> &bull; 
+                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v2.7.0 (Thép / Đồng / Nhôm)</strong> &bull; 
                 <a href="javascript:void(0)" id="link-force-update" style="color: var(--accent-amber); text-decoration: underline;">🔄 Cưỡng bức làm mới dữ liệu</a>
             </p>
         </footer>
@@ -635,7 +657,7 @@
                     <h4>Lưu cố định vào Thư viện Chuyên gia (Expert Database) để dùng lại:</h4>
                     <ol>
                         <li>Vào menu <strong>AutoCut</strong> &rarr; Chọn <strong>Maintain Process Library</strong> (Hình 4.24 trang 24).</li>
-                        <li>Điền tên vật liệu <code>SCM420</code> hoặc <code>SCM440</code>, độ dày <code>H</code>, và toàn bộ thông số các pass.</li>
+                        <li>Điền tên vật liệu <code>SCM420</code>, <code>SCM440</code>, <code>COPPER</code> hoặc <code>ALUMINUM</code>, độ dày <code>H</code>, và toàn bộ thông số các pass.</li>
                         <li>Bấm nút <strong>Add to the technics library</strong>. Lần sau chỉ cần bấm <strong>"To Database"</strong> để tự động load mà không phải nhập lại!</li>
                     </ol>
                 </div>
@@ -643,6 +665,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=2.6.0"></script>
+    <script src="app.js?v=2.7.0"></script>
 </body>
 </html>

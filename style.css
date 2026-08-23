@@ -410,6 +410,18 @@ body {
     border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
+.tag-copper {
+    background: rgba(249, 115, 22, 0.2);
+    color: #fb923c;
+    border: 1px solid rgba(249, 115, 22, 0.4);
+}
+
+.tag-alu {
+    background: rgba(148, 163, 184, 0.2);
+    color: #e2e8f0;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
 .mat-desc {
     font-size: 11.5px;
     color: var(--text-muted);

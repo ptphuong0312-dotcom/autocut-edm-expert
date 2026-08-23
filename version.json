@@ -1,5 +1,5 @@
 {
-  "version": "2.6.0",
-  "buildTime": 1787491200000,
-  "description": "Standardized headers to Ton, Toff, IP, V, VF, numeric offset format, added Machining Tolerance (Sai số) column"
+  "version": "2.7.0",
+  "buildTime": 1787491700000,
+  "description": "Added Copper (Cu / Thau) and Aluminum (Al 6061/7075) materials with dedicated EDM physics and notices"
 }

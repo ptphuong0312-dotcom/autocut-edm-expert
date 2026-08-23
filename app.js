@@ -213,7 +213,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function calculateEDM(state) {
         const { material, passCount, strategyLevel, thickness, cutLength } = state;
         const H = thickness;
-        const isHard = material === 'SCM440'; // SCM440 vs SCM420
+        const isHard = material === 'SCM440'; // Thép tôi cứng SCM440
+        const isCopper = material === 'COPPER'; // Đồng đỏ / Đồng thau
+        const isAlu = material === 'ALUMINUM'; // Nhôm 6061 / 7075
         const rows = [];
         const strat = STRATEGY_CONFIGS[strategyLevel] || STRATEGY_CONFIGS[6];
 
@@ -222,93 +224,140 @@ document.addEventListener('DOMContentLoaded', () => {
         // ----------------------------------------------------
         let ti_1, Po_1, IP_1, Volt_1, VF_1, Wire_1, Offset_1, SpeedArea_1, Ra_1;
 
-        // Base ti calculation
-        if (H <= 15) {
-            ti_1 = isHard ? 28 : 24;
-        } else if (H <= 30) {
-            ti_1 = isHard ? 32 : 28;
-        } else if (H <= 60) {
-            ti_1 = isHard ? 36 : 32;
-        } else if (H <= 100) {
-            ti_1 = 44;
-        } else if (H <= 160) {
-            ti_1 = 52;
-        } else if (H <= 250) {
-            ti_1 = 60;
-        } else if (H <= 350) {
-            ti_1 = 64;
+        // Base Ton (ti) calculation
+        if (isAlu) {
+            // Nhôm nóng chảy 660°C -> xung ti ngắn tránh bốc mạt nhôm dính dây
+            if (H <= 15) ti_1 = 18;
+            else if (H <= 30) ti_1 = 22;
+            else if (H <= 60) ti_1 = 26;
+            else if (H <= 100) ti_1 = 32;
+            else if (H <= 160) ti_1 = 38;
+            else if (H <= 250) ti_1 = 44;
+            else if (H <= 350) ti_1 = 50;
+            else ti_1 = 56;
+        } else if (isCopper) {
+            // Đồng tản nhiệt rất nhanh -> xung ti tập trung
+            if (H <= 15) ti_1 = 26;
+            else if (H <= 30) ti_1 = 30;
+            else if (H <= 60) ti_1 = 36;
+            else if (H <= 100) ti_1 = 44;
+            else if (H <= 160) ti_1 = 52;
+            else if (H <= 250) ti_1 = 60;
+            else if (H <= 350) ti_1 = 64;
+            else ti_1 = 68;
         } else {
-            ti_1 = 68;
+            // Thép SCM420 / SCM440
+            if (H <= 15) ti_1 = isHard ? 28 : 24;
+            else if (H <= 30) ti_1 = isHard ? 32 : 28;
+            else if (H <= 60) ti_1 = isHard ? 36 : 32;
+            else if (H <= 100) ti_1 = 44;
+            else if (H <= 160) ti_1 = 52;
+            else if (H <= 250) ti_1 = 60;
+            else if (H <= 350) ti_1 = 64;
+            else ti_1 = 68;
         }
 
-        // Base Po calculation (Off-time factor)
-        if (H <= 15) {
-            Po_1 = isHard ? 4 : 5;
-        } else if (H <= 40) {
-            Po_1 = isHard ? 5 : 6;
-        } else if (H <= 70) {
-            Po_1 = isHard ? 6 : 7;
-        } else if (H <= 120) {
-            Po_1 = isHard ? 6 : 7;
-        } else if (H <= 200) {
-            Po_1 = isHard ? 7 : 8;
-        } else if (H <= 350) {
-            Po_1 = isHard ? 9 : 10;
+        // Base Toff (Po) calculation
+        if (isAlu) {
+            // Nhôm cần Toff lớn để xả xỉ nhôm chống ngắn mạch
+            if (H <= 15) Po_1 = 6;
+            else if (H <= 40) Po_1 = 7;
+            else if (H <= 70) Po_1 = 8;
+            else if (H <= 120) Po_1 = 9;
+            else if (H <= 200) Po_1 = 10;
+            else Po_1 = 12;
+        } else if (isCopper) {
+            if (H <= 15) Po_1 = 4;
+            else if (H <= 40) Po_1 = 5;
+            else if (H <= 70) Po_1 = 6;
+            else if (H <= 120) Po_1 = 7;
+            else if (H <= 200) Po_1 = 8;
+            else Po_1 = 10;
         } else {
-            Po_1 = isHard ? 11 : 13;
+            if (H <= 15) Po_1 = isHard ? 4 : 5;
+            else if (H <= 40) Po_1 = isHard ? 5 : 6;
+            else if (H <= 70) Po_1 = isHard ? 6 : 7;
+            else if (H <= 120) Po_1 = isHard ? 6 : 7;
+            else if (H <= 200) Po_1 = isHard ? 7 : 8;
+            else if (H <= 350) Po_1 = isHard ? 9 : 10;
+            else Po_1 = isHard ? 11 : 13;
         }
 
-        // Base IP calculation (Channels 1-6)
-        if (H <= 15) {
-            IP_1 = 3;
-        } else if (H <= 50) {
-            IP_1 = 4;
-        } else if (H <= 100) {
-            IP_1 = 5;
-        } else {
-            IP_1 = 6;
-        }
+        // Base IP calculation
+        if (H <= 15) IP_1 = 3;
+        else if (H <= 50) IP_1 = 4;
+        else if (H <= 100) IP_1 = 5;
+        else IP_1 = 6;
 
-        // Base VF calculation (Servo tracking)
-        if (H <= 20) {
-            VF_1 = isHard ? 70 : 65;
-        } else if (H <= 60) {
-            VF_1 = isHard ? 65 : 60;
-        } else if (H <= 100) {
-            VF_1 = isHard ? 60 : 55;
-        } else if (H <= 180) {
-            VF_1 = isHard ? 55 : 50;
-        } else if (H <= 300) {
-            VF_1 = isHard ? 50 : 45;
+        // Base VF calculation
+        if (isAlu) {
+            if (H <= 20) VF_1 = 75;
+            else if (H <= 60) VF_1 = 70;
+            else if (H <= 100) VF_1 = 65;
+            else if (H <= 180) VF_1 = 60;
+            else if (H <= 300) VF_1 = 55;
+            else VF_1 = 50;
+        } else if (isCopper) {
+            if (H <= 20) VF_1 = 68;
+            else if (H <= 60) VF_1 = 62;
+            else if (H <= 100) VF_1 = 58;
+            else if (H <= 180) VF_1 = 52;
+            else if (H <= 300) VF_1 = 48;
+            else VF_1 = 42;
         } else {
-            VF_1 = isHard ? 45 : 40;
+            if (H <= 20) VF_1 = isHard ? 70 : 65;
+            else if (H <= 60) VF_1 = isHard ? 65 : 60;
+            else if (H <= 100) VF_1 = isHard ? 60 : 55;
+            else if (H <= 180) VF_1 = isHard ? 55 : 50;
+            else if (H <= 300) VF_1 = isHard ? 50 : 45;
+            else VF_1 = isHard ? 45 : 40;
         }
 
         Volt_1 = 'High';
         Wire_1 = 1;
 
         // Base Offset (R_wire = 0.090 + Spark Gap)
-        if (H <= 20) {
-            Offset_1 = 0.112;
-        } else if (H <= 60) {
-            Offset_1 = 0.115;
-        } else if (H <= 100) {
-            Offset_1 = 0.118;
-        } else if (H <= 200) {
-            Offset_1 = 0.120;
-        } else if (H <= 350) {
-            Offset_1 = 0.122;
+        if (isAlu) {
+            if (H <= 20) Offset_1 = 0.116;
+            else if (H <= 60) Offset_1 = 0.118;
+            else if (H <= 100) Offset_1 = 0.122;
+            else if (H <= 200) Offset_1 = 0.125;
+            else Offset_1 = 0.128;
+        } else if (isCopper) {
+            if (H <= 20) Offset_1 = 0.112;
+            else if (H <= 60) Offset_1 = 0.115;
+            else if (H <= 100) Offset_1 = 0.118;
+            else if (H <= 200) Offset_1 = 0.120;
+            else Offset_1 = 0.124;
         } else {
-            Offset_1 = 0.125;
+            if (H <= 20) Offset_1 = 0.112;
+            else if (H <= 60) Offset_1 = 0.115;
+            else if (H <= 100) Offset_1 = 0.118;
+            else if (H <= 200) Offset_1 = 0.120;
+            else if (H <= 350) Offset_1 = 0.122;
+            else Offset_1 = 0.125;
         }
 
         // Base Speed area (mm2/min)
-        SpeedArea_1 = isHard ? 130 : 115;
-        if (H <= 20) SpeedArea_1 = isHard ? 115 : 100;
-        if (H > 100 && H <= 250) SpeedArea_1 = isHard ? 110 : 95;
-        if (H > 250) SpeedArea_1 = isHard ? 95 : 80;
-
-        Ra_1 = isHard ? '2.8 - 3.2' : '3.0 - 3.4';
+        if (isAlu) {
+            SpeedArea_1 = 165;
+            if (H <= 20) SpeedArea_1 = 145;
+            if (H > 100 && H <= 250) SpeedArea_1 = 150;
+            if (H > 250) SpeedArea_1 = 125;
+            Ra_1 = '3.2 - 3.8';
+        } else if (isCopper) {
+            SpeedArea_1 = 125;
+            if (H <= 20) SpeedArea_1 = 110;
+            if (H > 100 && H <= 250) SpeedArea_1 = 105;
+            if (H > 250) SpeedArea_1 = 90;
+            Ra_1 = '2.6 - 3.0';
+        } else {
+            SpeedArea_1 = isHard ? 130 : 115;
+            if (H <= 20) SpeedArea_1 = isHard ? 115 : 100;
+            if (H > 100 && H <= 250) SpeedArea_1 = isHard ? 110 : 95;
+            if (H > 250) SpeedArea_1 = isHard ? 95 : 80;
+            Ra_1 = isHard ? '2.8 - 3.2' : '3.0 - 3.4';
+        }
 
         // Tinh chỉnh theo Chiến lược 11 Cấp độ
         let strategySpeedMult = strat.speedMult;
@@ -322,16 +371,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (strategyLevel <= 3 && H <= 40) {
                 Volt_1 = 'Low';
                 Offset_1 -= 0.005;
-                Ra_1 = isHard ? '1.0 - 1.4' : '1.2 - 1.6';
+                Ra_1 = isAlu ? '1.4 - 1.8' : (isCopper ? '1.0 - 1.3' : (isHard ? '1.0 - 1.4' : '1.2 - 1.6'));
             } else if (strategyLevel <= 5) {
                 Offset_1 -= 0.002;
-                Ra_1 = isHard ? '1.6 - 2.0' : '1.8 - 2.2';
+                Ra_1 = isAlu ? '2.0 - 2.4' : (isCopper ? '1.5 - 1.9' : (isHard ? '1.6 - 2.0' : '1.8 - 2.2'));
             } else if (strategyLevel >= 9) {
                 Offset_1 += 0.004;
-                Ra_1 = isHard ? '4.0 - 4.8' : '4.2 - 5.2';
+                Ra_1 = isAlu ? '4.5 - 5.5' : (isCopper ? '3.8 - 4.5' : (isHard ? '4.0 - 4.8' : '4.2 - 5.2'));
             } else if (strategyLevel >= 7) {
                 Offset_1 += 0.002;
-                Ra_1 = isHard ? '3.2 - 3.8' : '3.4 - 4.0';
+                Ra_1 = isAlu ? '3.6 - 4.2' : (isCopper ? '3.0 - 3.5' : (isHard ? '3.2 - 3.8' : '3.4 - 4.0'));
             }
         }
 
@@ -528,16 +577,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Expert Operation Notices
         const notices = [];
-        if (isHard) {
-            notices.push("Thép đã tôi cứng SCM440 (28-32 HRC): Bề mặt bóc xỉ rất đều, độ bóng cao. Tăng nhẹ VF và giảm nhẹ Po để tăng năng suất.");
+        if (isAlu) {
+            notices.push("Nhôm (Al 6061/7075): Tốc độ cắt cực nhanh do nhiệt độ nóng chảy thấp (660°C). Bắt buộc tăng Toff để xả xỉ chống bám dính dây và đoản mạch.");
+        } else if (isCopper) {
+            notices.push("Đồng (Cu / Đồng thau): Tản nhiệt và dẫn điện cực mạnh. Cần duy trì xung ổn định và áp lực nước đều để tránh tổn hao năng lượng.");
+        } else if (isHard) {
+            notices.push("Thép đã tôi cứng SCM440 (28-32 HRC): Bề mặt bóc xỉ rất đều, độ bóng cao. Tăng nhẹ VF và giảm nhẹ Toff để tăng năng suất.");
         } else {
-            notices.push("Thép mềm SCM420 dễ dính phôi: Đã tự động tăng hệ số nghỉ xung Po và giảm bớt VF để triệt tiêu nguy cơ ngắn mạch / đứt dây.");
+            notices.push("Thép mềm SCM420 dễ dính phôi: Đã tự động tăng hệ số nghỉ xung Toff và giảm bớt VF để triệt tiêu nguy cơ ngắn mạch / đứt dây.");
         }
 
         if (H > 150) {
             notices.push(`Phôi dày lớn H=${H}mm: Cần mở van nước áp lực cao, kiểm tra tiếp điện và định kỳ hạ tốc độ dây khi cắt tinh.`);
         } else if (H <= 20) {
-            notices.push(`Phôi mỏng H=${H}mm: Tránh dùng ti quá lớn để ngăn ngừa phồng biên dạng mép cắt.`);
+            notices.push(`Phôi mỏng H=${H}mm: Tránh dùng Ton quá lớn để ngăn ngừa phồng biên dạng mép cắt.`);
         }
 
         if (strategyLevel >= 9) {
@@ -722,8 +775,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function render() {
         const strat = STRATEGY_CONFIGS[state.strategyLevel] || STRATEGY_CONFIGS[6];
         const passLabel = state.passCount === 1 ? '1 Pass' : `${state.passCount} Pass (Multi-Cut)`;
+        const matNames = {
+            'SCM420': 'Thép SCM420 (Thép mềm)',
+            'SCM440': 'Thép tôi SCM440 (Thép cứng)',
+            'COPPER': 'Đồng (Cu / Đồng thau)',
+            'ALUMINUM': 'Nhôm (Al 6061 / 7075)'
+        };
+        const matLabel = matNames[state.material] || state.material;
 
-        configSummary.textContent = `${state.material} | H = ${state.thickness} mm | ${passLabel} | Chiến lược: ${strat.name}`;
+        configSummary.textContent = `${matLabel} | H = ${state.thickness} mm | ${passLabel} | Chiến lược: ${strat.name}`;
 
         // Compute parameters
         const { rows, totalMinutes, notices } = calculateEDM(state);
@@ -766,8 +826,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function copyTableToClipboard() {
         const { rows } = calculateEDM(state);
         const strat = STRATEGY_CONFIGS[state.strategyLevel] || STRATEGY_CONFIGS[6];
+        const matNames = {
+            'SCM420': 'Thép SCM420',
+            'SCM440': 'Thép tôi SCM440',
+            'COPPER': 'Đồng (Cu/Thau)',
+            'ALUMINUM': 'Nhôm (Al 6061/7075)'
+        };
+        const matLabel = matNames[state.material] || state.material;
         let text = `AUTOCUT EDM SERVO - BẢNG THÔNG SỐ CẮT\n`;
-        text += `Vật liệu: ${state.material} | Chiều dày H: ${state.thickness}mm | Quy trình: ${state.passCount} Pass | Chiến lược: ${strat.name}\n\n`;
+        text += `Vật liệu: ${matLabel} | Chiều dày H: ${state.thickness}mm | Quy trình: ${state.passCount} Pass | Chiến lược: ${strat.name}\n\n`;
         text += `P\tTon\tToff\tIP\tV\tVF\tWire\tOFFSET\tFc(mm2/p)\tFt(mm/p)\tRa\tSai số\n`;
         
         rows.forEach(r => {
@@ -785,7 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.6.0";
+    const CURRENT_VERSION = "2.7.0";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
