@@ -1,4 +1,4 @@
-const CACHE_NAME = 'autocut-edm-v2.2.0';
+const CACHE_NAME = 'autocut-edm-v2.3.0';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -38,13 +38,11 @@ self.addEventListener('activate', event => {
 
 // 3. CHIẾN LƯỢC NETWORK-FIRST (ƯU TIÊN MẠNG, MẤT MẠNG TỰ ĐỘNG DÙNG BẢN LƯU TẠM)
 self.addEventListener('fetch', event => {
-  // Chỉ bắt các request GET
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
     fetch(event.request)
       .then(networkResponse => {
-        // Có mạng: Cập nhật bản mới nhất vào bộ nhớ máy
         if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then(cache => {
@@ -54,7 +52,6 @@ self.addEventListener('fetch', event => {
         return networkResponse;
       })
       .catch(() => {
-        // MẤT MẠNG / NGOẠI TUYẾN: Lấy ngay dữ liệu đã lưu trong máy
         return caches.match(event.request).then(cachedResponse => {
           if (cachedResponse) {
             return cachedResponse;
