@@ -776,11 +776,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 7. FORCE UPDATE & CACHE MANAGEMENT ENGINE
+    // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.1.0";
+    const CURRENT_VERSION = "2.2.0";
 
+    // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js?v=' + CURRENT_VERSION)
+                .then(reg => {
+                    console.log('PWA Service Worker registered:', reg.scope);
+                })
+                .catch(err => {
+                    console.warn('Service Worker registration skipped:', err);
+                });
+        });
+    }
+
+    // 7b. Quản lý trạng thái Mạng (Online / Offline)
+    const networkBadge = document.getElementById('network-badge');
+    function updateNetworkStatus() {
+        if (!networkBadge) return;
+        if (navigator.onLine) {
+            networkBadge.textContent = '🟢 Online';
+            networkBadge.className = 'net-badge net-online';
+            checkForForceUpdate();
+        } else {
+            networkBadge.textContent = '🟡 Offline (Bản lưu trong máy)';
+            networkBadge.className = 'net-badge net-offline';
+            showToast('📡 Đang dùng chế độ ngoại tuyến (Không có mạng vẫn chạy tốt!)');
+        }
+    }
+    window.addEventListener('online', updateNetworkStatus);
+    window.addEventListener('offline', updateNetworkStatus);
+    updateNetworkStatus();
+
+    // 7c. Tự động kiểm tra cập nhật khi có mạng
     async function checkForForceUpdate() {
+        if (!navigator.onLine) return; // Mất mạng thì không kiểm tra, để offline mượt mà
         try {
             const response = await fetch('version.json?_t=' + Date.now(), {
                 cache: 'no-store',
@@ -790,21 +823,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             
             const storedVersion = localStorage.getItem('autocut_app_version');
-            if (data.version && data.version !== storedVersion) {
+            if (data.version && storedVersion && data.version !== storedVersion) {
                 localStorage.setItem('autocut_app_version', data.version);
                 
-                // Clear browser caches
-                if ('caches' in window) {
-                    const cacheNames = await caches.keys();
-                    await Promise.all(cacheNames.map(name => caches.delete(name)));
+                // Cập nhật cache Service Worker
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (let registration of registrations) {
+                        registration.update();
+                    }
                 }
 
-                // Show toast & reload cleanly
-                showToast(`⚡ Cập nhật phiên bản mới ${data.version}...`);
+                // Thông báo & tự động tải bản mới
+                showToast(`⚡ Đã đồng bộ bản mới nhất (${data.version})!`);
                 setTimeout(() => {
                     const cleanUrl = window.location.href.split('?')[0];
                     window.location.replace(cleanUrl + '?v=' + Date.now());
                 }, 800);
+            } else if (!storedVersion && data.version) {
+                localStorage.setItem('autocut_app_version', data.version);
             }
         } catch (e) {
             console.warn('Auto sync check skipped:', e);
@@ -816,11 +853,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if ('caches' in window) {
             caches.keys().then(names => names.forEach(name => caches.delete(name)));
         }
-        showToast('🔄 Đang xóa toàn bộ bộ nhớ đệm & tải lại...');
+        showToast('🔄 Đang đồng bộ lại toàn bộ dữ liệu từ máy chủ...');
         setTimeout(() => {
             const cleanUrl = window.location.href.split('?')[0];
             window.location.replace(cleanUrl + '?force_reload=' + Date.now());
-        }, 500);
+        }, 600);
     }
 
     function showToast(msg) {
@@ -833,6 +870,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         toast.textContent = msg;
         toast.style.display = 'block';
+        setTimeout(() => {
+            if (toast) toast.style.display = 'none';
+        }, 3500);
     }
 
     // Attach button listeners

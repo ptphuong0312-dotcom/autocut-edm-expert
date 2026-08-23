@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
-  "buildTime": 1787483500000,
-  "description": "Mobile sticky columns, full IP print support, force auto-update engine"
+  "version": "2.2.0",
+  "buildTime": 1787483900000,
+  "description": "Full PWA Offline Support (Network-First Cache) + Auto-Sync"
 }
