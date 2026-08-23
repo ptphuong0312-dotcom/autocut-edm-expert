@@ -5,11 +5,26 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // STATE (Mặc định SCM420)
+    // 11 CẤP ĐỘ CHIẾN LƯỢC GIA CÔNG (TÂM ĐIỂM = CẤP 6: TIÊU CHUẨN)
+    const STRATEGY_CONFIGS = {
+        1: { name: 'Cực Hạn Tinh Xảo (Mịn +3)', badge: 'Gương Quang Học', desc: 'Vi xung nano, khống chế biến trắng tuyệt đối, độ bóng gương quang học đỉnh cao.', tiMult: 0.30, ipDelta: -2, vfDelta: -20, poDelta: +1, speedMult: 0.30 },
+        2: { name: 'Siêu Mịn Cấp 2 (Mịn +2)', badge: 'Gương Tế Vi', desc: 'Xung cực nhỏ, triệt tiêu hoàn toàn vi nứt bề mặt khuôn mẫu.', tiMult: 0.38, ipDelta: -2, vfDelta: -18, poDelta: +1, speedMult: 0.38 },
+        3: { name: 'Siêu Mịn Cấp 1 (Mịn +1)', badge: 'Siêu Phẳng', desc: 'Bóc tách êm mượt, tối ưu độ đồng đều bề mặt và mép sắc nét.', tiMult: 0.45, ipDelta: -2, vfDelta: -15, poDelta: 0, speedMult: 0.45 },
+        4: { name: 'Bề Mặt Siêu Mịn', badge: 'Mịn Cao', desc: 'Vi xung cực mịn, khống chế dung sai phôi nghiêm ngặt.', tiMult: 0.55, ipDelta: -1, vfDelta: -12, poDelta: 0, speedMult: 0.55 },
+        5: { name: 'Bề Mặt Mịn / Ưu Tiên Phẳng', badge: 'Mịn Vừa', desc: 'Hạn chế sọc sóng, mép sắc nét, bám bước êm ái.', tiMult: 0.70, ipDelta: -1, vfDelta: -8, poDelta: 0, speedMult: 0.70 },
+        6: { name: '⭐ Tiêu Chuẩn (Khuyên Dùng)', badge: 'Chuẩn Hãng', desc: 'Cân bằng tối ưu giữa tốc độ, độ nhám và độ bền dây Molypden.', tiMult: 1.0, ipDelta: 0, vfDelta: 0, poDelta: 0, speedMult: 1.0 },
+        7: { name: 'Năng Suất Cao', badge: 'Tốc Độ +1', desc: 'Tốc độ nhanh, ổn định cao, tiết kiệm dây và điện.', tiMult: 1.10, ipDelta: 0, vfDelta: +3, poDelta: 0, speedMult: 1.12 },
+        8: { name: 'Siêu Năng Suất', badge: 'Tốc Độ +2', desc: 'Bóc tách tối đa, bám tải nhanh, rút ngắn thời gian cắt.', tiMult: 1.25, ipDelta: +1, vfDelta: +5, poDelta: -1, speedMult: 1.25 },
+        9: { name: 'Cường Lực Bóc Tách (Tốc độ +3)', badge: 'Tốc Độ +3', desc: 'Tăng cường năng lượng xung ti, đẩy mạnh tiến bàn máy.', tiMult: 1.35, ipDelta: +1, vfDelta: +8, poDelta: -1, speedMult: 1.38 },
+        10: { name: 'Tối Đa Công Suất (Tốc độ +4)', badge: 'Tốc Độ +4', desc: 'Mở tối đa kênh dòng MOSFET, bám tải Servo cực mạnh.', tiMult: 1.45, ipDelta: +1, vfDelta: +10, poDelta: -1, speedMult: 1.50 },
+        11: { name: 'Cực Hạn Phá Thô (Tốc độ +5)', badge: 'Cực Hạn Phá', desc: 'Khai thác kịch trần công suất tủ nguồn, phá thô siêu tốc kỷ lục cho phôi dày.', tiMult: 1.55, ipDelta: +1, vfDelta: +12, poDelta: -1, speedMult: 1.62 }
+    };
+
+    // STATE (Mặc định SCM420, 1 Pass, Chiến lược Cấp 6, H=40mm)
     const state = {
         material: 'SCM420',
         passCount: 1,
-        qualityMode: 'standard',
+        strategyLevel: 6,
         thickness: 40,
         cutLength: 100
     };
@@ -20,7 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const materialCards = document.querySelectorAll('.radio-card');
     const passButtons = document.querySelectorAll('.pass-btn');
-    const subModeItems = document.querySelectorAll('.sub-mode-item');
+    const strategySlider = document.getElementById('strategy-slider');
+    const strategyLevelBadge = document.getElementById('strategy-level-badge');
+    const strategyNameDisplay = document.getElementById('strategy-name-display');
+    const strategyBadgeDisplay = document.getElementById('strategy-badge-display');
+    const strategyDescDisplay = document.getElementById('strategy-desc-display');
+
     const thicknessInput = document.getElementById('thickness-input');
     const thicknessSlider = document.getElementById('thickness-slider');
     const quickChips = document.querySelectorAll('.chip');
@@ -87,17 +107,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Quality Strategy Selection (Áp dụng cho mọi pass)
-    subModeItems.forEach(item => {
-        item.addEventListener('click', () => {
-            subModeItems.forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-            const radio = item.querySelector('input[type="radio"]');
-            radio.checked = true;
-            state.qualityMode = radio.value;
+    // 11-Position Strategy Slider
+    if (strategySlider) {
+        strategySlider.addEventListener('input', (e) => {
+            const lvl = parseInt(e.target.value, 10);
+            state.strategyLevel = lvl;
+            updateStrategyDisplay(lvl);
             render();
         });
-    });
+    }
+
+    function updateStrategyDisplay(lvl) {
+        const conf = STRATEGY_CONFIGS[lvl] || STRATEGY_CONFIGS[6];
+        if (strategyLevelBadge) strategyLevelBadge.textContent = `${conf.name} (Cấp ${lvl}/11)`;
+        if (strategyNameDisplay) strategyNameDisplay.textContent = conf.name;
+        if (strategyBadgeDisplay) strategyBadgeDisplay.textContent = conf.badge;
+        if (strategyDescDisplay) strategyDescDisplay.textContent = conf.desc;
+    }
 
     // Thickness Slider & Input Sync
     thicknessSlider.addEventListener('input', (e) => {
@@ -185,10 +211,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
 
     function calculateEDM(state) {
-        const { material, passCount, qualityMode, thickness, cutLength } = state;
+        const { material, passCount, strategyLevel, thickness, cutLength } = state;
         const H = thickness;
         const isHard = material === 'SCM440'; // SCM440 vs SCM420
         const rows = [];
+        const strat = STRATEGY_CONFIGS[strategyLevel] || STRATEGY_CONFIGS[6];
 
         // ----------------------------------------------------
         // PASS 1: ROUGH CUT (CẮT PHÁ THÔ)
@@ -283,40 +310,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Ra_1 = isHard ? '2.8 - 3.2' : '3.0 - 3.4';
 
-        // Tinh chỉnh theo Mục tiêu chất lượng (Quality Mode)
-        let strategySpeedMult = 1.0;
-        if (qualityMode === 'ultra-speed') {
-            ti_1 = Math.min(ti_1 + 8, 72);
-            Po_1 = Math.max(Po_1 - 1, 3);
-            IP_1 = Math.min(IP_1 + 1, 6);
-            VF_1 = Math.min(VF_1 + 5, 80);
-            Offset_1 += 0.003;
-            SpeedArea_1 *= 1.25;
-            Ra_1 = isHard ? '3.6 - 4.2' : '3.8 - 4.5';
-            strategySpeedMult = 1.20;
-        } else if (qualityMode === 'high-speed') {
-            ti_1 = Math.min(ti_1 + 4, 72);
-            VF_1 = Math.min(VF_1 + 3, 75);
-            SpeedArea_1 *= 1.12;
-            Ra_1 = isHard ? '3.0 - 3.5' : '3.2 - 3.8';
-            strategySpeedMult = 1.10;
-        } else if (qualityMode === 'smooth') {
-            ti_1 = Math.max(16, Math.round(ti_1 * 0.6));
-            IP_1 = Math.max(2, IP_1 - 1);
-            VF_1 = Math.max(45, VF_1 - 8);
-            Offset_1 -= 0.002;
-            SpeedArea_1 *= 0.70;
-            Ra_1 = isHard ? '1.8 - 2.2' : '2.0 - 2.4';
-            strategySpeedMult = 0.85;
-        } else if (qualityMode === 'ultra-smooth') {
-            ti_1 = Math.max(10, Math.round(ti_1 * 0.45));
-            IP_1 = Math.max(1, IP_1 - 2);
-            Volt_1 = H <= 40 ? 'Low' : 'High';
-            VF_1 = Math.max(35, VF_1 - 15);
-            Offset_1 -= 0.004;
-            SpeedArea_1 *= 0.45;
-            Ra_1 = isHard ? '1.2 - 1.5' : '1.4 - 1.8';
-            strategySpeedMult = 0.70;
+        // Tinh chỉnh theo Chiến lược 11 Cấp độ
+        let strategySpeedMult = strat.speedMult;
+        if (strategyLevel !== 6) {
+            ti_1 = Math.max(6, Math.min(80, Math.round(ti_1 * strat.tiMult)));
+            IP_1 = Math.max(1, Math.min(6, IP_1 + strat.ipDelta));
+            VF_1 = Math.max(20, Math.min(90, VF_1 + strat.vfDelta));
+            Po_1 = Math.max(2, Math.min(16, Po_1 + strat.poDelta));
+            SpeedArea_1 = Math.round(SpeedArea_1 * strat.speedMult);
+
+            if (strategyLevel <= 3 && H <= 40) {
+                Volt_1 = 'Low';
+                Offset_1 -= 0.005;
+                Ra_1 = isHard ? '1.0 - 1.4' : '1.2 - 1.6';
+            } else if (strategyLevel <= 5) {
+                Offset_1 -= 0.002;
+                Ra_1 = isHard ? '1.6 - 2.0' : '1.8 - 2.2';
+            } else if (strategyLevel >= 9) {
+                Offset_1 += 0.004;
+                Ra_1 = isHard ? '4.0 - 4.8' : '4.2 - 5.2';
+            } else if (strategyLevel >= 7) {
+                Offset_1 += 0.002;
+                Ra_1 = isHard ? '3.2 - 3.8' : '3.4 - 4.0';
+            }
         }
 
         // Tốc độ tiến bàn cơ bản cho Pass 1: F1 = S1 / H
@@ -340,8 +356,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // ----------------------------------------------------
         // PASS 2: SEMI-FINISH 1 / SỬA CÔN & SÓNG
-        // Trong thực tế, vì lớp bào d = 0.022mm rất mỏng so với rãnh 0.23mm,
-        // tốc độ tiến bàn F2 chạy nhanh hơn Pass 1 khoảng 1.7 - 2.0 lần.
         // ----------------------------------------------------
         if (passCount >= 2) {
             let ti_2 = H <= 60 ? 16 : (H <= 150 ? 20 : 24);
@@ -353,7 +367,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let Wire_2 = 2;
             let remain_2 = H <= 20 ? 0.018 : (H <= 60 ? 0.022 : (H <= 120 ? 0.024 : 0.026));
             
-            // Tốc độ tiến bàn thực tế F2 = F1 * 1.8 * strategy
             let feedRate_2 = feedRate_1 * 1.85 * strategySpeedMult;
             let speedArea_2 = Math.round(feedRate_2 * H);
 
@@ -375,7 +388,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // ----------------------------------------------------
         // PASS 3: FINISH 1 / CẮT TINH HẠ NHÁM
-        // Lớp bào d = 0.010mm siêu mỏng -> F3 chạy nhanh hơn Pass 1 khoảng 2.2 - 2.5 lần
         // ----------------------------------------------------
         if (passCount >= 3) {
             let ti_3 = H <= 60 ? 6 : (H <= 150 ? 8 : 10);
@@ -408,7 +420,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // ----------------------------------------------------
         // PASS 4: SUPER FINISH / XÓA BIẾN TRẮNG
-        // Lớp bào d = 0.005mm -> F4 chạy lướt nhanh gấp 2.4 - 2.7 lần
         // ----------------------------------------------------
         if (passCount >= 4) {
             let ti_4 = H <= 60 ? 2 : (H <= 150 ? 3 : 4);
@@ -440,7 +451,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // ----------------------------------------------------
         // PASS 5: MIRROR POLISH 1 / ĐÁNH BÓNG
-        // Lớp bào d = 0.002mm -> F5 chạy lướt nhanh gấp 2.6 - 2.8 lần
         // ----------------------------------------------------
         if (passCount >= 5) {
             let ti_5 = H <= 80 ? 1 : 2;
@@ -510,29 +520,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Generate dynamic technical notices
+        // Expert Operation Notices
         const notices = [];
-        if (!isHard) {
-            notices.push('Thép mềm SCM420 dễ dính phôi: Đã tự động tăng hệ số nghỉ xung <strong>Po</strong> và giảm bớt <strong>VF</strong> để triệt tiêu nguy cơ ngắn mạch / đứt dây.');
+        if (isHard) {
+            notices.push("Thép đã tôi cứng SCM440 (28-32 HRC): Bề mặt bóc xỉ rất đều, độ bóng cao. Tăng nhẹ VF và giảm nhẹ Po để tăng năng suất.");
         } else {
-            notices.push('Thép tôi SCM440 cấu trúc Sorbit đồng nhất: Có thể phát huy tối đa tốc độ bám bước của Servo và cho độ bóng cao.');
+            notices.push("Thép mềm SCM420 dễ dính phôi: Đã tự động tăng hệ số nghỉ xung Po và giảm bớt VF để triệt tiêu nguy cơ ngắn mạch / đứt dây.");
         }
 
-        if (H <= 20) {
-            notices.push('Phôi mỏng (H ≤ 20mm): Mức xung ti được khống chế vừa phải để bảo vệ mép biên dạng không bị nát sắc nét.');
-        } else if (H >= 100) {
-            notices.push(`Phôi dày đặc biệt (H = ${H}mm): Cần tăng áp lực vòi xối làm mát 2 đầu tối đa, kiểm tra độ căng dây molypden định kỳ (khuyến nghị lực căng 9 - 12N).`);
+        if (H > 150) {
+            notices.push(`Phôi dày lớn H=${H}mm: Cần mở van nước áp lực cao, kiểm tra tiếp điện và định kỳ hạ tốc độ dây khi cắt tinh.`);
+        } else if (H <= 20) {
+            notices.push(`Phôi mỏng H=${H}mm: Tránh dùng ti quá lớn để ngăn ngừa phồng biên dạng mép cắt.`);
         }
 
-        if (passCount >= 4) {
-            notices.push('Quy trình cắt từ 4 Pass trở lên: Nước làm mát cho các lần cắt sau nên được lọc cặn sạch hoặc dùng nước mới để tránh mạt sắt làm xước bề mặt gương.');
+        if (strategyLevel >= 9) {
+            notices.push("⚠️ Đang kích hoạt chế độ Cường lực / Tối đa công suất: Chú ý lực căng dây và lưu lượng nước làm mát để phòng ngừa đứt dây.");
+        } else if (strategyLevel <= 3) {
+            notices.push("✨ Đang kích hoạt chế độ Siêu mịn / Bóng gương: Năng lượng cực nhỏ, yêu cầu dây sạch và độ căng chuẩn tuyệt đối.");
         }
 
         return { rows, totalMinutes, notices };
     }
 
     // ==========================================
-    // 4. CUSTOM PARAMETER ANALYSIS ENGINE
+    // 4. CUSTOM ANALYSIS ENGINE
     // ==========================================
 
     function runCustomAnalysis() {
@@ -544,10 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const c_wire = parseInt(customWireInput.value, 10) || 1;
 
         const H = state.thickness;
-        const isHard = state.material === 'SCM440';
-
-        // Lấy thông số chuẩn của hãng cho phôi này
-        const stdCalc = calculateEDM({ ...state, qualityMode: 'standard' });
+        const stdCalc = calculateEDM({ ...state, strategyLevel: 6 });
         const stdRow = stdCalc.rows[0];
 
         // 1. Tính toán Tần số phóng điện
@@ -638,12 +647,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td class="col-std"><strong>≈ ${std_total_power.toLocaleString()} đv/s</strong></td>
                 </tr>
                 <tr>
-                    <td class="col-metric"><strong>Tốc độ cắt diện tích ước tính</strong></td>
+                    <td class="col-metric"><strong>Tốc độ cắt diện tích ước tính Fc</strong></td>
                     <td class="col-user"><strong>${c_speedArea} mm²/p</strong></td>
                     <td class="col-std"><strong>${stdRow.speedArea} mm²/p</strong></td>
                 </tr>
                 <tr>
-                    <td class="col-metric"><strong>Tốc độ tiến bàn máy F (H=${H}mm)</strong></td>
+                    <td class="col-metric"><strong>Tốc độ tiến bàn máy Ft (H=${H}mm)</strong></td>
                     <td class="col-user"><strong>${c_feedRate} mm/p</strong></td>
                     <td class="col-std"><strong>${stdRow.feedRate} mm/p</strong></td>
                 </tr>
@@ -705,18 +714,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
 
     function render() {
-        // Summary text
-        const modeMap = {
-            'ultra-speed': 'Siêu Năng Suất',
-            'high-speed': 'Năng Suất Cao',
-            'standard': 'Tiêu Chuẩn',
-            'smooth': 'Bề Mặt Mịn',
-            'ultra-smooth': 'Bề Mặt Siêu Mịn'
-        };
-        const strategyLabel = modeMap[state.qualityMode] || 'Tiêu Chuẩn';
-        const passLabel = state.passCount === 1 ? '1 Lần cắt' : `${state.passCount} Lần cắt (Multi-Cut)`;
+        const strat = STRATEGY_CONFIGS[state.strategyLevel] || STRATEGY_CONFIGS[6];
+        const passLabel = state.passCount === 1 ? '1 Pass' : `${state.passCount} Pass (Multi-Cut)`;
 
-        configSummary.textContent = `${state.material} | Chiều dày H = ${state.thickness} mm | ${passLabel} | Chiến lược: ${strategyLabel}`;
+        configSummary.textContent = `${state.material} | H = ${state.thickness} mm | ${passLabel} | Chiến lược: ${strat.name}`;
 
         // Compute parameters
         const { rows, totalMinutes, notices } = calculateEDM(state);
@@ -724,7 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Render Table Body
         tableBody.innerHTML = rows.map(r => `
             <tr>
-                <td class="pass-cell"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
+                <td class="pass-cell sticky-col"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
                 <td><strong>${r.ti}</strong></td>
                 <td>${r.Po}</td>
                 <td><span class="badge-ip">${r.IP}</span></td>
@@ -757,9 +758,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function copyTableToClipboard() {
         const { rows } = calculateEDM(state);
+        const strat = STRATEGY_CONFIGS[state.strategyLevel] || STRATEGY_CONFIGS[6];
         let text = `AUTOCUT EDM SERVO - BẢNG THÔNG SỐ CẮT\n`;
-        text += `Vật liệu: ${state.material} | Chiều dày H: ${state.thickness}mm | Quy trình: ${state.passCount} Pass | Chiến lược: ${state.qualityMode}\n\n`;
-        text += `P\tti(μs)\tPo\tIP\tVolt\tVF\tWire\tBù dao\tTốc độ(mm2/p)\tF(mm/p)\tRa(μm)\n`;
+        text += `Vật liệu: ${state.material} | Chiều dày H: ${state.thickness}mm | Quy trình: ${state.passCount} Pass | Chiến lược: ${strat.name}\n\n`;
+        text += `P\tti(μs)\tPo\tIP\tVolt\tVF\tWire\tOFFSET\tFc(mm2/p)\tFt(mm/p)\tRa\n`;
         
         rows.forEach(r => {
             text += `${r.passName}\t${r.ti}\t${r.Po}\t${r.IP}\t${r.Voltage}\t${r.VF}\t${r.Wire}\t${r.offsetText}\t${r.speedArea}\t${r.feedRate}\t${r.Ra}\n`;
@@ -770,15 +772,13 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 btnCopyTable.textContent = '📋 Copy Bảng';
             }, 2000);
-        }).catch(err => {
-            alert('Không thể copy vào clipboard: ' + err);
         });
     }
 
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.4.0";
+    const CURRENT_VERSION = "2.5.0";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -894,5 +894,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // INITIAL RENDER
+    updateStrategyDisplay(state.strategyLevel);
     render();
 });
