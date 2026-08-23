@@ -775,6 +775,84 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ==========================================
+    // 7. FORCE UPDATE & CACHE MANAGEMENT ENGINE
+    // ==========================================
+    const CURRENT_VERSION = "2.1.0";
+
+    async function checkForForceUpdate() {
+        try {
+            const response = await fetch('version.json?_t=' + Date.now(), {
+                cache: 'no-store',
+                headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache' }
+            });
+            if (!response.ok) return;
+            const data = await response.json();
+            
+            const storedVersion = localStorage.getItem('autocut_app_version');
+            if (data.version && data.version !== storedVersion) {
+                localStorage.setItem('autocut_app_version', data.version);
+                
+                // Clear browser caches
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    await Promise.all(cacheNames.map(name => caches.delete(name)));
+                }
+
+                // Show toast & reload cleanly
+                showToast(`⚡ Cập nhật phiên bản mới ${data.version}...`);
+                setTimeout(() => {
+                    const cleanUrl = window.location.href.split('?')[0];
+                    window.location.replace(cleanUrl + '?v=' + Date.now());
+                }, 800);
+            }
+        } catch (e) {
+            console.warn('Auto sync check skipped:', e);
+        }
+    }
+
+    function forceHardRefresh() {
+        localStorage.removeItem('autocut_app_version');
+        if ('caches' in window) {
+            caches.keys().then(names => names.forEach(name => caches.delete(name)));
+        }
+        showToast('🔄 Đang xóa toàn bộ bộ nhớ đệm & tải lại...');
+        setTimeout(() => {
+            const cleanUrl = window.location.href.split('?')[0];
+            window.location.replace(cleanUrl + '?force_reload=' + Date.now());
+        }, 500);
+    }
+
+    function showToast(msg) {
+        let toast = document.getElementById('update-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'update-toast';
+            toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#00f0ff;color:#000;padding:10px 20px;border-radius:24px;font-weight:700;font-size:13px;box-shadow:0 6px 24px rgba(0,240,255,0.6);z-index:99999;font-family:sans-serif;text-align:center;pointer-events:none;';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = msg;
+        toast.style.display = 'block';
+    }
+
+    // Attach button listeners
+    const btnForceUpdate = document.getElementById('btn-force-update');
+    if (btnForceUpdate) {
+        btnForceUpdate.addEventListener('click', forceHardRefresh);
+    }
+    const linkForceUpdate = document.getElementById('link-force-update');
+    if (linkForceUpdate) {
+        linkForceUpdate.addEventListener('click', forceHardRefresh);
+    }
+
+    // Check on launch & on tab focus
+    checkForForceUpdate();
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            checkForForceUpdate();
+        }
+    });
+
     // INITIAL RENDER
     render();
 });

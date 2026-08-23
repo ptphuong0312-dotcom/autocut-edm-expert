@@ -24,8 +24,9 @@
                 </div>
             </div>
             <div class="header-actions">
-                <button class="btn btn-outline" id="btn-show-guide">📖 Hướng dẫn AutoCut</button>
-                <button class="btn btn-primary" id="btn-print"><span class="icon">🖨️</span> In phiếu công nghệ</button>
+                <button class="btn btn-outline" id="btn-force-update" title="Cưỡng bức xóa cache và cập nhật bản mới nhất từ máy chủ">🔄 Tải bản mới</button>
+                <button class="btn btn-outline" id="btn-show-guide">📖 Hướng dẫn</button>
+                <button class="btn btn-primary" id="btn-print"><span class="icon">🖨️</span> In phiếu</button>
             </div>
         </header>
 
@@ -608,6 +609,10 @@
         <!-- FOOTER -->
         <footer class="app-footer">
             <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
+            <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">
+                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v2.1.0 (Auto-Sync)</strong> &bull; 
+                <a href="javascript:void(0)" id="link-force-update" style="color: var(--accent-amber); text-decoration: underline;">🔄 Cưỡng bức làm mới dữ liệu</a>
+            </p>
         </footer>
     </div>
 
