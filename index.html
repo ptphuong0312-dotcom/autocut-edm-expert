@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="brand">
+                <div class="logo-icon">⚡</div>
+                <div>
+                    <h1>AUTOCUT EDM EXPERT</h1>
+                    <p class="subtitle">Hệ thống Tra cứu, Phân tích Chế độ điện & Bù dao Cắt dây Molypden CNC Động cơ Servo</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline" id="btn-show-guide">📖 Hướng dẫn gán AutoCut</button>
+                <button class="btn btn-primary" id="btn-print"><span class="icon">🖨️</span> In phiếu công nghệ</button>
+            </div>
+        </header>
+
+        <!-- NAVIGATION TABS -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="tab-calculator">⚡ Bảng Tra Cứu &amp; Phân Tích</button>
+            <button class="nav-tab" data-tab="tab-knowledge">📚 Kiến Thức Chuyên Sâu EDM</button>
+        </nav>
+
+        <!-- TAB 1: BẢNG TRA CỨU & PHÂN TÍCH -->
+        <div class="tab-content active" id="tab-calculator">
+            <main class="main-content">
+                <!-- INPUT CONTROLS PANEL (CỘT TRÁI) -->
+                <section class="control-panel card">
+                    <h2 class="section-title"><span class="badge-num">1</span> Điều kiện Gia công</h2>
+
+                    <!-- 1. VẬT LIỆU (MẶC ĐỊNH SCM420) -->
+                    <div class="form-group">
+                        <label class="form-label">Chọn Mác Thép Vật liệu:</label>
+                        <div class="material-grid">
+                            <label class="radio-card active" data-material="SCM420">
+                                <input type="radio" name="material" value="SCM420" checked>
+                                <div class="radio-card-content">
+                                    <div class="card-header-line">
+                                        <span class="mat-name">SCM420 (Mặc định)</span>
+                                        <span class="tag tag-soft">HB &lt; 200</span>
+                                    </div>
+                                    <p class="mat-desc">Thép hợp kim dẻo mềm (Tương đương 20Cr). Phôi dễ dính bết, yêu cầu tăng Po nghỉ xung và giảm VF.</p>
+                                </div>
+                            </label>
+
+                            <label class="radio-card" data-material="SCM440">
+                                <input type="radio" name="material" value="SCM440">
+                                <div class="radio-card-content">
+                                    <div class="card-header-line">
+                                        <span class="mat-name">SCM440</span>
+                                        <span class="tag tag-hard">28 - 32 HRC</span>
+                                    </div>
+                                    <p class="mat-desc">Thép tôi cải thiện (Tương đương 40Cr / 42CrMo). Thoát xỉ tốt, bóng gương, ổn định cao.</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 2. SỐ LẦN CẮT (PASS) -->
+                    <div class="form-group">
+                        <label class="form-label">Chọn Số Lần Cắt (Số Pass Gia Công):</label>
+                        <div class="pass-buttons" id="pass-selector">
+                            <button type="button" class="pass-btn active" data-pass="1">1 Lần <span class="pass-desc">Lấy đứt</span></button>
+                            <button type="button" class="pass-btn" data-pass="2">2 Lần <span class="pass-desc">Ra 1.8-2.0</span></button>
+                            <button type="button" class="pass-btn" data-pass="3">3 Lần <span class="pass-desc">Ra 1.0-1.2</span></button>
+                            <button type="button" class="pass-btn" data-pass="4">4 Lần <span class="pass-desc">Ra 0.7-0.9</span></button>
+                            <button type="button" class="pass-btn" data-pass="5">5 Lần <span class="pass-desc">Ra ≤ 0.60</span></button>
+                            <button type="button" class="pass-btn" data-pass="6">6 Lần <span class="pass-desc">Bóng gương</span></button>
+                        </div>
+                    </div>
+
+                    <!-- 3. MỤC TIÊU CHẤT LƯỢNG & CHIẾN LƯỢC GIA CÔNG (ÁP DỤNG CHO CẢ CẮT 1 LẦN VÀ NHIỀU LẦN) -->
+                    <div class="form-group sub-option-box" id="quality-strategy-box">
+                        <label class="form-label text-warning">⚡ Mục tiêu Chất lượng &amp; Chiến lược:</label>
+                        <div class="sub-modes-grid">
+                            <label class="sub-mode-item" data-mode="ultra-speed">
+                                <input type="radio" name="quality-mode" value="ultra-speed">
+                                <div class="sub-mode-text">
+                                    <strong>Siêu Năng Suất / Rút ngắn thời gian</strong>
+                                    <span>Bóc tách tối đa, bám tải nhanh, bề mặt thô hơn</span>
+                                </div>
+                            </label>
+                            <label class="sub-mode-item" data-mode="high-speed">
+                                <input type="radio" name="quality-mode" value="high-speed">
+                                <div class="sub-mode-text">
+                                    <strong>Năng Suất Cao</strong>
+                                    <span>Tốc độ nhanh, ổn định, tiết kiệm dây</span>
+                                </div>
+                            </label>
+                            <label class="sub-mode-item active" data-mode="standard">
+                                <input type="radio" name="quality-mode" value="standard" checked>
+                                <div class="sub-mode-text">
+                                    <strong>Tiêu Chuẩn (Khuyên Dùng)</strong>
+                                    <span>Cân bằng tối ưu giữa tốc độ, độ nhám và độ bền dây</span>
+                                </div>
+                            </label>
+                            <label class="sub-mode-item" data-mode="smooth">
+                                <input type="radio" name="quality-mode" value="smooth">
+                                <div class="sub-mode-text">
+                                    <strong>Bề Mặt Mịn / Ưu tiên độ phẳng</strong>
+                                    <span>Hạn chế sọc sóng, mép sắc nét, bám bước êm</span>
+                                </div>
+                            </label>
+                            <label class="sub-mode-item" data-mode="ultra-smooth">
+                                <input type="radio" name="quality-mode" value="ultra-smooth">
+                                <div class="sub-mode-text">
+                                    <strong>Bề Mặt Siêu Mịn / Độ chính xác cao</strong>
+                                    <span>Vi xung cực mịn, khống chế dung sai nghiêm ngặt</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 4. CHIỀU DÀY PHÔI -->
+                    <div class="form-group">
+                        <div class="thickness-header">
+                            <label class="form-label" for="thickness-input">Chiều Dày Phôi Gia Công (H):</label>
+                            <div class="thickness-val-display">
+                                <input type="number" id="thickness-input" min="5" max="500" step="5" value="40">
+                                <span class="unit">mm</span>
+                            </div>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" id="thickness-slider" min="5" max="500" step="5" value="40">
+                            <div class="slider-marks">
+                                <span>5</span>
+                                <span>50</span>
+                                <span>100</span>
+                                <span>150</span>
+                                <span>200</span>
+                                <span>300</span>
+                                <span>400</span>
+                                <span>500mm</span>
+                            </div>
+                        </div>
+                        <!-- Phím chọn nhanh -->
+                        <div class="quick-thickness-chips">
+                            <span class="chip-label">Chọn nhanh:</span>
+                            <button type="button" class="chip" data-h="10">10mm</button>
+                            <button type="button" class="chip" data-h="20">20mm</button>
+                            <button type="button" class="chip active" data-h="40">40mm</button>
+                            <button type="button" class="chip" data-h="60">60mm</button>
+                            <button type="button" class="chip" data-h="80">80mm</button>
+                            <button type="button" class="chip" data-h="100">100mm</button>
+                            <button type="button" class="chip" data-h="150">150mm</button>
+                            <button type="button" class="chip" data-h="200">200mm</button>
+                            <button type="button" class="chip" data-h="300">300mm</button>
+                            <button type="button" class="chip" data-h="500">500mm</button>
+                        </div>
+                    </div>
+
+                    <!-- TÍNH TOÁN THỜI GIAN GIA CÔNG -->
+                    <div class="calculator-box">
+                        <div class="calc-header">
+                            <span class="icon">⏱️</span> <strong>Ước tính Thời gian Gia công</strong>
+                        </div>
+                        <div class="calc-inputs">
+                            <label for="cut-length">Tổng chiều dài đường cắt (Chu vi phôi L):</label>
+                            <div class="input-with-unit">
+                                <input type="number" id="cut-length" value="100" min="1" step="1">
+                                <span class="unit">mm</span>
+                            </div>
+                        </div>
+                        <div class="calc-result" id="calc-time-result">
+                            Tổng thời gian ước tính: <span class="highlight-time" id="total-time-text">-- phút</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- OUTPUT RESULTS PANEL (CỘT PHẢI) -->
+                <section class="results-panel card">
+                    <div class="results-header">
+                        <div>
+                            <h2 class="section-title"><span class="badge-num">2</span> Bảng Thông Số Điện AutoCut Servo</h2>
+                            <p class="summary-line" id="config-summary">SCM420 | Chiều dày H = 40 mm | Quy trình 1 Lần cắt (Tiêu chuẩn)</p>
+                        </div>
+                        <button class="btn btn-sm btn-copy" id="btn-copy-table">📋 Copy Bảng</button>
+                    </div>
+
+                    <!-- MAIN PARAMETER TABLE -->
+                    <div class="table-responsive">
+                        <table class="edm-table" id="edm-result-table">
+                            <thead>
+                                <tr>
+                                    <th>Lần cắt (Pass)</th>
+                                    <th>ti (μs)</th>
+                                    <th>Po</th>
+                                    <th>IP (1-6)</th>
+                                    <th>Voltage</th>
+                                    <th>VF (1-100)</th>
+                                    <th>Wire (1-3)</th>
+                                    <th>Thông số bù dao AutoCut</th>
+                                    <th>Tốc độ cắt (mm²/p)</th>
+                                    <th>Tốc độ tiến F (mm/p)</th>
+                                    <th>Độ bóng (Ra)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                                <!-- Injected by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- KHUNG NHẬP THỬ NGHIỆM THỦ CÔNG (ĐẶT NGAY DƯỚI BẢNG KẾT QUẢ ĐỂ TIỆN THEO DÕI) -->
+                    <div class="custom-input-box" id="custom-test-panel">
+                        <div class="custom-box-header">
+                            <span>🛠️ <strong>Thử nghiệm Chế độ Riêng của bạn &amp; So Sánh:</strong></span>
+                            <span class="custom-box-hint">(Nhập thông số tùy ý bên dưới rồi bấm nút Phân Tích để so sánh trực tiếp với Chuẩn Hãng)</span>
+                        </div>
+                        <div class="custom-fields-grid">
+                            <div class="field-item">
+                                <label>ti (μs):</label>
+                                <input type="number" id="custom-ti" value="70" min="1" max="250" step="1">
+                            </div>
+                            <div class="field-item">
+                                <label>Po:</label>
+                                <input type="number" id="custom-po" value="7" min="1" max="30" step="1">
+                            </div>
+                            <div class="field-item">
+                                <label>IP (1-6):</label>
+                                <input type="number" id="custom-ip" value="4" min="1" max="6" step="1">
+                            </div>
+                            <div class="field-item">
+                                <label>Voltage:</label>
+                                <select id="custom-volt">
+                                    <option value="High" selected>High</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+                            <div class="field-item">
+                                <label>VF (1-100):</label>
+                                <input type="number" id="custom-vf" value="55" min="1" max="100" step="1">
+                            </div>
+                            <div class="field-item">
+                                <label>Wire (1-3):</label>
+                                <select id="custom-wire">
+                                    <option value="1" selected>1 (Nhanh)</option>
+                                    <option value="2">2 (Vừa)</option>
+                                    <option value="3">3 (Chậm)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-analyze" id="btn-analyze-custom">
+                            🔍 Phân Tích &amp; So Sánh Trực Tiếp Với Chuẩn Hãng
+                        </button>
+                    </div>
+
+                    <!-- BẢNG SO SÁNH PHÂN TÍCH (HIỆN RA KHI BẤM NÚT PHÂN TÍCH) -->
+                    <div class="analysis-section" id="analysis-container" style="display:none;">
+                        <h3 class="analysis-title">📊 BẢNG SO SÁNH TRỰC TIẾP: CHẾ ĐỘ BẠN NHẬP vs CHẾ ĐỘ CHUẨN CỦA HÃNG</h3>
+                        <div class="table-responsive">
+                            <table class="comparison-table" id="comparison-table-element">
+                                <!-- Injected by JavaScript -->
+                            </table>
+                        </div>
+                        <div class="analysis-feedback-card" id="analysis-feedback-box">
+                            <!-- Injected by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- NOTICES & INSTRUCTIONS ACCORDING TO CONDITION -->
+                    <div class="guideline-card" id="tech-notices">
+                        <h3>💡 Lưu Ý Công Nghệ Đặc Thù Cho Cấu Hình Này:</h3>
+                        <ul id="notice-list">
+                            <!-- Dynamic notices -->
+                        </ul>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- TAB 2: KIẾN THỨC CHUYÊN SÂU EDM (ĐÃ SỬA TOÀN BỘ FONT & KÝ HIỆU CHUẨN HTML UNICODE) -->
+        <div class="tab-content" id="tab-knowledge">
+            <div class="knowledge-container card">
+                <div class="knowledge-header">
+                    <h2>📚 CẨM NANG TOÀN TẬP VỀ CHẾ ĐỘ ĐIỆN CẮT DÂY MOLYPEN AUTOCUT SERVO</h2>
+                    <p>Giải thích chi tiết bản chất vật lý, cơ chế điều khiển và các công thức tính toán thực nghiệm trong gia công EDM.</p>
+                </div>
+
+                <div class="knowledge-grid">
+                    <!-- 1. TI -->
+                    <div class="kb-card">
+                        <div class="kb-card-header">
+                            <span class="kb-badge">1</span>
+                            <h3>ti (Pulse Width / Độ rộng xung / 脉宽 - μs)</h3>
+                        </div>
+                        <div class="kb-body">
+                            <p><strong>Bản chất:</strong> Là thời gian van công suất MOSFET mở để dòng điện cao tần phóng tia lửa điện giữa dây Molypden và phôi trong 1 chu kỳ xung.</p>
+                            <div class="formula-box">
+                                Năng lượng xung đơn: W<sub>e</sub> ≈ V<sub>m</sub> × I<sub>p</sub> × ti
+                            </div>
+                            <ul>
+                                <li><strong>Khi ti lớn (36 - 60 μs):</strong> Bóc tách kim loại nhanh, năng lượng lớn, nhưng miệng hố rỗ sâu, bề mặt thô nhám (Ra &gt; 3.0 μm), dây nóng và mòn nhanh.</li>
+                                <li><strong>Khi ti nhỏ (1 - 8 μs):</strong> Năng lượng tế vi, bóc tách đỉnh nhấp nhô cực êm, tạo bề mặt bóng mịn (Ra ≤ 0.8 μm), dây hầu như không mòn.</li>
+                                <li><strong>Quy chuẩn nhập AutoCut:</strong> Nhập trực tiếp số thực μs từ 0.5 ~ 250 μs (Mục 4.5 trang 24 tài liệu hướng dẫn phần mềm).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 2. PO -->
+                    <div class="kb-card">
+                        <div class="kb-card-header">
+                            <span class="kb-badge">2</span>
+                            <h3>Po (Pulse Interval Ratio / Hệ số nghỉ xung / 脉间)</h3>
+                        </div>
+                        <div class="kb-body">
+                            <p><strong>Bản chất:</strong> Hệ số tỷ lệ quy định thời gian ngắt điện (T<sub>off</sub>) giữa 2 lần phát xung để môi trường dung dịch khử ion và thổi sạch mạt xỉ phôi ra ngoài.</p>
+                            <div class="formula-box">
+                                T<sub>off</sub> = Po × ti (μs) &nbsp;|&nbsp; Tần số phát: f = 1000 / [ti × (1 + Po)] (kHz)
+                            </div>
+                            <ul>
+                                <li><strong>Nếu Po quá nhỏ (&lt; 3):</strong> Dung dịch không kịp rửa xỉ → Mạt sắt đọng lại gây đoản mạch hồ quang (Arcing) → <strong>Đứt dây ngay lập tức</strong>.</li>
+                                <li><strong>Nếu Po quá lớn (&gt; 8 - 10):</strong> Quá nhiều thời gian chết → Tần số xung f tụt xuống → <strong>Tốc độ cắt giảm nghiêm trọng</strong>.</li>
+                                <li><strong>Tỷ lệ chuẩn:</strong> Po = 5 - 6 cho cắt thô phôi tiêu chuẩn. Với thép dẻo SCM420 nên tăng Po = 6 - 7 để chống bết dính.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 3. IP -->
+                    <div class="kb-card">
+                        <div class="kb-card-header">
+                            <span class="kb-badge">3</span>
+                            <h3>IP (Peak Current / Số ống công suất / 功放管数 - 1 đến 6)</h3>
+                        </div>
+                        <div class="kb-body">
+                            <p><strong>Bản chất:</strong> Số lượng nhánh bóng bán dẫn MOSFET công suất lớn được kích hoạt song song trên bo mạch phát xung ADP0106.</p>
+                            <div class="formula-box">
+                                Dòng điện đỉnh cực đại: I<sub>p</sub> ≈ IP × (1.2 ~ 1.5A)
+                            </div>
+                            <ul>
+                                <li><strong>IP = 4 - 6:</strong> Dòng phóng đỉnh đạt 5A - 8A, chuyên dùng cho cắt phá thô phôi dày, cho tia lửa khỏe xuyên qua chiều cao phôi.</li>
+                                <li><strong>IP = 1 - 2:</strong> Khóa bớt các kênh công suất, chỉ cho dòng nhỏ 1A - 2A đi qua để cắt tinh và đánh bóng.</li>
+                                <li><strong>Lưu ý:</strong> Dòng hiển thị trên Ampe kế (I<sub>avg</sub>) là dòng trung bình, phụ thuộc vào cả IP, ti và Po.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 4. VOLTAGE -->
+                    <div class="kb-card">
+                        <div class="kb-card-header">
+                            <span class="kb-badge">4</span>
+                            <h3>Voltage (High / Low Voltage / Cao áp - Hạ áp &amp; Ảnh hưởng Kích thước)</h3>
+                        </div>
+                        <div class="kb-body">
+                            <p><strong>Bản chất:</strong> Là điện áp hở mạch ban đầu để đánh thủng lớp cách điện của dung dịch làm mát trước khi dòng điện I<sub>p</sub> chạy qua tạo kênh phóng hồ quang.</p>
+                            <div class="formula-box">
+                                Khe hở High: δ<sub>High</sub> ≈ 0.025 - 0.028 mm &nbsp;|&nbsp; Khe hở Low: δ<sub>Low</sub> ≈ 0.015 - 0.018 mm<br>
+                                Độ chênh lệch khe hở mỗi bên: Δδ ≈ 0.010 mm (10 μm) → Sai lệch tổng 2 bên: <strong>0.020 mm (20 μm)</strong>
+                            </div>
+                            <p><strong>Ảnh hưởng trực tiếp đến Kích thước chi tiết (Nếu giữ nguyên Offset):</strong></p>
+                            <table class="mini-table">
+                                <thead>
+                                    <tr>
+                                        <th>Trường hợp cắt</th>
+                                        <th>Khi để High Voltage (~100V)</th>
+                                        <th>Khi chuyển sang Low Voltage (~70V)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Cắt lấy LÕI TRONG (Chày)</strong></td>
+                                        <td>Kích thước chuẩn danh nghĩa</td>
+                                        <td><strong>TO HƠN +0.020 mm</strong> (Dư phôi do khe hở tia lửa co hẹp lại)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Cắt lấy LỖ NGOÀI (Cối)</strong></td>
+                                        <td>Kích thước chuẩn danh nghĩa</td>
+                                        <td><strong>BÉ HƠN -0.020 mm</strong> (Lỗ bị hẹp lại do dây phóng gần hơn)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ul style="margin-top: 8px;">
+                                <li><strong>High Voltage (~90 - 100V):</strong> Bán kính đánh thủng rộng (0.025mm), mồi tia lửa khỏe qua khe hở lớn, dung dịch dễ dàng xối rửa mạt xỉ. <em>Bắt buộc dùng cho Pass 1 (Cắt thô) và khi cắt phôi dày &gt; 60mm để chống đứt dây</em>.</li>
+                                <li><strong>Low Voltage (~60 - 70V):</strong> Bán kính đánh thủng hẹp (0.015mm), tia lửa chỉ phóng khi dây đến rất sát mép phôi. <em>Bắt buộc dùng cho Pass 2, 3, 4, 5 (Cắt tinh) để ép mép sắc nét, triệt tiêu vi biến trắng và hạ độ nhám</em>.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 5. VF -->
+                    <div class="kb-card">
+                        <div class="kb-card-header">
+                            <span class="kb-badge">5</span>
+                            <h3>VF (Voltage Feedback / Tần số bám tải Servo / 跟踪 - 1 đến 100)</h3>
+                        </div>
+                        <div class="kb-body">
+                            <p><strong>Bản chất:</strong> Là "bàn đạp chân ga" quy định tỷ lệ điện áp mẫu hồi tiếp để bộ điều khiển Servo tự động điều chỉnh tốc độ tiến/lùi của bàn máy theo thời gian thực (Adaptive Gap Control).</p>
+                            
+                            <p style="margin-top: 8px;"><strong>Ba trường hợp thực tế khi bạn chỉnh VF trên máy:</strong></p>
+                            <table class="mini-table">
+                                <thead>
+                                    <tr>
+                                        <th>Cài đặt VF</th>
+                                        <th>Hiện tượng xảy ra trên máy</th>
+                                        <th>Ảnh hưởng Tốc độ cắt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>VF QUÁ THẤP</strong><br>(VF = 30 - 40 ở cắt thô)</td>
+                                        <td>Servo rất "nhát", bước tiến rụt rè, chậm chạp. Dây ở xa phôi làm hàng nghìn tia lửa nổ vào khoảng không.</td>
+                                        <td><strong>Tốc độ tụt giảm 30% - 50%</strong> dù ti và IP mở rất to.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>VF TỐI ƯU</strong><br>(VF = 60 - 65 ở cắt thô)</td>
+                                        <td>Servo bám sát cự ly lý tưởng (0.025 mm), khai thác trọn vẹn 100% năng lượng tia lửa.</td>
+                                        <td><strong>Tốc độ đạt tối đa 100%</strong>, máy chạy mượt, nổ giòn đều.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>VF QUÁ CAO</strong><br>(VF = 85 - 95)</td>
+                                        <td>Servo quá "hăng", đẩy bàn máy quá nhanh làm dây liên tục húc chạm phôi (đoản mạch) → Máy tiến 1 bước lùi 2 bước.</td>
+                                        <td><strong>Tốc độ bị khựng lại</strong>, mặt cắt sần sùi và <strong>rất dễ đứt dây</strong>.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="formula-box" style="margin-top: 10px; border-left-color: var(--accent-cyan); color: #fff; line-height: 1.6;">
+                                <strong style="color: var(--accent-cyan);">💡 LỜI KHUYÊN KHI VẬN HÀNH THỰC TẾ:</strong><br>
+                                1. <strong>Khi cắt thô (Pass 1):</strong> Luôn để <strong>VF = 60 - 65</strong> (với phôi mỏng/vừa) hoặc <strong>VF = 50 - 55</strong> (với phôi dày &gt; 100 mm).<br>
+                                2. <strong>Khi cắt tinh (Pass 2, 3, 4, 5):</strong> Hạ <strong>VF = 20 - 35</strong> để Servo bám lùi nhẹ nhàng, gọt êm phẳng đỉnh nhấp nhô.<br>
+                                3. <strong>Mẹo kiểm tra:</strong> Nếu thấy máy cắt chậm, hãy thử tăng nhẹ VF lên +5 nấc. Nếu kim Ampe kế giật cục và Servo thỉnh thoảng lùi lại thì tức là VF đã chạm ngưỡng giới hạn, cần hạ bớt lại 2 - 3 nấc.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. WIRE SPEED -->
+                    <div class="kb-card">
+                        <div class="kb-card-header">
+                            <span class="kb-badge">6</span>
+                            <h3>Wire (Silk Speed / Cấp tốc độ chạy dây - 1 đến 3)</h3>
+                        </div>
+                        <div class="kb-body">
+                            <p><strong>Bản chất:</strong> Tốc độ quay của lô quấn dây Molypden qua biến tần điều tốc.</p>
+                            <ul>
+                                <li><strong>Cấp 1 (Nhanh ~10 - 12 m/s):</strong> Dùng cho cắt thô Pass 1. Dây chạy nhanh giúp giải nhiệt liên tục, tránh tập trung nhiệt tại một điểm gây đứt dây.</li>
+                                <li><strong>Cấp 2 (Vừa ~6 - 8 m/s):</strong> Dùng cho bán tinh Pass 2.</li>
+                                <li><strong>Cấp 3 (Chậm ~3 - 4 m/s):</strong> Dùng cho cắt tinh Pass 3, 4, 5. Dây chạy chậm triệt tiêu độ rung cơ học, giúp bề mặt cắt bóng gương không có vệt sọc.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 7. OFFSET & REMAIN -->
+                    <div class="kb-card">
+                        <div class="kb-card-header">
+                            <span class="kb-badge">7</span>
+                            <h3>Offset &amp; Lượng bào (Remain / Bù dao nhiều lần - mm)</h3>
+                        </div>
+                        <div class="kb-body">
+                            <p><strong>Bản chất:</strong> Khoảng cách lệch tâm dây Molypden so với đường bao danh nghĩa của bản vẽ CAD.</p>
+                            <div class="formula-box">
+                                Offset Pass 1 = R<sub>dây</sub> + Khe hở tia lửa δ<sub>1</sub> = 0.090 + 0.025 = 0.115 mm
+                            </div>
+                            <p><strong>Cơ chế Lượng bào (Remain) các lần sau:</strong></p>
+                            <ul>
+                                <li>Pass 2: Hớt bỏ 0.022 mm (xóa vệt sóng thô).</li>
+                                <li>Pass 3: Hớt bỏ 0.010 mm (hạ độ nhám).</li>
+                                <li>Pass 4: Hớt bỏ 0.005 mm (xóa biến trắng).</li>
+                                <li>Pass 5: Hớt bỏ 0.002 mm (đánh bóng gương).</li>
+                                <li>Tổng lượng hớt đúng bằng lượng dư gia công để chi tiết đạt chuẩn 1:1 (±0.005 mm).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 8. SO SÁNH SCM420 vs SCM440 -->
+                    <div class="kb-card">
+                        <div class="kb-card-header">
+                            <span class="kb-badge">8</span>
+                            <h3>So sánh Công nghệ: Thép mềm SCM420 vs Thép tôi SCM440</h3>
+                        </div>
+                        <div class="kb-body">
+                            <table class="mini-table">
+                                <thead>
+                                    <tr>
+                                        <th>Đặc tính</th>
+                                        <th>SCM420 (HB &lt; 200)</th>
+                                        <th>SCM440 (28 - 32 HRC)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Tổ chức kim loại</strong></td>
+                                        <td>Ferrite + Pearlit mềm, dẻo</td>
+                                        <td>Sorbit tôi đồng nhất, độ giòn vừa</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Mạt xỉ phóng điện</strong></td>
+                                        <td>Dẻo dính, dễ bết lại khe hở</td>
+                                        <td>Vỡ vụn thành hạt siêu mịn, dễ thoát</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Điều chỉnh Po</strong></td>
+                                        <td><strong>Tăng Po +1 (để Po = 6 - 7)</strong></td>
+                                        <td>Giữ Po chuẩn = 5</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Điều chỉnh VF</strong></td>
+                                        <td><strong>Giảm VF -5 (để VF = 55 - 60)</strong></td>
+                                        <td>Giữ VF chuẩn = 65</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Độ bóng đạt được</strong></td>
+                                        <td>Ra ≈ 0.7 - 0.9 μm</td>
+                                        <td>Ra ≤ 0.45 - 0.60 μm</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 9. PHÂN BIỆT IP VÀ VOLTAGE -->
+                    <div class="kb-card kb-card-full">
+                        <div class="kb-card-header">
+                            <span class="kb-badge">9</span>
+                            <h3>⚡ Bản chất trong 1 chu kỳ phóng tia lửa điện &amp; Phân biệt rõ ràng giữa IP và VOLTAGE</h3>
+                        </div>
+                        <div class="kb-body">
+                            <h4 style="color: var(--accent-cyan); margin-bottom: 8px;">1. Bản chất trong 1 chu kỳ phóng tia lửa điện (Phối hợp 2 giai đoạn):</h4>
+                            <p>Mỗi tia lửa điện diễn ra trong vài micro-giây (μs) được chia làm 2 giai đoạn nối tiếp nhau như một "cặp bài trùng":</p>
+                            
+                            <div class="spark-cycle-box">
+                                <div class="spark-phase">
+                                    <div class="phase-title">🔹 GIAI ĐOẠN 1: MỒI TIA DẪN ĐƯỜNG (Do VOLTAGE đảm nhiệm)</div>
+                                    <p>Khi dây Molypden tiến lại gần phôi, dung dịch dầu làm mát đóng vai trò cách điện. <strong>Voltage</strong> (Cao áp ~100V hoặc Hạ áp ~70V) sẽ tạo điện trường cực mạnh để <strong>đánh thủng màng cách điện</strong>, tạo ra cây cầu dẫn ion (Plasma Channel).</p>
+                                    <div class="phase-highlight">👉 <strong>Voltage quyết định:</strong> Khoảng cách phóng xa (High: 0.025 mm) hay phóng gần (Low: 0.015 mm).</div>
+                                </div>
+                                <div class="spark-phase">
+                                    <div class="phase-title">💥 GIAI ĐOẠN 2: BỘC PHÁ NUNG CHẢY (Do IP đảm nhiệm)</div>
+                                    <p>Ngay sau khi cầu ion dẫn điện hình thành, van MOSFET mở cho <strong>dòng điện I<sub>p</sub> (từ IP) tuôn ồ ạt qua</strong>. Dòng điện này sinh nhiệt lượng Joule cực lớn (&gt; 10.000°C), làm bốc hơi và nổ tung khối kim loại phôi.</p>
+                                    <div class="phase-highlight">👉 <strong>IP quyết định:</strong> Sức công phá và thể tích kim loại bị bóc tách (Nhiều phôi ở IP=4-6, siêu ít ở IP=1).</div>
+                                </div>
+                            </div>
+
+                            <h4 style="color: var(--accent-cyan); margin-top: 16px; margin-bottom: 8px;">3. BẢNG PHÂN BIỆT RÕ RÀNG GIỮA IP VÀ VOLTAGE:</h4>
+                            <table class="mini-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tiêu chí so sánh</th>
+                                        <th>Voltage (High / Low Voltage)</th>
+                                        <th>IP (Peak Current 1 đến 6)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Đại lượng vật lý</strong></td>
+                                        <td>Điện áp hở mạch ban đầu (Vôn - V)</td>
+                                        <td>Cường độ dòng điện đỉnh (Ampe - I<sub>p</sub>)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Nhiệm vụ chính</strong></td>
+                                        <td>Quyết định <strong>KHOẢNG CÁCH KHE HỞ MỒI TIA</strong> (δ = 0.015 ↔ 0.025 mm)</td>
+                                        <td>Quyết định <strong>THỂ TÍCH KIM LOẠI BÓC TÁCH</strong> (Nhanh hay Chậm)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Ảnh hưởng kích thước</strong></td>
+                                        <td><strong>RẤT LỚN</strong> (Lệch ≈ 0.020 mm nếu đổi High/Low)</td>
+                                        <td><strong>Ít ảnh hưởng kích thước bao</strong>, chủ yếu ảnh hưởng độ rỗ nhám Ra</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Khi nào bắt buộc tăng?</strong></td>
+                                        <td>Khi cắt <strong>phôi dày lớn</strong> hoặc <strong>Pass 1 cắt thô</strong> để nước dễ xối rửa xỉ</td>
+                                        <td>Khi cần <strong>tăng tốc độ bóc tách</strong> hoặc cắt phôi dày cao</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Khi cắt tinh (Pass 3, 4, 5)</strong></td>
+                                        <td>Bắt buộc chọn <strong>Low Voltage</strong></td>
+                                        <td>Bắt buộc chọn <strong>IP = 1</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="formula-box" style="margin-top: 16px; border-left-color: var(--accent-amber); color: #fff; line-height: 1.7;">
+                                <strong style="color: var(--accent-amber); font-size: 14px;">💡 TÓM LẠI:</strong><br>
+                                • Muốn <strong>tia lửa phóng xa, rãnh cắt rộng, thoát xỉ tốt, chống ngắn mạch</strong> → Dùng <strong>High Voltage</strong>.<br>
+                                • Muốn <strong>cắt nhanh, tia lửa nổ khỏe, bốc phôi mạnh</strong> → Tăng <strong>IP (4 - 6)</strong>.<br>
+                                • Khi cắt tinh hoàn thiện: Ta phối hợp <strong>Low Voltage + IP = 1</strong> để vừa phóng ở cự ly cực sát (0.015 mm), vừa bóc mòn siêu nhẹ (I<sub>p</sub> = 1.5A), tạo ra bề mặt phẳng và bóng như gương!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
+        </footer>
+    </div>
+
+    <!-- MODAL: HƯỚNG DẪN NHẬP VÀO AUTOCUT -->
+    <div class="modal-overlay" id="guide-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>📖 Hướng dẫn Thao tác Nhập Tham số trên Phần mềm AutoCut</h3>
+                <button class="modal-close" id="btn-close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="guide-step">
+                    <span class="step-badge">Cách 1</span>
+                    <h4>Lập trình đường cắt nhiều lần trong AutoCAD / AutoCut:</h4>
+                    <ol>
+                        <li>Trên thanh menu AutoCut, chọn <strong>Create multiple process track (Tạo quỹ đạo cắt nhiều lần)</strong>.</li>
+                        <li>Chọn số lần cắt (<strong>Cut times</strong>) từ 1 đến 6.</li>
+                        <li>Nhập giá trị <strong>Offset</strong> của Pass 1 từ bảng trên.</li>
+                        <li>Bấm nút <strong>Edit Process Path</strong> (Hình 4.8 / 4.10) và điền lần lượt các thông số <code>ti</code>, <code>Po</code>, <code>IP (Channel)</code>, <code>Voltage</code>, <code>VF</code>, <code>Silk speed (Wire)</code> và <code>Remain (Lượng bào)</code> của từng pass.</li>
+                    </ol>
+                </div>
+                <div class="guide-step">
+                    <span class="step-badge">Cách 2</span>
+                    <h4>Lưu cố định vào Thư viện Chuyên gia (Expert Database) để dùng lại:</h4>
+                    <ol>
+                        <li>Vào menu <strong>AutoCut</strong> &rarr; Chọn <strong>Maintain Process Library</strong> (Hình 4.24 trang 24).</li>
+                        <li>Điền tên vật liệu <code>SCM420</code> hoặc <code>SCM440</code>, độ dày <code>H</code>, và toàn bộ thông số các pass.</li>
+                        <li>Bấm nút <strong>Add to the technics library</strong>. Lần sau chỉ cần bấm <strong>"To Database"</strong> để tự động load mà không phải nhập lại!</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

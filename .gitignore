@@ -1,0 +1,6 @@
+# Ignore OS & Temporary files
+.DS_Store
+Thumbs.db
+node_modules/
+.vercel
+*.log
