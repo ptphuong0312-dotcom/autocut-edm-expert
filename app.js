@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const feedRate_1 = (SpeedArea_1 / H);
 
         rows.push({
-            passName: 'Pass 1 (Cắt thô)',
+            passName: 'P1',
             badgeClass: 'pass-badge-1',
             ti: ti_1,
             Po: Po_1,
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let speedArea_2 = Math.round(feedRate_2 * H);
 
             rows.push({
-                passName: 'Pass 2 (Sửa côn / Bán tinh)',
+                passName: 'P2',
                 badgeClass: 'pass-badge-2',
                 ti: ti_2,
                 Po: Po_2,
@@ -391,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let speedArea_3 = Math.round(feedRate_3 * H);
 
             rows.push({
-                passName: 'Pass 3 (Cắt tinh 1)',
+                passName: 'P3',
                 badgeClass: 'pass-badge-3',
                 ti: ti_3,
                 Po: Po_3,
@@ -423,7 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let speedArea_4 = Math.round(feedRate_4 * H);
 
             rows.push({
-                passName: 'Pass 4 (Siêu tinh)',
+                passName: 'P4',
                 badgeClass: 'pass-badge-4',
                 ti: ti_4,
                 Po: Po_4,
@@ -455,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let speedArea_5 = Math.round(feedRate_5 * H);
 
             rows.push({
-                passName: 'Pass 5 (Đánh bóng)',
+                passName: 'P5',
                 badgeClass: 'pass-badge-5',
                 ti: ti_5,
                 Po: Po_5,
@@ -486,7 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let speedArea_6 = Math.round(feedRate_6 * H);
 
             rows.push({
-                passName: 'Pass 6 (Bóng gương siêu vi)',
+                passName: 'P6',
                 badgeClass: 'pass-badge-6',
                 ti: ti_6,
                 Po: Po_6,
@@ -759,7 +759,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const { rows } = calculateEDM(state);
         let text = `AUTOCUT EDM SERVO - BẢNG THÔNG SỐ CẮT\n`;
         text += `Vật liệu: ${state.material} | Chiều dày H: ${state.thickness}mm | Quy trình: ${state.passCount} Pass | Chiến lược: ${state.qualityMode}\n\n`;
-        text += `Pass\tti(μs)\tPo\tIP\tVolt\tVF\tWire\tBù dao\tTốc độ(mm2/p)\tF(mm/p)\tRa(μm)\n`;
+        text += `P\tti(μs)\tPo\tIP\tVolt\tVF\tWire\tBù dao\tTốc độ(mm2/p)\tF(mm/p)\tRa(μm)\n`;
         
         rows.forEach(r => {
             text += `${r.passName}\t${r.ti}\t${r.Po}\t${r.IP}\t${r.Voltage}\t${r.VF}\t${r.Wire}\t${r.offsetText}\t${r.speedArea}\t${r.feedRate}\t${r.Ra}\n`;
@@ -778,7 +778,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.3.0";
+    const CURRENT_VERSION = "2.4.0";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {

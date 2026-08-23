@@ -1,5 +1,5 @@
 {
-  "version": "2.3.0",
-  "buildTime": 1787485700000,
-  "description": "Mobile layout fix: eliminate zoom blowout, responsive grid containment, full-width header"
+  "version": "2.4.0",
+  "buildTime": 1787489100000,
+  "description": "Simplified table headers and badges to P1, P2, P3, P4, P5, P6 and P"
 }
