@@ -660,6 +660,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const c_power_score = Math.round(c_freq_hz * c_we_score);
         const std_power_score = Math.round(std_freq_hz * std_we_score);
 
+        // 5b. Dòng điện chỉ thị Ampe kế trên mặt tủ máy (I_tb = I_peak × η × k_phóng)
+        const c_i_tb = (c_i_peak * (parseFloat(c_duty_factor) / 100) * 0.75).toFixed(1); // Amperes
+        const std_i_tb = (std_i_peak * (parseFloat(std_duty_factor) / 100) * 0.75).toFixed(1);
+
         // 6. Tốc độ cắt diện tích Fc và Tốc độ tiến bàn Ft
         const c_energy_factor = (c_ti * c_ip) / c_cycle;
         const std_energy_factor = (stdRow.ti * stdRow.IP) / std_cycle;
@@ -760,6 +764,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td class="col-metric"><strong>NĂNG LƯỢNG PHÁT TRONG 1S (Công suất trung bình Ptb)</strong></td>
                     <td class="col-user"><strong>${c_power_watts} W</strong> (≈ ${c_power_score.toLocaleString()} đv/s)</td>
                     <td class="col-std"><strong>${std_power_watts} W</strong> (≈ ${std_power_score.toLocaleString()} đv/s)</td>
+                </tr>
+                <tr>
+                    <td class="col-metric"><strong>Dòng điện chỉ thị Ampe kế (Itb ước tính)</strong></td>
+                    <td class="col-user"><strong>≈ ${c_i_tb} A</strong> (Đồng hồ Ampe)</td>
+                    <td class="col-std"><strong>≈ ${std_i_tb} A</strong> (Chuẩn máy chạy)</td>
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>Tốc độ cắt diện tích ước tính Fc</strong></td>
@@ -915,7 +924,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.8.0";
+    const CURRENT_VERSION = "2.8.1";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
