@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
-  "buildTime": 1787590000000,
-  "description": "Added Theoretical EDM Calculation System from tailieu.txt and dual-mode comparison switcher (TT Lý thuyết vs Nhập Chế độ Riêng)."
+  "version": "3.0.1",
+  "buildTime": 1787591000000,
+  "description": "Calibrated Theoretical Fc and Ft arithmetic strictly matching tailieu.txt experimental baseline."
 }

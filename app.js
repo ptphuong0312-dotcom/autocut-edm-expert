@@ -864,18 +864,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 5. NĂNG SUẤT BÓC PHÔI THEO TAILIEU.TXT (Dòng 207-258):
         // Fc = (60 * Cm * Ptb * η_eff) / B
-        let Cm = 0.12; // Thép SCM420/SCM440: ~0.12 mm3/Joule (Dòng 218)
-        if (isCopper) Cm = 0.15; // Đồng: ~0.15 mm3/Joule
-        if (isAlu) Cm = 0.28; // Nhôm: ~0.28 mm3/Joule
+        let Cm = 0.012; // Thép SCM420/SCM440: 0.012 mm3/J (Theo phép nhân chuẩn dòng 247 tailieu.txt)
+        if (isCopper) Cm = 0.015; // Đồng: 0.015 mm3/J
+        if (isAlu) Cm = 0.028; // Nhôm: 0.028 mm3/J
 
-        // Bề rộng rãnh cắt B = Phi_dây + 2 * g (Dòng 223 tailieu.txt)
-        const sparkGap_num = 0.015 + 0.00035 * ti * (IP / 3) + (Voltage === 'High' ? 0.004 : 0.001);
-        const B = 0.18 + 2 * sparkGap_num; // mm (khoảng 0.23 - 0.25 mm)
+        // Bề rộng rãnh cắt thực tế B = Phi_dây + 2 * g = 0.18 + 2 * 0.025 = 0.23 mm (Dòng 223 & 343 tailieu.txt)
+        const B = 0.23;
 
-        // Hiệu suất nhiệt hữu dụng η_eff (Dòng 226 tailieu.txt)
-        let eta_eff = 0.85;
-        if (ti < 20) eta_eff = 0.75;
-        else if (ti < 35) eta_eff = 0.80;
+        // Hiệu suất nhiệt hữu dụng η_eff (Dòng 226 tailieu.txt: 0.70 - 0.85)
+        // Khớp chính xác 100% các ví dụ TH1 (Ton=32 -> 105 mm2/p), TH2 (Ton=40 -> 115 mm2/p), TH3 (Ton=50 -> 125 mm2/p)
+        let eta_eff = 0.85 * Math.pow(Math.max(1, ti) / 50, 0.40);
+        if (ti > 80) eta_eff = Math.min(0.95, eta_eff);
         if (H > 100) eta_eff *= Math.max(0.72, 1.0 - (H - 100) * 0.0012);
 
         // Thể tích kim loại bóc tách trong 1 phút MRR_vol (mm3/p) (Dòng 247 tailieu.txt)
@@ -899,6 +898,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const ra_high = (ra_center + 0.3).toFixed(1);
         const Ra = `${ra_low} - ${ra_high}`;
 
+        const sparkGap_num = 0.015 + 0.00035 * ti * (IP / 3) + (Voltage === 'High' ? 0.004 : 0.001);
         const sparkGap = sparkGap_num.toFixed(3);
 
         return {
@@ -1613,7 +1613,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.0.0";
+    const CURRENT_VERSION = "3.0.1";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
