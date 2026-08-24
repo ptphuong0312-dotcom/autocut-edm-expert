@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=2.9.0">
+    <link rel="stylesheet" href="style.css?v=2.9.5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -283,26 +283,41 @@
 
                     <!-- BẢNG SO SÁNH PHÂN TÍCH (MẶC ĐỊNH HIỂN THỊ) -->
                     <div class="analysis-section" id="analysis-container">
-                        <h3 class="analysis-title">📊 BẢNG SO SÁNH TRỰC TIẾP: CHẾ ĐỘ BẠN NHẬP vs CHUẨN HÃNG</h3>
+                        <div class="analysis-header-row">
+                            <h3 class="analysis-title">📊 BẢNG SO SÁNH: Chế độ nhập vs Standard</h3>
+                            <button type="button" class="btn-toggle-compact" id="btn-toggle-compact" title="Bấm để chuyển đổi giữa Ký hiệu viết tắt và Tên đầy đủ">
+                                <span id="compact-icon">↔️</span>
+                                <span id="compact-text">Ký hiệu viết tắt: <strong>BẬT</strong></span>
+                            </button>
+                        </div>
                         <div class="mobile-scroll-hint">👉 Vuốt ngang bảng so sánh để xem đầy đủ 👈</div>
                         <div class="table-responsive">
-                            <table class="comparison-table" id="comparison-table-element">
+                            <table class="comparison-table compact-mode" id="comparison-table-element">
                                 <!-- Injected by JavaScript -->
                             </table>
                         </div>
                         <div class="analysis-feedback-card" id="analysis-feedback-box">
                             <!-- Injected by JavaScript -->
                         </div>
+                    </div>
 
-                        <!-- KHUNG BÀI GIẢNG CHI TIẾT CÔNG THỨC (CÓ THỂ ẨN / HIỆN) -->
-                        <div class="lecture-box-wrapper">
-                            <button type="button" class="btn-lecture-toggle" id="btn-toggle-lecture">
-                                <span class="lecture-toggle-icon">📖</span>
-                                <span class="lecture-toggle-text">BÀI GIẢNG: Xem Chi Tiết Công Thức &amp; Từng Bước Tính Toán [Bấm để Ẩn/Hiện]</span>
-                                <span class="lecture-toggle-arrow">▼</span>
-                            </button>
-                            <div class="lecture-content-card" id="lecture-content" style="display: none;">
-                                <!-- Injected dynamically by JavaScript with live calculation steps -->
+                    <!-- BẢNG HIỆU CHỈNH THỰC TẾ XƯỞNG (WORKSHOP CALIBRATION) - MẶC ĐỊNH ẨN -->
+                    <div class="workshop-section" id="workshop-container">
+                        <div class="workshop-header-toggle" id="btn-toggle-workshop">
+                            <div class="workshop-title">
+                                <span>🏭</span>
+                                <strong>BẢNG HIỆU CHỈNH THỰC TẾ XƯỞNG (WORKSHOP CALIBRATION)</strong>
+                            </div>
+                            <span class="workshop-badge-status" id="workshop-toggle-status">Ẩn ▼</span>
+                        </div>
+                        <div class="workshop-body" id="workshop-body" style="display: none;">
+                            <div class="workshop-notice-box">
+                                📌 <strong>Khu vực Hiệu chỉnh Độc quyền:</strong> Bảng này lưu trữ kết quả thực nghiệm cắt tại xưởng của bạn (SCM420/SCM440 H=55mm, kim Ampe 4A, L=265mm...). Mọi công thức chuẩn Hãng trên Web App luôn được bảo toàn cố định 100%.
+                            </div>
+                            <div class="table-responsive">
+                                <table class="comparison-table workshop-table" id="workshop-table-element">
+                                    <!-- Injected by JavaScript -->
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -327,6 +342,16 @@
                 </div>
 
                 <div class="knowledge-grid">
+                    <!-- BÀI GIẢNG ĐỘNG LỰC HỌC & CÔNG THỨC TÍNH TOÁN 7 BƯỚC -->
+                    <div class="kb-card kb-card-full" id="lecture-tab2-card" style="border: 1px solid var(--accent-cyan); background: #0b1329;">
+                        <div class="kb-card-header" style="background: rgba(6, 182, 212, 0.15);">
+                            <span class="kb-badge" style="background: var(--accent-cyan); color:#000; font-weight: 800;">🎓</span>
+                            <h3 style="color: var(--accent-cyan);">BÀI GIẢNG: HỆ THỐNG CÔNG THỨC &amp; TỪNG BƯỚC TÍNH TOÁN VẬT LÝ EDM (7 BƯỚC)</h3>
+                        </div>
+                        <div class="kb-body" id="lecture-knowledge-body">
+                            <!-- Injected dynamically by JavaScript -->
+                        </div>
+                    </div>
                     <!-- 1. TI -->
                     <div class="kb-card">
                         <div class="kb-card-header">
@@ -640,7 +665,7 @@
         <footer class="app-footer">
             <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
             <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">
-                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v2.9.0 (Bài Giảng Tính Toán &amp; Bảng So Sánh Mặc Định)</strong> &bull; 
+                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v2.9.5 (Chuẩn Quy Cách Dự Án &amp; Hiệu Chỉnh Xưởng)</strong> &bull; 
                 <a href="javascript:void(0)" id="link-force-update" style="color: var(--accent-amber); text-decoration: underline;">🔄 Cưỡng bức làm mới dữ liệu</a>
             </p>
         </footer>
@@ -677,6 +702,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=2.9.0"></script>
+    <script src="app.js?v=2.9.5"></script>
 </body>
 </html>

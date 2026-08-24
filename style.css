@@ -1018,14 +1018,45 @@ body {
     width: 100%;
 }
 
+.analysis-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
 .analysis-title {
     font-family: var(--font-heading);
     font-size: 14.5px;
     color: var(--accent-amber);
-    margin-bottom: 10px;
     display: flex;
     align-items: center;
     gap: 6px;
+    margin: 0;
+}
+
+.btn-toggle-compact {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid var(--accent-cyan);
+    color: #e2e8f0;
+    font-family: var(--font-heading);
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+}
+
+.btn-toggle-compact:hover {
+    background: rgba(6, 182, 212, 0.15);
+    border-color: var(--accent-cyan);
+    color: #fff;
 }
 
 .comparison-table th {
@@ -1038,7 +1069,13 @@ body {
     font-weight: 600;
     color: #cbd5e1;
     white-space: normal;
-    min-width: 130px;
+    min-width: 110px;
+}
+
+.comparison-table.compact-mode .col-metric {
+    min-width: 80px;
+    font-family: var(--font-mono);
+    font-size: 12px;
 }
 
 .comparison-table .col-user { color: #f87171; font-weight: 700; }
@@ -1063,6 +1100,76 @@ body {
 .feedback-good { color: var(--accent-green); }
 .feedback-warn { color: var(--accent-amber); }
 .feedback-danger { color: var(--accent-red); }
+
+/* WORKSHOP CALIBRATION SECTION */
+.workshop-section {
+    margin-top: 12px;
+    margin-bottom: 16px;
+    background: rgba(168, 85, 247, 0.05);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    width: 100%;
+}
+
+.workshop-header-toggle {
+    background: rgba(30, 27, 75, 0.7);
+    padding: 11px 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease;
+}
+
+.workshop-header-toggle:hover {
+    background: rgba(49, 46, 129, 0.9);
+}
+
+.workshop-title {
+    font-family: var(--font-heading);
+    font-size: 13.5px;
+    color: #c084fc;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.workshop-badge-status {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #cbd5e1;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.workshop-body {
+    padding: 14px;
+}
+
+.workshop-notice-box {
+    background: rgba(15, 23, 42, 0.85);
+    border-left: 3.5px solid #c084fc;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #e2e8f0;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    line-height: 1.5;
+}
+
+.workshop-table th {
+    background: #251638;
+    color: #c084fc;
+}
+
+.workshop-table .col-actual {
+    color: #c084fc;
+    font-weight: 700;
+}
 
 /* LECTURE BOX STYLES */
 .lecture-box-wrapper {
