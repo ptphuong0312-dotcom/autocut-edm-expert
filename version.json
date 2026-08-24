@@ -1,5 +1,5 @@
 {
-  "version": "2.9.7",
-  "buildTime": 1787581200000,
-  "description": "Fixed custom calculation baseline to Level 6 standard so custom input metrics remain 100% constant when dragging strategy slider, and unified dimension tolerance display across all tables."
+  "version": "2.9.8",
+  "buildTime": 1787584800000,
+  "description": "100% exact match consistency between Custom Input parameters and Standard Strategy parameters in comparison table."
 }

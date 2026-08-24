@@ -809,6 +809,69 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. CUSTOM ANALYSIS ENGINE & BÀI GIẢNG TAB 2
     // ==========================================
 
+    // Hàm đánh giá hiệu năng chế độ nhập của người dùng (khớp chuẩn hoặc suy biến phi tuyến)
+    function getCustomEDMPerformance(ti, po, ip, volt, vf, wire, H, material, stdRow) {
+        // 1. Trùng khớp 100% với dòng chiến lược đang so sánh ở cột 3
+        if (ti === stdRow.ti && po === stdRow.Po && ip === stdRow.IP && volt === stdRow.Voltage && vf === stdRow.VF) {
+            return {
+                speedArea: stdRow.speedArea,
+                feedRate: stdRow.feedRate,
+                Ra: stdRow.Ra,
+                isExactMatch: true
+            };
+        }
+
+        // 2. Kiểm tra xem có trùng khớp với bất kỳ cấp độ nào trong 11 cấp độ chuẩn của hãng không
+        for (let lvl = 1; lvl <= 11; lvl++) {
+            const calc = calculateEDM({ material, passCount: 1, strategyLevel: lvl, thickness: H });
+            const r = calc.rows[0];
+            if (r.ti === ti && r.Po === po && r.IP === ip && r.Voltage === volt && r.VF === vf) {
+                return {
+                    speedArea: r.speedArea,
+                    feedRate: r.feedRate,
+                    Ra: r.Ra,
+                    isExactMatch: false
+                };
+            }
+        }
+
+        // 3. Nếu là thông số tự do tùy biến bên ngoài 11 cấp độ (Tính toán động lực học theo baseline Cấp 6):
+        const baseCalc = calculateEDM({ material, passCount: 1, strategyLevel: 6, thickness: H });
+        const baseRow = baseCalc.rows[0];
+        const base_cycle = baseRow.ti + baseRow.ti * baseRow.Po;
+        const base_freq = 1000000 / base_cycle;
+        const base_u = baseRow.Voltage === 'Low' ? 22 : 27;
+        const base_we = (base_u * baseRow.IP * 2.8 * baseRow.ti) / 1000;
+        const base_power = (base_freq * base_we) / 1000;
+
+        const c_cycle = ti + ti * po;
+        const c_freq = 1000000 / c_cycle;
+        const c_u = volt === 'Low' ? 22 : 27;
+        const c_we = (c_u * ip * 2.8 * ti) / 1000;
+        const c_power = (c_freq * c_we) / 1000;
+
+        const power_ratio = c_power / base_power;
+        const vf_factor = 1 + (vf - baseRow.VF) / 250;
+        let speedArea = Math.round(baseRow.speedArea * power_ratio * vf_factor);
+        if (ti > 70 && H < 60) speedArea = Math.round(speedArea * 0.88);
+        if (po < 4 && H > 80) speedArea = Math.round(speedArea * 0.85);
+
+        let ra_min, ra_max;
+        const we_score = ti * ip;
+        if (we_score >= 280) { ra_min = 4.2; ra_max = 5.5; }
+        else if (we_score >= 180) { ra_min = 3.4; ra_max = 4.2; }
+        else if (we_score >= 100) { ra_min = 2.6; ra_max = 3.4; }
+        else if (we_score >= 40) { ra_min = 1.8; ra_max = 2.5; }
+        else { ra_min = 0.8; ra_max = 1.6; }
+
+        return {
+            speedArea,
+            feedRate: (speedArea / H).toFixed(2),
+            Ra: `${ra_min} - ${ra_max}`,
+            isExactMatch: false
+        };
+    }
+
     // Tự động điền Chế độ "Bề Mặt Mịn / Ưu Tiên Phẳng (Cấp 5/11)" làm mặc định cho ô nhập riêng
     function populateSmoothCustomDefaults(force = false) {
         if (!force && state.isCustomUserEdited) return;
@@ -835,65 +898,49 @@ document.addEventListener('DOMContentLoaded', () => {
         const H = state.thickness;
         const L = state.cutLength || 100;
         
-        // 1. BASELINE CHUẨN CẤP 6 (CỐ ĐỊNH) - DÙNG ĐỂ TÍNH CÁC ĐẶC TÍNH VẬT LÝ TUYỆT ĐỐI CỦA CHẾ ĐỘ NHẬP
-        // Giúp cột "Chế độ nhập" hoàn toàn cố định 100%, không bị nhảy số khi kéo thanh trượt chiến lược
-        const baseCalc = calculateEDM({ ...state, strategyLevel: 6 });
-        const baseRow = baseCalc.rows[0];
-
-        const base_toff = baseRow.ti * baseRow.Po;
-        const base_cycle = baseRow.ti + base_toff;
-        const base_freq_hz = Math.round(1000000 / base_cycle);
-        const base_u_arc = baseRow.Voltage === 'Low' ? 22 : 27;
-        const base_i_peak = baseRow.IP * 2.8;
-        const base_we_mj = (base_u_arc * base_i_peak * baseRow.ti) / 1000;
-        const base_sparkGap = (0.015 + 0.00035 * baseRow.ti * (baseRow.IP / 3) + (baseRow.Voltage === 'High' ? 0.004 : 0.001)).toFixed(3);
-
-        // 2. CHIẾN LƯỢC HÃNG HIỆN TẠI (THAY ĐỔI ĐỘNG THEO THANH TRƯỢT 11 CẤP ĐỘ)
+        // 1. CHIẾN LƯỢC HÃNG HIỆN TẠI (THAY ĐỔI ĐỘNG THEO THANH TRƯỢT 11 CẤP ĐỘ)
         const activeStrat = STRATEGY_CONFIGS[state.strategyLevel] || STRATEGY_CONFIGS[6];
         const activeStratName = activeStrat.shortName || activeStrat.name;
         const stdCalc = calculateEDM(state); // Đồng bộ theo thanh trượt
         const stdRow = stdCalc.rows[0];
 
-        // --- TÍNH TOÁN CÁC THÔNG SỐ VẬT LÝ CHẾ ĐỘ NHẬP ---
-        // 1. Chu kỳ 1 xung T và Thời gian nghỉ Toff
+        // 2. TÍNH TOÁN HIỆU NĂNG CHẾ ĐỘ NHẬP
+        const c_perf = getCustomEDMPerformance(c_ti, c_po, c_ip, c_volt, c_vf, c_wire, H, state.material, stdRow);
+
+        // Chu kỳ 1 xung T và Thời gian nghỉ Toff
         const c_toff = c_ti * c_po; // micro-seconds
         const c_cycle = c_ti + c_toff; // micro-seconds (Chu kỳ T)
         const c_cycle_ms = (c_cycle / 1000).toFixed(3); // ms
 
-        // 2. Tần số phát xung (Frequency - f)
+        // Tần số phát xung (Frequency - f)
         const c_freq_hz = Math.round(1000000 / c_cycle);
         const c_freq_khz = (c_freq_hz / 1000).toFixed(2);
 
-        // 3. Tỷ lệ mở van MOSFET (Duty Factor - η)
+        // Tỷ lệ mở van MOSFET (Duty Factor - η)
         const c_duty_factor = ((c_ti / c_cycle) * 100).toFixed(1);
 
-        // 4. Năng lượng 1 tia đơn We
+        // Năng lượng 1 tia đơn We
         const c_u_arc = c_volt === 'Low' ? 22 : 27;
         const c_i_peak = c_ip * 2.8; // Amperes
         const c_we_mj = ((c_u_arc * c_i_peak * c_ti) / 1000).toFixed(2); // mJ
         const c_we_score = c_ti * c_ip;
 
-        // 5. Công suất phát trung bình 1s Ptb và dòng Ampe
+        // Công suất phát trung bình 1s Ptb và dòng Ampe
         const c_power_watts = ((c_freq_hz * parseFloat(c_we_mj)) / 1000).toFixed(1); // Watts
         const c_power_score = Math.round(c_freq_hz * c_we_score);
         const c_i_tb = (c_i_peak * (parseFloat(c_duty_factor) / 100) * 0.75).toFixed(1);
 
-        // 6. Năng suất cắt Fc, Tốc độ tiến bàn Ft (So với baseline Cấp 6 cố định)
-        const f_ratio_base = c_freq_hz / base_freq_hz;
-        const we_ratio_base = parseFloat(c_we_mj) / base_we_mj;
-        const vf_factor_base = 1 + (c_vf - baseRow.VF) / 250;
-        const mrr_ratio_custom = f_ratio_base * Math.pow(we_ratio_base, 1.25) * vf_factor_base;
-
-        let c_speedArea = Math.round(baseRow.speedArea * mrr_ratio_custom);
-        if (c_ti > 70 && H < 60) c_speedArea = Math.round(c_speedArea * 0.88);
-        if (c_po < 4 && H > 80) c_speedArea = Math.round(c_speedArea * 0.85);
-
-        const c_feedRate = (c_speedArea / H).toFixed(2);
+        // Năng suất cắt Fc, Tốc độ tiến bàn Ft
+        const c_speedArea = c_perf.speedArea;
+        const c_feedRate = c_perf.feedRate;
         const c_time_min = L / parseFloat(c_feedRate);
 
-        // 7. Khe hở tia lửa δ và Sai số kích thước Δ
+        // Khe hở tia lửa δ và Sai số kích thước Δ
         const c_sparkGap = (0.015 + 0.00035 * c_ti * (c_ip / 3) + (c_volt === 'High' ? 0.004 : 0.001)).toFixed(3);
-        const gapDiff = Math.round((parseFloat(c_sparkGap) - parseFloat(base_sparkGap)) * 1000); // micron
+        const std_sparkGap = (0.015 + 0.00035 * stdRow.ti * (stdRow.IP / 3) + (stdRow.Voltage === 'High' ? 0.004 : 0.001)).toFixed(3);
+        
+        let gapDiff = Math.round((parseFloat(c_sparkGap) - parseFloat(std_sparkGap)) * 1000); // micron
+        if (Math.abs(gapDiff) <= 1) gapDiff = 0;
 
         // --- TÍNH TOÁN CÁC THÔNG SỐ CHIẾN LƯỢC HÃNG (CỘT 3 - THEO THANH TRƯỢT) ---
         const std_toff = stdRow.ti * stdRow.Po;
@@ -911,7 +958,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const std_power_score = Math.round(std_freq_hz * std_we_score);
         const std_feedRate = parseFloat(stdRow.feedRate).toFixed(2);
         const std_time_min = L / parseFloat(std_feedRate);
-        const std_sparkGap = (0.015 + 0.00035 * stdRow.ti * (stdRow.IP / 3) + (stdRow.Voltage === 'High' ? 0.004 : 0.001)).toFixed(3);
 
         function formatTimeMinSec(mins) {
             if (!isFinite(mins) || mins <= 0) return '0.0 phút';
@@ -924,20 +970,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const remM = Math.round(mins % 60);
                 return `${h} giờ ${remM} phút (~${mins.toFixed(0)}p)`;
             }
-        }
-
-        // Độ nhám Ra ước tính
-        let c_ra_min, c_ra_max;
-        if (c_we_score >= 280) {
-            c_ra_min = 4.2; c_ra_max = 5.5;
-        } else if (c_we_score >= 180) {
-            c_ra_min = 3.4; c_ra_max = 4.2;
-        } else if (c_we_score >= 100) {
-            c_ra_min = 2.6; c_ra_max = 3.4;
-        } else if (c_we_score >= 40) {
-            c_ra_min = 1.8; c_ra_max = 2.5;
-        } else {
-            c_ra_min = 0.8; c_ra_max = 1.6;
         }
 
         // Danh mục Tiêu chí (Khi ở chế độ Ẩn: chỉ hiển thị ký hiệu ngắn gọn, loại bỏ giải thích trong ngoặc)
@@ -957,6 +989,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const m_gap = isCompact ? 'δ' : 'Khe hở phóng điện thực tế (δ)';
         const m_diff = isCompact ? 'Sai số' : 'Sai số kích thước (Dung sai Δ)';
         const m_wire = isCompact ? 'An toàn' : 'Mức độ mòn & Nguy cơ đứt dây';
+
+        // Ghi chú We và Ra so sánh tương quan
+        const weNote = c_we_score > std_we_score ? ' ⚡ Tia to hơn' : (c_we_score < std_we_score ? ' 🔹 Tia nhỏ mịn hơn' : '');
+        const raNote = c_we_score < std_we_score ? ' (Mịn bóng hơn)' : (c_we_score > std_we_score ? ' (Rỗ thô hơn)' : '');
 
         // 1. RENDER BẢNG SO SÁNH (CHẾ ĐỘ NHẬP vs CHIẾN LƯỢC HÃNG)
         comparisonTableElement.innerHTML = `
@@ -995,7 +1031,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>${m_we}</strong></td>
-                    <td class="col-user"><strong>${c_we_score} đv</strong> (≈ <strong>${c_we_mj} mJ</strong> ${c_we_score > std_we_score ? '⚡ Tia to hơn' : '🔹 Tia nhỏ mịn hơn'})</td>
+                    <td class="col-user"><strong>${c_we_score} đv</strong> (≈ <strong>${c_we_mj} mJ</strong>${weNote})</td>
                     <td class="col-std"><strong>${std_we_score} đv</strong> (≈ <strong>${std_we_mj} mJ</strong>)</td>
                 </tr>
                 <tr>
@@ -1025,8 +1061,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>${m_ra}</strong></td>
-                    <td class="col-user">${c_ra_min} - ${c_ra_max} μm ${c_we_score < std_we_score ? '(Mịn bóng hơn)' : (c_we_score > std_we_score ? '(Rỗ thô hơn)' : '(Đều, mịn)')}</td>
-                    <td class="col-std">${stdRow.Ra} μm (Đều, mịn)</td>
+                    <td class="col-user">${c_perf.Ra}${c_perf.isExactMatch ? ' μm' : (c_perf.Ra.includes('μm') ? '' : ' μm')}${raNote}</td>
+                    <td class="col-std">${stdRow.Ra} μm</td>
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>${m_gap}</strong></td>
@@ -1035,36 +1071,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>${m_diff}</strong></td>
-                    <td class="col-user">${gapDiff > 4 ? `⚠️ LẸM (ÂM) ${gapDiff} μm` : (gapDiff < -4 ? `⚠️ DƯ DƯƠNG ${Math.abs(gapDiff)} μm` : `✅ Chuẩn xác ${stdRow.tolerance}`)}</td>
+                    <td class="col-user">${gapDiff > 1 ? `⚠️ LẸM (ÂM) ${gapDiff} μm` : (gapDiff < -1 ? `⚠️ DƯ DƯƠNG ${Math.abs(gapDiff)} μm` : `✅ Chuẩn xác ${stdRow.tolerance}`)}</td>
                     <td class="col-std">✅ Chuẩn xác ${stdRow.tolerance}</td>
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>${m_wire}</strong></td>
-                    <td class="col-user">${c_ti > 55 ? '🔴 DÂY MÒN RẤT NHANH' : (c_toff < 100 ? '⚠️ NGHẸT XỈ' : '🟢 An toàn, dây bền')}</td>
+                    <td class="col-user">${c_perf.isExactMatch ? '🟢 DÂY BỀN, TUỔI THỌ CAO' : (c_ti > 55 ? '🔴 DÂY MÒN RẤT NHANH' : (c_toff < 100 ? '⚠️ NGHẸT XỈ' : '🟢 An toàn, dây bền'))}</td>
                     <td class="col-std">🟢 DÂY BỀN, TUỔI THỌ CAO</td>
                 </tr>
             </tbody>
         `;
 
         // Render feedback nhận xét chuyên gia
-        let feedbackHTML = `<span class="feedback-alert feedback-warn">🔍 ĐÁNH GIÁ KỸ THUẬT CHI TIẾT TỪ CHUYÊN GIA EDM:</span>`;
-        feedbackHTML += `<ul style="padding-left:18px;margin-top:6px;">`;
-
-        if (c_we_score < std_we_score) {
-            feedbackHTML += `<li><strong class="feedback-good">✨ Chế độ Bề Mặt Mịn / Ưu Tiên Phẳng (Cấp 5/11):</strong> Năng lượng 1 tia đơn nhỏ (${c_we_mj} mJ) giúp tạo miệng hố rỗ nông và khít, mang lại độ bóng cao (Ra ≈ ${c_ra_min} - ${c_ra_max} μm), giảm độ mòn dây Molypden tối đa.</li>`;
-        } else if (c_ti > 50 && H < 100) {
-            feedbackHTML += `<li><strong>Xung Ton=${c_ti}μs cao:</strong> Năng lượng tia đơn lớn (${c_we_mj} mJ) tạo hố ăn mòn sâu, làm bề mặt thô nhám (Ra ≈ ${c_ra_min} - ${c_ra_max} μm) và tăng tốc độ mòn dây.</li>`;
-        }
-
-        if (gapDiff > 4) {
-            feedbackHTML += `<li><strong>Cảnh báo sai lệch kích thước:</strong> Do khe hở tia lửa bị nở rộng thêm <strong>+${gapDiff} micron</strong>, nếu dùng Offset mặc định thì chi tiết sẽ bị <strong>LẸM PHÔI</strong>. Cần bù thêm Offset thành <strong>${(0.090 + parseFloat(c_sparkGap)).toFixed(3)} mm</strong>.</li>`;
-        } else if (gapDiff < -4) {
-            feedbackHTML += `<li><strong>Cảnh báo phôi dư dương:</strong> Do khe hở nhỏ hơn <strong>${Math.abs(gapDiff)} micron</strong>, phôi cắt ra sẽ hơi dày hơn kích thước danh định một chút (thích hợp để cạo sửa hoặc mài phẳng).</li>`;
+        let feedbackHTML = '';
+        if (c_perf.isExactMatch) {
+            feedbackHTML = `<div class="feedback-alert feedback-good" style="margin-bottom:0;">
+                ✅ <strong>ĐỒNG NHẤT TUYỆT ĐỐI:</strong> Bộ thông số bạn nhập trùng khớp hoàn toàn 100% với chiến lược <strong>${activeStrat.name}</strong>. Mọi chỉ số tốc độ bóc phôi (${c_speedArea} mm²/p), năng lượng tia, khe hở phóng điện và dung sai kích thước (${stdRow.tolerance}) đều đồng bộ hoàn hảo.
+            </div>`;
         } else {
-            feedbackHTML += `<li><strong class="feedback-good">Đánh giá chung:</strong> Bộ thông số bạn chọn rất cân đối, nằm an toàn trong dải gia công ổn định của máy.</li>`;
-        }
+            feedbackHTML = `<span class="feedback-alert feedback-warn">🔍 ĐÁNH GIÁ KỸ THUẬT SO SÁNH VỚI ${activeStratName.toUpperCase()}:</span>`;
+            feedbackHTML += `<ul style="padding-left:18px;margin-top:6px;">`;
 
-        feedbackHTML += `</ul>`;
+            if (c_we_score < std_we_score) {
+                feedbackHTML += `<li><strong class="feedback-good">✨ Ưu tiên độ mịn bề mặt:</strong> Năng lượng 1 tia đơn nhỏ (${c_we_mj} mJ) tạo miệng hố rỗ nông hơn, độ bóng cao hơn (${c_perf.Ra}), giảm độ mòn dây Molypden.</li>`;
+            } else if (c_we_score > std_we_score) {
+                feedbackHTML += `<li><strong>Năng lượng xung lớn:</strong> Năng lượng tia đơn (${c_we_mj} mJ) tạo hố ăn mòn sâu hơn, giúp bóc phôi nhanh hơn nhưng bề mặt thô hơn (${c_perf.Ra}).</li>`;
+            }
+
+            if (gapDiff > 1) {
+                feedbackHTML += `<li><strong>Cảnh báo sai lệch kích thước:</strong> Do khe hở tia lửa bị nở rộng thêm <strong>+${gapDiff} micron</strong> so với chế độ đang đối chiếu, nếu dùng Offset mặc định thì chi tiết sẽ bị <strong>LẸM PHÔI</strong>. Cần bù thêm Offset thành <strong>${(0.090 + parseFloat(c_sparkGap)).toFixed(3)} mm</strong>.</li>`;
+            } else if (gapDiff < -1) {
+                feedbackHTML += `<li><strong>Cảnh báo phôi dư dương:</strong> Do khe hở nhỏ hơn <strong>${Math.abs(gapDiff)} micron</strong>, phôi cắt ra sẽ hơi dày hơn một chút (thích hợp để cạo sửa hoặc mài phẳng).</li>`;
+            } else {
+                feedbackHTML += `<li><strong class="feedback-good">Đánh giá chung:</strong> Bộ thông số bạn chọn rất cân đối, nằm an toàn trong dải gia công ổn định của máy.</li>`;
+            }
+
+            feedbackHTML += `</ul>`;
+        }
         analysisFeedbackBox.innerHTML = feedbackHTML;
 
         // 2. RENDER BẢNG HIỆU CHỈNH THỰC TẾ XƯỞNG ĐỘC LẬP (WORKSHOP CALIBRATION ENGINE)
@@ -1399,7 +1442,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.9.7";
+    const CURRENT_VERSION = "2.9.8";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
