@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=2.9.9">
+    <link rel="stylesheet" href="style.css?v=3.0.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -237,11 +237,18 @@
                         </table>
                     </div>
 
-                    <!-- KHUNG NHẬP THỬ NGHIỆM THỦ CÔNG -->
+                    <!-- KHUNG NHẬP THỬ NGHIỆM & TÍNH TOÁN LÝ THUYẾT -->
                     <div class="custom-input-box" id="custom-test-panel">
                         <div class="custom-box-header">
-                            <span>🛠️ <strong>Thử nghiệm Chế độ Riêng của bạn &amp; So Sánh:</strong></span>
-                            <span class="custom-box-hint">(Nhập thông số tùy ý bên dưới rồi bấm nút Phân Tích)</span>
+                            <div class="custom-mode-switch-group">
+                                <button type="button" class="btn-mode-tab active" id="btn-mode-custom">
+                                    🛠️ Nhập Chế độ Riêng
+                                </button>
+                                <button type="button" class="btn-mode-tab" id="btn-mode-theory">
+                                    📐 TT Lý thuyết
+                                </button>
+                            </div>
+                            <span class="custom-box-hint" id="custom-mode-hint">(Nhập thông số tùy ý bên dưới rồi bấm nút Phân Tích)</span>
                         </div>
                         <div class="custom-fields-grid">
                             <div class="field-item">
@@ -284,7 +291,7 @@
                     <!-- BẢNG SO SÁNH PHÂN TÍCH (MẶC ĐỊNH HIỂN THỊ) -->
                     <div class="analysis-section" id="analysis-container">
                         <div class="analysis-header-row">
-                            <h3 class="analysis-title">📊 BẢNG SO SÁNH: Chế độ nhập vs Chiến lược Hãng</h3>
+                            <h3 class="analysis-title" id="analysis-table-title">📊 BẢNG SO SÁNH: Chế độ nhập vs Chiến lược Hãng</h3>
                             <button type="button" class="btn-toggle-compact" id="btn-toggle-compact" title="Bấm để chuyển đổi giữa Ký hiệu viết tắt và Tên đầy đủ">
                                 <span id="compact-icon">↔️</span>
                                 <span id="compact-text">Ký hiệu viết tắt: <strong>BẬT</strong></span>
@@ -665,7 +672,7 @@
         <footer class="app-footer">
             <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
             <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">
-                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v2.9.9 (Mô Hình Vật Lý Động Học Thống Nhất &amp; Ampe Kế Động)</strong> &bull; 
+                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.0.0 (Hệ Thống Tính Toán Lý Thuyết tailieu.txt &amp; So Sánh 2 Chế Độ)</strong> &bull; 
                 <a href="javascript:void(0)" id="link-force-update" style="color: var(--accent-amber); text-decoration: underline;">🔄 Cưỡng bức làm mới dữ liệu</a>
             </p>
         </footer>
@@ -702,6 +709,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=2.9.9"></script>
+    <script src="app.js?v=3.0.0"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 {
-  "version": "2.9.9",
-  "buildTime": 1787586000000,
-  "description": "Unified EDM physics calculation engine across all modes and fully dynamic ammeter current (Itb) calculation."
+  "version": "3.0.0",
+  "buildTime": 1787590000000,
+  "description": "Added Theoretical EDM Calculation System from tailieu.txt and dual-mode comparison switcher (TT Lý thuyết vs Nhập Chế độ Riêng)."
 }

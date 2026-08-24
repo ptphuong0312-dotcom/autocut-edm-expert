@@ -1,4 +1,4 @@
-const CACHE_NAME = 'autocut-edm-v2.9.9';
+const CACHE_NAME = 'autocut-edm-v3.0.0';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -6,6 +6,7 @@ const ASSETS_TO_CACHE = [
   './app.js',
   './version.json',
   './manifest.json',
+  './tailieu.txt',
   './PROJECT_RULES.md',
   './AGENTS.md',
   'https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap'

@@ -952,12 +952,56 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
     font-size: 13px;
     color: var(--accent-cyan);
     margin-bottom: 10px;
     border-bottom: 1px solid rgba(35, 51, 84, 0.6);
-    padding-bottom: 6px;
+    padding-bottom: 8px;
+}
+
+.custom-mode-switch-group {
+    display: inline-flex;
+    background: rgba(10, 16, 30, 0.95);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: var(--radius-sm);
+    padding: 3px;
+    gap: 3px;
+}
+
+.btn-mode-tab {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-family: var(--font-heading);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-mode-tab:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.btn-mode-tab.active#btn-mode-custom {
+    background: var(--accent-cyan);
+    color: #000;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.35);
+}
+
+.btn-mode-tab.active#btn-mode-theory {
+    background: var(--accent-amber);
+    color: #000;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.35);
 }
 
 .custom-box-hint {
