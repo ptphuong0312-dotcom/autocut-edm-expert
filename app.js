@@ -665,17 +665,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const std_i_tb = (std_i_peak * (parseFloat(std_duty_factor) / 100) * 0.75).toFixed(1);
 
         // 6. Tốc độ cắt diện tích Fc và Tốc độ tiến bàn Ft
-        const c_energy_factor = (c_ti * c_ip) / c_cycle;
-        const std_energy_factor = (stdRow.ti * stdRow.IP) / std_cycle;
-        const ratio = c_energy_factor / std_energy_factor;
+        // Vật lý bóc phôi EDM: MRR ∝ f × (We^1.25) do hiệu ứng nổ bốc hơi kim loại tăng phi tuyến theo xung
+        const f_ratio = c_freq_hz / std_freq_hz;
+        const we_ratio = parseFloat(c_we_mj) / parseFloat(std_we_mj);
+        const vf_factor = 1 + (c_vf - stdRow.VF) / 250;
+        
+        const mrr_ratio = f_ratio * Math.pow(we_ratio, 1.25) * vf_factor;
 
-        let c_speedArea = Math.round(stdRow.speedArea * ratio);
-        if (c_ti > 60 && H < 100) {
+        let c_speedArea = Math.round(stdRow.speedArea * mrr_ratio);
+        
+        // Cân chỉnh giới hạn thoát xỉ khi Toff quá ngắn hoặc xung quá dài trên phôi mỏng
+        if (c_ti > 70 && H < 60) {
             c_speedArea = Math.round(c_speedArea * 0.88);
         }
-        if (c_po > 15) {
-            c_speedArea = Math.round(c_speedArea * 0.92);
+        if (c_po < 4 && H > 80) {
+            c_speedArea = Math.round(c_speedArea * 0.85); // Nghẹt xỉ
         }
+        
         const c_feedRate = (c_speedArea / H).toFixed(2);
         const std_feedRate = parseFloat(stdRow.feedRate).toFixed(2);
 
@@ -924,7 +930,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.8.1";
+    const CURRENT_VERSION = "2.8.2";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
