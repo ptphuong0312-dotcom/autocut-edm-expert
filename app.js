@@ -640,10 +640,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const std_duty_factor = ((stdRow.ti / std_cycle) * 100).toFixed(1);
 
         // 4. NĂNG LƯỢNG 1 TIA ĐƠN (We ∝ Ton × IP)
-        // Điện áp hồ quang phóng điện thực tế (U_arc: 28V với High, 22V với Low)
+        // Điện áp hồ quang phóng điện thực tế (U_arc: 27V với High, 22V với Low)
         // Dòng đỉnh thực tế I_peak ≈ IP × 2.8A
-        const c_u_arc = c_volt === 'Low' ? 22 : 28;
-        const std_u_arc = stdRow.Voltage === 'Low' ? 22 : 28;
+        const c_u_arc = c_volt === 'Low' ? 22 : 27;
+        const std_u_arc = stdRow.Voltage === 'Low' ? 22 : 27;
         const c_i_peak = c_ip * 2.8; // Amperes
         const std_i_peak = stdRow.IP * 2.8;
 
@@ -930,7 +930,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.8.2";
+    const CURRENT_VERSION = "2.8.3";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
