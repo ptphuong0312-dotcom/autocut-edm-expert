@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=2.8.4">
+    <link rel="stylesheet" href="style.css?v=2.9.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -281,8 +281,8 @@
                         </button>
                     </div>
 
-                    <!-- BẢNG SO SÁNH PHÂN TÍCH -->
-                    <div class="analysis-section" id="analysis-container" style="display:none;">
+                    <!-- BẢNG SO SÁNH PHÂN TÍCH (MẶC ĐỊNH HIỂN THỊ) -->
+                    <div class="analysis-section" id="analysis-container">
                         <h3 class="analysis-title">📊 BẢNG SO SÁNH TRỰC TIẾP: CHẾ ĐỘ BẠN NHẬP vs CHUẨN HÃNG</h3>
                         <div class="mobile-scroll-hint">👉 Vuốt ngang bảng so sánh để xem đầy đủ 👈</div>
                         <div class="table-responsive">
@@ -292,6 +292,18 @@
                         </div>
                         <div class="analysis-feedback-card" id="analysis-feedback-box">
                             <!-- Injected by JavaScript -->
+                        </div>
+
+                        <!-- KHUNG BÀI GIẢNG CHI TIẾT CÔNG THỨC (CÓ THỂ ẨN / HIỆN) -->
+                        <div class="lecture-box-wrapper">
+                            <button type="button" class="btn-lecture-toggle" id="btn-toggle-lecture">
+                                <span class="lecture-toggle-icon">📖</span>
+                                <span class="lecture-toggle-text">BÀI GIẢNG: Xem Chi Tiết Công Thức &amp; Từng Bước Tính Toán [Bấm để Ẩn/Hiện]</span>
+                                <span class="lecture-toggle-arrow">▼</span>
+                            </button>
+                            <div class="lecture-content-card" id="lecture-content" style="display: none;">
+                                <!-- Injected dynamically by JavaScript with live calculation steps -->
+                            </div>
                         </div>
                     </div>
 
@@ -628,7 +640,7 @@
         <footer class="app-footer">
             <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
             <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">
-                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v2.8.4 (Khớp Tuyệt Đối Thực Nghiệm Xưởng)</strong> &bull; 
+                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v2.9.0 (Bài Giảng Tính Toán &amp; Bảng So Sánh Mặc Định)</strong> &bull; 
                 <a href="javascript:void(0)" id="link-force-update" style="color: var(--accent-amber); text-decoration: underline;">🔄 Cưỡng bức làm mới dữ liệu</a>
             </p>
         </footer>
@@ -665,6 +677,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=2.8.4"></script>
+    <script src="app.js?v=2.9.0"></script>
 </body>
 </html>

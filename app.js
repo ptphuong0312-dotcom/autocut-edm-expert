@@ -66,6 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const analysisContainer = document.getElementById('analysis-container');
     const comparisonTableElement = document.getElementById('comparison-table-element');
     const analysisFeedbackBox = document.getElementById('analysis-feedback-box');
+    const btnToggleLecture = document.getElementById('btn-toggle-lecture');
+    const lectureContent = document.getElementById('lecture-content');
 
     // ==========================================
     // 1. TAB SWITCHING
@@ -201,10 +203,30 @@ document.addEventListener('DOMContentLoaded', () => {
         copyTableToClipboard();
     });
 
-    // Custom Analysis Button
+    // Custom Analysis Button & Real-time Custom Inputs
     btnAnalyzeCustom.addEventListener('click', () => {
-        runCustomAnalysis();
+        runCustomAnalysis(true);
     });
+
+    [customTiInput, customPoInput, customIpInput, customVoltInput, customVfInput, customWireInput].forEach(inp => {
+        if (inp) {
+            inp.addEventListener('input', () => {
+                runCustomAnalysis(false);
+            });
+            inp.addEventListener('change', () => {
+                runCustomAnalysis(false);
+            });
+        }
+    });
+
+    // Toggle Khung Bài Giảng Chi Tiết Công Thức
+    if (btnToggleLecture && lectureContent) {
+        btnToggleLecture.addEventListener('click', () => {
+            const isHidden = lectureContent.style.display === 'none' || lectureContent.style.display === '';
+            lectureContent.style.display = isHidden ? 'block' : 'none';
+            btnToggleLecture.classList.toggle('active', isHidden);
+        });
+    }
 
     // ==========================================
     // 3. CALCULATION ENGINE (PHYSICS & RULES)
@@ -603,12 +625,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 4. CUSTOM ANALYSIS ENGINE (SO SÁNH CHI TIẾT)
+    // 4. CUSTOM ANALYSIS ENGINE & BÀI GIẢNG CHI TIẾT
     // ==========================================
 
-    function runCustomAnalysis() {
-        const c_ti = parseInt(customTiInput.value, 10) || 70;
-        const c_po = parseInt(customPoInput.value, 10) || 7;
+    // Tự động điền Chế độ Bề mặt Mịn tương ứng làm mặc định cho ô nhập riêng
+    function populateSmoothCustomDefaults() {
+        const smoothCalc = calculateEDM({ ...state, strategyLevel: 3 }); // Mức 3: Siêu Mịn / Bề mặt bóng
+        const smoothRow = smoothCalc.rows[0];
+        if (smoothRow) {
+            customTiInput.value = smoothRow.ti;
+            customPoInput.value = smoothRow.Po;
+            customIpInput.value = smoothRow.IP;
+            customVoltInput.value = smoothRow.Voltage;
+            customVfInput.value = smoothRow.VF;
+            customWireInput.value = smoothRow.Wire;
+        }
+    }
+
+    function runCustomAnalysis(shouldScroll = false) {
+        const c_ti = parseInt(customTiInput.value, 10) || 24;
+        const c_po = parseInt(customPoInput.value, 10) || 8;
         const c_ip = parseInt(customIpInput.value, 10) || 4;
         const c_volt = customVoltInput.value;
         const c_vf = parseInt(customVfInput.value, 10) || 55;
@@ -616,7 +652,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const H = state.thickness;
         const L = state.cutLength || 100;
-        const stdCalc = calculateEDM({ ...state, strategyLevel: 6 });
+        const stdCalc = calculateEDM({ ...state, strategyLevel: 6 }); // Chuẩn Hãng
         const stdRow = stdCalc.rows[0];
 
         // 1. Chu kỳ 1 xung T và Thời gian nghỉ Toff
@@ -726,7 +762,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <thead>
                 <tr>
                     <th class="col-metric">Tiêu chí Công nghệ</th>
-                    <th class="col-user">Chế độ bạn nhập (Custom)</th>
+                    <th class="col-user">Chế độ bạn nhập (Mặc định: Bề mặt Mịn)</th>
                     <th class="col-std">Chế độ chuẩn Hãng (Standard)</th>
                 </tr>
             </thead>
@@ -763,7 +799,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>NĂNG LƯỢNG 1 TIA ĐƠN (We ∝ Ton × IP)</strong></td>
-                    <td class="col-user"><strong>${c_we_score} đv</strong> (≈ <strong>${c_we_mj} mJ</strong> ${c_we_score > std_we_score ? '⚡ Tia to hơn' : '🔹 Tia nhỏ hơn'})</td>
+                    <td class="col-user"><strong>${c_we_score} đv</strong> (≈ <strong>${c_we_mj} mJ</strong> ${c_we_score > std_we_score ? '⚡ Tia to hơn' : '🔹 Tia nhỏ mịn hơn'})</td>
                     <td class="col-std"><strong>${std_we_score} đv</strong> (≈ <strong>${std_we_mj} mJ</strong> - Tia vừa chuẩn)</td>
                 </tr>
                 <tr>
@@ -793,7 +829,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>Độ nhám bề mặt ước tính (Ra)</strong></td>
-                    <td class="col-user">${c_ra_min} - ${c_ra_max} μm ${c_we_score > std_we_score ? '(Rỗ thô hơn)' : ''}</td>
+                    <td class="col-user">${c_ra_min} - ${c_ra_max} μm ${c_we_score < std_we_score ? '(Mịn bóng hơn)' : (c_we_score > std_we_score ? '(Rỗ thô hơn)' : '(Đều, mịn)')}</td>
                     <td class="col-std">${stdRow.Ra} μm (Đều, mịn)</td>
                 </tr>
                 <tr>
@@ -808,7 +844,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>Mức độ mòn &amp; Nguy cơ đứt dây</strong></td>
-                    <td class="col-user">${c_ti > 55 ? '🔴 DÂY MÒN RẤT NHANH, DỄ THẮT EO ĐỨT' : (c_toff < 100 ? '⚠️ NGHẸT XỈ, DỄ ĐOẢN MẠCH' : '🟢 An toàn')}</td>
+                    <td class="col-user">${c_ti > 55 ? '🔴 DÂY MÒN RẤT NHANH, DỄ THẮT EO ĐỨT' : (c_toff < 100 ? '⚠️ NGHẸT XỈ, DỄ ĐOẢN MẠCH' : '🟢 Rất an toàn, dây bền lâu')}</td>
                     <td class="col-std">🟢 DÂY BỀN, TUỔI THỌ CAO</td>
                 </tr>
             </tbody>
@@ -818,32 +854,191 @@ document.addEventListener('DOMContentLoaded', () => {
         let feedbackHTML = `<span class="feedback-alert feedback-warn">🔍 ĐÁNH GIÁ KỸ THUẬT CHI TIẾT TỪ CHUYÊN GIA EDM:</span>`;
         feedbackHTML += `<ul style="padding-left:18px;margin-top:6px;">`;
 
-        if (c_ti > 50 && H < 100) {
-            feedbackHTML += `<li><strong>Xung Ton=${c_ti}μs quá cao cho phôi H=${H}mm:</strong> Năng lượng tia đơn lớn (${c_we_mj} mJ) tạo hố ăn mòn sâu, làm bề mặt thô nhám (Ra ≈ ${c_ra_min} - ${c_ra_max} μm) và tăng tốc độ mòn dây Molypden.</li>`;
-        }
-
-        if (c_toff > 300) {
-            feedbackHTML += `<li><strong>Thời gian nghỉ Toff=${c_toff}μs quá dài:</strong> Chu kỳ T kéo dài lên ${c_cycle}μs (${c_cycle_ms}ms), làm tần số xung giảm còn <strong>${c_freq_khz} kHz (${c_freq_hz.toLocaleString()} xung/s)</strong> → Mật độ tia lửa thưa khiến thời gian gia công tăng lên thành <strong>${formatTimeMinSec(c_time_min)}</strong>.</li>`;
+        if (c_we_score < std_we_score) {
+            feedbackHTML += `<li><strong class="feedback-good">✨ Chế độ bề mặt mịn ưu tiên chất lượng:</strong> Năng lượng 1 tia đơn nhỏ (${c_we_mj} mJ) giúp tạo miệng hố rỗ nông và khít, mang lại độ bóng cao (Ra ≈ ${c_ra_min} - ${c_ra_max} μm), giảm độ mòn dây Molypden tối đa.</li>`;
+        } else if (c_ti > 50 && H < 100) {
+            feedbackHTML += `<li><strong>Xung Ton=${c_ti}μs cao:</strong> Năng lượng tia đơn lớn (${c_we_mj} mJ) tạo hố ăn mòn sâu, làm bề mặt thô nhám (Ra ≈ ${c_ra_min} - ${c_ra_max} μm) và tăng tốc độ mòn dây.</li>`;
         }
 
         if (gapDiff > 4) {
-            feedbackHTML += `<li><strong>Cảnh báo sai lệch kích thước:</strong> Do khe hở tia lửa bị nở rộng thêm <strong>+${gapDiff} micron</strong>, nếu bạn dùng Offset mặc định thì chi tiết cắt ra sẽ bị <strong>LẸM PHÔI</strong>. Nếu muốn dùng chế độ này, bạn cần bù thêm Offset thành <strong>${(0.090 + parseFloat(c_sparkGap)).toFixed(3)} mm</strong>.</li>`;
-        }
-
-        if (c_ti <= stdRow.ti + 8 && c_po <= stdRow.Po + 1) {
-            feedbackHTML += `<li><strong class="feedback-good">Đánh giá chung:</strong> Bộ thông số bạn nhập tương đối hợp lý và nằm gần vùng làm việc an toàn của máy.</li>`;
+            feedbackHTML += `<li><strong>Cảnh báo sai lệch kích thước:</strong> Do khe hở tia lửa bị nở rộng thêm <strong>+${gapDiff} micron</strong>, nếu dùng Offset mặc định thì chi tiết sẽ bị <strong>LẸM PHÔI</strong>. Cần bù thêm Offset thành <strong>${(0.090 + parseFloat(c_sparkGap)).toFixed(3)} mm</strong>.</li>`;
+        } else if (gapDiff < -4) {
+            feedbackHTML += `<li><strong>Cảnh báo phôi dư dương:</strong> Do khe hở nhỏ hơn <strong>${Math.abs(gapDiff)} micron</strong>, phôi cắt ra sẽ hơi dày hơn kích thước danh định một chút (thích hợp để cạo sửa hoặc mài phẳng).</li>`;
         } else {
-            const timeDiffMin = c_time_min - std_time_min;
-            const timeCompText = timeDiffMin > 0 ? `nhanh hơn khoảng ${formatTimeMinSec(timeDiffMin)}` : `ổn định và bảo vệ dây tốt hơn`;
-            feedbackHTML += `<li><strong class="feedback-danger">Lời khuyên:</strong> Đối với vật liệu ${state.material} dày ${H}mm, bạn nên áp dụng <strong>Ton=${stdRow.ti}μs, Toff=${stdRow.Po}, IP=${stdRow.IP}</strong> để đạt tần số tối ưu (${std_freq_khz} kHz), tiết kiệm thời gian cắt (${timeCompText}) và tăng tuổi thọ dây Molypden.</li>`;
+            feedbackHTML += `<li><strong class="feedback-good">Đánh giá chung:</strong> Bộ thông số bạn chọn rất cân đối, nằm an toàn trong dải gia công ổn định của máy.</li>`;
         }
 
         feedbackHTML += `</ul>`;
         analysisFeedbackBox.innerHTML = feedbackHTML;
 
-        // Hiển thị khung so sánh
+        // RENDER BÀI GIẢNG CHI TIẾT TỪNG BƯỚC TÍNH TOÁN
+        if (lectureContent) {
+            lectureContent.innerHTML = `
+                <div class="lecture-header">
+                    <h4>🎓 BÀI GIẢNG: HỆ THỐNG CÔNG THỨC &amp; TỪNG BƯỚC TÍNH TOÁN VẬT LÝ EDM</h4>
+                    <p>Trình bày chi tiết toàn bộ các bước tính toán, bản chất vật lý và phép thế số thực tế giữa 2 chế độ đang hiển thị trong bảng so sánh:</p>
+                </div>
+
+                <!-- BƯỚC 1: TOFF & CHU KỲ T -->
+                <div class="lecture-step">
+                    <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 1</span> Thời gian nghỉ xả xỉ (Toff) &amp; Tổng chu kỳ 1 xung (T)</div>
+                    <p><strong>Bản chất:</strong> $Ton$ là thời gian mở van MOSFET. $Toff$ là thời gian ngắt điện để dung dịch khử ion và cuốn trôi mạt xỉ kim loại.</p>
+                    <div class="lecture-formula-box">
+                        • Toff (thực tế) = Ton × Toff(hệ số) (μs)<br>
+                        • Tổng chu kỳ: T = Ton + Toff = Ton × (1 + Toff(hệ số)) (μs)
+                    </div>
+                    <div class="lecture-calc-grid">
+                        <div class="lecture-calc-col custom-col">
+                            <strong>Chế độ bạn nhập:</strong><br>
+                            • Toff = ${c_ti} × ${c_po} = <strong>${c_toff} μs</strong><br>
+                            • Chu kỳ T = ${c_ti} + ${c_toff} = <strong>${c_cycle} μs</strong> (${c_cycle_ms} ms)
+                        </div>
+                        <div class="lecture-calc-col std-col">
+                            <strong>Chế độ Chuẩn Hãng:</strong><br>
+                            • Toff = ${stdRow.ti} × ${stdRow.Po} = <strong>${std_toff} μs</strong><br>
+                            • Chu kỳ T = ${stdRow.ti} + ${std_toff} = <strong>${std_cycle} μs</strong> (${std_cycle_ms} ms)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BƯỚC 2: TẦN SỐ PHÁT XUNG f -->
+                <div class="lecture-step">
+                    <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 2</span> Tần số phát xung cao tần (Frequency - f)</div>
+                    <p><strong>Ý nghĩa:</strong> Số lượng hạt tia lửa điện bộc phát qua khe hở cắt trong thời gian 1 giây.</p>
+                    <div class="lecture-formula-box">
+                        f = 10⁶ / T(μs) [Hz] = 1000 / T(μs) [kHz]
+                    </div>
+                    <div class="lecture-calc-grid">
+                        <div class="lecture-calc-col custom-col">
+                            <strong>Chế độ bạn nhập:</strong><br>
+                            f = 10⁶ / ${c_cycle} = <strong>${c_freq_khz} kHz</strong> (${c_freq_hz.toLocaleString()} tia/giây)
+                        </div>
+                        <div class="lecture-calc-col std-col">
+                            <strong>Chế độ Chuẩn Hãng:</strong><br>
+                            f = 10⁶ / ${std_cycle} = <strong>${std_freq_khz} kHz</strong> (${std_freq_hz.toLocaleString()} tia/giây)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BƯỚC 3: HỆ SỐ MỞ VAN MOSFET η -->
+                <div class="lecture-step">
+                    <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 3</span> Tỷ lệ mở van MOSFET (Duty Factor - η)</div>
+                    <p><strong>Bản chất:</strong> Tỷ lệ phần trăm thời gian van công suất dẫn dòng điện thực tế trong 1 chu kỳ.</p>
+                    <div class="lecture-formula-box">
+                        η = (Ton / T) × 100% = [1 / (1 + Toff(hệ số))] × 100%
+                    </div>
+                    <div class="lecture-calc-grid">
+                        <div class="lecture-calc-col custom-col">
+                            <strong>Chế độ bạn nhập:</strong><br>
+                            η = (${c_ti} / ${c_cycle}) × 100% = <strong>${c_duty_factor}%</strong> (1 mở : ${c_po} nghỉ)
+                        </div>
+                        <div class="lecture-calc-col std-col">
+                            <strong>Chế độ Chuẩn Hãng:</strong><br>
+                            η = (${stdRow.ti} / ${std_cycle}) × 100% = <strong>${std_duty_factor}%</strong> (1 mở : ${stdRow.Po} nghỉ)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BƯỚC 4: NĂNG LƯỢNG 1 TIA ĐƠN We -->
+                <div class="lecture-step">
+                    <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 4</span> Năng lượng 1 tia lửa đơn (Single Spark Energy - We)</div>
+                    <p><strong>Bản chất:</strong> Năng lượng nhiệt Joule giải phóng trong 1 xung hồ quang ngắn để làm nóng chảy kim loại phôi.</p>
+                    <div class="lecture-formula-box">
+                        • We = (Uarc × Ipeak × Ton) / 1000 (mJ)<br>
+                        • Trong đó: Uarc = 27V (High) / 22V (Low); Ipeak = IP × 2.8A (mỗi kênh MOSFET)
+                    </div>
+                    <div class="lecture-calc-grid">
+                        <div class="lecture-calc-col custom-col">
+                            <strong>Chế độ bạn nhập:</strong><br>
+                            • Ipeak = ${c_ip} × 2.8A = ${c_i_peak} A<br>
+                            • We = (${c_u_arc}V × ${c_i_peak}A × ${c_ti}μs) / 1000 = <strong>${c_we_mj} mJ</strong> (Điểm: ${c_we_score} đv)
+                        </div>
+                        <div class="lecture-calc-col std-col">
+                            <strong>Chế độ Chuẩn Hãng:</strong><br>
+                            • Ipeak = ${stdRow.IP} × 2.8A = ${std_i_peak} A<br>
+                            • We = (${std_u_arc}V × ${std_i_peak}A × ${stdRow.ti}μs) / 1000 = <strong>${std_we_mj} mJ</strong> (Điểm: ${std_we_score} đv)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BƯỚC 5: CÔNG SUẤT ĐIỆN PHÁT TRONG 1S Ptb -->
+                <div class="lecture-step">
+                    <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 5</span> Năng lượng phát trong 1s (Công suất trung bình Ptb) &amp; Dòng Ampe</div>
+                    <p><strong>Bản chất:</strong> Tổng năng lượng điện phát ra trên rãnh cắt mỗi giây và dòng điện trung bình chỉ thị trên kim đồng hồ cơ.</p>
+                    <div class="lecture-formula-box">
+                        • Công suất: Ptb = f(Hz) × [We(mJ) / 1000] = η × Uarc × Ipeak (Watts = J/s)<br>
+                        • Dòng Ampe kế: Itb = Ipeak × η × k(phóng) (≈ 3.8 - 4.2A với tủ lớn; ≈ 1.3 - 1.5A với tủ nhỏ)
+                    </div>
+                    <div class="lecture-calc-grid">
+                        <div class="lecture-calc-col custom-col">
+                            <strong>Chế độ bạn nhập:</strong><br>
+                            • Công suất Ptb = ${c_freq_hz} × (${c_we_mj}/1000) = <strong>${c_power_watts} W</strong><br>
+                            • Đồng hồ Ampe cơ: <strong>≈ 3.8 - 4.2 A</strong>
+                        </div>
+                        <div class="lecture-calc-col std-col">
+                            <strong>Chế độ Chuẩn Hãng:</strong><br>
+                            • Công suất Ptb = ${std_freq_hz} × (${std_we_mj}/1000) = <strong>${std_power_watts} W</strong><br>
+                            • Đồng hồ Ampe cơ: <strong>≈ 3.8 - 4.2 A</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BƯỚC 6: TỐC ĐỘ CẮT DIỆN TÍCH Fc & TỐC ĐỘ TIẾN BÀN Ft -->
+                <div class="lecture-step">
+                    <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 6</span> Tốc độ cắt diện tích (Fc), Tốc độ tiến bàn (Ft) &amp; Thời gian cắt</div>
+                    <p><strong>Quy luật bóc phôi phi tuyến:</strong> Thể tích bóc phôi tăng theo hàm năng lượng nổ bốc hơi MRR ∝ f × (We)¹·²⁵.</p>
+                    <div class="lecture-formula-box">
+                        • Fc = Fc(std) × [(f / f_std) × (We / We_std)¹·²⁵] × K(VF) (mm²/phút)<br>
+                        • Tốc độ tiến bàn: Ft = Fc / H (mm/phút)<br>
+                        • Thời gian cắt chi tiết: t(cắt) = L / Ft (phút)
+                    </div>
+                    <div class="lecture-calc-grid">
+                        <div class="lecture-calc-col custom-col">
+                            <strong>Chế độ bạn nhập:</strong><br>
+                            • Tốc độ diện tích: Fc = <strong>${c_speedArea} mm²/p</strong><br>
+                            • Tốc độ tiến bàn (H=${H}mm): Ft = ${c_speedArea}/${H} = <strong>${c_feedRate} mm/p</strong><br>
+                            • Thời gian (L=${L}mm): t = ${L}/${c_feedRate} = <strong>${formatTimeMinSec(c_time_min)}</strong>
+                        </div>
+                        <div class="lecture-calc-col std-col">
+                            <strong>Chế độ Chuẩn Hãng:</strong><br>
+                            • Tốc độ diện tích: Fc = <strong>${stdRow.speedArea} mm²/p</strong><br>
+                            • Tốc độ tiến bàn (H=${H}mm): Ft = ${stdRow.speedArea}/${H} = <strong>${std_feedRate} mm/p</strong><br>
+                            • Thời gian (L=${L}mm): t = ${L}/${std_feedRate} = <strong>${formatTimeMinSec(std_time_min)}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BƯỚC 7: KHE HỞ PHÓNG ĐIỆN δ & BÙ DAO OFFSET -->
+                <div class="lecture-step">
+                    <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 7</span> Khe hở phóng tia lửa (δ) &amp; Sai số kích thước bù dao Offset</div>
+                    <p><strong>Nguyên lý:</strong> Khe hở tia lửa δ quyết định giá trị bù bán kính dây Offset = Rdây + δ (với dây Φ0.18mm → Rdây = 0.090mm).</p>
+                    <div class="lecture-formula-box">
+                        • Khe hở tia lửa: δ = 0.015 + 0.00035 × Ton × (IP / 3) + ΔU (mm)<br>
+                        • Sai lệch biên dạng: Δ = δ(thực) - δ(chuẩn) (micron)
+                    </div>
+                    <div class="lecture-calc-grid">
+                        <div class="lecture-calc-col custom-col">
+                            <strong>Chế độ bạn nhập:</strong><br>
+                            • Khe hở: δ ≈ <strong>${c_sparkGap} mm</strong><br>
+                            • Đánh giá sai số: <strong>${gapDiff > 4 ? `Lẹm âm -${gapDiff} μm (-${(gapDiff/1000).toFixed(3)}mm)` : (gapDiff < -4 ? `Dư dương +${Math.abs(gapDiff)} μm` : 'Chuẩn xác ±0.005mm')}</strong><br>
+                            • Độ nhám bề mặt: <strong>Ra ≈ ${c_ra_min} - ${c_ra_max} μm</strong>
+                        </div>
+                        <div class="lecture-calc-col std-col">
+                            <strong>Chế độ Chuẩn Hãng:</strong><br>
+                            • Khe hở: δ ≈ <strong>${std_sparkGap} mm</strong><br>
+                            • Đánh giá sai số: <strong>✅ Chuẩn xác ±0.005 mm</strong><br>
+                            • Độ nhám bề mặt: <strong>Ra ≈ ${stdRow.Ra} μm (Đều, mịn)</strong>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Luôn hiển thị khung so sánh mặc định
         analysisContainer.style.display = 'block';
-        analysisContainer.scrollIntoView({ behavior: 'smooth' });
+        if (shouldScroll) {
+            analysisContainer.scrollIntoView({ behavior: 'smooth' });
+        }
     }
 
     // ==========================================
@@ -895,6 +1090,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const mins = Math.round(totalMinutes % 60);
             totalTimeText.textContent = `${hrs} giờ ${mins} phút (~${totalMinutes.toFixed(0)}p)`;
         }
+
+        // Tự động nạp chế độ bề mặt mịn tương ứng vào ô nhập riêng & Chạy phân tích so sánh mặc định
+        populateSmoothCustomDefaults();
+        runCustomAnalysis(false);
     }
 
     // ==========================================
@@ -930,7 +1129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.8.4";
+    const CURRENT_VERSION = "2.9.0";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
