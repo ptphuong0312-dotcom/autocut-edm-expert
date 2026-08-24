@@ -1,5 +1,5 @@
 {
-  "version": "2.9.8",
-  "buildTime": 1787584800000,
-  "description": "100% exact match consistency between Custom Input parameters and Standard Strategy parameters in comparison table."
+  "version": "2.9.9",
+  "buildTime": 1787586000000,
+  "description": "Unified EDM physics calculation engine across all modes and fully dynamic ammeter current (Itb) calculation."
 }
