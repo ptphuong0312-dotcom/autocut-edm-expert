@@ -7,17 +7,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     // 11 CẤP ĐỘ CHIẾN LƯỢC GIA CÔNG (TÂM ĐIỂM = CẤP 6: TIÊU CHUẨN)
     const STRATEGY_CONFIGS = {
-        1: { name: 'Cực Hạn Tinh Xảo (Mịn +3)', badge: 'Gương Quang Học', desc: 'Vi xung nano, khống chế biến trắng tuyệt đối, độ bóng gương quang học đỉnh cao.', tiMult: 0.30, ipDelta: -2, vfDelta: -20, poDelta: +1, speedMult: 0.30 },
-        2: { name: 'Siêu Mịn Cấp 2 (Mịn +2)', badge: 'Gương Tế Vi', desc: 'Xung cực nhỏ, triệt tiêu hoàn toàn vi nứt bề mặt khuôn mẫu.', tiMult: 0.38, ipDelta: -2, vfDelta: -18, poDelta: +1, speedMult: 0.38 },
-        3: { name: 'Siêu Mịn Cấp 1 (Mịn +1)', badge: 'Siêu Phẳng', desc: 'Bóc tách êm mượt, tối ưu độ đồng đều bề mặt và mép sắc nét.', tiMult: 0.45, ipDelta: -2, vfDelta: -15, poDelta: 0, speedMult: 0.45 },
-        4: { name: 'Bề Mặt Siêu Mịn', badge: 'Mịn Cao', desc: 'Vi xung cực mịn, khống chế dung sai phôi nghiêm ngặt.', tiMult: 0.55, ipDelta: -1, vfDelta: -12, poDelta: 0, speedMult: 0.55 },
-        5: { name: 'Bề Mặt Mịn / Ưu Tiên Phẳng', badge: 'Mịn Vừa', desc: 'Hạn chế sọc sóng, mép sắc nét, bám bước êm ái.', tiMult: 0.70, ipDelta: -1, vfDelta: -8, poDelta: 0, speedMult: 0.70 },
-        6: { name: '⭐ Tiêu Chuẩn (Khuyên Dùng)', badge: 'Chuẩn Hãng', desc: 'Cân bằng tối ưu giữa tốc độ, độ nhám và độ bền dây Molypden.', tiMult: 1.0, ipDelta: 0, vfDelta: 0, poDelta: 0, speedMult: 1.0 },
-        7: { name: 'Năng Suất Cao', badge: 'Tốc Độ +1', desc: 'Tốc độ nhanh, ổn định cao, tiết kiệm dây và điện.', tiMult: 1.10, ipDelta: 0, vfDelta: +3, poDelta: 0, speedMult: 1.12 },
-        8: { name: 'Siêu Năng Suất', badge: 'Tốc Độ +2', desc: 'Bóc tách tối đa, bám tải nhanh, rút ngắn thời gian cắt.', tiMult: 1.25, ipDelta: +1, vfDelta: +5, poDelta: -1, speedMult: 1.25 },
-        9: { name: 'Cường Lực Bóc Tách (Tốc độ +3)', badge: 'Tốc Độ +3', desc: 'Tăng cường năng lượng xung ti, đẩy mạnh tiến bàn máy.', tiMult: 1.35, ipDelta: +1, vfDelta: +8, poDelta: -1, speedMult: 1.38 },
-        10: { name: 'Tối Đa Công Suất (Tốc độ +4)', badge: 'Tốc Độ +4', desc: 'Mở tối đa kênh dòng MOSFET, bám tải Servo cực mạnh.', tiMult: 1.45, ipDelta: +1, vfDelta: +10, poDelta: -1, speedMult: 1.50 },
-        11: { name: 'Cực Hạn Phá Thô (Tốc độ +5)', badge: 'Cực Hạn Phá', desc: 'Khai thác kịch trần công suất tủ nguồn, phá thô siêu tốc kỷ lục cho phôi dày.', tiMult: 1.55, ipDelta: +1, vfDelta: +12, poDelta: -1, speedMult: 1.62 }
+        1: { name: 'Cực Hạn Tinh Xảo (Mịn +3)', shortName: 'Cực Hạn Tinh Xảo (Cấp 1)', badge: 'Gương Quang Học', desc: 'Vi xung nano, khống chế biến trắng tuyệt đối, độ bóng gương quang học đỉnh cao.', tiMult: 0.30, ipDelta: -2, vfDelta: -20, poDelta: +1, speedMult: 0.30 },
+        2: { name: 'Siêu Mịn Cấp 2 (Mịn +2)', shortName: 'Siêu Mịn (Cấp 2)', badge: 'Gương Tế Vi', desc: 'Xung cực nhỏ, triệt tiêu hoàn toàn vi nứt bề mặt khuôn mẫu.', tiMult: 0.38, ipDelta: -2, vfDelta: -18, poDelta: +1, speedMult: 0.38 },
+        3: { name: 'Siêu Mịn Cấp 1 (Mịn +1)', shortName: 'Siêu Mịn (Cấp 3)', badge: 'Siêu Phẳng', desc: 'Bóc tách êm mượt, tối ưu độ đồng đều bề mặt và mép sắc nét.', tiMult: 0.45, ipDelta: -2, vfDelta: -15, poDelta: 0, speedMult: 0.45 },
+        4: { name: 'Bề Mặt Siêu Mịn', shortName: 'Mịn Cao (Cấp 4)', badge: 'Mịn Cao', desc: 'Vi xung cực mịn, khống chế dung sai phôi nghiêm ngặt.', tiMult: 0.55, ipDelta: -1, vfDelta: -12, poDelta: 0, speedMult: 0.55 },
+        5: { name: 'Bề Mặt Mịn / Ưu Tiên Phẳng', shortName: 'Mịn Phẳng (Cấp 5)', badge: 'Mịn Vừa', desc: 'Hạn chế sọc sóng, mép sắc nét, bám bước êm ái.', tiMult: 0.70, ipDelta: -1, vfDelta: -8, poDelta: 0, speedMult: 0.70 },
+        6: { name: '⭐ Tiêu Chuẩn (Khuyên Dùng)', shortName: 'Tiêu Chuẩn (Cấp 6)', badge: 'Chuẩn Hãng', desc: 'Cân bằng tối ưu giữa tốc độ, độ nhám và độ bền dây Molypden.', tiMult: 1.0, ipDelta: 0, vfDelta: 0, poDelta: 0, speedMult: 1.0 },
+        7: { name: 'Năng Suất Cao', shortName: 'Năng Suất (Cấp 7)', badge: 'Tốc Độ +1', desc: 'Tốc độ nhanh, ổn định cao, tiết kiệm dây và điện.', tiMult: 1.10, ipDelta: 0, vfDelta: +3, poDelta: 0, speedMult: 1.12 },
+        8: { name: 'Siêu Năng Suất', shortName: 'Siêu Tốc (Cấp 8)', badge: 'Tốc Độ +2', desc: 'Bóc tách tối đa, bám tải nhanh, rút ngắn thời gian cắt.', tiMult: 1.25, ipDelta: +1, vfDelta: +5, poDelta: -1, speedMult: 1.25 },
+        9: { name: 'Cường Lực Bóc Tách (Tốc độ +3)', shortName: 'Cường Lực (Cấp 9)', badge: 'Tốc Độ +3', desc: 'Tăng cường năng lượng xung ti, đẩy mạnh tiến bàn máy.', tiMult: 1.35, ipDelta: +1, vfDelta: +8, poDelta: -1, speedMult: 1.38 },
+        10: { name: 'Tối Đa Công Suất (Tốc độ +4)', shortName: 'Max Công Suất (Cấp 10)', badge: 'Tốc Độ +4', desc: 'Mở tối đa kênh dòng MOSFET, bám tải Servo cực mạnh.', tiMult: 1.45, ipDelta: +1, vfDelta: +10, poDelta: -1, speedMult: 1.50 },
+        11: { name: 'Cực Hạn Phá Thô (Tốc độ +5)', shortName: 'Cực Hạn Phá (Cấp 11)', badge: 'Cực Hạn Phá', desc: 'Khai thác kịch trần công suất tủ nguồn, phá thô siêu tốc kỷ lục cho phôi dày.', tiMult: 1.55, ipDelta: +1, vfDelta: +12, poDelta: -1, speedMult: 1.62 }
     };
 
     // STATE (Mặc định SCM420, 1 Pass, Chiến lược Cấp 6, H=40mm)
@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
         thickness: 40,
         cutLength: 100,
         compactMetrics: true, // Mặc định thu gọn ký hiệu (Ẩn tên dài theo phương ngang)
-        workshopExpanded: false // Mặc định ẩn bảng thực tế xưởng
+        workshopExpanded: false, // Mặc định ẩn bảng thực tế xưởng
+        isCustomUserEdited: false // Đánh dấu nếu người dùng đã tự chỉnh thông số nhập riêng
     };
 
     // DOM ELEMENTS
@@ -218,9 +219,11 @@ document.addEventListener('DOMContentLoaded', () => {
     [customTiInput, customPoInput, customIpInput, customVoltInput, customVfInput, customWireInput].forEach(inp => {
         if (inp) {
             inp.addEventListener('input', () => {
+                state.isCustomUserEdited = true;
                 runCustomAnalysis(false);
             });
             inp.addEventListener('change', () => {
+                state.isCustomUserEdited = true;
                 runCustomAnalysis(false);
             });
         }
@@ -625,8 +628,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const notices = [];
         if (isAlu) {
             notices.push("Nhôm (Al 6061/7075): Tốc độ cắt cực nhanh do nhiệt độ nóng chảy thấp (660°C). Bắt buộc tăng Toff để xả xỉ chống bám dính dây và đoản mạch.");
-        } else if (isCopper) {
-            notices.push("Đồng (Cu / Đồng thau): Tản nhiệt và dẫn điện cực mạnh. Cần duy trì xung ổn định và áp lực nước đều để tránh tổn hao năng lượng.");
         } else if (isHard) {
             notices.push("Thép đã tôi cứng SCM440 (28-32 HRC): Bề mặt bóc xỉ rất đều, độ bóng cao. Tăng nhẹ VF và giảm nhẹ Toff để tăng năng suất.");
         } else {
@@ -648,12 +649,169 @@ document.addEventListener('DOMContentLoaded', () => {
         return { rows, totalMinutes, notices };
     }
 
+    // =========================================================================
+    // 4. HỆ THỐNG TÍNH TOÁN HIỆU CHỈNH THỰC TẾ XƯỞNG ĐỘC LẬP (WORKSHOP ENGINE)
+    // =========================================================================
+    /**
+     * NGUYÊN TẮC CỐT LÕI (NGUYÊN TẮC TRONG NGUYÊN TẮC):
+     * 1. Tách biệt 100% không gian biến, cấu hình và hàm tính toán với hệ thống gốc.
+     * 2. Sao chép nguyên bản thuật toán động lực học của Hãng làm nền tảng cơ sở ban đầu.
+     * 3. Mọi hiệu chỉnh theo thực nghiệm xưởng (Ammeter 4A, phôi thực tế, bù mòn cữ)
+     *    sau này sẽ chỉ thay đổi trong WORKSHOP_CALIBRATION_MODEL và calculateWorkshopEDM().
+     */
+
+    const WORKSHOP_CALIBRATION_MODEL = {
+        ammeterCurrentFactor: 1.0,   // Khớp kim Ampe thực tế ~4A
+        speedCalibrationFactor: 1.0,  // Hệ số tốc độ thực tế xưởng
+        gapCompensation: 0.0,         // Bù trừ khe hở thực tế xưởng (mm)
+        workpieceOffsetBias: 0.0,     // Sai số cữ gá đặt (mm)
+        actualAmmeterReading: '≈ 3.8 - 4.2 A (Khớp kim đo tại xưởng)'
+    };
+
+    function calculateWorkshopEDM(state) {
+        // Sao chép logic tính toán làm cơ sở phát triển độc lập
+        const { material, strategyLevel, thickness, cutLength } = state;
+        const H = thickness;
+        const L = cutLength || 100;
+        const isHard = material === 'SCM440';
+        const isCopper = material === 'COPPER';
+        const isAlu = material === 'ALUMINUM';
+        const strat = STRATEGY_CONFIGS[strategyLevel] || STRATEGY_CONFIGS[6];
+
+        let ti_w, Po_w, IP_w, Volt_w, VF_w, Wire_w;
+        if (isAlu) {
+            if (H <= 15) ti_w = 18;
+            else if (H <= 30) ti_w = 22;
+            else if (H <= 60) ti_w = 26;
+            else if (H <= 100) ti_w = 32;
+            else if (H <= 160) ti_w = 38;
+            else if (H <= 250) ti_w = 44;
+            else if (H <= 350) ti_w = 50;
+            else ti_w = 56;
+        } else if (isCopper) {
+            if (H <= 15) ti_w = 26;
+            else if (H <= 30) ti_w = 30;
+            else if (H <= 60) ti_w = 36;
+            else if (H <= 100) ti_w = 44;
+            else if (H <= 160) ti_w = 52;
+            else if (H <= 250) ti_w = 60;
+            else if (H <= 350) ti_w = 64;
+            else ti_w = 68;
+        } else {
+            if (H <= 15) ti_w = 20;
+            else if (H <= 30) ti_w = 24;
+            else if (H <= 60) ti_w = 32;
+            else if (H <= 100) ti_w = 40;
+            else if (H <= 160) ti_w = 48;
+            else if (H <= 250) ti_w = 56;
+            else if (H <= 350) ti_w = 60;
+            else ti_w = 64;
+        }
+
+        if (H <= 20) Po_w = 5;
+        else if (H <= 60) Po_w = 6;
+        else if (H <= 120) Po_w = 7;
+        else if (H <= 200) Po_w = 8;
+        else if (H <= 300) Po_w = 9;
+        else Po_w = 10;
+
+        if (isAlu) Po_w += 2;
+        if (isCopper) Po_w += 1;
+        if (isHard) Po_w = Math.max(4, Po_w - 1);
+
+        if (H <= 15) IP_w = 2;
+        else if (H <= 40) IP_w = 3;
+        else if (H <= 100) IP_w = 4;
+        else if (H <= 200) IP_w = 5;
+        else IP_w = 6;
+
+        if (isCopper) IP_w = Math.min(6, IP_w + 1);
+
+        Volt_w = H > 150 ? 'High' : (H <= 25 ? 'Low' : 'High');
+
+        if (H <= 20) VF_w = 45;
+        else if (H <= 60) VF_w = 55;
+        else if (H <= 120) VF_w = 60;
+        else if (H <= 200) VF_w = 65;
+        else VF_w = 70;
+
+        if (isAlu) VF_w += 5;
+        if (isHard) VF_w += 5;
+
+        Wire_w = 1;
+
+        // Áp dụng tỷ lệ chiến lược
+        ti_w = Math.max(1, Math.round(ti_w * strat.tiMult));
+        Po_w = Math.max(2, Math.min(30, Po_w + strat.poDelta));
+        IP_w = Math.max(1, Math.min(6, IP_w + strat.ipDelta));
+        VF_w = Math.max(10, Math.min(100, VF_w + strat.vfDelta));
+
+        let standardFc_baseline = 115;
+        if (isAlu) standardFc_baseline = 155;
+        else if (isCopper) standardFc_baseline = 95;
+        else if (isHard) standardFc_baseline = 125;
+
+        let heightEfficiency = 1.0;
+        if (H > 100) {
+            heightEfficiency = Math.max(0.70, 1.0 - (H - 100) * 0.0012);
+        } else if (H < 25) {
+            heightEfficiency = Math.max(0.75, 0.85 + H * 0.006);
+        }
+
+        // TÍNH TOÁN HIỆU CHỈNH RIÊNG THỰC TẾ XƯỞNG
+        let speedArea_w = Math.round(standardFc_baseline * strat.speedMult * heightEfficiency * WORKSHOP_CALIBRATION_MODEL.speedCalibrationFactor);
+        let feedRate_w = (speedArea_w / H);
+
+        const toff_w = ti_w * Po_w;
+        const cycle_w = ti_w + toff_w;
+        const cycle_ms_w = (cycle_w / 1000).toFixed(3);
+        const freq_hz_w = Math.round(1000000 / cycle_w);
+        const freq_khz_w = (freq_hz_w / 1000).toFixed(2);
+        const duty_factor_w = ((ti_w / cycle_w) * 100).toFixed(1);
+
+        const u_arc_w = Volt_w === 'Low' ? 22 : 27;
+        const i_peak_w = IP_w * 2.8;
+        const we_mj_w = ((u_arc_w * i_peak_w * ti_w) / 1000).toFixed(2);
+        const we_score_w = ti_w * IP_w;
+        const power_watts_w = ((freq_hz_w * parseFloat(we_mj_w)) / 1000).toFixed(1);
+
+        const sparkGap_w = (0.015 + 0.00035 * ti_w * (IP_w / 3) + (Volt_w === 'High' ? 0.004 : 0.001) + WORKSHOP_CALIBRATION_MODEL.gapCompensation).toFixed(3);
+        const time_min_w = L / feedRate_w;
+
+        let ra_w = isHard ? '2.4 - 2.8' : (isCopper ? '2.8 - 3.2' : (isAlu ? '3.0 - 3.5' : '2.8 - 3.2'));
+
+        return {
+            ti: ti_w,
+            Po: Po_w,
+            IP: IP_w,
+            Voltage: Volt_w,
+            VF: VF_w,
+            Wire: Wire_w,
+            toff: toff_w,
+            cycle: cycle_w,
+            cycle_ms: cycle_ms_w,
+            freq_hz: freq_hz_w,
+            freq_khz: freq_khz_w,
+            duty_factor: duty_factor_w,
+            we_mj: we_mj_w,
+            we_score: we_score_w,
+            power_watts: power_watts_w,
+            speedArea: speedArea_w,
+            feedRate: feedRate_w.toFixed(2),
+            sparkGap: sparkGap_w,
+            time_min: time_min_w,
+            Ra: ra_w,
+            ammeter: WORKSHOP_CALIBRATION_MODEL.actualAmmeterReading
+        };
+    }
+
     // ==========================================
-    // 4. CUSTOM ANALYSIS ENGINE, WORKSHOP MODEL & BÀI GIẢNG TAB 2
+    // 5. CUSTOM ANALYSIS ENGINE & BÀI GIẢNG TAB 2
     // ==========================================
 
     // Tự động điền Chế độ "Bề Mặt Mịn / Ưu Tiên Phẳng (Cấp 5/11)" làm mặc định cho ô nhập riêng
-    function populateSmoothCustomDefaults() {
+    function populateSmoothCustomDefaults(force = false) {
+        if (!force && state.isCustomUserEdited) return;
         const smoothCalc = calculateEDM({ ...state, strategyLevel: 5 }); // Cấp 5/11: Bề Mặt Mịn / Ưu Tiên Phẳng
         const smoothRow = smoothCalc.rows[0];
         if (smoothRow) {
@@ -676,7 +834,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const H = state.thickness;
         const L = state.cutLength || 100;
-        const stdCalc = calculateEDM({ ...state, strategyLevel: 6 }); // Chuẩn Hãng (Standard)
+        
+        // Lấy chế độ chiến lược hiện tại trên thanh trượt 11 cấp độ
+        const activeStrat = STRATEGY_CONFIGS[state.strategyLevel] || STRATEGY_CONFIGS[6];
+        const activeStratName = activeStrat.shortName || activeStrat.name;
+        const stdCalc = calculateEDM(state); // Đồng bộ 100% theo thanh trượt
         const stdRow = stdCalc.rows[0];
 
         // 1. Chu kỳ 1 xung T và Thời gian nghỉ Toff
@@ -781,40 +943,34 @@ document.addEventListener('DOMContentLoaded', () => {
         const std_sparkGap = (0.015 + 0.00035 * stdRow.ti * (stdRow.IP / 3) + (stdRow.Voltage === 'High' ? 0.004 : 0.001)).toFixed(3);
         const gapDiff = Math.round((parseFloat(c_sparkGap) - parseFloat(std_sparkGap)) * 1000); // micron
 
-        // Danh mục Tiêu chí (Hỗ trợ Ẩn/Hiện Ký hiệu viết tắt theo phương ngang)
+        // Danh mục Tiêu chí (Khi ở chế độ Ẩn: bỏ toàn bộ chú thích trong ngoặc, chỉ giữ ký hiệu thuần túy)
         const isCompact = state.compactMetrics;
-        const m_set = isCompact ? '[Ton-Toff-IP-V-VF]' : 'Bộ thông số [Ton - Toff - IP - V - VF]';
         const m_ti = isCompact ? 'Ton' : 'Thời gian mở xung (Ton)';
         const m_po = isCompact ? 'Toff' : 'Thời gian nghỉ xả xỉ (Toff)';
-        const m_cycle = isCompact ? 'T (Chu kỳ)' : 'Tổng thời gian 1 chu kỳ (T = Ton + Toff)';
-        const m_freq = isCompact ? 'f (Tần số)' : 'Tần số phát xung (Frequency - f)';
-        const m_duty = isCompact ? 'η (Duty)' : 'Tỷ lệ mở van MOSFET (Duty Factor - η)';
-        const m_we = isCompact ? 'We (Năng lượng tia)' : 'NĂNG LƯỢNG 1 TIA ĐƠN (We ∝ Ton × IP)';
-        const m_ptb = isCompact ? 'Ptb (Công suất 1s)' : 'NĂNG LƯỢNG PHÁT TRONG 1S (Công suất trung bình Ptb)';
-        const m_itb = isCompact ? 'Itb (Ampe kế)' : 'Dòng điện chỉ thị Ampe kế (Itb thực tế)';
-        const m_fc = isCompact ? 'Fc (Năng suất)' : 'Tốc độ cắt diện tích ước tính Fc';
-        const m_ft = isCompact ? 'Ft (Tốc độ bàn)' : `Tốc độ tiến bàn máy Ft (H=${H}mm)`;
-        const m_time = isCompact ? 't (Thời gian)' : `Thời gian gia công ước tính (Chu vi L=${L}mm)`;
-        const m_ra = isCompact ? 'Ra (Độ nhám)' : 'Độ nhám bề mặt ước tính (Ra)';
-        const m_gap = isCompact ? 'δ (Khe hở)' : 'Khe hở phóng điện thực tế (δ)';
-        const m_diff = isCompact ? 'Δ (Sai số bù)' : 'Sai số kích thước (nếu giữ Offset mặc định)';
-        const m_wire = isCompact ? 'Mòn dây & An toàn' : 'Mức độ mòn & Nguy cơ đứt dây';
+        const m_cycle = isCompact ? 'T' : 'Tổng thời gian 1 chu kỳ (T = Ton + Toff)';
+        const m_freq = isCompact ? 'f' : 'Tần số phát xung (Frequency - f)';
+        const m_duty = isCompact ? 'η' : 'Tỷ lệ mở van MOSFET (Duty Factor - η)';
+        const m_we = isCompact ? 'We' : 'NĂNG LƯỢNG 1 TIA ĐƠN (We ∝ Ton × IP)';
+        const m_ptb = isCompact ? 'Ptb' : 'NĂNG LƯỢNG PHÁT TRONG 1S (Công suất trung bình Ptb)';
+        const m_itb = isCompact ? 'Itb' : 'Dòng điện chỉ thị Ampe kế (Itb thực tế)';
+        const m_fc = isCompact ? 'Fc' : 'Tốc độ cắt diện tích ước tính Fc';
+        const m_ft = isCompact ? 'Ft' : `Tốc độ tiến bàn máy Ft (H=${H}mm)`;
+        const m_time = isCompact ? 't' : `Thời gian gia công ước tính (Chu vi L=${L}mm)`;
+        const m_ra = isCompact ? 'Ra' : 'Độ nhám bề mặt ước tính (Ra)';
+        const m_gap = isCompact ? 'δ' : 'Khe hở phóng điện thực tế (δ)';
+        const m_diff = isCompact ? 'Δ' : 'Sai số kích thước (nếu giữ Offset mặc định)';
+        const m_wire = isCompact ? 'An toàn' : 'Mức độ mòn & Nguy cơ đứt dây';
 
-        // 1. RENDER BẢNG SO SÁNH (CHẾ ĐỘ NHẬP vs STANDARD)
+        // 1. RENDER BẢNG SO SÁNH (CHẾ ĐỘ NHẬP vs CHIẾN LƯỢC HÃNG)
         comparisonTableElement.innerHTML = `
             <thead>
                 <tr>
                     <th class="col-metric">${isCompact ? 'Tiêu chí' : 'Tiêu chí Công nghệ'}</th>
                     <th class="col-user">Chế độ nhập</th>
-                    <th class="col-std">Standard</th>
+                    <th class="col-std">${activeStratName}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="col-metric"><strong>${m_set}</strong></td>
-                    <td class="col-user">Ton=${c_ti}μs, Toff=${c_po}, IP=${c_ip}, V=${c_volt}, VF=${c_vf}</td>
-                    <td class="col-std">Ton=${stdRow.ti}μs, Toff=${stdRow.Po}, IP=${stdRow.IP}, V=${stdRow.Voltage}, VF=${stdRow.VF}</td>
-                </tr>
                 <tr>
                     <td class="col-metric"><strong>${m_ti}</strong></td>
                     <td class="col-user"><strong>${c_ti} μs</strong></td>
@@ -914,8 +1070,9 @@ document.addEventListener('DOMContentLoaded', () => {
         feedbackHTML += `</ul>`;
         analysisFeedbackBox.innerHTML = feedbackHTML;
 
-        // 2. RENDER BẢNG HIỆU CHỈNH THỰC TẾ XƯỞNG (WORKSHOP CALIBRATION - CHỈ 1 CỘT THÔNG SỐ)
+        // 2. RENDER BẢNG HIỆU CHỈNH THỰC TẾ XƯỞNG ĐỘC LẬP (WORKSHOP CALIBRATION ENGINE)
         if (workshopTableElement) {
+            const wData = calculateWorkshopEDM(state);
             workshopTableElement.innerHTML = `
                 <thead>
                     <tr>
@@ -925,60 +1082,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="col-metric"><strong>${m_set}</strong></td>
-                        <td class="col-actual">Ton=${stdRow.ti}μs, Toff=${stdRow.Po}, IP=${stdRow.IP}, V=${stdRow.Voltage}, VF=${stdRow.VF}</td>
-                    </tr>
-                    <tr>
                         <td class="col-metric"><strong>${m_ti}</strong></td>
-                        <td class="col-actual"><strong>${stdRow.ti} μs</strong></td>
+                        <td class="col-actual"><strong>${wData.ti} μs</strong></td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_po}</strong></td>
-                        <td class="col-actual"><strong>${std_toff} μs</strong> (Hệ số ${stdRow.Po})</td>
+                        <td class="col-actual"><strong>${wData.toff} μs</strong> (Hệ số ${wData.Po})</td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_cycle}</strong></td>
-                        <td class="col-actual"><strong>${std_cycle} μs</strong> (${std_cycle_ms} ms)</td>
+                        <td class="col-actual"><strong>${wData.cycle} μs</strong> (${wData.cycle_ms} ms)</td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_freq}</strong></td>
-                        <td class="col-actual"><strong>${std_freq_khz} kHz</strong> (${std_freq_hz.toLocaleString()} xung/giây)</td>
+                        <td class="col-actual"><strong>${wData.freq_khz} kHz</strong> (${wData.freq_hz.toLocaleString()} xung/giây)</td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_duty}</strong></td>
-                        <td class="col-actual"><strong>${std_duty_factor}%</strong></td>
+                        <td class="col-actual"><strong>${wData.duty_factor}%</strong></td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_we}</strong></td>
-                        <td class="col-actual"><strong>${std_we_score} đv</strong> (≈ ${std_we_mj} mJ)</td>
+                        <td class="col-actual"><strong>${wData.we_score} đv</strong> (≈ ${wData.we_mj} mJ)</td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_ptb}</strong></td>
-                        <td class="col-actual"><strong>${std_power_watts} W</strong> (≈ ${std_power_score.toLocaleString()} đv/s)</td>
+                        <td class="col-actual"><strong>${wData.power_watts} W</strong></td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_itb}</strong></td>
-                        <td class="col-actual"><strong>≈ 3.8 - 4.2 A</strong> (Khớp kim Ampe kế tại xưởng)</td>
+                        <td class="col-actual"><strong>${wData.ammeter}</strong></td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_fc}</strong></td>
-                        <td class="col-actual"><strong>${stdRow.speedArea} mm²/p</strong> (Năng suất thực tế)</td>
+                        <td class="col-actual"><strong>${wData.speedArea} mm²/p</strong> (Năng suất thực tế)</td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_ft}</strong></td>
-                        <td class="col-actual"><strong>${std_feedRate} mm/p</strong></td>
+                        <td class="col-actual"><strong>${wData.feedRate} mm/p</strong></td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_time}</strong></td>
-                        <td class="col-actual"><strong>${formatTimeMinSec(std_time_min)}</strong></td>
+                        <td class="col-actual"><strong>${formatTimeMinSec(wData.time_min)}</strong></td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_ra}</strong></td>
-                        <td class="col-actual">${stdRow.Ra} μm (Đạt độ phẳng bề mặt)</td>
+                        <td class="col-actual">${wData.Ra} μm (Đạt độ phẳng bề mặt)</td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_gap}</strong></td>
-                        <td class="col-actual">≈ ${std_sparkGap} mm (Rãnh cắt thực tế)</td>
+                        <td class="col-actual">≈ ${wData.sparkGap} mm (Rãnh cắt thực tế)</td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_diff}</strong></td>
@@ -1014,7 +1167,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             • Chu kỳ T = ${c_ti} + ${c_toff} = <strong>${c_cycle} μs</strong> (${c_cycle_ms} ms)
                         </div>
                         <div class="lecture-calc-col std-col">
-                            <strong>Chế độ Standard:</strong><br>
+                            <strong>${activeStratName}:</strong><br>
                             • Toff = ${stdRow.ti} × ${stdRow.Po} = <strong>${std_toff} μs</strong><br>
                             • Chu kỳ T = ${stdRow.ti} + ${std_toff} = <strong>${std_cycle} μs</strong> (${std_cycle_ms} ms)
                         </div>
@@ -1034,7 +1187,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             f = 10⁶ / ${c_cycle} = <strong>${c_freq_khz} kHz</strong> (${c_freq_hz.toLocaleString()} tia/giây)
                         </div>
                         <div class="lecture-calc-col std-col">
-                            <strong>Chế độ Standard:</strong><br>
+                            <strong>${activeStratName}:</strong><br>
                             f = 10⁶ / ${std_cycle} = <strong>${std_freq_khz} kHz</strong> (${std_freq_hz.toLocaleString()} tia/giây)
                         </div>
                     </div>
@@ -1053,7 +1206,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             η = (${c_ti} / ${c_cycle}) × 100% = <strong>${c_duty_factor}%</strong> (1 mở : ${c_po} nghỉ)
                         </div>
                         <div class="lecture-calc-col std-col">
-                            <strong>Chế độ Standard:</strong><br>
+                            <strong>${activeStratName}:</strong><br>
                             η = (${stdRow.ti} / ${std_cycle}) × 100% = <strong>${std_duty_factor}%</strong> (1 mở : ${stdRow.Po} nghỉ)
                         </div>
                     </div>
@@ -1074,7 +1227,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             • We = (${c_u_arc}V × ${c_i_peak}A × ${c_ti}μs) / 1000 = <strong>${c_we_mj} mJ</strong> (Điểm: ${c_we_score} đv)
                         </div>
                         <div class="lecture-calc-col std-col">
-                            <strong>Chế độ Standard:</strong><br>
+                            <strong>${activeStratName}:</strong><br>
                             • Ipeak = ${stdRow.IP} × 2.8A = ${std_i_peak} A<br>
                             • We = (${std_u_arc}V × ${std_i_peak}A × ${stdRow.ti}μs) / 1000 = <strong>${std_we_mj} mJ</strong> (Điểm: ${std_we_score} đv)
                         </div>
@@ -1096,7 +1249,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             • Đồng hồ Ampe cơ: <strong>≈ 3.8 - 4.2 A</strong>
                         </div>
                         <div class="lecture-calc-col std-col">
-                            <strong>Chế độ Standard:</strong><br>
+                            <strong>${activeStratName}:</strong><br>
                             • Công suất Ptb = ${std_freq_hz} × (${std_we_mj}/1000) = <strong>${std_power_watts} W</strong><br>
                             • Đồng hồ Ampe cơ: <strong>≈ 3.8 - 4.2 A</strong>
                         </div>
@@ -1120,7 +1273,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             • Thời gian (L=${L}mm): t = ${L}/${c_feedRate} = <strong>${formatTimeMinSec(c_time_min)}</strong>
                         </div>
                         <div class="lecture-calc-col std-col">
-                            <strong>Chế độ Standard:</strong><br>
+                            <strong>${activeStratName}:</strong><br>
                             • Tốc độ diện tích: Fc = <strong>${stdRow.speedArea} mm²/p</strong><br>
                             • Tốc độ tiến bàn (H=${H}mm): Ft = ${stdRow.speedArea}/${H} = <strong>${std_feedRate} mm/p</strong><br>
                             • Thời gian (L=${L}mm): t = ${L}/${std_feedRate} = <strong>${formatTimeMinSec(std_time_min)}</strong>
@@ -1249,7 +1402,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.9.5";
+    const CURRENT_VERSION = "2.9.6";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {

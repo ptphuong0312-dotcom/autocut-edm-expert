@@ -1,5 +1,5 @@
 {
-  "version": "2.9.5",
-  "buildTime": 1787578200000,
-  "description": "Added compact horizontal metric symbols mode (default on), strategy level 5 smooth mode custom default, 1-column Workshop Calibration Table, Tab 2 Physics Lecture, and Ironclad Core Principles"
+  "version": "2.9.6",
+  "buildTime": 1787580000000,
+  "description": "Implemented decoupled standalone Workshop Calibration Engine, dynamic slider-synced strategy names in comparison table, pure compact symbol names (removed [Ton-Toff-IP-V-VF], parentheses annotations), and preserving custom user inputs."
 }
