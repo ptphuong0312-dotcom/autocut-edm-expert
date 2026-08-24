@@ -1,5 +1,5 @@
 {
-  "version": "2.9.6",
-  "buildTime": 1787580000000,
-  "description": "Implemented decoupled standalone Workshop Calibration Engine, dynamic slider-synced strategy names in comparison table, pure compact symbol names (removed [Ton-Toff-IP-V-VF], parentheses annotations), and preserving custom user inputs."
+  "version": "2.9.7",
+  "buildTime": 1787581200000,
+  "description": "Fixed custom calculation baseline to Level 6 standard so custom input metrics remain 100% constant when dragging strategy slider, and unified dimension tolerance display across all tables."
 }

@@ -835,81 +835,83 @@ document.addEventListener('DOMContentLoaded', () => {
         const H = state.thickness;
         const L = state.cutLength || 100;
         
-        // Lấy chế độ chiến lược hiện tại trên thanh trượt 11 cấp độ
+        // 1. BASELINE CHUẨN CẤP 6 (CỐ ĐỊNH) - DÙNG ĐỂ TÍNH CÁC ĐẶC TÍNH VẬT LÝ TUYỆT ĐỐI CỦA CHẾ ĐỘ NHẬP
+        // Giúp cột "Chế độ nhập" hoàn toàn cố định 100%, không bị nhảy số khi kéo thanh trượt chiến lược
+        const baseCalc = calculateEDM({ ...state, strategyLevel: 6 });
+        const baseRow = baseCalc.rows[0];
+
+        const base_toff = baseRow.ti * baseRow.Po;
+        const base_cycle = baseRow.ti + base_toff;
+        const base_freq_hz = Math.round(1000000 / base_cycle);
+        const base_u_arc = baseRow.Voltage === 'Low' ? 22 : 27;
+        const base_i_peak = baseRow.IP * 2.8;
+        const base_we_mj = (base_u_arc * base_i_peak * baseRow.ti) / 1000;
+        const base_sparkGap = (0.015 + 0.00035 * baseRow.ti * (baseRow.IP / 3) + (baseRow.Voltage === 'High' ? 0.004 : 0.001)).toFixed(3);
+
+        // 2. CHIẾN LƯỢC HÃNG HIỆN TẠI (THAY ĐỔI ĐỘNG THEO THANH TRƯỢT 11 CẤP ĐỘ)
         const activeStrat = STRATEGY_CONFIGS[state.strategyLevel] || STRATEGY_CONFIGS[6];
         const activeStratName = activeStrat.shortName || activeStrat.name;
-        const stdCalc = calculateEDM(state); // Đồng bộ 100% theo thanh trượt
+        const stdCalc = calculateEDM(state); // Đồng bộ theo thanh trượt
         const stdRow = stdCalc.rows[0];
 
+        // --- TÍNH TOÁN CÁC THÔNG SỐ VẬT LÝ CHẾ ĐỘ NHẬP ---
         // 1. Chu kỳ 1 xung T và Thời gian nghỉ Toff
         const c_toff = c_ti * c_po; // micro-seconds
         const c_cycle = c_ti + c_toff; // micro-seconds (Chu kỳ T)
         const c_cycle_ms = (c_cycle / 1000).toFixed(3); // ms
 
-        const std_toff = stdRow.ti * stdRow.Po;
-        const std_cycle = stdRow.ti + std_toff;
-        const std_cycle_ms = (std_cycle / 1000).toFixed(3);
-
         // 2. Tần số phát xung (Frequency - f)
         const c_freq_hz = Math.round(1000000 / c_cycle);
         const c_freq_khz = (c_freq_hz / 1000).toFixed(2);
 
-        const std_freq_hz = Math.round(1000000 / std_cycle);
-        const std_freq_khz = (std_freq_hz / 1000).toFixed(2);
-
         // 3. Tỷ lệ mở van MOSFET (Duty Factor - η)
         const c_duty_factor = ((c_ti / c_cycle) * 100).toFixed(1);
+
+        // 4. Năng lượng 1 tia đơn We
+        const c_u_arc = c_volt === 'Low' ? 22 : 27;
+        const c_i_peak = c_ip * 2.8; // Amperes
+        const c_we_mj = ((c_u_arc * c_i_peak * c_ti) / 1000).toFixed(2); // mJ
+        const c_we_score = c_ti * c_ip;
+
+        // 5. Công suất phát trung bình 1s Ptb và dòng Ampe
+        const c_power_watts = ((c_freq_hz * parseFloat(c_we_mj)) / 1000).toFixed(1); // Watts
+        const c_power_score = Math.round(c_freq_hz * c_we_score);
+        const c_i_tb = (c_i_peak * (parseFloat(c_duty_factor) / 100) * 0.75).toFixed(1);
+
+        // 6. Năng suất cắt Fc, Tốc độ tiến bàn Ft (So với baseline Cấp 6 cố định)
+        const f_ratio_base = c_freq_hz / base_freq_hz;
+        const we_ratio_base = parseFloat(c_we_mj) / base_we_mj;
+        const vf_factor_base = 1 + (c_vf - baseRow.VF) / 250;
+        const mrr_ratio_custom = f_ratio_base * Math.pow(we_ratio_base, 1.25) * vf_factor_base;
+
+        let c_speedArea = Math.round(baseRow.speedArea * mrr_ratio_custom);
+        if (c_ti > 70 && H < 60) c_speedArea = Math.round(c_speedArea * 0.88);
+        if (c_po < 4 && H > 80) c_speedArea = Math.round(c_speedArea * 0.85);
+
+        const c_feedRate = (c_speedArea / H).toFixed(2);
+        const c_time_min = L / parseFloat(c_feedRate);
+
+        // 7. Khe hở tia lửa δ và Sai số kích thước Δ
+        const c_sparkGap = (0.015 + 0.00035 * c_ti * (c_ip / 3) + (c_volt === 'High' ? 0.004 : 0.001)).toFixed(3);
+        const gapDiff = Math.round((parseFloat(c_sparkGap) - parseFloat(base_sparkGap)) * 1000); // micron
+
+        // --- TÍNH TOÁN CÁC THÔNG SỐ CHIẾN LƯỢC HÃNG (CỘT 3 - THEO THANH TRƯỢT) ---
+        const std_toff = stdRow.ti * stdRow.Po;
+        const std_cycle = stdRow.ti + std_toff;
+        const std_cycle_ms = (std_cycle / 1000).toFixed(3);
+        const std_freq_hz = Math.round(1000000 / std_cycle);
+        const std_freq_khz = (std_freq_hz / 1000).toFixed(2);
         const std_duty_factor = ((stdRow.ti / std_cycle) * 100).toFixed(1);
 
-        // 4. NĂNG LƯỢNG 1 TIA ĐƠN (We ∝ Ton × IP)
-        // Điện áp hồ quang phóng điện thực tế (U_arc: 27V với High, 22V với Low)
-        // Dòng đỉnh thực tế I_peak ≈ IP × 2.8A
-        const c_u_arc = c_volt === 'Low' ? 22 : 27;
         const std_u_arc = stdRow.Voltage === 'Low' ? 22 : 27;
-        const c_i_peak = c_ip * 2.8; // Amperes
         const std_i_peak = stdRow.IP * 2.8;
-
-        const c_we_mj = ((c_u_arc * c_i_peak * c_ti) / 1000).toFixed(2); // mJ (milli-Joules)
         const std_we_mj = ((std_u_arc * std_i_peak * stdRow.ti) / 1000).toFixed(2);
-
-        const c_we_score = c_ti * c_ip;
         const std_we_score = stdRow.ti * stdRow.IP;
-
-        // 5. NĂNG LƯỢNG PHÁT TRONG 1S (Công suất trung bình P_tb = f × We)
-        const c_power_watts = ((c_freq_hz * parseFloat(c_we_mj)) / 1000).toFixed(1); // Watts (J/s)
         const std_power_watts = ((std_freq_hz * parseFloat(std_we_mj)) / 1000).toFixed(1);
-
-        const c_power_score = Math.round(c_freq_hz * c_we_score);
         const std_power_score = Math.round(std_freq_hz * std_we_score);
-
-        // 5b. Dòng điện chỉ thị Ampe kế trên mặt tủ máy (I_tb = I_peak × η × k_phóng)
-        const c_i_tb = (c_i_peak * (parseFloat(c_duty_factor) / 100) * 0.75).toFixed(1); // Amperes
-        const std_i_tb = (std_i_peak * (parseFloat(std_duty_factor) / 100) * 0.75).toFixed(1);
-
-        // 6. Tốc độ cắt diện tích Fc và Tốc độ tiến bàn Ft
-        // Vật lý bóc phôi EDM: MRR ∝ f × (We^1.25) do hiệu ứng nổ bốc hơi kim loại tăng phi tuyến theo xung
-        const f_ratio = c_freq_hz / std_freq_hz;
-        const we_ratio = parseFloat(c_we_mj) / parseFloat(std_we_mj);
-        const vf_factor = 1 + (c_vf - stdRow.VF) / 250;
-        
-        const mrr_ratio = f_ratio * Math.pow(we_ratio, 1.25) * vf_factor;
-
-        let c_speedArea = Math.round(stdRow.speedArea * mrr_ratio);
-        
-        // Cân chỉnh giới hạn thoát xỉ khi Toff quá ngắn hoặc xung quá dài trên phôi mỏng
-        if (c_ti > 70 && H < 60) {
-            c_speedArea = Math.round(c_speedArea * 0.88);
-        }
-        if (c_po < 4 && H > 80) {
-            c_speedArea = Math.round(c_speedArea * 0.85); // Nghẹt xỉ
-        }
-        
-        const c_feedRate = (c_speedArea / H).toFixed(2);
         const std_feedRate = parseFloat(stdRow.feedRate).toFixed(2);
-
-        // 7. Thời gian gia công ước tính
-        const c_time_min = L / parseFloat(c_feedRate);
         const std_time_min = L / parseFloat(std_feedRate);
+        const std_sparkGap = (0.015 + 0.00035 * stdRow.ti * (stdRow.IP / 3) + (stdRow.Voltage === 'High' ? 0.004 : 0.001)).toFixed(3);
 
         function formatTimeMinSec(mins) {
             if (!isFinite(mins) || mins <= 0) return '0.0 phút';
@@ -924,7 +926,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 8. Độ nhám Ra ước tính
+        // Độ nhám Ra ước tính
         let c_ra_min, c_ra_max;
         if (c_we_score >= 280) {
             c_ra_min = 4.2; c_ra_max = 5.5;
@@ -938,12 +940,7 @@ document.addEventListener('DOMContentLoaded', () => {
             c_ra_min = 0.8; c_ra_max = 1.6;
         }
 
-        // 9. Khe hở phóng tia & Sai số kích thước
-        const c_sparkGap = (0.015 + 0.00035 * c_ti * (c_ip / 3) + (c_volt === 'High' ? 0.004 : 0.001)).toFixed(3);
-        const std_sparkGap = (0.015 + 0.00035 * stdRow.ti * (stdRow.IP / 3) + (stdRow.Voltage === 'High' ? 0.004 : 0.001)).toFixed(3);
-        const gapDiff = Math.round((parseFloat(c_sparkGap) - parseFloat(std_sparkGap)) * 1000); // micron
-
-        // Danh mục Tiêu chí (Khi ở chế độ Ẩn: bỏ toàn bộ chú thích trong ngoặc, chỉ giữ ký hiệu thuần túy)
+        // Danh mục Tiêu chí (Khi ở chế độ Ẩn: chỉ hiển thị ký hiệu ngắn gọn, loại bỏ giải thích trong ngoặc)
         const isCompact = state.compactMetrics;
         const m_ti = isCompact ? 'Ton' : 'Thời gian mở xung (Ton)';
         const m_po = isCompact ? 'Toff' : 'Thời gian nghỉ xả xỉ (Toff)';
@@ -958,7 +955,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const m_time = isCompact ? 't' : `Thời gian gia công ước tính (Chu vi L=${L}mm)`;
         const m_ra = isCompact ? 'Ra' : 'Độ nhám bề mặt ước tính (Ra)';
         const m_gap = isCompact ? 'δ' : 'Khe hở phóng điện thực tế (δ)';
-        const m_diff = isCompact ? 'Δ' : 'Sai số kích thước (nếu giữ Offset mặc định)';
+        const m_diff = isCompact ? 'Sai số' : 'Sai số kích thước (Dung sai Δ)';
         const m_wire = isCompact ? 'An toàn' : 'Mức độ mòn & Nguy cơ đứt dây';
 
         // 1. RENDER BẢNG SO SÁNH (CHẾ ĐỘ NHẬP vs CHIẾN LƯỢC HÃNG)
@@ -1038,8 +1035,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>${m_diff}</strong></td>
-                    <td class="col-user">${gapDiff > 4 ? `⚠️ LẸM (ÂM) ${gapDiff} μm` : (gapDiff < -4 ? `⚠️ DƯ DƯƠNG ${Math.abs(gapDiff)} μm` : '✅ Chuẩn kích thước')}</td>
-                    <td class="col-std">✅ Chuẩn xác ±0.005 mm</td>
+                    <td class="col-user">${gapDiff > 4 ? `⚠️ LẸM (ÂM) ${gapDiff} μm` : (gapDiff < -4 ? `⚠️ DƯ DƯƠNG ${Math.abs(gapDiff)} μm` : `✅ Chuẩn xác ${stdRow.tolerance}`)}</td>
+                    <td class="col-std">✅ Chuẩn xác ${stdRow.tolerance}</td>
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>${m_wire}</strong></td>
@@ -1135,7 +1132,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_diff}</strong></td>
-                        <td class="col-actual">✅ Chuẩn kích thước theo cữ xưởng</td>
+                        <td class="col-actual">✅ Chuẩn xác ${stdRow.tolerance}</td>
                     </tr>
                     <tr>
                         <td class="col-metric"><strong>${m_wire}</strong></td>
@@ -1402,7 +1399,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.9.6";
+    const CURRENT_VERSION = "2.9.7";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
