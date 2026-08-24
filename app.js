@@ -772,9 +772,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td class="col-std"><strong>${std_power_watts} W</strong> (≈ ${std_power_score.toLocaleString()} đv/s)</td>
                 </tr>
                 <tr>
-                    <td class="col-metric"><strong>Dòng điện chỉ thị Ampe kế (Itb ước tính)</strong></td>
-                    <td class="col-user"><strong>≈ ${c_i_tb} A</strong> (Đồng hồ Ampe)</td>
-                    <td class="col-std"><strong>≈ ${std_i_tb} A</strong> (Chuẩn máy chạy)</td>
+                    <td class="col-metric"><strong>Dòng điện chỉ thị Ampe kế (Itb thực tế)</strong></td>
+                    <td class="col-user"><strong>≈ 3.8 - 4.2 A</strong> (Tủ công suất cao) <br><small style="color:var(--text-secondary)">≈ 1.3 - 1.5 A (Tủ tiêu chuẩn)</small></td>
+                    <td class="col-std"><strong>≈ 3.8 - 4.2 A</strong> (Tủ công suất cao) <br><small style="color:var(--text-secondary)">≈ 1.3 - 1.5 A (Tủ tiêu chuẩn)</small></td>
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>Tốc độ cắt diện tích ước tính Fc</strong></td>
@@ -930,7 +930,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.8.3";
+    const CURRENT_VERSION = "2.8.4";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {

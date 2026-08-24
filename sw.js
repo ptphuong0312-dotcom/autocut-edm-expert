@@ -1,4 +1,4 @@
-const CACHE_NAME = 'autocut-edm-v2.8.3';
+const CACHE_NAME = 'autocut-edm-v2.8.4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
