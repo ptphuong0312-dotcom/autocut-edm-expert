@@ -603,7 +603,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 4. CUSTOM ANALYSIS ENGINE
+    // 4. CUSTOM ANALYSIS ENGINE (SO SÁNH CHI TIẾT)
     // ==========================================
 
     function runCustomAnalysis() {
@@ -615,55 +615,101 @@ document.addEventListener('DOMContentLoaded', () => {
         const c_wire = parseInt(customWireInput.value, 10) || 1;
 
         const H = state.thickness;
+        const L = state.cutLength || 100;
         const stdCalc = calculateEDM({ ...state, strategyLevel: 6 });
         const stdRow = stdCalc.rows[0];
 
-        // 1. Tính toán Tần số phóng điện
-        const c_toff = c_ti * c_po;
-        const c_cycle = c_ti + c_toff;
-        const c_freq_khz = (1000 / c_cycle).toFixed(2); // kHz
+        // 1. Chu kỳ 1 xung T và Thời gian nghỉ Toff
+        const c_toff = c_ti * c_po; // micro-seconds
+        const c_cycle = c_ti + c_toff; // micro-seconds (Chu kỳ T)
+        const c_cycle_ms = (c_cycle / 1000).toFixed(3); // ms
 
         const std_toff = stdRow.ti * stdRow.Po;
         const std_cycle = stdRow.ti + std_toff;
-        const std_freq_khz = (1000 / std_cycle).toFixed(2);
+        const std_cycle_ms = (std_cycle / 1000).toFixed(3);
 
-        // 1b. Tính toán Năng lượng 1 tia, Tỷ lệ mở van và Tổng năng lượng trong 1 giây
-        const c_duty_factor = ((1 / (1 + c_po)) * 100).toFixed(1);
-        const std_duty_factor = ((1 / (1 + stdRow.Po)) * 100).toFixed(1);
+        // 2. Tần số phát xung (Frequency - f)
+        const c_freq_hz = Math.round(1000000 / c_cycle);
+        const c_freq_khz = (c_freq_hz / 1000).toFixed(2);
 
-        const c_we = c_ti * c_ip;
-        const std_we = stdRow.ti * stdRow.IP;
+        const std_freq_hz = Math.round(1000000 / std_cycle);
+        const std_freq_khz = (std_freq_hz / 1000).toFixed(2);
 
-        const c_total_power = Math.round(parseFloat(c_freq_khz) * 1000 * c_we);
-        const std_total_power = Math.round(parseFloat(std_freq_khz) * 1000 * std_we);
+        // 3. Tỷ lệ mở van MOSFET (Duty Factor - η)
+        const c_duty_factor = ((c_ti / c_cycle) * 100).toFixed(1);
+        const std_duty_factor = ((stdRow.ti / std_cycle) * 100).toFixed(1);
 
-        // 2. Tính toán tốc độ cắt ước tính
+        // 4. NĂNG LƯỢNG 1 TIA ĐƠN (We ∝ Ton × IP)
+        // Điện áp hồ quang phóng điện thực tế (U_arc: 28V với High, 22V với Low)
+        // Dòng đỉnh thực tế I_peak ≈ IP × 2.8A
+        const c_u_arc = c_volt === 'Low' ? 22 : 28;
+        const std_u_arc = stdRow.Voltage === 'Low' ? 22 : 28;
+        const c_i_peak = c_ip * 2.8; // Amperes
+        const std_i_peak = stdRow.IP * 2.8;
+
+        const c_we_mj = ((c_u_arc * c_i_peak * c_ti) / 1000).toFixed(2); // mJ (milli-Joules)
+        const std_we_mj = ((std_u_arc * std_i_peak * stdRow.ti) / 1000).toFixed(2);
+
+        const c_we_score = c_ti * c_ip;
+        const std_we_score = stdRow.ti * stdRow.IP;
+
+        // 5. NĂNG LƯỢNG PHÁT TRONG 1S (Công suất trung bình P_tb = f × We)
+        const c_power_watts = ((c_freq_hz * parseFloat(c_we_mj)) / 1000).toFixed(1); // Watts (J/s)
+        const std_power_watts = ((std_freq_hz * parseFloat(std_we_mj)) / 1000).toFixed(1);
+
+        const c_power_score = Math.round(c_freq_hz * c_we_score);
+        const std_power_score = Math.round(std_freq_hz * std_we_score);
+
+        // 6. Tốc độ cắt diện tích Fc và Tốc độ tiến bàn Ft
         const c_energy_factor = (c_ti * c_ip) / c_cycle;
         const std_energy_factor = (stdRow.ti * stdRow.IP) / std_cycle;
         const ratio = c_energy_factor / std_energy_factor;
-        
+
         let c_speedArea = Math.round(stdRow.speedArea * ratio);
         if (c_ti > 60 && H < 100) {
-            c_speedArea = Math.round(c_speedArea * 0.85);
+            c_speedArea = Math.round(c_speedArea * 0.88);
+        }
+        if (c_po > 15) {
+            c_speedArea = Math.round(c_speedArea * 0.92);
         }
         const c_feedRate = (c_speedArea / H).toFixed(2);
+        const std_feedRate = parseFloat(stdRow.feedRate).toFixed(2);
 
-        // 3. Tính độ nhám Ra ước tính
-        let c_ra_min, c_ra_max;
-        if (c_ti >= 70) {
-            c_ra_min = 4.0; c_ra_max = 5.2;
-        } else if (c_ti >= 50) {
-            c_ra_min = 3.5; c_ra_max = 4.2;
-        } else if (c_ti >= 30) {
-            c_ra_min = 2.8; c_ra_max = 3.4;
-        } else {
-            c_ra_min = 1.8; c_ra_max = 2.4;
+        // 7. Thời gian gia công ước tính
+        const c_time_min = L / parseFloat(c_feedRate);
+        const std_time_min = L / parseFloat(std_feedRate);
+
+        function formatTimeMinSec(mins) {
+            if (!isFinite(mins) || mins <= 0) return '0.0 phút';
+            const m = Math.floor(mins);
+            const s = Math.round((mins - m) * 60);
+            if (mins < 60) {
+                return `${mins.toFixed(1)} phút (~${m}p ${s < 10 ? '0' + s : s}s)`;
+            } else {
+                const h = Math.floor(mins / 60);
+                const remM = Math.round(mins % 60);
+                return `${h} giờ ${remM} phút (~${mins.toFixed(0)}p)`;
+            }
         }
 
-        // 4. Khe hở phóng tia & Nguy cơ lẹm kích thước
-        const c_sparkGap = (0.015 + 0.00035 * c_ti * (c_ip / 3)).toFixed(3);
-        const std_sparkGap = (0.015 + 0.00035 * stdRow.ti * (stdRow.IP / 3)).toFixed(3);
-        const gapDiff = ((c_sparkGap - std_sparkGap) * 1000).toFixed(0); // micron
+        // 8. Độ nhám Ra ước tính
+        let c_ra_min, c_ra_max;
+        if (c_we_score >= 280) {
+            c_ra_min = 4.2; c_ra_max = 5.5;
+        } else if (c_we_score >= 180) {
+            c_ra_min = 3.4; c_ra_max = 4.2;
+        } else if (c_we_score >= 100) {
+            c_ra_min = 2.6; c_ra_max = 3.4;
+        } else if (c_we_score >= 40) {
+            c_ra_min = 1.8; c_ra_max = 2.5;
+        } else {
+            c_ra_min = 0.8; c_ra_max = 1.6;
+        }
+
+        // 9. Khe hở phóng tia & Sai số kích thước
+        const c_sparkGap = (0.015 + 0.00035 * c_ti * (c_ip / 3) + (c_volt === 'High' ? 0.004 : 0.001)).toFixed(3);
+        const std_sparkGap = (0.015 + 0.00035 * stdRow.ti * (stdRow.IP / 3) + (stdRow.Voltage === 'High' ? 0.004 : 0.001)).toFixed(3);
+        const gapDiff = Math.round((parseFloat(c_sparkGap) - parseFloat(std_sparkGap)) * 1000); // micron
 
         // Render bảng so sánh
         comparisonTableElement.innerHTML = `
@@ -676,19 +722,29 @@ document.addEventListener('DOMContentLoaded', () => {
             </thead>
             <tbody>
                 <tr>
-                    <td class="col-metric"><strong>Bộ thông số [ti - Po - IP - VF]</strong></td>
-                    <td class="col-user">ti=${c_ti}μs, Po=${c_po}, IP=${c_ip}, VF=${c_vf}</td>
-                    <td class="col-std">ti=${stdRow.ti}μs, Po=${stdRow.Po}, IP=${stdRow.IP}, VF=${stdRow.VF}</td>
+                    <td class="col-metric"><strong>Bộ thông số [Ton - Toff - IP - V - VF]</strong></td>
+                    <td class="col-user">Ton=${c_ti}μs, Toff=${c_po}, IP=${c_ip}, V=${c_volt}, VF=${c_vf}</td>
+                    <td class="col-std">Ton=${stdRow.ti}μs, Toff=${stdRow.Po}, IP=${stdRow.IP}, V=${stdRow.Voltage}, VF=${stdRow.VF}</td>
+                </tr>
+                <tr>
+                    <td class="col-metric"><strong>Thời gian mở xung (Ton)</strong></td>
+                    <td class="col-user"><strong>${c_ti} μs</strong></td>
+                    <td class="col-std"><strong>${stdRow.ti} μs</strong></td>
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>Thời gian nghỉ xả xỉ (Toff)</strong></td>
-                    <td class="col-user">${c_toff} μs</td>
-                    <td class="col-std">${std_toff} μs</td>
+                    <td class="col-user"><strong>${c_toff} μs</strong> (Hệ số ${c_po})</td>
+                    <td class="col-std"><strong>${std_toff} μs</strong> (Hệ số ${stdRow.Po})</td>
                 </tr>
                 <tr>
-                    <td class="col-metric"><strong>Tần số phát xung (Frequency)</strong></td>
-                    <td class="col-user"><strong>${c_freq_khz} kHz</strong> ${c_freq_khz < 2.5 ? '(Quá thưa)' : ''}</td>
-                    <td class="col-std"><strong>${std_freq_khz} kHz</strong> (Tối ưu)</td>
+                    <td class="col-metric"><strong>Tổng thời gian 1 chu kỳ (T = Ton + Toff)</strong></td>
+                    <td class="col-user"><strong>${c_cycle} μs</strong> (${c_cycle_ms} ms)</td>
+                    <td class="col-std"><strong>${std_cycle} μs</strong> (${std_cycle_ms} ms)</td>
+                </tr>
+                <tr>
+                    <td class="col-metric"><strong>Tần số phát xung (Frequency - f)</strong></td>
+                    <td class="col-user"><strong>${c_freq_khz} kHz</strong> (${c_freq_hz.toLocaleString()} xung/giây) ${c_freq_khz < 2.5 ? '<br><small style="color:var(--accent-amber)">⚠️ Quá thưa, dễ giảm năng suất</small>' : ''}</td>
+                    <td class="col-std"><strong>${std_freq_khz} kHz</strong> (${std_freq_hz.toLocaleString()} xung/giây - Tối ưu)</td>
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>Tỷ lệ mở van MOSFET (Duty Factor - η)</strong></td>
@@ -696,14 +752,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td class="col-std"><strong>${std_duty_factor}%</strong> (1 mở : ${stdRow.Po} nghỉ)</td>
                 </tr>
                 <tr>
-                    <td class="col-metric"><strong>Năng lượng của 1 tia đơn (We ∝ ti × IP)</strong></td>
-                    <td class="col-user"><strong>${c_we} đv</strong> (≈ ${(c_we * 0.035).toFixed(1)} mJ ${c_we > std_we ? '- Tia to hơn' : ''})</td>
-                    <td class="col-std"><strong>${std_we} đv</strong> (≈ ${(std_we * 0.035).toFixed(1)} mJ - Tia vừa)</td>
+                    <td class="col-metric"><strong>NĂNG LƯỢNG 1 TIA ĐƠN (We ∝ Ton × IP)</strong></td>
+                    <td class="col-user"><strong>${c_we_score} đv</strong> (≈ <strong>${c_we_mj} mJ</strong> ${c_we_score > std_we_score ? '⚡ Tia to hơn' : '🔹 Tia nhỏ hơn'})</td>
+                    <td class="col-std"><strong>${std_we_score} đv</strong> (≈ <strong>${std_we_mj} mJ</strong> - Tia vừa chuẩn)</td>
                 </tr>
                 <tr>
-                    <td class="col-metric"><strong>Tổng năng lượng phát ra trong 1 giây (f × We)</strong></td>
-                    <td class="col-user"><strong>≈ ${c_total_power.toLocaleString()} đv/s</strong></td>
-                    <td class="col-std"><strong>≈ ${std_total_power.toLocaleString()} đv/s</strong></td>
+                    <td class="col-metric"><strong>NĂNG LƯỢNG PHÁT TRONG 1S (Công suất trung bình Ptb)</strong></td>
+                    <td class="col-user"><strong>${c_power_watts} W</strong> (≈ ${c_power_score.toLocaleString()} đv/s)</td>
+                    <td class="col-std"><strong>${std_power_watts} W</strong> (≈ ${std_power_score.toLocaleString()} đv/s)</td>
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>Tốc độ cắt diện tích ước tính Fc</strong></td>
@@ -713,11 +769,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 <tr>
                     <td class="col-metric"><strong>Tốc độ tiến bàn máy Ft (H=${H}mm)</strong></td>
                     <td class="col-user"><strong>${c_feedRate} mm/p</strong></td>
-                    <td class="col-std"><strong>${stdRow.feedRate} mm/p</strong></td>
+                    <td class="col-std"><strong>${std_feedRate} mm/p</strong></td>
                 </tr>
                 <tr>
-                    <td class="col-metric"><strong>Độ nhám bề mặt (Ra)</strong></td>
-                    <td class="col-user">${c_ra_min} - ${c_ra_max} μm (Rỗ sâu)</td>
+                    <td class="col-metric"><strong>Thời gian gia công ước tính (Chu vi L=${L}mm)</strong></td>
+                    <td class="col-user"><strong>${formatTimeMinSec(c_time_min)}</strong></td>
+                    <td class="col-std"><strong>${formatTimeMinSec(std_time_min)}</strong></td>
+                </tr>
+                <tr>
+                    <td class="col-metric"><strong>Độ nhám bề mặt ước tính (Ra)</strong></td>
+                    <td class="col-user">${c_ra_min} - ${c_ra_max} μm ${c_we_score > std_we_score ? '(Rỗ thô hơn)' : ''}</td>
                     <td class="col-std">${stdRow.Ra} μm (Đều, mịn)</td>
                 </tr>
                 <tr>
@@ -726,38 +787,40 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td class="col-std">≈ ${std_sparkGap} mm (Chuẩn)</td>
                 </tr>
                 <tr>
-                    <td class="col-metric"><strong>Sai số kích thước (nếu giữ Offset=0.115)</strong></td>
-                    <td class="col-user">${gapDiff > 5 ? `⚠️ LẸM (ÂM) ${gapDiff} μm (${(gapDiff/1000).toFixed(3)}mm)` : 'Bình thường'}</td>
+                    <td class="col-metric"><strong>Sai số kích thước (nếu giữ Offset mặc định)</strong></td>
+                    <td class="col-user">${gapDiff > 4 ? `⚠️ LẸM (ÂM) ${gapDiff} μm (${(gapDiff/1000).toFixed(3)}mm)` : (gapDiff < -4 ? `⚠️ DƯ DƯƠNG ${Math.abs(gapDiff)} μm` : '✅ Chuẩn kích thước')}</td>
                     <td class="col-std">✅ Chuẩn xác ±0.005 mm</td>
                 </tr>
                 <tr>
                     <td class="col-metric"><strong>Mức độ mòn &amp; Nguy cơ đứt dây</strong></td>
-                    <td class="col-user">${c_ti > 60 ? '🔴 DÂY MÒN RẤT NHANH, DỄ THẮT EO ĐỨT' : '🟢 An toàn'}</td>
+                    <td class="col-user">${c_ti > 55 ? '🔴 DÂY MÒN RẤT NHANH, DỄ THẮT EO ĐỨT' : (c_toff < 100 ? '⚠️ NGHẸT XỈ, DỄ ĐOẢN MẠCH' : '🟢 An toàn')}</td>
                     <td class="col-std">🟢 DÂY BỀN, TUỔI THỌ CAO</td>
                 </tr>
             </tbody>
         `;
 
-        // Render feedback nhận xét
+        // Render feedback nhận xét chuyên gia
         let feedbackHTML = `<span class="feedback-alert feedback-warn">🔍 ĐÁNH GIÁ KỸ THUẬT CHI TIẾT TỪ CHUYÊN GIA EDM:</span>`;
         feedbackHTML += `<ul style="padding-left:18px;margin-top:6px;">`;
 
         if (c_ti > 50 && H < 100) {
-            feedbackHTML += `<li><strong>Xung ti=${c_ti}μs quá cao cho phôi H=${H}mm:</strong> Năng lượng xung đơn quá nóng làm dây Molypden bị ủ mềm, sinh hố rỗ hồ quang lớn. Bề mặt cắt sẽ rất thô nhám (Ra ≈ ${c_ra_min} - ${c_ra_max} μm).</li>`;
+            feedbackHTML += `<li><strong>Xung Ton=${c_ti}μs quá cao cho phôi H=${H}mm:</strong> Năng lượng tia đơn lớn (${c_we_mj} mJ) tạo hố ăn mòn sâu, làm bề mặt thô nhám (Ra ≈ ${c_ra_min} - ${c_ra_max} μm) và tăng tốc độ mòn dây Molypden.</li>`;
         }
 
         if (c_toff > 300) {
-            feedbackHTML += `<li><strong>Thời gian nghỉ Toff=${c_toff}μs quá dài:</strong> Mặc dù rửa xỉ tốt nhưng làm tần số xung tụt xuống còn <strong>${c_freq_khz} kHz</strong> → Mật độ tia lửa quá thưa khiến <strong>tốc độ cắt bị kéo chậm lại rõ rệt</strong>.</li>`;
+            feedbackHTML += `<li><strong>Thời gian nghỉ Toff=${c_toff}μs quá dài:</strong> Chu kỳ T kéo dài lên ${c_cycle}μs (${c_cycle_ms}ms), làm tần số xung giảm còn <strong>${c_freq_khz} kHz (${c_freq_hz.toLocaleString()} xung/s)</strong> → Mật độ tia lửa thưa khiến thời gian gia công tăng lên thành <strong>${formatTimeMinSec(c_time_min)}</strong>.</li>`;
         }
 
-        if (gapDiff > 5) {
-            feedbackHTML += `<li><strong>Cảnh báo sai lệch kích thước:</strong> Do khe hở tia lửa bị giãn rộng thêm <strong>+${gapDiff} micron</strong>, nếu bạn dùng Offset mặc định (0.115 mm) thì chi tiết cắt ra sẽ bị <strong>LẸM PHÔI</strong>. Nếu muốn dùng chế độ này, bạn bắt buộc phải tăng Offset lên <strong>${(0.090 + parseFloat(c_sparkGap)).toFixed(3)} mm</strong>.</li>`;
+        if (gapDiff > 4) {
+            feedbackHTML += `<li><strong>Cảnh báo sai lệch kích thước:</strong> Do khe hở tia lửa bị nở rộng thêm <strong>+${gapDiff} micron</strong>, nếu bạn dùng Offset mặc định thì chi tiết cắt ra sẽ bị <strong>LẸM PHÔI</strong>. Nếu muốn dùng chế độ này, bạn cần bù thêm Offset thành <strong>${(0.090 + parseFloat(c_sparkGap)).toFixed(3)} mm</strong>.</li>`;
         }
 
         if (c_ti <= stdRow.ti + 8 && c_po <= stdRow.Po + 1) {
             feedbackHTML += `<li><strong class="feedback-good">Đánh giá chung:</strong> Bộ thông số bạn nhập tương đối hợp lý và nằm gần vùng làm việc an toàn của máy.</li>`;
         } else {
-            feedbackHTML += `<li><strong class="feedback-danger">Lời khuyên:</strong> Đối với thép ${state.material} dày ${H}mm, bạn nên áp dụng <strong>ti=${stdRow.ti}μs, Po=${stdRow.Po}, IP=${stdRow.IP}</strong> để đạt tốc độ cắt nhanh hơn, bề mặt đẹp và bảo vệ dây Molypden tối đa.</li>`;
+            const timeDiffMin = c_time_min - std_time_min;
+            const timeCompText = timeDiffMin > 0 ? `nhanh hơn khoảng ${formatTimeMinSec(timeDiffMin)}` : `ổn định và bảo vệ dây tốt hơn`;
+            feedbackHTML += `<li><strong class="feedback-danger">Lời khuyên:</strong> Đối với vật liệu ${state.material} dày ${H}mm, bạn nên áp dụng <strong>Ton=${stdRow.ti}μs, Toff=${stdRow.Po}, IP=${stdRow.IP}</strong> để đạt tần số tối ưu (${std_freq_khz} kHz), tiết kiệm thời gian cắt (${timeCompText}) và tăng tuổi thọ dây Molypden.</li>`;
         }
 
         feedbackHTML += `</ul>`;
@@ -852,7 +915,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "2.7.0";
+    const CURRENT_VERSION = "2.8.0";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {

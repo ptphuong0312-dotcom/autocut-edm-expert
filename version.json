@@ -1,5 +1,5 @@
 {
-  "version": "2.7.0",
-  "buildTime": 1787491700000,
-  "description": "Added Copper (Cu / Thau) and Aluminum (Al 6061/7075) materials with dedicated EDM physics and notices"
+  "version": "2.8.0",
+  "buildTime": 1787571500000,
+  "description": "Enhanced comparison table with cycle time T, single spark energy We (mJ), 1s power (Watts), detailed pulse frequency (kHz & pulses/sec), and estimated machining time"
 }
