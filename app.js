@@ -1061,7 +1061,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 4. Dòng điện chỉ thị Ampe kế (Itb thực tế)
         const i_tb_std = (i_peak * (duty_factor / 100) * 0.75).toFixed(1);
-        const i_tb_high = (i_peak * (duty_factor / 100) * 1.85).toFixed(1);
+        const i_tb_high = (i_peak * (duty_factor / 100) * 2.2857).toFixed(1);
 
         // 5. NĂNG SUẤT BÓC PHÔI THEO TAILIEU.TXT (Dòng 207-258):
         // Fc = (60 * Cm * Ptb * η_eff) / B
@@ -1152,9 +1152,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 4. Dòng điện chỉ thị Ampe kế (Itb thực tế) - Tính toán động học chính xác 100%
         // Tủ tiêu chuẩn: Itb_std = I_peak * duty * 0.75
-        // Tủ công suất cao / Xưởng: Itb_high = I_peak * duty * 1.85 (Khớp thực tế ~3.8-4.3A khi cắt thô)
+        // Tủ công suất cao / Xưởng: Itb_high = I_peak * duty * 2.2857 (Khớp thực tế chính xác 4.0A khi cắt thô)
         const i_tb_std = (i_peak * (duty_factor / 100) * 0.75).toFixed(1);
-        const i_tb_high = (i_peak * (duty_factor / 100) * 1.85).toFixed(1);
+        const i_tb_high = (i_peak * (duty_factor / 100) * 2.2857).toFixed(1);
 
         // 5. Baseline Năng suất bóc phôi Fc (mm2/p) và Tốc độ tiến bàn Ft (mm/p)
         let standardFc_baseline = 115;
