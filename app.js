@@ -769,7 +769,7 @@ document.addEventListener('DOMContentLoaded', () => {
             thickness: 12,
             cutLength: 58.2,
             multiPassDetails: [
-                { pass: 'Pass 1', ti: 26, Po: 5, IP: 3, wire: 1, volt: 'High', vf: 50, maxSpeed: 480, offset: 0.112, ampe: '4.0 A', time: "9p20'" },
+                { pass: 'Pass 1', ti: 26, Po: 5, IP: 3, wire: 1, volt: 'High', vf: 50, maxSpeed: 480, offset: 0.107, ampe: '4.0 A', time: "9p20'" },
                 { pass: 'Pass 2', ti: 16, Po: 5, IP: 2, wire: 2, volt: 'Low', vf: 40, maxSpeed: 480, offset: 0.018, ampe: '0.1A - 0.2A', time: "6p50'" },
                 { pass: 'Pass 3', ti: 6, Po: 4, IP: 1, wire: 3, volt: 'Low', vf: 30, maxSpeed: 310, offset: 0.008, ampe: '0.05A - 0.1A', time: "8p25'" },
                 { pass: 'Pass 4', ti: 2, Po: 3, IP: 1, wire: 3, volt: 'Low', vf: 22, maxSpeed: 240, offset: 0.004, ampe: '0.05A - 0.1A', time: "11p00'" },
@@ -780,10 +780,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalMinutes: 50.75,
                 totalTimeStr: '50p45s (50.75 phút)',
                 actualDimension: '30.012 mm (Danh nghĩa: 30.000 mm -> To +0.012 mm)',
-                recommendedOffsetP1: '0.106 mm (Giảm 0.006 mm ở Pass 1 để về đúng 30.000 mm)',
+                recommendedOffsetP1: '0.101 mm (Giảm 0.006 mm ở Pass 1 từ 0.107 mm để về đúng 30.000 mm)',
                 recommendedMaxSpeed: 'P1: 300 | P2: 220 | P3: 140 | P4: 90 | P5: 60 mm²/p'
             },
-            notes: 'Cắt 5 Pass chi tiết H=12mm, L=58.2mm. Tổng thời gian thực tế 50p45s. Kích thước bị to +0.012mm do Offset Pass 1 (0.112) bị dư và Max Speed P2 (480) quá cao gây trượt tia. Khắc phục: Chỉnh Offset Pass 1 về 0.106mm và hạ Max Speed các Pass tinh.'
+            notes: 'Cắt 5 Pass chi tiết H=12mm, L=58.2mm. Tổng thời gian thực tế 50p45s. Kích thước bị to +0.012mm do Offset Pass 1 (0.107) bị dư và Max Speed P2 (480) quá cao gây trượt tia. Khắc phục: Chỉnh Offset Pass 1 về 0.101mm (giảm 0.006mm) và hạ Max Speed các Pass tinh để về đúng kích thước chuẩn.'
         },
         {
             id: 'WS-EXP-03',
@@ -1916,7 +1916,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.3.2";
+    const CURRENT_VERSION = "3.3.3";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {

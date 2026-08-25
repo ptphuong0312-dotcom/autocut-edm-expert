@@ -1,5 +1,5 @@
 {
-  "version": "3.3.2",
-  "buildTime": 1787665000000,
-  "description": "Cleared unrecorded ammeter fields in empirical library EXP-03 to EXP-07, leaving only verified experimental measurements."
+  "version": "3.3.3",
+  "buildTime": 1787670000000,
+  "description": "Updated EXP-02 offset data: Pass 1 baseline offset set to 0.107mm, calibrated -0.006mm to 0.101mm for exact nominal dimension."
 }
