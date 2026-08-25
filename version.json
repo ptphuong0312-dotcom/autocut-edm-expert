@@ -1,5 +1,5 @@
 {
-  "version": "3.0.1",
-  "buildTime": 1787591000000,
-  "description": "Calibrated Theoretical Fc and Ft arithmetic strictly matching tailieu.txt experimental baseline."
+  "version": "3.3.1",
+  "buildTime": 1787660000000,
+  "description": "Fixed variable scope in calculateEDM across multi-pass blocks to ensure all passes 1 to 6 render correctly."
 }

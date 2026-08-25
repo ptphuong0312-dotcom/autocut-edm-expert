@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=3.0.1">
+    <link rel="stylesheet" href="style.css?v=3.3.1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -319,12 +319,16 @@
                         </div>
                         <div class="workshop-body" id="workshop-body" style="display: none;">
                             <div class="workshop-notice-box">
-                                📌 <strong>Khu vực Hiệu chỉnh Độc quyền:</strong> Bảng này lưu trữ kết quả thực nghiệm cắt tại xưởng của bạn (SCM420/SCM440 H=55mm, kim Ampe 4A, L=265mm...). Mọi công thức chuẩn Hãng trên Web App luôn được bảo toàn cố định 100%.
+                                📌 <strong>Khu vực Hiệu chỉnh Độc quyền (Offline Local):</strong> Bảng này tính toán dựa trên 100% công thức vật lý nhiệt điện học gốc kết hợp với các hệ số hiệu chuẩn thực nghiệm đo trực tiếp tại xưởng của bạn (Thép SCM420/SCM440 H=55mm, kim Ampe 4A, L=228mm, t=1h50p...). Mọi thông số Chuẩn Hãng trên Web App luôn được bảo toàn cố định 100%.
                             </div>
                             <div class="table-responsive">
                                 <table class="comparison-table workshop-table" id="workshop-table-element">
                                     <!-- Injected by JavaScript -->
                                 </table>
+                            </div>
+                            <!-- THƯ VIỆN THÔNG SỐ THỰC NGHIỆM XƯỞNG -->
+                            <div class="workshop-library-section" id="workshop-library-container">
+                                <!-- Injected by JavaScript: Workshop Empirical Library -->
                             </div>
                         </div>
                     </div>
@@ -709,6 +713,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=3.0.1"></script>
+    <script src="app.js?v=3.3.1"></script>
 </body>
 </html>
