@@ -796,7 +796,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cutLength: 50,
             params: { ti: 20, Po: 7, IP: 2, Voltage: 'Low', VF: 50, Wire: 2 },
             measured: {
-                ammeterA: '≈ 1.6 A',
+                ammeterA: '--',
                 sparkGap: 0.015,
                 recommendedOffset: 0.105,
                 tolerance: '±0.005 mm'
@@ -814,7 +814,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cutLength: 50,
             params: { ti: 50, Po: 7, IP: 3, Voltage: 'Low', VF: 50, Wire: 1 },
             measured: {
-                ammeterA: '≈ 2.4 A',
+                ammeterA: '--',
                 sparkGap: 0.015,
                 recommendedOffset: 0.105,
                 tolerance: '±0.005 mm'
@@ -832,7 +832,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cutLength: 50,
             params: { ti: 70, Po: 7, IP: 3, Voltage: 'Low', VF: 50, Wire: 1 },
             measured: {
-                ammeterA: '≈ 2.4 A',
+                ammeterA: '--',
                 sparkGap: 0.007,
                 recommendedOffset: 0.097,
                 tolerance: '±0.005 mm'
@@ -850,7 +850,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cutLength: 50,
             params: { ti: 120, Po: 8, IP: 5, Voltage: 'High', VF: 55, Wire: 1 },
             measured: {
-                ammeterA: '≈ 3.5 - 3.6 A',
+                ammeterA: '--',
                 sparkGap: 0.005,
                 recommendedOffset: 0.095,
                 tolerance: '±0.005 mm'
@@ -868,7 +868,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cutLength: 50,
             params: { ti: 120, Po: 8, IP: 5, Voltage: 'High', VF: 55, Wire: 1 },
             measured: {
-                ammeterA: '≈ 3.5 - 3.6 A',
+                ammeterA: '--',
                 sparkGap: 0.020,
                 recommendedOffset: 0.110,
                 tolerance: '±0.005 mm'
@@ -1916,7 +1916,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.3.1";
+    const CURRENT_VERSION = "3.3.2";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {

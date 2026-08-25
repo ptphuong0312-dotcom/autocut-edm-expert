@@ -1,5 +1,5 @@
 {
-  "version": "3.3.1",
-  "buildTime": 1787660000000,
-  "description": "Fixed variable scope in calculateEDM across multi-pass blocks to ensure all passes 1 to 6 render correctly."
+  "version": "3.3.2",
+  "buildTime": 1787665000000,
+  "description": "Cleared unrecorded ammeter fields in empirical library EXP-03 to EXP-07, leaving only verified experimental measurements."
 }
