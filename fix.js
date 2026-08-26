@@ -338,6 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
         runCustomAnalysis(true);
     });
 
+    
     function syncCustomInputs(sourceTab) {
         if (sourceTab === 'tab1') {
             if (wsCustomTiInput) wsCustomTiInput.value = customTiInput.value;
@@ -368,7 +369,6 @@ document.addEventListener('DOMContentLoaded', () => {
             inp.addEventListener('change', handler);
         }
     });
-
     [wsCustomTiInput, wsCustomPoInput, wsCustomIpInput, wsCustomVoltInput, wsCustomVfInput, wsCustomWireInput].forEach(inp => {
         if (inp) {
             const handler = () => {
@@ -389,6 +389,10 @@ document.addEventListener('DOMContentLoaded', () => {
             runCustomAnalysis(true);
         });
     }
+
+    // Replace old handler
+    /*
+    */
 
     // Toggle Chế độ Ẩn/Hiện Ký hiệu viết tắt theo phương ngang
     if (btnToggleCompact) {
@@ -1378,13 +1382,6 @@ document.addEventListener('DOMContentLoaded', () => {
             customVoltInput.value = smoothRow.Voltage;
             customVfInput.value = smoothRow.VF;
             customWireInput.value = smoothRow.Wire;
-            
-            if (wsCustomTiInput) wsCustomTiInput.value = smoothRow.ti;
-            if (wsCustomPoInput) wsCustomPoInput.value = smoothRow.Po;
-            if (wsCustomIpInput) wsCustomIpInput.value = smoothRow.IP;
-            if (wsCustomVoltInput) wsCustomVoltInput.value = smoothRow.Voltage;
-            if (wsCustomVfInput) wsCustomVfInput.value = smoothRow.VF;
-            if (wsCustomWireInput) wsCustomWireInput.value = smoothRow.Wire;
         }
     }
 
@@ -2136,7 +2133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.2";
+    const CURRENT_VERSION = "3.4.1";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
