@@ -22,3 +22,5 @@ setTimeout(() => {
     console.log("Tab 2 Table length:", tbody2 ? tbody2.innerHTML.length : 'null');
     console.log("Tab 2 Comparison length:", comp2 ? comp2.innerHTML.length : 'null');
 }, 100);
+const wsLib = dom.window.document.getElementById('ws-workshop-library-container');
+console.log('Workshop Lib HTML length:', wsLib ? wsLib.innerHTML.length : 'null');

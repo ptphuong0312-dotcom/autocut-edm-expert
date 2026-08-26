@@ -1699,111 +1699,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tbody>
             `;
 
-            // Render danh sách Thư viện Thực nghiệm Xưởng
-            const workshopLibContainer = document.getElementById('ws-workshop-library-container');
-            if (workshopLibContainer) {
-                workshopLibContainer.innerHTML = `
-                    <div class="workshop-lib-header">
-                        <h4>📚 THƯ VIỆN THÔNG SỐ CẮT THỰC TẾ XƯỞNG (${WORKSHOP_EMPIRICAL_LIBRARY.length} bản ghi)</h4>
-                        <span class="lib-offline-badge">🔒 Lưu trữ Cục bộ (Offline Local)</span>
-                    </div>
-                    <div class="workshop-lib-list">
-                        ${WORKSHOP_EMPIRICAL_LIBRARY.map(item => `
-                            <div class="workshop-lib-card ${item.passCount > 1 ? 'lib-card-multipass' : ''}">
-                                <div class="lib-card-top">
-                                    <span class="lib-card-id">${item.id}</span>
-                                    <strong class="lib-card-title">${item.name}</strong>
-                                    <span class="lib-card-date">${item.date}</span>
-                                </div>
-                                ${item.multiPassDetails ? `
-                                    <div class="lib-table-wrapper">
-                                        <table class="lib-mini-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Pass</th>
-                                                    <th>Ton</th>
-                                                    <th>Toff</th>
-                                                    <th>IP</th>
-                                                    <th>Wire</th>
-                                                    <th>V</th>
-                                                    <th>VF</th>
-                                                    <th>Max Speed</th>
-                                                    <th>Offset</th>
-                                                    <th>Ampe trên máy</th>
-                                                    <th>Thời gian cắt</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                ${item.multiPassDetails.map(p => `
-                                                    <tr>
-                                                        <td><strong>${p.pass}</strong></td>
-                                                        <td>${p.ti}</td>
-                                                        <td>${p.Po}</td>
-                                                        <td>${p.IP}</td>
-                                                        <td>${p.wire}</td>
-                                                        <td>${p.volt}</td>
-                                                        <td>${p.vf}</td>
-                                                        <td><strong>${p.maxSpeed}</strong></td>
-                                                        <td style="color:#c084fc;font-weight:700;">${p.offset}</td>
-                                                        <td style="color:#38bdf8;"><strong>${p.ampe}</strong></td>
-                                                        <td style="color:#34d399;font-weight:700;">${p.time}</td>
-                                                    </tr>
-                                                `).join('')}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="lib-card-grid">
-                                        <div class="lib-metric-box highlight-metric">
-                                            <span class="lib-lbl">Tổng thời gian 5 Pass</span>
-                                            <span class="lib-val">⏱️ ${item.measured.totalTimeStr}</span>
-                                        </div>
-                                        <div class="lib-metric-box highlight-metric">
-                                            <span class="lib-lbl">Đo kiểm kích thước</span>
-                                            <span class="lib-val" style="color:#fb7185;">⚠️ ${item.measured.actualDimension}</span>
-                                        </div>
-                                        <div class="lib-metric-box highlight-metric">
-                                            <span class="lib-lbl">Hiệu chỉnh Offset Pass 1</span>
-                                            <span class="lib-val" style="color:#4ade80;">✅ ${item.measured.recommendedOffsetP1}</span>
-                                        </div>
-                                        <div class="lib-metric-box">
-                                            <span class="lib-lbl">Khuyến nghị Max Speed</span>
-                                            <span class="lib-val">${item.measured.recommendedMaxSpeed}</span>
-                                        </div>
-                                    </div>
-                                ` : `
-                                    <div class="lib-card-grid">
-                                        <div class="lib-metric-box">
-                                            <span class="lib-lbl">Cài đặt máy</span>
-                                            <span class="lib-val">Ton=${item.params.ti}, Po=${item.params.Po}, IP=${item.params.IP}, V=${item.params.Voltage}, VF=${item.params.VF}</span>
-                                        </div>
-                                        <div class="lib-metric-box">
-                                            <span class="lib-lbl">Vật liệu &amp; Kích thước</span>
-                                            <span class="lib-val">${item.materialName || item.material} | H=${item.thickness}mm | L=${item.cutLength}mm</span>
-                                        </div>
-                                        <div class="lib-metric-box highlight-metric">
-                                            <span class="lib-lbl">Đồng hồ Ampe</span>
-                                            <span class="lib-val">⚡ ${item.measured.ammeterA || '--'}</span>
-                                        </div>
-                                        <div class="lib-metric-box highlight-metric">
-                                            <span class="lib-lbl">Tốc độ &amp; Năng suất</span>
-                                            <span class="lib-val">${item.measured.fcAvg ? `Fc = ${item.measured.fcAvg} mm²/p (Tức thời: ${item.measured.fcInstantRange})` : 'Cắt cữ chuẩn'}</span>
-                                        </div>
-                                        <div class="lib-metric-box highlight-metric">
-                                            <span class="lib-lbl">Thời gian / Dung sai</span>
-                                            <span class="lib-val">${item.measured.totalTimeStr ? `⏱️ ${item.measured.totalTimeStr}` : `Dung sai: ${item.measured.tolerance}`}</span>
-                                        </div>
-                                        <div class="lib-metric-box">
-                                            <span class="lib-lbl">Lượng bù dao Offset</span>
-                                            <span class="lib-val">📏 Offset = ${item.measured.recommendedOffset} mm ${item.measured.sparkGap ? `(δ = ${item.measured.sparkGap} mm)` : ''}</span>
-                                        </div>
-                                    </div>
-                                `}
-                                <p class="lib-notes">📝 <strong>Ghi chú &amp; Đánh giá thực tế:</strong> ${item.notes}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            }
         }
 
         // 3. RENDER BÀI GIẢNG ĐỘNG LỰC HỌC VÀO TAB 2 (KIẾN THỨC CHUYÊN SÂU EDM)
@@ -1967,6 +1862,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
         }
+
 
         // Luôn hiển thị khung so sánh mặc định
         analysisContainer.style.display = 'block';
@@ -2273,6 +2169,112 @@ document.addEventListener('DOMContentLoaded', () => {
             checkForForceUpdate();
         }
     });
+
+            // Render danh sách Thư viện Thực nghiệm Xưởng
+            const workshopLibContainer = document.getElementById('ws-workshop-library-container');
+            if (workshopLibContainer) {
+                workshopLibContainer.innerHTML = `
+                    <div class="workshop-lib-header">
+                        <h4>📚 THƯ VIỆN THÔNG SỐ CẮT THỰC TẾ XƯỞNG (${WORKSHOP_EMPIRICAL_LIBRARY.length} bản ghi)</h4>
+                        <span class="lib-offline-badge">🔒 Lưu trữ Cục bộ (Offline Local)</span>
+                    </div>
+                    <div class="workshop-lib-list">
+                        ${WORKSHOP_EMPIRICAL_LIBRARY.map(item => `
+                            <div class="workshop-lib-card ${item.passCount > 1 ? 'lib-card-multipass' : ''}">
+                                <div class="lib-card-top">
+                                    <span class="lib-card-id">${item.id}</span>
+                                    <strong class="lib-card-title">${item.name}</strong>
+                                    <span class="lib-card-date">${item.date}</span>
+                                </div>
+                                ${item.multiPassDetails ? `
+                                    <div class="lib-table-wrapper">
+                                        <table class="lib-mini-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pass</th>
+                                                    <th>Ton</th>
+                                                    <th>Toff</th>
+                                                    <th>IP</th>
+                                                    <th>Wire</th>
+                                                    <th>V</th>
+                                                    <th>VF</th>
+                                                    <th>Max Speed</th>
+                                                    <th>Offset</th>
+                                                    <th>Ampe trên máy</th>
+                                                    <th>Thời gian cắt</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                ${item.multiPassDetails.map(p => `
+                                                    <tr>
+                                                        <td><strong>${p.pass}</strong></td>
+                                                        <td>${p.ti}</td>
+                                                        <td>${p.Po}</td>
+                                                        <td>${p.IP}</td>
+                                                        <td>${p.wire}</td>
+                                                        <td>${p.volt}</td>
+                                                        <td>${p.vf}</td>
+                                                        <td><strong>${p.maxSpeed}</strong></td>
+                                                        <td style="color:#c084fc;font-weight:700;">${p.offset}</td>
+                                                        <td style="color:#38bdf8;"><strong>${p.ampe}</strong></td>
+                                                        <td style="color:#34d399;font-weight:700;">${p.time}</td>
+                                                    </tr>
+                                                `).join('')}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="lib-card-grid">
+                                        <div class="lib-metric-box highlight-metric">
+                                            <span class="lib-lbl">Tổng thời gian 5 Pass</span>
+                                            <span class="lib-val">⏱️ ${item.measured.totalTimeStr}</span>
+                                        </div>
+                                        <div class="lib-metric-box highlight-metric">
+                                            <span class="lib-lbl">Đo kiểm kích thước</span>
+                                            <span class="lib-val" style="color:#fb7185;">⚠️ ${item.measured.actualDimension}</span>
+                                        </div>
+                                        <div class="lib-metric-box highlight-metric">
+                                            <span class="lib-lbl">Hiệu chỉnh Offset Pass 1</span>
+                                            <span class="lib-val" style="color:#4ade80;">✅ ${item.measured.recommendedOffsetP1}</span>
+                                        </div>
+                                        <div class="lib-metric-box">
+                                            <span class="lib-lbl">Khuyến nghị Max Speed</span>
+                                            <span class="lib-val">${item.measured.recommendedMaxSpeed}</span>
+                                        </div>
+                                    </div>
+                                ` : `
+                                    <div class="lib-card-grid">
+                                        <div class="lib-metric-box">
+                                            <span class="lib-lbl">Cài đặt máy</span>
+                                            <span class="lib-val">Ton=${item.params.ti}, Po=${item.params.Po}, IP=${item.params.IP}, V=${item.params.Voltage}, VF=${item.params.VF}</span>
+                                        </div>
+                                        <div class="lib-metric-box">
+                                            <span class="lib-lbl">Vật liệu &amp; Kích thước</span>
+                                            <span class="lib-val">${item.materialName || item.material} | H=${item.thickness}mm | L=${item.cutLength}mm</span>
+                                        </div>
+                                        <div class="lib-metric-box highlight-metric">
+                                            <span class="lib-lbl">Đồng hồ Ampe</span>
+                                            <span class="lib-val">⚡ ${item.measured.ammeterA || '--'}</span>
+                                        </div>
+                                        <div class="lib-metric-box highlight-metric">
+                                            <span class="lib-lbl">Tốc độ &amp; Năng suất</span>
+                                            <span class="lib-val">${item.measured.fcAvg ? `Fc = ${item.measured.fcAvg} mm²/p (Tức thời: ${item.measured.fcInstantRange})` : 'Cắt cữ chuẩn'}</span>
+                                        </div>
+                                        <div class="lib-metric-box highlight-metric">
+                                            <span class="lib-lbl">Thời gian / Dung sai</span>
+                                            <span class="lib-val">${item.measured.totalTimeStr ? `⏱️ ${item.measured.totalTimeStr}` : `Dung sai: ${item.measured.tolerance}`}</span>
+                                        </div>
+                                        <div class="lib-metric-box">
+                                            <span class="lib-lbl">Lượng bù dao Offset</span>
+                                            <span class="lib-val">📏 Offset = ${item.measured.recommendedOffset} mm ${item.measured.sparkGap ? `(δ = ${item.measured.sparkGap} mm)` : ''}</span>
+                                        </div>
+                                    </div>
+                                `}
+                                <p class="lib-notes">📝 <strong>Ghi chú &amp; Đánh giá thực tế:</strong> ${item.notes}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
 
     // INITIAL RENDER
     updateStrategyDisplay(state.strategyLevel);
