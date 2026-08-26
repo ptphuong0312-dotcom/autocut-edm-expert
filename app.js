@@ -59,6 +59,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnCloseModal = document.getElementById('btn-close-modal');
     const guideModal = document.getElementById('guide-modal');
 
+    // DOM Elements - Tab 2 (Workshop)
+    const wsMaterialCards = document.querySelectorAll('#ws-material-grid .radio-card');
+    const wsPassButtons = document.querySelectorAll('#ws-pass-selector .pass-btn');
+    const wsStrategySlider = document.getElementById('ws-strategy-slider');
+    const wsStrategyLevelBadge = document.getElementById('ws-strategy-level-badge');
+    const wsStrategyNameDisplay = document.getElementById('ws-strategy-name-display');
+    const wsStrategyBadgeDisplay = document.getElementById('ws-strategy-badge-display');
+    const wsStrategyDescDisplay = document.getElementById('ws-strategy-desc-display');
+    const wsThicknessInput = document.getElementById('ws-thickness-input');
+    const wsThicknessSlider = document.getElementById('ws-thickness-slider');
+    const wsQuickChips = document.querySelectorAll('#ws-quick-chips .chip');
+    const wsCutLengthInput = document.getElementById('ws-cut-length');
+    const wsTotalTimeText = document.getElementById('ws-total-time-text');
+    const wsConfigSummary = document.getElementById('ws-config-summary');
+
+
     // Custom analysis & Mode switch elements
     const btnModeCustom = document.getElementById('btn-mode-custom');
     const btnModeTheory = document.getElementById('btn-mode-theory');
@@ -97,40 +113,94 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
+    // 2. LÝ THUYẾT ĐỒNG BỘ 2 CHIỀU (SYNC STATE TO UI)
+    // ==========================================
+    function syncAllInputsUI() {
+        // Material
+        const updateMat = (cards) => {
+            cards.forEach(c => {
+                const radio = c.querySelector('input[type="radio"]');
+                if (radio.value === state.material) {
+                    c.classList.add('active');
+                    radio.checked = true;
+                } else {
+                    c.classList.remove('active');
+                    radio.checked = false;
+                }
+            });
+        };
+        updateMat(materialCards);
+        if (wsMaterialCards) updateMat(wsMaterialCards);
+
+        // Pass
+        const updatePass = (btns) => {
+            btns.forEach(b => {
+                if (parseInt(b.dataset.pass, 10) === state.passCount) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            });
+        };
+        updatePass(passButtons);
+        if (wsPassButtons) updatePass(wsPassButtons);
+
+        // Strategy
+        if (strategySlider) strategySlider.value = state.strategyLevel;
+        if (wsStrategySlider) wsStrategySlider.value = state.strategyLevel;
+        updateStrategyDisplay(state.strategyLevel);
+
+        // Thickness
+        if (thicknessInput) thicknessInput.value = state.thickness;
+        if (thicknessSlider) thicknessSlider.value = state.thickness;
+        if (wsThicknessInput) wsThicknessInput.value = state.thickness;
+        if (wsThicknessSlider) wsThicknessSlider.value = state.thickness;
+        updateQuickChips(state.thickness);
+
+        // Cut length
+        if (cutLengthInput) cutLengthInput.value = state.cutLength;
+        if (wsCutLengthInput) wsCutLengthInput.value = state.cutLength;
+    }
+
+    // ==========================================
     // 2. FORM EVENT LISTENERS
     // ==========================================
 
-    // Material Selection
-    materialCards.forEach(card => {
-        card.addEventListener('click', () => {
-            materialCards.forEach(c => c.classList.remove('active'));
-            card.classList.add('active');
-            const radio = card.querySelector('input[type="radio"]');
-            radio.checked = true;
-            state.material = radio.value;
-            render();
+    function bindMaterialEvents(cards) {
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const radio = card.querySelector('input[type="radio"]');
+                state.material = radio.value;
+                syncAllInputsUI();
+                render();
+            });
         });
-    });
+    }
+    bindMaterialEvents(materialCards);
+    if (wsMaterialCards) bindMaterialEvents(wsMaterialCards);
 
-    // Pass Selection (1 đến 6 lần)
-    passButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            passButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            state.passCount = parseInt(btn.dataset.pass, 10);
-            render();
+    function bindPassEvents(btns) {
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                state.passCount = parseInt(btn.dataset.pass, 10);
+                syncAllInputsUI();
+                render();
+            });
         });
-    });
+    }
+    bindPassEvents(passButtons);
+    if (wsPassButtons) bindPassEvents(wsPassButtons);
 
-    // 11-Position Strategy Slider
-    if (strategySlider) {
-        strategySlider.addEventListener('input', (e) => {
-            const lvl = parseInt(e.target.value, 10);
-            state.strategyLevel = lvl;
-            updateStrategyDisplay(lvl);
+    function bindStrategyEvents(slider) {
+        if (!slider) return;
+        slider.addEventListener('input', (e) => {
+            state.strategyLevel = parseInt(e.target.value, 10);
+            syncAllInputsUI();
             render();
         });
     }
+    bindStrategyEvents(strategySlider);
+    if (wsStrategySlider) bindStrategyEvents(wsStrategySlider);
 
     function updateStrategyDisplay(lvl) {
         const conf = STRATEGY_CONFIGS[lvl] || STRATEGY_CONFIGS[6];
@@ -138,58 +208,79 @@ document.addEventListener('DOMContentLoaded', () => {
         if (strategyNameDisplay) strategyNameDisplay.textContent = conf.name;
         if (strategyBadgeDisplay) strategyBadgeDisplay.textContent = conf.badge;
         if (strategyDescDisplay) strategyDescDisplay.textContent = conf.desc;
+        
+        if (wsStrategyLevelBadge) wsStrategyLevelBadge.textContent = `${conf.name} (Cấp ${lvl}/11)`;
+        if (wsStrategyNameDisplay) wsStrategyNameDisplay.textContent = conf.name;
+        if (wsStrategyBadgeDisplay) wsStrategyBadgeDisplay.textContent = 'Hiệu Chuẩn Xưởng';
+        if (wsStrategyDescDisplay) wsStrategyDescDisplay.textContent = conf.desc;
     }
 
-    // Thickness Slider & Input Sync
-    thicknessSlider.addEventListener('input', (e) => {
-        let val = parseInt(e.target.value, 10);
-        val = Math.round(val / 5) * 5; // Snap to 5mm
-        state.thickness = Math.max(5, Math.min(500, val));
-        thicknessInput.value = state.thickness;
-        updateQuickChips(state.thickness);
-        render();
-    });
-
-    thicknessInput.addEventListener('change', (e) => {
-        let val = parseInt(e.target.value, 10);
-        if (isNaN(val)) val = 40;
-        val = Math.round(val / 5) * 5;
-        state.thickness = Math.max(5, Math.min(500, val));
-        thicknessInput.value = state.thickness;
-        thicknessSlider.value = state.thickness;
-        updateQuickChips(state.thickness);
-        render();
-    });
-
-    // Quick Thickness Chips
-    quickChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-            const h = parseInt(chip.dataset.h, 10);
-            state.thickness = h;
-            thicknessInput.value = h;
-            thicknessSlider.value = h;
-            updateQuickChips(h);
+    function bindThicknessSliderEvents(slider) {
+        if (!slider) return;
+        slider.addEventListener('input', (e) => {
+            let val = parseInt(e.target.value, 10);
+            val = Math.round(val / 5) * 5;
+            state.thickness = Math.max(5, Math.min(500, val));
+            syncAllInputsUI();
             render();
         });
-    });
+    }
+    bindThicknessSliderEvents(thicknessSlider);
+    if (wsThicknessSlider) bindThicknessSliderEvents(wsThicknessSlider);
 
-    function updateQuickChips(currentH) {
-        quickChips.forEach(chip => {
-            if (parseInt(chip.dataset.h, 10) === currentH) {
-                chip.classList.add('active');
-            } else {
-                chip.classList.remove('active');
-            }
+    function bindThicknessInputEvents(inp) {
+        if (!inp) return;
+        inp.addEventListener('change', (e) => {
+            let val = parseInt(e.target.value, 10);
+            if (isNaN(val)) val = 40;
+            val = Math.round(val / 5) * 5;
+            state.thickness = Math.max(5, Math.min(500, val));
+            syncAllInputsUI();
+            render();
         });
     }
+    bindThicknessInputEvents(thicknessInput);
+    if (wsThicknessInput) bindThicknessInputEvents(wsThicknessInput);
 
-    // Cut Length (Perimeter)
-    cutLengthInput.addEventListener('input', (e) => {
-        let val = parseFloat(e.target.value);
-        if (isNaN(val) || val <= 0) val = 100;
-        state.cutLength = val;
-        render();
-    });
+    function updateQuickChips(currentH) {
+        const doUpdate = (chips) => {
+            chips.forEach(chip => {
+                if (parseInt(chip.dataset.h, 10) === currentH) {
+                    chip.classList.add('active');
+                } else {
+                    chip.classList.remove('active');
+                }
+            });
+        };
+        if (quickChips) doUpdate(quickChips);
+        if (wsQuickChips) doUpdate(wsQuickChips);
+    }
+
+    function bindQuickChipsEvents(chips) {
+        if (!chips) return;
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                state.thickness = parseInt(chip.dataset.h, 10);
+                syncAllInputsUI();
+                render();
+            });
+        });
+    }
+    bindQuickChipsEvents(quickChips);
+    if (wsQuickChips) bindQuickChipsEvents(wsQuickChips);
+
+    function bindCutLengthEvents(inp) {
+        if (!inp) return;
+        inp.addEventListener('input', (e) => {
+            let val = parseFloat(e.target.value);
+            if (isNaN(val) || val <= 0) val = 100;
+            state.cutLength = val;
+            syncAllInputsUI();
+            render();
+        });
+    }
+    bindCutLengthEvents(cutLengthInput);
+    if (wsCutLengthInput) bindCutLengthEvents(wsCutLengthInput);
 
     // Modal Guide
     btnShowGuide.addEventListener('click', () => {
@@ -1555,7 +1646,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
 
             // Render danh sách Thư viện Thực nghiệm Xưởng
-            const workshopLibContainer = document.getElementById('workshop-library-container');
+            const workshopLibContainer = document.getElementById('ws-workshop-library-container');
             if (workshopLibContainer) {
                 workshopLibContainer.innerHTML = `
                     <div class="workshop-lib-header">
@@ -1845,40 +1936,40 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         const matLabel = matNames[state.material] || state.material;
 
-        configSummary.textContent = `${matLabel} | H = ${state.thickness} mm | ${passLabel} | Chiến lược: ${strat.name}`;
+        if (configSummary) {
+            configSummary.textContent = `${matLabel} | H = ${state.thickness} mm | ${passLabel} | Chiến lược: ${strat.name}`;
+        }
+        if (wsConfigSummary) {
+            wsConfigSummary.textContent = `Hiệu chuẩn theo máy thực tế xưởng | ${matLabel} | H = ${state.thickness} mm | ${passLabel} | Chiến lược: ${strat.name}`;
+        }
 
         // Compute parameters
         const { rows, totalMinutes, notices } = calculateEDM(state);
+        const wsCalc = calculateWorkshopEDM(state);
 
-        // Render Table Body
-        tableBody.innerHTML = rows.map(r => `
-            <tr>
-                <td class="pass-cell sticky-col"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
-                <td><strong>${r.ti}</strong></td>
-                <td>${r.Po}</td>
-                <td><span class="badge-ip">${r.IP}</span></td>
-                <td><span class="${r.Voltage === 'High' ? 'val-volt-high' : 'val-volt-low'}">${r.Voltage}</span></td>
-                <td>${r.VF}</td>
-                <td>${r.Wire}</td>
-                <td class="val-offset">${r.offsetText}</td>
-                <td>${r.speedArea}</td>
-                <td><strong>${r.feedRate}</strong></td>
-                <td class="val-ra">${r.Ra}</td>
-                <td class="val-tolerance">${r.tolerance}</td>
-            </tr>
-        `).join('');
-
-        // Render Notices
-        noticeList.innerHTML = notices.map(n => `<li>${n}</li>`).join('');
-
-        // Render Total Time
-        if (totalMinutes < 60) {
-            totalTimeText.textContent = `${totalMinutes.toFixed(1)} phút`;
-        } else {
-            const hrs = Math.floor(totalMinutes / 60);
-            const mins = Math.round(totalMinutes % 60);
-            totalTimeText.textContent = `${hrs} giờ ${mins} phút (~${totalMinutes.toFixed(0)}p)`;
+        // Update Total Time for Tab 1
+        if (totalTimeText) {
+            if (totalMinutes < 60) {
+                totalTimeText.textContent = `${totalMinutes.toFixed(1)} phút`;
+            } else {
+                const hrs = Math.floor(totalMinutes / 60);
+                const mins = Math.round(totalMinutes % 60);
+                totalTimeText.textContent = `${hrs} giờ ${mins} phút (~${totalMinutes.toFixed(0)}p)`;
+            }
         }
+
+        // Update Total Time for Tab 2
+        if (wsTotalTimeText) {
+            const wsTimeMins = parseFloat(wsCalc.time_min);
+            if (wsTimeMins < 60) {
+                wsTotalTimeText.textContent = `${wsTimeMins.toFixed(1)} phút`;
+            } else {
+                const hrs = Math.floor(wsTimeMins / 60);
+                const mins = Math.round(wsTimeMins % 60);
+                wsTotalTimeText.textContent = `${hrs} giờ ${mins} phút (~${wsTimeMins.toFixed(0)}p)`;
+            }
+        }
+
 
         // Tự động nạp chế độ bề mặt mịn tương ứng vào ô nhập riêng & Chạy phân tích so sánh mặc định
         populateSmoothCustomDefaults();
@@ -1918,7 +2009,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.3.4";
+    const CURRENT_VERSION = "3.4.0";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {

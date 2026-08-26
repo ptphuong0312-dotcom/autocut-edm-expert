@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=3.3.4">
+    <link rel="stylesheet" href="style.css?v=3.4.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -36,7 +36,8 @@
 
         <!-- NAVIGATION TABS -->
         <nav class="nav-tabs">
-            <button class="nav-tab active" data-tab="tab-calculator">⚡ Bảng Tra Cứu &amp; Phân Tích</button>
+            <button class="nav-tab active" data-tab="tab-calculator">⚡ Tra Cứu &amp; Phân Tích (Chuẩn Hãng)</button>
+            <button class="nav-tab" data-tab="tab-workshop">🏭 Tra Cứu &amp; Phân Tích (Hiệu Chỉnh Xưởng)</button>
             <button class="nav-tab" data-tab="tab-knowledge">📚 Kiến Thức Chuyên Sâu EDM</button>
         </nav>
 
@@ -308,31 +309,6 @@
                         </div>
                     </div>
 
-                    <!-- BẢNG HIỆU CHỈNH THỰC TẾ XƯỞNG (WORKSHOP CALIBRATION) - MẶC ĐỊNH ẨN -->
-                    <div class="workshop-section" id="workshop-container">
-                        <div class="workshop-header-toggle" id="btn-toggle-workshop">
-                            <div class="workshop-title">
-                                <span>🏭</span>
-                                <strong>BẢNG HIỆU CHỈNH THỰC TẾ XƯỞNG (WORKSHOP CALIBRATION)</strong>
-                            </div>
-                            <span class="workshop-badge-status" id="workshop-toggle-status">Ẩn ▼</span>
-                        </div>
-                        <div class="workshop-body" id="workshop-body" style="display: none;">
-                            <div class="workshop-notice-box">
-                                📌 <strong>Khu vực Hiệu chỉnh Độc quyền (Offline Local):</strong> Bảng này tính toán dựa trên 100% công thức vật lý nhiệt điện học gốc kết hợp với các hệ số hiệu chuẩn thực nghiệm đo trực tiếp tại xưởng của bạn (Thép SCM420/SCM440 H=55mm, kim Ampe 4A, L=228mm, t=1h50p...). Mọi thông số Chuẩn Hãng trên Web App luôn được bảo toàn cố định 100%.
-                            </div>
-                            <div class="table-responsive">
-                                <table class="comparison-table workshop-table" id="workshop-table-element">
-                                    <!-- Injected by JavaScript -->
-                                </table>
-                            </div>
-                            <!-- THƯ VIỆN THÔNG SỐ THỰC NGHIỆM XƯỞNG -->
-                            <div class="workshop-library-section" id="workshop-library-container">
-                                <!-- Injected by JavaScript: Workshop Empirical Library -->
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- NOTICES & INSTRUCTIONS ACCORDING TO CONDITION -->
                     <div class="guideline-card" id="tech-notices">
                         <h3>💡 Lưu Ý Công Nghệ Đặc Thù Cho Cấu Hình Này:</h3>
@@ -344,7 +320,295 @@
             </main>
         </div>
 
-        <!-- TAB 2: KIẾN THỨC CHUYÊN SÂU EDM -->
+        <!-- TAB 2: TRA CỨU & PHÂN TÍCH (HIỆU CHỈNH THỰC TẾ XƯỞNG) -->
+        <div class="tab-content" id="tab-workshop">
+            <main class="main-content">
+                <!-- INPUT CONTROLS PANEL 2 (CỘT TRÁI ĐỒNG BỘ 100% VỚI TAB 1) -->
+                <section class="control-panel card">
+                    <h2 class="section-title"><span class="badge-num" style="background: var(--accent-amber); color: #000;">1</span> Điều kiện Gia công (Xưởng)</h2>
+
+                    <!-- 1. VẬT LIỆU (THÉP, ĐỒNG, NHÔM) -->
+                    <div class="form-group">
+                        <label class="form-label">Chọn Vật Liệu Phôi Gia Công:</label>
+                        <div class="material-grid" id="ws-material-grid">
+                            <label class="radio-card active" data-material="SCM420">
+                                <input type="radio" name="ws-material" value="SCM420" checked>
+                                <div class="radio-card-content">
+                                    <div class="card-header-line">
+                                        <span class="mat-name">SCM420 (Thép mềm)</span>
+                                        <span class="tag tag-soft">HB &lt; 200</span>
+                                    </div>
+                                    <p class="mat-desc">Thép mềm dẻo (20Cr). Phôi dễ dính, tăng Toff nghỉ xung và giảm VF.</p>
+                                </div>
+                            </label>
+
+                            <label class="radio-card" data-material="SCM440">
+                                <input type="radio" name="ws-material" value="SCM440">
+                                <div class="radio-card-content">
+                                    <div class="card-header-line">
+                                        <span class="mat-name">SCM440 (Thép cứng)</span>
+                                        <span class="tag tag-hard">28-32 HRC</span>
+                                    </div>
+                                    <p class="mat-desc">Thép tôi cải thiện (40Cr/42CrMo). Thoát xỉ tốt, bóng gương, ổn định cao.</p>
+                                </div>
+                            </label>
+
+                            <label class="radio-card" data-material="COPPER">
+                                <input type="radio" name="ws-material" value="COPPER">
+                                <div class="radio-card-content">
+                                    <div class="card-header-line">
+                                        <span class="mat-name">Đồng (Cu / Thau)</span>
+                                        <span class="tag tag-copper">Dẫn nhiệt/điện</span>
+                                    </div>
+                                    <p class="mat-desc">Đồng đỏ / Đồng thau. Tản nhiệt nhanh, cần xung bám tải Servo ổn định.</p>
+                                </div>
+                            </label>
+
+                            <label class="radio-card" data-material="ALUMINUM">
+                                <input type="radio" name="ws-material" value="ALUMINUM">
+                                <div class="radio-card-content">
+                                    <div class="card-header-line">
+                                        <span class="mat-name">Nhôm (Al 6061/7075)</span>
+                                        <span class="tag tag-alu">Tốc độ cực cao</span>
+                                    </div>
+                                    <p class="mat-desc">Chảy nhanh, tốc độ vượt trội. Cần tăng Toff xả xỉ chống bám dính dây.</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 2. SỐ LẦN CẮT (PASS) -->
+                    <div class="form-group">
+                        <label class="form-label">Chọn Số Lần Cắt (Số Pass Gia Công):</label>
+                        <div class="pass-buttons" id="ws-pass-selector">
+                            <button type="button" class="pass-btn active" data-pass="1">1 Lần <span class="pass-desc">Lấy đứt</span></button>
+                            <button type="button" class="pass-btn" data-pass="2">2 Lần <span class="pass-desc">Ra 1.8-2.0</span></button>
+                            <button type="button" class="pass-btn" data-pass="3">3 Lần <span class="pass-desc">Ra 1.0-1.2</span></button>
+                            <button type="button" class="pass-btn" data-pass="4">4 Lần <span class="pass-desc">Ra 0.7-0.9</span></button>
+                            <button type="button" class="pass-btn" data-pass="5">5 Lần <span class="pass-desc">Ra ≤ 0.60</span></button>
+                            <button type="button" class="pass-btn" data-pass="6">6 Lần <span class="pass-desc">Bóng gương</span></button>
+                        </div>
+                    </div>
+
+                    <!-- 3. MỤC TIÊU CHẤT LƯỢNG & CHIẾN LƯỢC GIA CÔNG (11 CẤP ĐỘ) -->
+                    <div class="form-group sub-option-box" id="ws-quality-strategy-box">
+                        <div class="strategy-header">
+                            <label class="form-label text-warning" for="ws-strategy-slider">⚡ Mục tiêu Chất lượng &amp; Chiến lược (11 Cấp độ):</label>
+                            <span class="strategy-level-badge" id="ws-strategy-level-badge">⭐ Tiêu Chuẩn (Cấp 6/11)</span>
+                        </div>
+                        <div class="strategy-slider-wrapper">
+                            <input type="range" id="ws-strategy-slider" min="1" max="11" step="1" value="6">
+                            <div class="strategy-marks">
+                                <span class="mark-fine">◀ Mịn Cực Hạn (-3)</span>
+                                <span class="mark-center">⭐ Tiêu Chuẩn</span>
+                                <span class="mark-speed">Tốc Độ Cực Hạn (+3) ▶</span>
+                            </div>
+                        </div>
+                        <div class="strategy-detail-box" id="ws-strategy-detail-box">
+                            <div class="strategy-name-line">
+                                <strong id="ws-strategy-name-display">⭐ Tiêu Chuẩn (Khuyên Dùng)</strong>
+                                <span class="strategy-tag" id="ws-strategy-badge-display">Hiệu Chuẩn Xưởng</span>
+                            </div>
+                            <p class="strategy-desc" id="ws-strategy-desc-display">Cân bằng tối ưu giữa tốc độ, độ nhám và độ bền dây theo thực tế xưởng.</p>
+                        </div>
+                    </div>
+
+                    <!-- 4. CHIỀU DÀY PHÔI -->
+                    <div class="form-group">
+                        <div class="thickness-header">
+                            <label class="form-label" for="ws-thickness-input">Chiều Dày Phôi (H):</label>
+                            <div class="thickness-val-display">
+                                <input type="number" id="ws-thickness-input" min="5" max="500" step="5" value="40">
+                                <span class="unit">mm</span>
+                            </div>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" id="ws-thickness-slider" min="5" max="500" step="5" value="40">
+                            <div class="slider-marks">
+                                <span>5</span>
+                                <span>50</span>
+                                <span>100</span>
+                                <span>150</span>
+                                <span>200</span>
+                                <span>300</span>
+                                <span>400</span>
+                                <span>500mm</span>
+                            </div>
+                        </div>
+                        <!-- Phím chọn nhanh: 10 20 30 ... 200 mm -->
+                        <div class="quick-thickness-chips" id="ws-quick-chips">
+                            <span class="chip-label">Chọn nhanh:</span>
+                            <button type="button" class="chip" data-h="10">10</button>
+                            <button type="button" class="chip" data-h="20">20</button>
+                            <button type="button" class="chip" data-h="30">30</button>
+                            <button type="button" class="chip active" data-h="40">40</button>
+                            <button type="button" class="chip" data-h="50">50</button>
+                            <button type="button" class="chip" data-h="60">60</button>
+                            <button type="button" class="chip" data-h="70">70</button>
+                            <button type="button" class="chip" data-h="80">80</button>
+                            <button type="button" class="chip" data-h="90">90</button>
+                            <button type="button" class="chip" data-h="100">100</button>
+                            <button type="button" class="chip" data-h="110">110</button>
+                            <button type="button" class="chip" data-h="120">120</button>
+                            <button type="button" class="chip" data-h="130">130</button>
+                            <button type="button" class="chip" data-h="140">140</button>
+                            <button type="button" class="chip" data-h="150">150</button>
+                            <button type="button" class="chip" data-h="160">160</button>
+                            <button type="button" class="chip" data-h="170">170</button>
+                            <button type="button" class="chip" data-h="180">180</button>
+                            <button type="button" class="chip" data-h="190">190</button>
+                            <button type="button" class="chip" data-h="200">200</button>
+                        </div>
+                    </div>
+
+                    <!-- TÍNH TOÁN THỜI GIAN GIA CÔNG XƯỞNG -->
+                    <div class="calculator-box">
+                        <div class="calc-header">
+                            <span class="icon">⏱️</span> <strong>Thời gian Cắt Thực Tế Xưởng</strong>
+                        </div>
+                        <div class="calc-inputs">
+                            <label for="ws-cut-length">Chiều dài đường cắt (Chu vi L):</label>
+                            <div class="input-with-unit">
+                                <input type="number" id="ws-cut-length" value="100" min="1" step="1">
+                                <span class="unit">mm</span>
+                            </div>
+                        </div>
+                        <div class="calc-result" id="ws-calc-time-result">
+                            Tổng thời gian xưởng: <span class="highlight-time" id="ws-total-time-text">-- phút</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- OUTPUT RESULTS PANEL 2 (CỘT PHẢI CHO TAB HIỆU CHỈNH XƯỞNG) -->
+                <section class="results-panel card">
+                    <div class="results-header">
+                        <div>
+                            <h2 class="section-title"><span class="badge-num" style="background: var(--accent-amber); color: #000;">2</span> Bảng Hiệu Chỉnh Thực Tế Xưởng</h2>
+                            <p class="summary-line" id="ws-config-summary">Hiệu chuẩn theo máy thực tế xưởng | SCM420 | H = 40 mm | 1 Pass</p>
+                        </div>
+                        <button class="btn btn-sm btn-copy" id="ws-btn-copy-table">📋 Copy Bảng</button>
+                    </div>
+
+                    <div class="workshop-notice-box" style="margin-top: 10px; margin-bottom: 14px;">
+                        📌 <strong>Vùng Hiệu Chuẩn Độc Quyền Xưởng:</strong> Tính toán đồng hồ Ampe $I_{tb} = \frac{6.4 \times IP}{1 + P_o}$ ($k_{ampe}=2.2857/2.8571$), năng suất bóc phôi $F_c$, tốc độ tiến bàn $F_t$ và lượng bù dao $Offset$ hiệu chỉnh chuẩn theo kết quả chạy máy thực tế tại xưởng.
+                    </div>
+
+                    <!-- MOBILE SCROLL HINT -->
+                    <div class="mobile-scroll-hint">👉 Vuốt ngang để xem đủ 12 cột thông số 👈</div>
+
+                    <!-- MAIN PARAMETER TABLE FOR WORKSHOP -->
+                    <div class="table-responsive">
+                        <table class="edm-table workshop-table" id="ws-edm-result-table">
+                            <thead>
+                                <tr>
+                                    <th class="sticky-col">P</th>
+                                    <th>Ton</th>
+                                    <th>Toff</th>
+                                    <th>IP</th>
+                                    <th>V</th>
+                                    <th>VF</th>
+                                    <th>Wire</th>
+                                    <th>OFFSET Xưởng</th>
+                                    <th>Fc Xưởng(mm²/p)</th>
+                                    <th>Ft Xưởng(mm/p)</th>
+                                    <th>Ampe kế (A)</th>
+                                    <th>Ra Xưởng</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ws-table-body">
+                                <!-- Injected by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- KHUNG NHẬP THỬ NGHIỆM & TÍNH TOÁN LÝ THUYẾT XƯỞNG -->
+                    <div class="custom-input-box" id="ws-custom-test-panel" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.04);">
+                        <div class="custom-box-header">
+                            <div class="custom-mode-switch-group">
+                                <button type="button" class="btn-mode-tab active" id="ws-btn-mode-custom" style="border-color: var(--accent-amber);">
+                                    🛠️ Nhập Chế độ Riêng Xưởng
+                                </button>
+                                <button type="button" class="btn-mode-tab" id="ws-btn-mode-theory">
+                                    📐 TT Lý thuyết Xưởng
+                                </button>
+                            </div>
+                            <span class="custom-box-hint" id="ws-custom-mode-hint">(Nhập thông số tùy ý bên dưới rồi bấm nút Phân Tích Xưởng)</span>
+                        </div>
+                        <div class="custom-fields-grid">
+                            <div class="field-item">
+                                <label>Ton (μs):</label>
+                                <input type="number" id="ws-custom-ti" value="70" min="1" max="250" step="1">
+                            </div>
+                            <div class="field-item">
+                                <label>Toff:</label>
+                                <input type="number" id="ws-custom-po" value="7" min="1" max="30" step="1">
+                            </div>
+                            <div class="field-item">
+                                <label>IP:</label>
+                                <input type="number" id="ws-custom-ip" value="4" min="1" max="6" step="1">
+                            </div>
+                            <div class="field-item">
+                                <label>V:</label>
+                                <select id="ws-custom-volt">
+                                    <option value="High" selected>High</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+                            <div class="field-item">
+                                <label>VF:</label>
+                                <input type="number" id="ws-custom-vf" value="55" min="1" max="100" step="1">
+                            </div>
+                            <div class="field-item">
+                                <label>Wire (1-3):</label>
+                                <select id="ws-custom-wire">
+                                    <option value="1" selected>1 (Nhanh)</option>
+                                    <option value="2">2 (Vừa)</option>
+                                    <option value="3">3 (Chậm)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-analyze" id="ws-btn-analyze-custom" style="background: linear-gradient(135deg, #d97706, #b45309);">
+                            🔍 Phân Tích Động Lực Học Hiệu Chuẩn Xưởng
+                        </button>
+                    </div>
+
+                    <!-- BẢNG SO SÁNH PHÂN TÍCH HIỆU CHUẨN XƯỞNG -->
+                    <div class="analysis-section" id="ws-analysis-container">
+                        <div class="analysis-header-row">
+                            <h3 class="analysis-title" id="ws-analysis-table-title" style="color: var(--accent-amber);">📊 BẢNG SO SÁNH: Chế độ xưởng vs Mô hình Hiệu Chuẩn</h3>
+                            <button type="button" class="btn-toggle-compact" id="ws-btn-toggle-compact" title="Bấm để chuyển đổi giữa Ký hiệu viết tắt và Tên đầy đủ">
+                                <span id="ws-compact-icon">↔️</span>
+                                <span id="ws-compact-text">Ký hiệu viết tắt: <strong>BẬT</strong></span>
+                            </button>
+                        </div>
+                        <div class="mobile-scroll-hint">👉 Vuốt ngang bảng so sánh để xem đầy đủ 👈</div>
+                        <div class="table-responsive">
+                            <table class="comparison-table compact-mode workshop-table" id="ws-comparison-table-element">
+                                <!-- Injected by JavaScript -->
+                            </table>
+                        </div>
+                        <div class="analysis-feedback-card" id="ws-analysis-feedback-box">
+                            <!-- Injected by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- THƯ VIỆN THÔNG SỐ THỰC NGHIỆM XƯỞNG -->
+                    <div class="workshop-library-section" id="ws-workshop-library-container" style="margin-top: 20px;">
+                        <!-- Injected by JavaScript: Workshop Empirical Library -->
+                    </div>
+
+                    <!-- NOTICES & INSTRUCTIONS ACCORDING TO WORKSHOP CONDITION -->
+                    <div class="guideline-card" id="ws-tech-notices" style="margin-top: 20px;">
+                        <h3>💡 Lưu Ý Công Nghệ Xưởng Đặc Thù:</h3>
+                        <ul id="ws-notice-list">
+                            <!-- Dynamic notices -->
+                        </ul>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- TAB 3: KIẾN THỨC CHUYÊN SÂU EDM -->
         <div class="tab-content" id="tab-knowledge">
             <div class="knowledge-container card">
                 <div class="knowledge-header">
@@ -733,6 +997,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=3.3.4"></script>
+    <script src="app.js?v=3.4.0"></script>
 </body>
 </html>
