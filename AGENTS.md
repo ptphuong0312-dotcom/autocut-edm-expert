@@ -2,6 +2,8 @@
 
 ## 🚨 MANDATORY CHECK BEFORE ANY ACTION (NGUYÊN TẮC TRONG NGUYÊN TẮC)
 Before modifying ANY file or executing any logic, you MUST adhere to the following:
+0. **READ ALL RULES AND SKILLS FIRST:**
+   - You MUST deeply review all knowledge in `.agents/rules/` and `.agents/skills/` to ensure your proposed solution aligns with the established physics logic and project architecture before writing a single line of code.
 1. **IMMUTABILITY OF STANDARD FORMULAS & PARAMETERS:**
    - The EDM physics formulas, standard pass tables (P1 to P6), standard speeds, and manufacturer baselines are **STRICTLY IMMUTABLE**.
    - NEVER alter these core equations or standard baselines unless explicitly commanded by the user.
