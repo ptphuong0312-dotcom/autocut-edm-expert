@@ -1943,21 +1943,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const wsSpeedArea = Math.round(r.speedArea * 0.70);
                 const wsFeedRate = (wsSpeedArea / state.thickness).toFixed(2);
                 
-                // Hz (Giới hạn tốc độ động cơ Bước - Stepper Motor Frequency)
-                // Theo tài liệu kỹ thuật AutoCut / Fast Wire EDM: 1 xung (pulse) = 1 μm = 0.001 mm.
-                // Vận tốc tiến bàn Ft (mm/p) = Hz * 0.001 * 60 = Hz * 0.06
-                // Suy ra: Hz = Ft / 0.06. 
-                // (Khớp với quy luật user cung cấp: 200Hz ~ 12mm/p. Ở phôi H=40mm => Fc = 480mm2/p)
-                // Để bề mặt mịn, ta giới hạn Ft_limit giảm dần ở các Pass cắt tinh.
-                let ftLimitRatio = 1.0;
-                if (idx === 0) ftLimitRatio = 1.20; // P1: Cho phép chạy max tốc (+20%)
-                else if (idx === 1) ftLimitRatio = 0.90; // P2: Hãm còn 90% để ổn định
-                else if (idx === 2) ftLimitRatio = 0.70; // P3: Hãm còn 70%
-                else if (idx === 3) ftLimitRatio = 0.60; // P4: Hãm còn 60%
-                else if (idx >= 4) ftLimitRatio = 0.50;  // P5, P6: Hãm còn 50%
-                
-                const wsFtLimit = wsFeedRate * ftLimitRatio;
-                const wsHz = Math.round(wsFtLimit / 0.06);
+                // Hz (Giới hạn tốc độ theo giao diện AutoCut của xưởng)
+                // Từ dữ liệu WS-EXP-02, để bề mặt nhẵn bóng không bị võng dây,
+                // giới hạn Max Speed thực tế (Fc_max) phải GIẢM DẦN qua các Pass.
+                // Khuyến nghị Fc_max P1-P5: 300, 220, 140, 90, 60 (mm2/p).
+                // Theo quy luật của user trên giao diện phần mềm: 200Hz tương đương 480mm2/p.
+                // => Hệ số quy đổi phần mềm: Hz = Fc_max / 2.4
+                // Ta áp dụng trực tiếp để xuất ra thông số Hz giảm dần chuẩn xác cho thợ đứng máy:
+                const hzLimits = [125, 92, 58, 38, 25, 17];
+                const wsHz = hzLimits[idx] || 17;
                 
                 // Ampe: Standard peak current, but Workshop uses a different ammeter calibration (~2.28)
                 const toff = ti * Po;
