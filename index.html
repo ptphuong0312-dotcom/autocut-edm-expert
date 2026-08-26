@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=3.3.3">
+    <link rel="stylesheet" href="style.css?v=3.3.4">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -668,6 +668,26 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- 10. CHUYÊN ĐỀ PHÔI SIÊU DÀY (H = 350 - 500 MM) -->
+                    <div class="kb-card">
+                        <div class="kb-card-header">
+                            <span class="kb-badge">10</span>
+                            <h3>Chuyên Đề Gia Công Phôi Siêu Dày (H = 350 - 500 mm) &amp; Trần An Toàn Ton = 68 μs</h3>
+                        </div>
+                        <div class="kb-body">
+                            <p><strong>1. Tại sao Chế độ Tiêu chuẩn khống chế Ton = 68 μs mà không đặt lớn hơn?</strong></p>
+                            <ul>
+                                <li><strong>Bảo vệ độ bền mỏi của dây Molypden Φ0.18 mm:</strong> Ở $Ton = 68\,\mu\text{s}$, năng lượng mỗi tia $W_e \approx 30.8\text{ mJ}$ tạo hố ăn mòn sâu $\approx 8-10\,\mu\text{m}$ trên thân dây. Nếu tăng $Ton = 120\,\mu\text{s}$ ($W_e \approx 54.4\text{ mJ}$), hố khoét sâu $18-22\,\mu\text{m}$ sẽ làm đứt dây ngay khi gặp bọt khí nhỏ.</li>
+                                <li><strong>Quy luật bù trừ tần số:</strong> Tăng $Ton=100\,\mu\text{s}$ bắt buộc phải tăng $Po=12-15$ để làm nguội dây $\implies$ Tần số phóng tụt từ $1.800\text{ xung/s}$ xuống $625\text{ xung/s}$, tốc độ cắt không tăng mà rủi ro đứt dây tăng gấp đôi.</li>
+                                <li><strong>Chống hiện tượng "Phình bụng thùng rượu":</strong> Ở tâm phôi ($H/2 = 225\text{ mm}$), nước khó xối vào. Dùng $Ton \le 68\,\mu\text{s}$ kết hợp $Po \ge 11$ triệt tiêu hiện tượng phóng điện thứ cấp (Secondary Sparking), giữ rãnh cắt phẳng đều.</li>
+                            </ul>
+                            <div class="formula-box" style="margin-top: 10px; border-left-color: var(--accent-cyan); color: #fff;">
+                                <strong style="color: var(--accent-cyan);">💡 KHI NÀO ĐƯỢC DÙNG Ton = 80 - 120 μs?</strong><br>
+                                Chỉ dùng khi chọn <strong>Chiến lược Cường lực (Cấp 10-11)</strong> với điều kiện: Dây Molypden mới 100%, lực căng dây tối đa, tỷ lệ dầu nhũ tương 1:8 và ép 2 đầu béc phun sát mặt phôi &le; 1 mm!
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -676,7 +696,7 @@
         <footer class="app-footer">
             <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
             <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">
-                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.3.3 (Hiệu Chỉnh Offset Thực Nghiệm EXP-02)</strong> &bull; 
+                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.0.1 (Chuẩn Hóa Số Học Fc &amp; Ft Lý Thuyết tailieu.txt)</strong> &bull; 
                 <a href="javascript:void(0)" id="link-force-update" style="color: var(--accent-amber); text-decoration: underline;">🔄 Cưỡng bức làm mới dữ liệu</a>
             </p>
         </footer>
@@ -713,6 +733,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=3.3.3"></script>
+    <script src="app.js?v=3.3.4"></script>
 </body>
 </html>

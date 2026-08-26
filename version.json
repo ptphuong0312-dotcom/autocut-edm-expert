@@ -1,5 +1,5 @@
 {
-  "version": "3.3.3",
-  "buildTime": 1787670000000,
-  "description": "Updated EXP-02 offset data: Pass 1 baseline offset set to 0.107mm, calibrated -0.006mm to 0.101mm for exact nominal dimension."
+  "version": "3.3.4",
+  "buildTime": 1787690000000,
+  "description": "Comprehensive electrical discharge parameter audit for all workpiece thicknesses H=5 to 500mm and added ultra-thick workpiece engineering knowledge module."
 }

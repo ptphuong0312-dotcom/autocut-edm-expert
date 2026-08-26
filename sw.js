@@ -1,4 +1,4 @@
-const CACHE_NAME = 'autocut-edm-v3.3.3';
+const CACHE_NAME = 'autocut-edm-v3.3.4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -6,7 +6,6 @@ const ASSETS_TO_CACHE = [
   './app.js',
   './version.json',
   './manifest.json',
-  './autocut_text.txt',
   './tailieu.txt',
   './PROJECT_RULES.md',
   './AGENTS.md',

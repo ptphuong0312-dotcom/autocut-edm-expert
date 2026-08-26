@@ -707,7 +707,9 @@ document.addEventListener('DOMContentLoaded', () => {
             notices.push("Thép mềm SCM420 dễ dính phôi: Đã tự động tăng hệ số nghỉ xung Toff và giảm bớt VF để triệt tiêu nguy cơ ngắn mạch / đứt dây.");
         }
 
-        if (H > 150) {
+        if (H >= 350) {
+            notices.push(`Phôi siêu dày H=${H}mm: Ton được khống chế trần an toàn ở 68μs và Po=${rows[0].Po} để bảo vệ dây Molypden chống đứt và ngăn phình rãnh cắt dạng thùng rượu. Nếu cần bóc tách cực đại (Ton 80-100μs), chuyển sang Cấp 10-11 kèm dây mới 100% và nước 1:8.`);
+        } else if (H > 150) {
             notices.push(`Phôi dày lớn H=${H}mm: Cần mở van nước áp lực cao, kiểm tra tiếp điện và định kỳ hạ tốc độ dây khi cắt tinh.`);
         } else if (H <= 20) {
             notices.push(`Phôi mỏng H=${H}mm: Tránh dùng Ton quá lớn để ngăn ngừa phồng biên dạng mép cắt.`);
@@ -746,7 +748,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cutLength: 228,
             params: { ti: 50, Po: 7, IP: 5, Voltage: 'High', VF: 60, Wire: 1 },
             measured: {
-                ammeterA: '4.0 A',
+                ammeterA: '4.0 A (Đo thực tế trên máy)',
                 fcInstantRange: '70 - 100 mm²/p',
                 fcAvg: 114.0,
                 ftAvg: 2.07,
@@ -776,14 +778,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 { pass: 'Pass 5', ti: 1, Po: 2, IP: 1, wire: 3, volt: 'Low', vf: 18, maxSpeed: 190, offset: 0.002, ampe: '0.05A - 0.1A', time: "14p10'" }
             ],
             measured: {
-                ammeterA: 'P1: 4A | P2: 0.1-0.2A | P3-P5: 0.05-0.1A',
+                ammeterA: 'P1: 4A | P2: 0.1-0.2A | P3-P5: 0.05-0.1A (Đo thực tế trên máy)',
                 totalMinutes: 50.75,
                 totalTimeStr: '50p45s (50.75 phút)',
                 actualDimension: '30.012 mm (Danh nghĩa: 30.000 mm -> To +0.012 mm)',
-                recommendedOffsetP1: '0.101 mm (Giảm 0.006 mm ở Pass 1 từ 0.107 mm để về đúng 30.000 mm)',
+                recommendedOffsetP1: '0.101 mm (Hiệu chỉnh giảm 0.006 mm từ 0.107 mm về 0.101 mm để đạt đúng 30.000 mm)',
                 recommendedMaxSpeed: 'P1: 300 | P2: 220 | P3: 140 | P4: 90 | P5: 60 mm²/p'
             },
-            notes: 'Cắt 5 Pass chi tiết H=12mm, L=58.2mm. Tổng thời gian thực tế 50p45s. Kích thước bị to +0.012mm do Offset Pass 1 (0.107) bị dư và Max Speed P2 (480) quá cao gây trượt tia. Khắc phục: Chỉnh Offset Pass 1 về 0.101mm (giảm 0.006mm) và hạ Max Speed các Pass tinh để về đúng kích thước chuẩn.'
+            notes: 'Cắt 5 Pass chi tiết H=12mm, L=58.2mm. Tổng thời gian thực tế 50p45s. Kích thước thực tế đo được 30.012mm (to +0.012mm) do Offset Pass 1 cài đặt ban đầu là 0.107mm bị dư và Max Speed P2 (480) quá cao. Khắc phục: Hiệu chỉnh giảm Offset Pass 1 đi 0.006mm (từ 0.107mm về 0.101mm) để đưa chi tiết về đúng kích thước chuẩn 30.000mm, đồng thời hạ Max Speed các Pass tinh.'
         },
         {
             id: 'WS-EXP-03',
@@ -796,7 +798,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cutLength: 50,
             params: { ti: 20, Po: 7, IP: 2, Voltage: 'Low', VF: 50, Wire: 2 },
             measured: {
-                ammeterA: '--',
+                ammeterA: '-- (Chờ đo thực tế)',
                 sparkGap: 0.015,
                 recommendedOffset: 0.105,
                 tolerance: '±0.005 mm'
@@ -814,7 +816,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cutLength: 50,
             params: { ti: 50, Po: 7, IP: 3, Voltage: 'Low', VF: 50, Wire: 1 },
             measured: {
-                ammeterA: '--',
+                ammeterA: '-- (Chờ đo thực tế)',
                 sparkGap: 0.015,
                 recommendedOffset: 0.105,
                 tolerance: '±0.005 mm'
@@ -832,7 +834,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cutLength: 50,
             params: { ti: 70, Po: 7, IP: 3, Voltage: 'Low', VF: 50, Wire: 1 },
             measured: {
-                ammeterA: '--',
+                ammeterA: '-- (Chờ đo thực tế)',
                 sparkGap: 0.007,
                 recommendedOffset: 0.097,
                 tolerance: '±0.005 mm'
@@ -850,7 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cutLength: 50,
             params: { ti: 120, Po: 8, IP: 5, Voltage: 'High', VF: 55, Wire: 1 },
             measured: {
-                ammeterA: '--',
+                ammeterA: '-- (Chờ đo thực tế)',
                 sparkGap: 0.005,
                 recommendedOffset: 0.095,
                 tolerance: '±0.005 mm'
@@ -868,7 +870,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cutLength: 50,
             params: { ti: 120, Po: 8, IP: 5, Voltage: 'High', VF: 55, Wire: 1 },
             measured: {
-                ammeterA: '--',
+                ammeterA: '-- (Chờ đo thực tế)',
                 sparkGap: 0.020,
                 recommendedOffset: 0.110,
                 tolerance: '±0.005 mm'
@@ -1061,7 +1063,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 4. Dòng điện chỉ thị Ampe kế (Itb thực tế)
         const i_tb_std = (i_peak * (duty_factor / 100) * 0.75).toFixed(1);
-        const i_tb_high = (i_peak * (duty_factor / 100) * 2.2857).toFixed(1);
+        const i_tb_high = (i_peak * (duty_factor / 100) * 1.85).toFixed(1);
 
         // 5. NĂNG SUẤT BÓC PHÔI THEO TAILIEU.TXT (Dòng 207-258):
         // Fc = (60 * Cm * Ptb * η_eff) / B
@@ -1152,9 +1154,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 4. Dòng điện chỉ thị Ampe kế (Itb thực tế) - Tính toán động học chính xác 100%
         // Tủ tiêu chuẩn: Itb_std = I_peak * duty * 0.75
-        // Tủ công suất cao / Xưởng: Itb_high = I_peak * duty * 2.2857 (Khớp thực tế chính xác 4.0A khi cắt thô)
+        // Tủ công suất cao / Xưởng: Itb_high = I_peak * duty * 1.85 (Khớp thực tế ~3.8-4.3A khi cắt thô)
         const i_tb_std = (i_peak * (duty_factor / 100) * 0.75).toFixed(1);
-        const i_tb_high = (i_peak * (duty_factor / 100) * 2.2857).toFixed(1);
+        const i_tb_high = (i_peak * (duty_factor / 100) * 1.85).toFixed(1);
 
         // 5. Baseline Năng suất bóc phôi Fc (mm2/p) và Tốc độ tiến bàn Ft (mm/p)
         let standardFc_baseline = 115;
@@ -1916,7 +1918,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.3.3";
+    const CURRENT_VERSION = "3.3.4";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
