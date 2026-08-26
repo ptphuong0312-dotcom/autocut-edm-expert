@@ -2024,44 +2024,55 @@ document.addEventListener('DOMContentLoaded', () => {
         // Render Workshop Table Body (Tab 2)
         if (typeof wsTableBody !== 'undefined' && wsTableBody) {
             wsTableBody.innerHTML = rows.map((r, idx) => {
-                if (idx === 0) {
-                    // Pass 1: Use Workshop specific data
-                    return `
-                        <tr>
-                            <td class="pass-cell sticky-col"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
-                            <td><strong>${wsCalc.ti}</strong></td>
-                            <td>${wsCalc.Po}</td>
-                            <td><span class="badge-ip">${wsCalc.IP}</span></td>
-                            <td><span class="${wsCalc.Voltage === 'High' ? 'val-volt-high' : 'val-volt-low'}">${wsCalc.Voltage}</span></td>
-                            <td>${wsCalc.VF}</td>
-                            <td>${wsCalc.Wire}</td>
-                            <td class="val-offset" style="color:var(--accent-amber);">${wsCalc.offset}mm</td>
-                            <td><span style="color:var(--accent-amber);">${wsCalc.speedArea}</span></td>
-                            <td><strong style="color:var(--accent-amber);">${wsCalc.feedRate}</strong></td>
-                            <td><strong style="color:var(--accent-amber);">${wsCalc.i_tb_high}A</strong></td>
-                            <td class="val-ra">${wsCalc.Ra}</td>
-                        </tr>
-                    `;
-                } else {
-                    // Pass > 1: Use standard calculation but adjust presentation
-                    const ampe = idx === 1 ? '0.1-0.2A' : '<0.1A';
-                    return `
-                        <tr>
-                            <td class="pass-cell sticky-col"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
-                            <td><strong>${r.ti}</strong></td>
-                            <td>${r.Po}</td>
-                            <td><span class="badge-ip">${r.IP}</span></td>
-                            <td><span class="${r.Voltage === 'High' ? 'val-volt-high' : 'val-volt-low'}">${r.Voltage}</span></td>
-                            <td>${r.VF}</td>
-                            <td>${r.Wire}</td>
-                            <td class="val-offset">${r.offsetText}</td>
-                            <td>${r.speedArea}</td>
-                            <td><strong>${r.feedRate}</strong></td>
-                            <td>${ampe}</td>
-                            <td class="val-ra">${r.Ra}</td>
-                        </tr>
-                    `;
+                // Workshop Logic mapping from standard row
+                const ti = parseFloat(r.ti);
+                const Po = parseFloat(r.Po);
+                const IP = parseFloat(r.IP);
+                const isPass1 = (idx === 0);
+                
+                // Offset: Workshop machine vibrates more, kerf is wider. Add 0.011mm to offset.
+                const stdOffset = parseFloat(r.offsetText);
+                const wsOffset = (stdOffset + 0.011).toFixed(3);
+                
+                // Fc & Ft: Workshop machine is ~15% slower due to flushing efficiency
+                const wsSpeedArea = Math.round(r.speedArea * 0.85);
+                const wsFeedRate = (wsSpeedArea / state.thickness).toFixed(2);
+                
+                // Hz: User specified 200Hz ~ 480mm2/min => Hz = Fc / 2.4
+                const wsHz = Math.round(wsSpeedArea / 2.4);
+                
+                // Ampe: Standard peak current, but Workshop uses a different ammeter calibration (~2.28)
+                const toff = ti * Po;
+                const cycle = ti + toff;
+                const duty = ti / cycle;
+                const i_peak = IP * 2.8;
+                // kAmpe = 2.2857 (from WORKSHOP_CALIBRATION_MODEL)
+                const wsAmpe = (i_peak * duty * 2.2857).toFixed(1);
+                
+                // Ra: slightly rougher
+                let wsRa = r.Ra;
+                const raParts = r.Ra.split(' - ');
+                if (raParts.length === 2) {
+                    wsRa = (parseFloat(raParts[0]) + 0.2).toFixed(1) + ' - ' + (parseFloat(raParts[1]) + 0.2).toFixed(1);
                 }
+
+                return `
+                    <tr>
+                        <td class="pass-cell sticky-col"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
+                        <td><strong>${r.ti}</strong></td>
+                        <td>${r.Po}</td>
+                        <td><span class="badge-ip">${r.IP}</span></td>
+                        <td><span class="${r.Voltage === 'High' ? 'val-volt-high' : 'val-volt-low'}">${r.Voltage}</span></td>
+                        <td>${r.VF}</td>
+                        <td>${r.Wire}</td>
+                        <td class="val-offset" style="color:var(--accent-amber);">${wsOffset}mm</td>
+                        <td><span style="color:var(--accent-amber);">${wsSpeedArea}</span></td>
+                        <td><strong style="color:var(--accent-amber);">${wsFeedRate}</strong></td>
+                        <td><strong style="color:var(--accent-amber);">${wsHz} Hz</strong></td>
+                        <td><strong style="color:var(--accent-amber);">${isPass1 ? wsAmpe : '< 0.1'}</strong></td>
+                        <td class="val-ra">${wsRa}</td>
+                    </tr>
+                `;
             }).join('');
         }
 
@@ -2136,7 +2147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.2";
+    const CURRENT_VERSION = "3.4.3";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {

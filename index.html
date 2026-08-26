@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=3.4.2">
+    <link rel="stylesheet" href="style.css?v=3.4.3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -508,93 +508,18 @@
                                     <th>V</th>
                                     <th>VF</th>
                                     <th>Wire</th>
-                                    <th>OFFSET Xưởng</th>
-                                    <th>Fc Xưởng(mm²/p)</th>
-                                    <th>Ft Xưởng(mm/p)</th>
+                                    <th>OFFSET</th>
+                                    <th>Fc (mm²/p)</th>
+                                    <th>Ft (mm/p)</th>
+                                    <th>Giới hạn (Hz)</th>
                                     <th>Ampe kế (A)</th>
-                                    <th>Ra Xưởng</th>
+                                    <th>Ra</th>
                                 </tr>
                             </thead>
                             <tbody id="ws-table-body">
                                 <!-- Injected by JavaScript -->
                             </tbody>
                         </table>
-                    </div>
-
-                    <!-- KHUNG NHẬP THỬ NGHIỆM & TÍNH TOÁN LÝ THUYẾT XƯỞNG -->
-                    <div class="custom-input-box" id="ws-custom-test-panel" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.04);">
-                        <div class="custom-box-header">
-                            <div class="custom-mode-switch-group">
-                                <button type="button" class="btn-mode-tab active" id="ws-btn-mode-custom" style="border-color: var(--accent-amber);">
-                                    🛠️ Nhập Chế độ Riêng Xưởng
-                                </button>
-                                <button type="button" class="btn-mode-tab" id="ws-btn-mode-theory">
-                                    📐 TT Lý thuyết Xưởng
-                                </button>
-                            </div>
-                            <span class="custom-box-hint" id="ws-custom-mode-hint">(Nhập thông số tùy ý bên dưới rồi bấm nút Phân Tích Xưởng)</span>
-                        </div>
-                        <div class="custom-fields-grid">
-                            <div class="field-item">
-                                <label>Ton (μs):</label>
-                                <input type="number" id="ws-custom-ti" value="70" min="1" max="250" step="1">
-                            </div>
-                            <div class="field-item">
-                                <label>Toff:</label>
-                                <input type="number" id="ws-custom-po" value="7" min="1" max="30" step="1">
-                            </div>
-                            <div class="field-item">
-                                <label>IP:</label>
-                                <input type="number" id="ws-custom-ip" value="4" min="1" max="6" step="1">
-                            </div>
-                            <div class="field-item">
-                                <label>V:</label>
-                                <select id="ws-custom-volt">
-                                    <option value="High" selected>High</option>
-                                    <option value="Low">Low</option>
-                                </select>
-                            </div>
-                            <div class="field-item">
-                                <label>VF:</label>
-                                <input type="number" id="ws-custom-vf" value="55" min="1" max="100" step="1">
-                            </div>
-                            <div class="field-item">
-                                <label>Wire (1-3):</label>
-                                <select id="ws-custom-wire">
-                                    <option value="1" selected>1 (Nhanh)</option>
-                                    <option value="2">2 (Vừa)</option>
-                                    <option value="3">3 (Chậm)</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-analyze" id="ws-btn-analyze-custom" style="background: linear-gradient(135deg, #d97706, #b45309);">
-                            🔍 Phân Tích Động Lực Học Hiệu Chuẩn Xưởng
-                        </button>
-                    </div>
-
-                    <!-- BẢNG SO SÁNH PHÂN TÍCH HIỆU CHUẨN XƯỞNG -->
-                    <div class="analysis-section" id="ws-analysis-container">
-                        <div class="analysis-header-row">
-                            <h3 class="analysis-title" id="ws-analysis-table-title" style="color: var(--accent-amber);">📊 BẢNG SO SÁNH: Chế độ xưởng vs Mô hình Hiệu Chuẩn</h3>
-                            <button type="button" class="btn-toggle-compact" id="ws-btn-toggle-compact" title="Bấm để chuyển đổi giữa Ký hiệu viết tắt và Tên đầy đủ">
-                                <span id="ws-compact-icon">↔️</span>
-                                <span id="ws-compact-text">Ký hiệu viết tắt: <strong>BẬT</strong></span>
-                            </button>
-                        </div>
-                        <div class="mobile-scroll-hint">👉 Vuốt ngang bảng so sánh để xem đầy đủ 👈</div>
-                        <div class="table-responsive">
-                            <table class="comparison-table compact-mode workshop-table" id="ws-comparison-table-element">
-                                <!-- Injected by JavaScript -->
-                            </table>
-                        </div>
-                        <div class="analysis-feedback-card" id="ws-analysis-feedback-box">
-                            <!-- Injected by JavaScript -->
-                        </div>
-                    </div>
-
-                    <!-- THƯ VIỆN THÔNG SỐ THỰC NGHIỆM XƯỞNG -->
-                    <div class="workshop-library-section" id="ws-workshop-library-container" style="margin-top: 20px;">
-                        <!-- Injected by JavaScript: Workshop Empirical Library -->
                     </div>
 
                     <!-- NOTICES & INSTRUCTIONS ACCORDING TO WORKSHOP CONDITION -->
@@ -997,6 +922,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=3.4.2"></script>
+    <script src="app.js?v=3.4.3"></script>
 </body>
 </html>
