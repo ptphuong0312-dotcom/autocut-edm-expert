@@ -2,9 +2,9 @@
 
 ## 1. MỤC TIÊU DỰ ÁN (PROJECT GOAL)
 AutoCut EDM Expert là một ứng dụng Web (PWA) chạy offline, đóng vai trò như "Trí tuệ nhân tạo chuyên gia" cho máy cắt dây CNC (Fast Wire EDM, DK77 series, tủ nguồn AutoCut / HL / HF).
-Ứng dụng có 2 nhiệm vụ chính:
-- **Tab 1 (Chuẩn Hãng):** Tính toán chính xác các thông số vật lý (Ton, Toff, Tốc độ cắt, Khe hở, Bù dao) dựa trên công thức điện động lực học chính hãng (Xem `tailieu.txt`).
-- **Tab 2 (Hiệu Chỉnh Xưởng):** Tự động tinh chỉnh, hãm tốc độ, bù hao mòn cơ khí để thích nghi với tình trạng thực tế của máy móc tại xưởng người dùng (Machine Learning Empirical Loop).
+Ứng dụng có 2 nhiệm vụ chính và một nguyên tắc luân chuyển dữ liệu bất di bất dịch:
+- **Tab 1 (Chuẩn Hãng):** Tính toán chính xác các thông số vật lý (Ton, Toff, Tốc độ cắt, Khe hở, Bù dao) dựa trên công thức điện động lực học chính hãng (Xem `tailieu.txt`). **Đây là nguồn lấy chế độ điện để cắt thực tế trong 90% thời gian của người dùng.**
+- **Tab 2 (Hiệu Chỉnh Xưởng):** Tự động tinh chỉnh, hãm tốc độ, bù hao mòn cơ khí để thích nghi với tình trạng thực tế của máy móc tại xưởng người dùng (Machine Learning Empirical Loop). **Hiện tại Tab 2 đang trong quá trình hiệu chỉnh thu thập dữ liệu, nên người dùng CHƯA DÙNG thông số điện ở Tab 2 để nạp vào máy cắt.** Dữ liệu sai số cắt từ Tab 1 sẽ được AI dùng làm Anchor Data để tinh chỉnh thuật toán nội suy cho Tab 2.
 
 ## 2. QUẢN LÝ KIẾN THỨC (KNOWLEDGE MANAGEMENT)
 Để không bao giờ quên các thỏa thuận, nguyên lý và công thức, hệ thống kiến thức được chia làm các file Markdown tại thư mục `.agents/rules`:

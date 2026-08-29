@@ -4,7 +4,7 @@
  * © 2026 AutoCut EDM Master
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+function initApp() {
     // 11 CẤP ĐỘ CHIẾN LƯỢC GIA CÔNG (TÂM ĐIỂM = CẤP 6: TIÊU CHUẨN)
     const STRATEGY_CONFIGS = {
         1: { name: 'Cực Hạn Tinh Xảo (Mịn +3)', shortName: 'Cực Hạn Tinh Xảo (Cấp 1)', badge: 'Gương Quang Học', desc: 'Vi xung nano, khống chế biến trắng tuyệt đối, độ bóng gương quang học đỉnh cao.', tiMult: 0.30, ipDelta: -2, vfDelta: -20, poDelta: +1, speedMult: 0.30 },
@@ -292,27 +292,27 @@ document.addEventListener('DOMContentLoaded', () => {
     if (wsCutLengthInput) bindCutLengthEvents(wsCutLengthInput);
 
     // Modal Guide
-    btnShowGuide.addEventListener('click', () => {
+    if (btnShowGuide) btnShowGuide.addEventListener('click', () => {
         guideModal.classList.add('active');
     });
 
-    btnCloseModal.addEventListener('click', () => {
+    if (btnCloseModal) btnCloseModal.addEventListener('click', () => {
         guideModal.classList.remove('active');
     });
 
-    guideModal.addEventListener('click', (e) => {
+    if (guideModal) guideModal.addEventListener('click', (e) => {
         if (e.target === guideModal) {
             guideModal.classList.remove('active');
         }
     });
 
     // Print
-    btnPrint.addEventListener('click', () => {
+    if (btnPrint) btnPrint.addEventListener('click', () => {
         window.print();
     });
 
     // Copy Table
-    btnCopyTable.addEventListener('click', () => {
+    if (btnCopyTable) btnCopyTable.addEventListener('click', () => {
         copyTableToClipboard();
     });
 
@@ -332,7 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Custom Analysis Button & Real-time Custom Inputs
-    btnAnalyzeCustom.addEventListener('click', () => {
+    if (btnAnalyzeCustom) btnAnalyzeCustom.addEventListener('click', () => {
         state.isCustomUserEdited = true;
         state.compareMode = 'custom';
         runCustomAnalysis(true);
@@ -875,144 +875,563 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const WORKSHOP_EMPIRICAL_LIBRARY = [
         {
-            id: 'WS-EXP-01',
-            date: '2026-08-25',
-            name: 'Thực nghiệm Thép sống SCM420 H=55mm (Cắt 1 Pass Chuẩn Xưởng)',
-            material: 'SCM420',
-            materialName: 'Thép sống SCM420 (HB < 200)',
-            passCount: 1,
-            thickness: 55,
-            cutLength: 228,
-            params: { ti: 50, Po: 7, IP: 5, Voltage: 'High', VF: 60, Wire: 1 },
-            measured: {
-                ammeterA: '4.0 A (Đo thực tế trên máy)',
-                fcInstantRange: '70 - 100 mm²/p',
-                fcAvg: 114.0,
-                ftAvg: 2.07,
-                totalMinutes: 110,
-                totalTimeStr: '1h50p (110 phút)',
-                sparkGap: 0.048,
-                recommendedOffset: 0.138,
-                mrrVol: 31.46,
-                ra: '2.8 - 3.2 μm'
-            },
-            notes: 'Cắt phôi Thép sống SCM420 dày H=55mm, L=228mm. Chế độ Toff=7 nghỉ xung dài xả xỉ phôi mềm rất tốt, chống bết dính. Kim Ampe đứng im mức 4A, Fc bình quân đạt 114 mm²/p, hoàn thành đúng 1h50p.'
+                    "id": "WS-EXP-03",
+                    "date": "2026-08-25",
+                    "name": "Thực nghiệm Thép tôi SCM440 H=12mm (1 Pass Cắt Cữ Chuẩn)",
+                    "material": "SCM440",
+                    "materialName": "Thép tôi SCM440 (28 - 32 HRC)",
+                    "passCount": 1,
+                    "thickness": 12,
+                    "cutLength": 50,
+                    "params": {
+                                "ti": 20,
+                                "Po": 7,
+                                "IP": 2,
+                                "Voltage": "Low",
+                                "VF": 50,
+                                "Wire": 2
+                    },
+                    "measured": {
+                                "ammeterA": "≈ 1.4 A (Nội suy mô hình)",
+                                "sparkGap": 0.015,
+                                "recommendedOffset": 0.105,
+                                "tolerance": "±0.005 mm"
+                    },
+                    "notes": "Cắt 1 Pass phôi mỏng H=12mm bằng Low Voltage và IP=2 giúp khống chế khe hở siêu hẹp 15μm, Offset=0.105mm cho dung sai cực chuẩn ±0.005mm."
         },
         {
-            id: 'WS-EXP-02',
-            date: '2026-08-25',
-            name: 'Thực nghiệm Thép tôi SCM440 H=12mm (Quy trình 5 Pass Toàn Diện)',
-            material: 'SCM440',
-            materialName: 'Thép tôi SCM440 (28 - 32 HRC)',
-            passCount: 5,
-            thickness: 12,
-            cutLength: 58.2,
-            multiPassDetails: [
-                { pass: 'Pass 1', ti: 26, Po: 5, IP: 3, wire: 1, volt: 'High', vf: 50, maxSpeed: 480, offset: 0.107, ampe: '4.0 A', time: "9p20'" },
-                { pass: 'Pass 2', ti: 16, Po: 5, IP: 2, wire: 2, volt: 'Low', vf: 40, maxSpeed: 480, offset: 0.018, ampe: '0.1A - 0.2A', time: "6p50'" },
-                { pass: 'Pass 3', ti: 6, Po: 4, IP: 1, wire: 3, volt: 'Low', vf: 30, maxSpeed: 310, offset: 0.008, ampe: '0.05A - 0.1A', time: "8p25'" },
-                { pass: 'Pass 4', ti: 2, Po: 3, IP: 1, wire: 3, volt: 'Low', vf: 22, maxSpeed: 240, offset: 0.004, ampe: '0.05A - 0.1A', time: "11p00'" },
-                { pass: 'Pass 5', ti: 1, Po: 2, IP: 1, wire: 3, volt: 'Low', vf: 18, maxSpeed: 190, offset: 0.002, ampe: '0.05A - 0.1A', time: "14p10'" }
-            ],
-            measured: {
-                ammeterA: 'P1: 4A | P2: 0.1-0.2A | P3-P5: 0.05-0.1A (Đo thực tế trên máy)',
-                totalMinutes: 50.75,
-                totalTimeStr: '50p45s (50.75 phút)',
-                actualDimension: '30.012 mm (Danh nghĩa: 30.000 mm -> To +0.012 mm)',
-                recommendedOffsetP1: '0.101 mm (Hiệu chỉnh giảm 0.006 mm từ 0.107 mm về 0.101 mm để đạt đúng 30.000 mm)',
-                recommendedMaxSpeed: 'P1: 300 | P2: 220 | P3: 140 | P4: 90 | P5: 60 mm²/p'
-            },
-            notes: 'Cắt 5 Pass chi tiết H=12mm, L=58.2mm. Tổng thời gian thực tế 50p45s. Kích thước thực tế đo được 30.012mm (to +0.012mm) do Offset Pass 1 cài đặt ban đầu là 0.107mm bị dư và Max Speed P2 (480) quá cao. Khắc phục: Hiệu chỉnh giảm Offset Pass 1 đi 0.006mm (từ 0.107mm về 0.101mm) để đưa chi tiết về đúng kích thước chuẩn 30.000mm, đồng thời hạ Max Speed các Pass tinh.'
+                    "id": "WS-EXP-NEW-09",
+                    "date": "2026-08-29",
+                    "name": "Thực nghiệm Thép mềm SCM420 H=30mm (Test Tỷ Lệ Điện Áp High vs Low)",
+                    "material": "SCM420",
+                    "materialName": "Thép mềm SCM420 (HB < 200)",
+                    "passCount": 1,
+                    "thickness": 30,
+                    "cutLength": 30,
+                    "params": {
+                                "ti": 30,
+                                "Po": 7,
+                                "IP": 3,
+                                "Voltage": "High/Low",
+                                "VF": 55,
+                                "Wire": 1
+                    },
+                    "measured": {
+                                "ammeterA": "High: 3.0A | Low: 2.5A",
+                                "voltageRatio": "High/Low = 1.20 (+20%)",
+                                "actualDimension": "--",
+                                "recommendedOffset": 0.098,
+                                "tolerance": "±0.005 mm"
+                    },
+                    "notes": "Xác định hằng số tủ nguồn: Dòng Ampe khi ở High luôn lớn hơn Low chính xác 20% (High/Low = 1.20) bất kể ở bộ điện nào (Test 1: 4.15A/3.45A = 1.20; Test 2: 3.0A/2.5A = 1.20)."
         },
         {
-            id: 'WS-EXP-03',
-            date: '2026-08-25',
-            name: 'Thực nghiệm Thép tôi SCM440 H=12mm (1 Pass Cắt Cữ Chuẩn)',
-            material: 'SCM440',
-            materialName: 'Thép tôi SCM440 (28 - 32 HRC)',
-            passCount: 1,
-            thickness: 12,
-            cutLength: 50,
-            params: { ti: 20, Po: 7, IP: 2, Voltage: 'Low', VF: 50, Wire: 2 },
-            measured: {
-                ammeterA: '-- (Chờ đo thực tế)',
-                sparkGap: 0.015,
-                recommendedOffset: 0.105,
-                tolerance: '±0.005 mm'
-            },
-            notes: 'Cắt 1 Pass phôi mỏng H=12mm bằng Low Voltage và IP=2 giúp khống chế khe hở siêu hẹp 15μm, Offset=0.105mm cho dung sai cực chuẩn ±0.005mm.'
+                    "id": "WS-EXP-NEW-04",
+                    "date": "2026-08-28",
+                    "name": "Thực nghiệm Thép tôi SCM440 H=30mm (1 Pass Cắt Chuẩn Xưởng)",
+                    "material": "SCM440",
+                    "materialName": "Thép tôi SCM440 (28-32 HRC)",
+                    "passCount": 1,
+                    "thickness": 30,
+                    "cutLength": 30,
+                    "params": {
+                                "ti": 32,
+                                "Po": 5,
+                                "IP": 4,
+                                "Voltage": "High",
+                                "VF": 65,
+                                "Wire": 1
+                    },
+                    "measured": {
+                                "ammeterA": "4.45A - 4.5A",
+                                "fcAvg": 112,
+                                "fcInstantRange": "165 - 175 mm²/p",
+                                "totalTimeStr": "8p40'",
+                                "actualDimension": "+0.034 mm (Cắt lấy chày, to hơn lập trình 0.034mm)",
+                                "sparkGap": 0.008,
+                                "recommendedOffset": 0.098,
+                                "recommendedMaxSpeed": "200 Hz",
+                                "tolerance": "±0.005 mm"
+                    },
+                    "notes": "Cắt 1 Pass SCM440 H=30mm, Ton 32, Toff 5, IP 4, Volt H, VF 65, Max Speed 200Hz, Offset 0.115, L=30mm hết 8p40s. Ampe 4.45-4.5A, tốc độ 165-175 mm²/p. Kích thước chày to hơn 0.034mm (lệch bán kính 0.017mm) -> True Gap = (0.115 - 0.09) - 0.017 = 0.008mm, Offset chuẩn xác là 0.098mm."
         },
         {
-            id: 'WS-EXP-04',
-            date: '2026-08-25',
-            name: 'Thực nghiệm Thép sống SCM420 H=45mm (1 Pass Cắt Cữ Chuẩn)',
-            material: 'SCM420',
-            materialName: 'Thép sống SCM420 (HB < 200)',
-            passCount: 1,
-            thickness: 45,
-            cutLength: 50,
-            params: { ti: 50, Po: 7, IP: 3, Voltage: 'Low', VF: 50, Wire: 1 },
-            measured: {
-                ammeterA: '-- (Chờ đo thực tế)',
-                sparkGap: 0.015,
-                recommendedOffset: 0.105,
-                tolerance: '±0.005 mm'
-            },
-            notes: 'Cắt 1 Pass phôi dày H=45mm bằng Low Voltage giúp khe hở co hẹp ở 15μm, Offset=0.105mm đạt dung sai ±0.005mm. Khi chuyển sang Chuẩn Hãng (V=High), cần tăng Offset lên 0.115mm.'
+                    "id": "WS-EXP-NEW-05",
+                    "date": "2026-08-28",
+                    "name": "Thực nghiệm Thép tôi SCM440 H=40mm (1 Pass Cắt Chuẩn Xưởng)",
+                    "material": "SCM440",
+                    "materialName": "Thép tôi SCM440 (28-32 HRC)",
+                    "passCount": 1,
+                    "thickness": 40,
+                    "cutLength": 30,
+                    "params": {
+                                "ti": 36,
+                                "Po": 5,
+                                "IP": 4,
+                                "Voltage": "High",
+                                "VF": 65,
+                                "Wire": 1
+                    },
+                    "measured": {
+                                "ammeterA": "4.35A - 4.4A",
+                                "fcAvg": 118,
+                                "fcInstantRange": "130 - 140 mm²/p",
+                                "totalTimeStr": "9p36'",
+                                "actualDimension": "+0.034 mm (Cắt lấy chày, to hơn lập trình 0.034mm)",
+                                "sparkGap": 0.008,
+                                "recommendedOffset": 0.098,
+                                "recommendedMaxSpeed": "180 Hz",
+                                "tolerance": "±0.005 mm"
+                    },
+                    "notes": "Cắt 1 Pass SCM440 H=40mm, Ton 36, Toff 5, IP 4, Volt H, VF 65, Max Speed 180Hz, Offset 0.115, L=30mm hết 9p36s. Ampe 4.35-4.4A, tốc độ 130-140 mm²/p. Kích thước chày to hơn 0.034mm (lệch bán kính 0.017mm) -> True Gap = (0.115 - 0.09) - 0.017 = 0.008mm, Offset chuẩn xác là 0.098mm."
         },
         {
-            id: 'WS-EXP-05',
-            date: '2026-08-25',
-            name: 'Thực nghiệm Thép tôi SCM440 H=68mm (1 Pass Cắt Cữ Chuẩn)',
-            material: 'SCM440',
-            materialName: 'Thép tôi SCM440 (28 - 32 HRC)',
-            passCount: 1,
-            thickness: 68,
-            cutLength: 50,
-            params: { ti: 70, Po: 7, IP: 3, Voltage: 'Low', VF: 50, Wire: 1 },
-            measured: {
-                ammeterA: '-- (Chờ đo thực tế)',
-                sparkGap: 0.007,
-                recommendedOffset: 0.097,
-                tolerance: '±0.005 mm'
-            },
-            notes: 'Thép tôi SCM440 dẫn điện tốt và thoát xỉ sạch, ở H=68mm khe hở co lại chỉ còn 7μm, Offset=0.097mm đạt kích thước chuẩn.'
+                    "id": "WS-EXP-04",
+                    "date": "2026-08-25",
+                    "name": "Thực nghiệm Thép sống SCM420 H=45mm (1 Pass Cắt Cữ Chuẩn)",
+                    "material": "SCM420",
+                    "materialName": "Thép sống SCM420 (HB < 200)",
+                    "passCount": 1,
+                    "thickness": 45,
+                    "cutLength": 50,
+                    "params": {
+                                "ti": 50,
+                                "Po": 7,
+                                "IP": 3,
+                                "Voltage": "Low",
+                                "VF": 50,
+                                "Wire": 1
+                    },
+                    "measured": {
+                                "ammeterA": "≈ 2.1 A (Nội suy mô hình)",
+                                "sparkGap": 0.015,
+                                "recommendedOffset": 0.105,
+                                "tolerance": "±0.005 mm"
+                    },
+                    "notes": "Cắt 1 Pass phôi dày H=45mm bằng Low Voltage giúp khe hở co hẹp ở 15μm, Offset=0.105mm đạt dung sai ±0.005mm. Khi chuyển sang Chuẩn Hãng (V=High), cần tăng Offset lên 0.115mm."
         },
         {
-            id: 'WS-EXP-06',
-            date: '2026-08-25',
-            name: 'Thực nghiệm Thép sống SCM420 H=140mm (1 Pass Phôi Dày)',
-            material: 'SCM420',
-            materialName: 'Thép sống SCM420 (HB < 200)',
-            passCount: 1,
-            thickness: 140,
-            cutLength: 50,
-            params: { ti: 120, Po: 8, IP: 5, Voltage: 'High', VF: 55, Wire: 1 },
-            measured: {
-                ammeterA: '-- (Chờ đo thực tế)',
-                sparkGap: 0.005,
-                recommendedOffset: 0.095,
-                tolerance: '±0.005 mm'
-            },
-            notes: 'Phôi dày H=140mm bắt buộc dùng High Voltage và Ton=120, IP=5, Po=8 để năng lượng tia đạt 45.36mJ xuyên sâu qua phôi.'
+                    "id": "WS-EXP-01",
+                    "date": "2026-08-25",
+                    "name": "Thực nghiệm Thép sống SCM420 H=55mm (Cắt 1 Pass Chuẩn Xưởng)",
+                    "material": "SCM420",
+                    "materialName": "Thép sống SCM420 (HB < 200)",
+                    "passCount": 1,
+                    "thickness": 55,
+                    "cutLength": 228,
+                    "params": {
+                                "ti": 50,
+                                "Po": 7,
+                                "IP": 5,
+                                "Voltage": "High",
+                                "VF": 60,
+                                "Wire": 1
+                    },
+                    "measured": {
+                                "ammeterA": "4.0 A (Đo thực tế trên máy)",
+                                "fcInstantRange": "70 - 100 mm²/p",
+                                "fcAvg": 114,
+                                "ftAvg": 2.07,
+                                "totalMinutes": 110,
+                                "totalTimeStr": "1h50p (110 phút)",
+                                "sparkGap": 0.048,
+                                "recommendedOffset": 0.138,
+                                "mrrVol": 31.46,
+                                "ra": "2.8 - 3.2 μm"
+                    },
+                    "notes": "Cắt phôi Thép sống SCM420 dày H=55mm, L=228mm. Chế độ Toff=7 nghỉ xung dài xả xỉ phôi mềm rất tốt, chống bết dính. Kim Ampe đứng im mức 4A, Fc bình quân đạt 114 mm²/p, hoàn thành đúng 1h50p."
         },
         {
-            id: 'WS-EXP-07',
-            date: '2026-08-25',
-            name: 'Thực nghiệm Thép sống SCM420 H=160mm (1 Pass Phôi Cực Dày)',
-            material: 'SCM420',
-            materialName: 'Thép sống SCM420 (HB < 200)',
-            passCount: 1,
-            thickness: 160,
-            cutLength: 50,
-            params: { ti: 120, Po: 8, IP: 5, Voltage: 'High', VF: 55, Wire: 1 },
-            measured: {
-                ammeterA: '-- (Chờ đo thực tế)',
-                sparkGap: 0.020,
-                recommendedOffset: 0.110,
-                tolerance: '±0.005 mm'
-            },
-            notes: 'Ở H=160mm, hiện tượng tán xạ tia và xỉ tích ở 2 miệng phun làm khe hở nở rộng thành 20μm, bù dao Offset tăng lên 0.110mm (+15μm so với H=140mm).'
+                    "id": "WS-EXP-NEW-06",
+                    "date": "2026-08-28",
+                    "name": "Thực nghiệm Thép mềm SCM420 H=63mm (1 Pass Cắt Chuẩn Xưởng)",
+                    "material": "SCM420",
+                    "materialName": "Thép mềm SCM420 (HB < 200)",
+                    "passCount": 1,
+                    "thickness": 63,
+                    "cutLength": 27,
+                    "params": {
+                                "ti": 44,
+                                "Po": 7,
+                                "IP": 5,
+                                "Voltage": "High",
+                                "VF": 55,
+                                "Wire": 1
+                    },
+                    "measured": {
+                                "ammeterA": "4.1A - 4.2A",
+                                "fcAvg": 119,
+                                "fcInstantRange": "75 - 85 mm²/p",
+                                "totalTimeStr": "14p20'",
+                                "actualDimension": "+0.046 mm (Cắt lấy chày, to hơn lập trình 0.046mm)",
+                                "sparkGap": 0.005,
+                                "recommendedOffset": 0.095,
+                                "recommendedMaxSpeed": "150 Hz",
+                                "tolerance": "±0.005 mm"
+                    },
+                    "notes": "Cắt 1 Pass SCM420 H=63mm, Ton 44, Toff 7, IP 5, Volt H, VF 55, Max Speed 150Hz, Offset 0.118, L=27mm hết 14p20s. Ampe 4.1-4.2A, tốc độ 75-85 mm²/p. Kích thước chày to hơn 0.046mm (lệch bán kính 0.023mm) -> True Gap = (0.118 - 0.09) - 0.023 = 0.005mm, Offset chuẩn xác là 0.095mm."
+        },
+        {
+                    "id": "WS-EXP-05",
+                    "date": "2026-08-25",
+                    "name": "Thực nghiệm Thép tôi SCM440 H=68mm (1 Pass Cắt Cữ Chuẩn)",
+                    "material": "SCM440",
+                    "materialName": "Thép tôi SCM440 (28 - 32 HRC)",
+                    "passCount": 1,
+                    "thickness": 68,
+                    "cutLength": 50,
+                    "params": {
+                                "ti": 70,
+                                "Po": 7,
+                                "IP": 3,
+                                "Voltage": "Low",
+                                "VF": 50,
+                                "Wire": 1
+                    },
+                    "measured": {
+                                "ammeterA": "≈ 2.1 A (Nội suy mô hình)",
+                                "sparkGap": 0.007,
+                                "recommendedOffset": 0.097,
+                                "tolerance": "±0.005 mm"
+                    },
+                    "notes": "Thép tôi SCM440 dẫn điện tốt và thoát xỉ sạch, ở H=68mm khe hở co lại chỉ còn 7μm, Offset=0.097mm đạt kích thước chuẩn."
+        },
+        {
+                    "id": "WS-EXP-NEW-07",
+                    "date": "2026-08-29",
+                    "name": "Thực nghiệm Thép sống SCM420 H=140mm (Phá Kẹt Xỉ Bằng Ton 100 + VF 60)",
+                    "material": "SCM420",
+                    "materialName": "Thép sống SCM420 (HB < 200)",
+                    "passCount": 1,
+                    "thickness": 140,
+                    "cutLength": 28.4,
+                    "params": {
+                                "ti": 100,
+                                "Po": 9,
+                                "IP": 6,
+                                "Voltage": "High",
+                                "VF": 60,
+                                "Wire": 1
+                    },
+                    "measured": {
+                                "ammeterA": "3.7A - 3.8A (Nửa sau Ton 120: 3.5 - 3.6 A)",
+                                "fcAvg": 128,
+                                "fcInstantRange": "30 - 40 mm²/p",
+                                "totalTimeStr": "36p",
+                                "actualDimension": "+0.036 mm (Cắt lấy chày, to hơn lập trình 0.036mm)",
+                                "sparkGap": 0.012,
+                                "recommendedOffset": 0.102,
+                                "recommendedMaxSpeed": "100 Hz",
+                                "tolerance": "±0.005 mm"
+                    },
+                    "notes": "Phôi H=140mm: Chế độ Ton 52 và Ton 80 hoàn toàn không cắt được. Ton 100, Toff 9, IP 6, VF 60, 100Hz, Offset 0.120 cắt được nửa đường (L=28.4mm hết 36p, tốc độ 30-40 mm²/p, Ampe 3.7-3.8A). Nửa đường còn lại tăng Ton 120 (Ampe 3.5-3.6A). Chày to hơn 0.036mm -> True Gap = (0.120 - 0.09) - 0.018 = 0.012mm, Offset chuẩn 0.102mm. Phôi thẳng đẹp không béo bụng."
+        },
+        {
+                    "id": "WS-EXP-06",
+                    "date": "2026-08-25",
+                    "name": "Thực nghiệm Thép sống SCM420 H=140mm (1 Pass Phôi Dày)",
+                    "material": "SCM420",
+                    "materialName": "Thép sống SCM420 (HB < 200)",
+                    "passCount": 1,
+                    "thickness": 140,
+                    "cutLength": 50,
+                    "params": {
+                                "ti": 120,
+                                "Po": 8,
+                                "IP": 5,
+                                "Voltage": "High",
+                                "VF": 55,
+                                "Wire": 1
+                    },
+                    "measured": {
+                                "ammeterA": "≈ 3.7 A (Nội suy mô hình)",
+                                "sparkGap": 0.005,
+                                "recommendedOffset": 0.095,
+                                "tolerance": "±0.005 mm"
+                    },
+                    "notes": "Phôi dày H=140mm bắt buộc dùng High Voltage và Ton=120, IP=5, Po=8 để năng lượng tia đạt 45.36mJ xuyên sâu qua phôi."
+        },
+        {
+                    "id": "WS-EXP-07",
+                    "date": "2026-08-25",
+                    "name": "Thực nghiệm Thép sống SCM420 H=160mm (1 Pass Phôi Cực Dày)",
+                    "material": "SCM420",
+                    "materialName": "Thép sống SCM420 (HB < 200)",
+                    "passCount": 1,
+                    "thickness": 160,
+                    "cutLength": 50,
+                    "params": {
+                                "ti": 120,
+                                "Po": 8,
+                                "IP": 5,
+                                "Voltage": "High",
+                                "VF": 55,
+                                "Wire": 1
+                    },
+                    "measured": {
+                                "ammeterA": "≈ 3.7 A (Nội suy mô hình)",
+                                "sparkGap": 0.02,
+                                "recommendedOffset": 0.11,
+                                "tolerance": "±0.005 mm"
+                    },
+                    "notes": "Ở H=160mm, hiện tượng tán xạ tia và xỉ tích ở 2 miệng phun làm khe hở nở rộng thành 20μm, bù dao Offset tăng lên 0.110mm (+15μm so với H=140mm)."
+        },
+        {
+                    "id": "WS-EXP-NEW-08",
+                    "date": "2026-08-28",
+                    "name": "Thực nghiệm Thép tôi SCM440 H=300mm (Phá Điểm Nghẽn 1.5h - Ton 120 + VF 65)",
+                    "material": "SCM440",
+                    "materialName": "Thép tôi SCM440 (28-32 HRC)",
+                    "passCount": 1,
+                    "thickness": 300,
+                    "cutLength": 107.4,
+                    "params": {
+                                "ti": 120,
+                                "Po": 9,
+                                "IP": 6,
+                                "Voltage": "High",
+                                "VF": 65,
+                                "Wire": 1
+                    },
+                    "measured": {
+                                "ammeterA": "3.7A - 3.9A",
+                                "fcAvg": 103,
+                                "fcInstantRange": "12 - 20 mm²/p",
+                                "totalTimeStr": "4h29p (GĐ1: 1h29p | GĐ2: 3h)",
+                                "actualDimension": "-0.020 mm (Cắt lấy cối, nhỏ hơn lập trình 0.02mm)",
+                                "sparkGap": 0.02,
+                                "recommendedOffset": 0.11,
+                                "recommendedMaxSpeed": "50 Hz",
+                                "tolerance": "±0.010 mm"
+                    },
+                    "notes": "Cắt phôi H=300mm. Giai đoạn 1 (Ton 80, VF 50, 50Hz, Offset 0.120, Ampe 3.8-3.9A) cắt 31.3mm hết 1h29p thì kẹt xỉ chết đơ mâm. Giai đoạn 2 nâng Ton 120, VF 65, 50Hz, Offset 0.120, Ampe 3.7-3.9A cắt tiếp 76.1mm hết 3h. Tốc độ 12-20 mm²/p. Cối nhỏ hơn 0.02mm -> True Gap = (0.120 - 0.09) - 0.010 = 0.020mm, Offset chuẩn 0.110mm. Phôi thẳng tắp không béo bụng."
+        },
+        {
+                    "id": "WS-EXP-NEW-03",
+                    "date": "2026-08-28",
+                    "name": "Thực nghiệm Thép mềm SCM420 H=30mm (Cắt Lỗ Phi 205 - Cấp 6)",
+                    "material": "SCM420",
+                    "materialName": "Thép mềm SCM420 (HB < 200)",
+                    "passCount": 2,
+                    "thickness": 30,
+                    "cutLength": 644,
+                    "multiPassDetails": [
+                                {
+                                            "pass": "Pass 1",
+                                            "ti": 28,
+                                            "Po": 6,
+                                            "IP": 4,
+                                            "wire": 1,
+                                            "volt": "High",
+                                            "vf": 60,
+                                            "maxSpeed": "200Hz",
+                                            "offset": 0.115,
+                                            "ampe": "4.1-4.2A",
+                                            "time": "3h08p"
+                                },
+                                {
+                                            "pass": "Pass 2",
+                                            "ti": 16,
+                                            "Po": 5,
+                                            "IP": 2,
+                                            "wire": 2,
+                                            "volt": "Low",
+                                            "vf": 40,
+                                            "maxSpeed": "150Hz",
+                                            "offset": 0.022,
+                                            "ampe": "0.1-0.2A",
+                                            "time": "1h12p"
+                                }
+                    ],
+                    "measured": {
+                                "ammeterA": "P1: 4.1-4.2A | P2: 0.1-0.2A",
+                                "totalMinutes": 260,
+                                "totalTimeStr": "4h20p",
+                                "actualDimension": "-0.015 mm (Lỗ phi 205mm, thực tế 204.985mm)",
+                                "recommendedOffsetP1": "0.107 mm (Giảm 0.008 mm từ 0.115 mm)",
+                                "recommendedMaxSpeed": "P2 Remain: 0.022 mm (Giữ nguyên không đổi)"
+                    },
+                    "notes": "Cắt lỗ tròn 205mm. Lỗ bị nhỏ đi trung bình 0.015mm và bị ô van 0.01mm. Nguyên lý Lượng dư Tương đối: Chỉ cần giảm Offset Pass 1 đi 0.008mm (còn 0.107). Giữ nguyên Remain Pass 2 là 0.022. Hệ thống AutoCut sẽ tự dịch toàn bộ quỹ đạo 2 Pass ra ngoài."
+        },
+        {
+                    "id": "WS-EXP-NEW-02",
+                    "date": "2026-08-27",
+                    "name": "Thực nghiệm Thép mềm SCM420 H=63mm (Chiến lược Tiêu Chuẩn 6/11)",
+                    "material": "SCM420",
+                    "materialName": "Thép mềm SCM420 (HB < 200)",
+                    "passCount": 2,
+                    "thickness": 63,
+                    "cutLength": 30,
+                    "multiPassDetails": [
+                                {
+                                            "pass": "Pass 1",
+                                            "ti": 44,
+                                            "Po": 7,
+                                            "IP": 5,
+                                            "wire": 1,
+                                            "volt": "High",
+                                            "vf": 55,
+                                            "maxSpeed": "150Hz",
+                                            "offset": 0.118,
+                                            "ampe": "4.2A",
+                                            "time": "16p26'"
+                                },
+                                {
+                                            "pass": "Pass 2",
+                                            "ti": 20,
+                                            "Po": 5,
+                                            "IP": 3,
+                                            "wire": 2,
+                                            "volt": "High",
+                                            "vf": 40,
+                                            "maxSpeed": "100Hz",
+                                            "offset": 0.024,
+                                            "ampe": "0.1-0.2A",
+                                            "time": "5p20'"
+                                }
+                    ],
+                    "measured": {
+                                "ammeterA": "P1: 4.2A | P2: 0.1-0.2A (Đo thực tế)",
+                                "totalMinutes": 21.77,
+                                "totalTimeStr": "21p46'",
+                                "actualDimension": "+0.05 mm (Lập trình 30mm, cắt ra 30.05mm)",
+                                "recommendedOffsetP1": "0.093 mm (Giảm 0.025 mm từ chuẩn 0.118 mm)",
+                                "recommendedMaxSpeed": "P1: 150Hz | P2: 100Hz"
+                    },
+                    "notes": "Cắt theo Cấp 6 (Tiêu chuẩn), Pass 1 cho ra sản phẩm dư 0.05mm. Xác nhận phải giảm Offset Pass 1 đi 0.025mm (còn 0.093). Giới hạn tốc độ Max Speed chuẩn xác."
+        },
+        {
+                    "id": "WS-EXP-NEW-01",
+                    "date": "2026-08-27",
+                    "name": "Thực nghiệm Thép mềm SCM420 H=63mm (Chiến lược 4/11 - Mịn Cao)",
+                    "material": "SCM420",
+                    "materialName": "Thép mềm SCM420 (HB < 200)",
+                    "passCount": 2,
+                    "thickness": 63,
+                    "cutLength": 30,
+                    "multiPassDetails": [
+                                {
+                                            "pass": "Pass 1",
+                                            "ti": 24,
+                                            "Po": 7,
+                                            "IP": 4,
+                                            "wire": 1,
+                                            "volt": "High",
+                                            "vf": 43,
+                                            "maxSpeed": "150Hz",
+                                            "offset": 0.116,
+                                            "ampe": "4A",
+                                            "time": "21p"
+                                },
+                                {
+                                            "pass": "Pass 2",
+                                            "ti": 15,
+                                            "Po": 5,
+                                            "IP": 2,
+                                            "wire": 2,
+                                            "volt": "High",
+                                            "vf": 36,
+                                            "maxSpeed": "100Hz",
+                                            "offset": 0.022,
+                                            "ampe": "0.1-0.2A",
+                                            "time": "5p20'"
+                                }
+                    ],
+                    "measured": {
+                                "ammeterA": "P1: 4A | P2: 0.1-0.2A (Đo thực tế trên máy)",
+                                "totalMinutes": 26.33,
+                                "totalTimeStr": "26p20' (26.33 phút)",
+                                "actualDimension": "+0.07 mm (Lập trình 30mm, cắt ra 30.07mm)",
+                                "recommendedOffsetP1": "0.081 mm (Giảm từ 0.116 mm xuống 0.081 mm)",
+                                "recommendedMaxSpeed": "P1: 150Hz | P2: 100Hz"
+                    },
+                    "notes": "Cắt 2 Pass phôi H=63mm, L=30mm (Dùng chế độ H=65mm, Chiến lược Cấp 4). Kích thước thực tế cắt ra to hơn 0.07mm do Offset Pass 1 quá lớn. Tốc độ thực tế Pass 1 là 55-65mm²/phút, Pass 2 là 240mm²/phút. Giải pháp: Cần đổi hệ số offset Pass 1 về 0.081mm."
+        },
+        {
+                    "id": "WS-EXP-02",
+                    "date": "2026-08-25",
+                    "name": "Thực nghiệm Thép tôi SCM440 H=12mm (Quy trình 5 Pass Toàn Diện)",
+                    "material": "SCM440",
+                    "materialName": "Thép tôi SCM440 (28 - 32 HRC)",
+                    "passCount": 5,
+                    "thickness": 12,
+                    "cutLength": 58.2,
+                    "multiPassDetails": [
+                                {
+                                            "pass": "Pass 1",
+                                            "ti": 26,
+                                            "Po": 5,
+                                            "IP": 3,
+                                            "wire": 1,
+                                            "volt": "High",
+                                            "vf": 50,
+                                            "maxSpeed": "200Hz",
+                                            "offset": 0.107,
+                                            "ampe": "4.0 A",
+                                            "time": "9p20'"
+                                },
+                                {
+                                            "pass": "Pass 2",
+                                            "ti": 16,
+                                            "Po": 5,
+                                            "IP": 2,
+                                            "wire": 2,
+                                            "volt": "Low",
+                                            "vf": 40,
+                                            "maxSpeed": "200Hz",
+                                            "offset": 0.018,
+                                            "ampe": "0.1A - 0.2A",
+                                            "time": "6p50'"
+                                },
+                                {
+                                            "pass": "Pass 3",
+                                            "ti": 6,
+                                            "Po": 4,
+                                            "IP": 1,
+                                            "wire": 3,
+                                            "volt": "Low",
+                                            "vf": 30,
+                                            "maxSpeed": "120Hz",
+                                            "offset": 0.008,
+                                            "ampe": "0.05A - 0.1A",
+                                            "time": "8p25'"
+                                },
+                                {
+                                            "pass": "Pass 4",
+                                            "ti": 2,
+                                            "Po": 3,
+                                            "IP": 1,
+                                            "wire": 3,
+                                            "volt": "Low",
+                                            "vf": 22,
+                                            "maxSpeed": "100Hz",
+                                            "offset": 0.004,
+                                            "ampe": "0.05A - 0.1A",
+                                            "time": "11p00'"
+                                },
+                                {
+                                            "pass": "Pass 5",
+                                            "ti": 1,
+                                            "Po": 2,
+                                            "IP": 1,
+                                            "wire": 3,
+                                            "volt": "Low",
+                                            "vf": 18,
+                                            "maxSpeed": "80Hz",
+                                            "offset": 0.002,
+                                            "ampe": "0.05A - 0.1A",
+                                            "time": "14p10'"
+                                }
+                    ],
+                    "measured": {
+                                "ammeterA": "P1: 4A | P2: 0.1-0.2A | P3-P5: 0.05-0.1A (Đo thực tế trên máy)",
+                                "totalMinutes": 50.75,
+                                "totalTimeStr": "50p45s (50.75 phút)",
+                                "actualDimension": "30.012 mm (Danh nghĩa: 30.000 mm -> To +0.012 mm)",
+                                "recommendedOffsetP1": "0.101 mm (Hiệu chỉnh giảm 0.006 mm từ 0.107 mm về 0.101 mm để đạt đúng 30.000 mm)",
+                                "recommendedMaxSpeed": "P1: 200 | P2: 150 | P3: 120 | P4: 100 | P5: 80 Hz"
+                    },
+                    "notes": "Cắt 5 Pass chi tiết H=12mm, L=58.2mm. Tổng thời gian thực tế 50p45s. Kích thước thực tế đo được 30.012mm (to +0.012mm) do Offset Pass 1 cài đặt ban đầu là 0.107mm bị dư và Max Speed P2 (200Hz) quá thả rông. Khắc phục: Hiệu chỉnh giảm Offset Pass 1 đi 0.006mm (từ 0.107mm về 0.101mm) để đưa chi tiết về đúng kích thước chuẩn 30.000mm, đồng thời hãm Max Speed Pass 2 xuống 150Hz."
         }
     ];
 
@@ -1072,11 +1491,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Điểm chuẩn thực nghiệm xưởng: H=55mm -> Ton=50, Po=7, IP=5, VF=60
                 ti_w = 50; Po_w = 7; IP_w = 5; VF_w = 60; Volt_w = 'High';
             } else if (H <= 120) {
-                ti_w = 54; Po_w = 7; IP_w = 5; VF_w = 60; Volt_w = 'High';
-            } else if (H <= 200) {
-                ti_w = 60; Po_w = 8; IP_w = 6; VF_w = 65; Volt_w = 'High';
+                ti_w = 80; Po_w = 8; IP_w = 6; VF_w = 60; Volt_w = 'High';
+            } else if (H <= 160) {
+                ti_w = 100; Po_w = 9; IP_w = 6; VF_w = 60; Volt_w = 'High';
+            } else if (H <= 250) {
+                ti_w = 110; Po_w = 9; IP_w = 6; VF_w = 65; Volt_w = 'High';
             } else {
-                ti_w = 66; Po_w = 9; IP_w = 6; VF_w = 70; Volt_w = 'High';
+                ti_w = 120; Po_w = 10; IP_w = 6; VF_w = 70; Volt_w = 'High';
             }
         }
         Wire_w = 1;
@@ -1928,30 +2349,68 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Hiệu chuẩn Offset từ dữ liệu WS-EXP-02: 
                 // Pass 1 chuẩn hãng bị dư, thực tế xưởng giảm ~0.017mm.
-                // Các Pass sau xưởng dùng: P2: 0.018, P3: 0.008, P4: 0.004, P5: 0.002
+                // Các Pass sau xưởng dùng: P2: 0.018-0.055, P3: 0.008, P4: 0.004, P5: 0.002
                 const stdOffset = parseFloat(r.offsetText);
+                // --- THUẬT TOÁN NỘI SUY ML (WORKSHOP CALIBRATION) CHO TRUE SPARK GAP & OFFSET ---
+                let trueSparkGap = 0.019; // H <= 12 (Neo H=12, Ton=26/28)
+                if (state.thickness > 12 && state.thickness <= 30) {
+                    trueSparkGap = 0.019 - (state.thickness - 12) * ((0.019 - 0.008) / (30 - 12));
+                } else if (state.thickness > 30 && state.thickness <= 40) {
+                    trueSparkGap = 0.008; // Neo H=30, H=40
+                } else if (state.thickness > 40 && state.thickness <= 63) {
+                    trueSparkGap = 0.008 - (state.thickness - 40) * ((0.008 - 0.005) / (63 - 40));
+                } else if (state.thickness > 63 && state.thickness <= 140) {
+                    // Đường cong chữ U: Phôi dày cần Ton lớn (Ton 100) -> Gap bành ra 0.012mm
+                    trueSparkGap = 0.005 + (state.thickness - 63) * ((0.012 - 0.005) / (140 - 63));
+                } else if (state.thickness > 140) {
+                    // Phôi siêu dày H=300 dùng Ton 120 -> Gap = 0.020mm
+                    trueSparkGap = 0.012 + (state.thickness - 140) * ((0.020 - 0.012) / (300 - 140));
+                }
+
+                // Remain Pass 2 nội suy
+                let p2Remain = 0.015;
+                if (state.thickness > 12 && state.thickness <= 30) {
+                    p2Remain = 0.015 + (state.thickness - 12) * ((0.029 - 0.015) / (30 - 12));
+                } else if (state.thickness > 30 && state.thickness <= 63) {
+                    p2Remain = 0.029 + (state.thickness - 30) * ((0.049 - 0.029) / (63 - 30));
+                } else if (state.thickness > 63 && state.thickness <= 140) {
+                    p2Remain = 0.049 + (state.thickness - 63) * ((0.055 - 0.049) / (140 - 63));
+                } else if (state.thickness > 140) {
+                    p2Remain = 0.055;
+                }
+
                 let wsOffsetNum = stdOffset;
-                if (idx === 0) wsOffsetNum = Math.max(0.010, stdOffset - 0.017);
-                else if (idx === 1) wsOffsetNum = 0.018;
+                if (idx === 0) wsOffsetNum = 0.090 + trueSparkGap;
+                else if (idx === 1) wsOffsetNum = p2Remain;
                 else if (idx === 2) wsOffsetNum = 0.008;
                 else if (idx === 3) wsOffsetNum = 0.004;
                 else if (idx === 4) wsOffsetNum = 0.002;
                 else wsOffsetNum = 0.001;
                 const wsOffset = wsOffsetNum.toFixed(3);
                 
-                // Fc & Ft: Thực tế xưởng chậm hơn khá nhiều so với lý thuyết (theo WS-EXP-02)
-                const wsSpeedArea = Math.round(r.speedArea * 0.70);
-                const wsFeedRate = (wsSpeedArea / state.thickness).toFixed(2);
+                // Fc & Ft: Thực tế xưởng chậm hơn khá nhiều so với lý thuyết
+                const wsFeedRate = ( (r.speedArea * 0.70) / state.thickness ).toFixed(2);
+                const wsSpeedArea = Math.round(parseFloat(wsFeedRate) * 40);
                 
-                // THUẬT TOÁN NỘI SUY ML (WORKSHOP CALIBRATION) CHO GIỚI HẠN TỐC ĐỘ HZ
-                // Dữ liệu Neo chuẩn xác trực tiếp từ thợ đứng máy (WS-EXP-02, H=12mm):
-                // Cắt thực tế: P1=200Hz, P2=200Hz(Thả rông, cần hãm lại), P3=120Hz, P4=100Hz, P5=80Hz.
-                // Điều chỉnh Pass 2: Hãm xuống 150Hz để chống giật cục nhẹ, làm nền cho Pass 3.
-                // ĐÂY LÀ MỨC TRẦN AN TOÀN (SAFETY CEILING) VĨNH VIỄN:
-                // - Phôi mỏng: Máy muốn chạy 300Hz -> Bị hãm cứng lại ở dãy này, triệt tiêu Servo Hunting.
-                // - Phôi dày: Máy tự bò ở 15-20Hz -> Dãy này vô tình thành "thả rông", không gây cản trở.
-                // => Áp dụng chuẩn dãy trần Hz này cho mọi độ dày phôi!
-                const hzLimits = [200, 150, 120, 100, 80, 80];
+                // --- THUẬT TOÁN NỘI SUY ML (WORKSHOP CALIBRATION) CHO GIỚI HẠN TỐC ĐỘ HZ ---
+                // Dữ liệu Neo 1 (H=12mm): P1=200Hz, P2=150Hz, P3=120Hz, P4=100Hz, P5=80Hz.
+                // Dữ liệu Neo 2 (H=63mm): P1=150Hz, P2=100Hz, P3=80Hz, P4=60Hz, P5=50Hz.
+                // Nội suy tuyến tính trần an toàn Hz theo chiều dày H.
+                const hClamped = Math.max(12, Math.min(200, state.thickness));
+                const hz_p1 = Math.round(200 - (hClamped - 12) * ((200 - 150) / (63 - 12)));
+                const hz_p2 = Math.round(150 - (hClamped - 12) * ((150 - 100) / (63 - 12)));
+                const hz_p3 = Math.round(120 - (hClamped - 12) * ((120 - 80) / (63 - 12)));
+                const hz_p4 = Math.round(100 - (hClamped - 12) * ((100 - 60) / (63 - 12)));
+                const hz_p5 = Math.round(80 - (hClamped - 12) * ((80 - 50) / (63 - 12)));
+                
+                const hzLimits = [
+                    Math.max(80, hz_p1),
+                    Math.max(60, hz_p2),
+                    Math.max(40, hz_p3),
+                    Math.max(30, hz_p4),
+                    Math.max(20, hz_p5),
+                    Math.max(20, hz_p5)
+                ];
                 const wsHz = hzLimits[idx] || 80;
                 
                 // Ampe: Standard peak current, but Workshop uses a different ammeter calibration (~2.28)
@@ -2060,7 +2519,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.3";
+    const CURRENT_VERSION = "3.4.32";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -2182,7 +2641,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="workshop-lib-header" id="ws-lib-toggle-btn" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 10px 15px; border-radius: 6px; border-left: 4px solid var(--accent);">
                         <h4 style="margin: 0; color: var(--accent); font-size: 1.1em; display: flex; align-items: center; gap: 8px;"><i class="fa fa-book"></i> THƯ VIỆN THÔNG SỐ CẮT THỰC TẾ XƯỞNG</h4>
                         <div style="display: flex; gap: 10px; align-items: center;">
-                            <span class="lib-offline-badge">🔒 Offline Local</span>
+                            <span class="lib-offline-badge">⬇️</span>
                             <i id="ws-lib-toggle-icon" class="fa fa-chevron-down" style="color: var(--accent); transition: transform 0.3s;"></i>
                         </div>
                     </div>
@@ -2265,7 +2724,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         </div>
                                         <div class="lib-metric-box highlight-metric">
                                             <span class="lib-lbl">Tốc độ &amp; Năng suất</span>
-                                            <span class="lib-val">${item.measured.fcAvg ? `Fc = ${item.measured.fcAvg} mm²/p (Tức thời: ${item.measured.fcInstantRange})` : 'Cắt cữ chuẩn'}</span>
+                                            <span class="lib-val">${item.measured.fcAvg ? `Fc lý thuyết: <strong>${item.measured.fcAvg} mm²/p</strong> (Tức thời: ${item.measured.fcInstantRange})` : (item.measured.measuredSpeed ? `Fc ≈ ${item.measured.measuredSpeed} mm²/p (Đo thực tế)` : 'Chưa đo tốc độ (Test Offset & Dung sai)')}</span>
                                         </div>
                                         <div class="lib-metric-box highlight-metric">
                                             <span class="lib-lbl">Thời gian / Dung sai</span>
@@ -2303,4 +2762,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // INITIAL RENDER
     updateStrategyDisplay(state.strategyLevel);
     render();
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
