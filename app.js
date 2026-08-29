@@ -1454,7 +1454,7 @@ function initApp() {
         const strat = STRATEGY_CONFIGS[strategyLevel] || STRATEGY_CONFIGS[6];
 
         // 1. Xác định thông số xung xưởng cơ sở theo chiều dày H
-        let ti_w, Po_w, IP_w, Volt_w, VF_w, Wire_w;
+        let ti_w, Po_w, IP_w, Volt_w, VF_w, Wire_w, gap_w;
         if (isAlu) {
             if (H <= 15) ti_w = 18;
             else if (H <= 30) ti_w = 22;
@@ -1482,23 +1482,43 @@ function initApp() {
             Volt_w = 'High';
             VF_w = H <= 40 ? 60 : 55;
         } else {
-            // Thép SCM420 / SCM440 (Tâm điểm hiệu chuẩn thực nghiệm xưởng)
-            if (H <= 20) {
-                ti_w = 28; Po_w = 5; IP_w = 3; VF_w = 55; Volt_w = 'High';
-            } else if (H <= 40) {
-                ti_w = 36; Po_w = 6; IP_w = 4; VF_w = 60; Volt_w = 'High';
-            } else if (H <= 80) {
-                // Điểm chuẩn thực nghiệm xưởng: H=55mm -> Ton=50, Po=7, IP=5, VF=60
-                ti_w = 50; Po_w = 7; IP_w = 5; VF_w = 60; Volt_w = 'High';
-            } else if (H <= 120) {
-                ti_w = 80; Po_w = 8; IP_w = 6; VF_w = 60; Volt_w = 'High';
-            } else if (H <= 160) {
-                ti_w = 100; Po_w = 9; IP_w = 6; VF_w = 60; Volt_w = 'High';
-            } else if (H <= 250) {
-                ti_w = 110; Po_w = 9; IP_w = 6; VF_w = 65; Volt_w = 'High';
-            } else {
-                ti_w = 120; Po_w = 10; IP_w = 6; VF_w = 70; Volt_w = 'High';
+                        // THUẬT TOÁN NỘI SUY THỰC NGHIỆM (MACHINE LEARNING INTERPOLATION ALGORITHM)
+            // Dựa trên 8 điểm neo dữ liệu thực nghiệm (Anchor Data) từ xưởng của người dùng
+            const anchors = [
+                { H: 12, ti: 20, Po: 7, IP: 2, Volt: 'Low', VF: 50, Gap: 0.015 },
+                { H: 30, ti: 32, Po: 5, IP: 4, Volt: 'High', VF: 55, Gap: 0.008 },
+                { H: 40, ti: 36, Po: 5, IP: 4, Volt: 'High', VF: 60, Gap: 0.008 },
+                { H: 55, ti: 50, Po: 7, IP: 5, Volt: 'High', VF: 60, Gap: 0.048 },
+                { H: 63, ti: 44, Po: 7, IP: 5, Volt: 'High', VF: 60, Gap: 0.005 },
+                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 60, Gap: 0.005 },
+                { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 60, Gap: 0.020 },
+                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, Gap: 0.020 }
+            ];
+
+            let p1 = anchors[0], p2 = anchors[anchors.length - 1];
+            for (let i = 0; i < anchors.length - 1; i++) {
+                if (H >= anchors[i].H && H <= anchors[i+1].H) {
+                    p1 = anchors[i];
+                    p2 = anchors[i+1];
+                    break;
+                } else if (H < anchors[0].H) {
+                    p1 = anchors[0];
+                    p2 = anchors[1];
+                    break;
+                } else if (H > anchors[anchors.length - 1].H) {
+                    p1 = anchors[anchors.length - 2];
+                    p2 = anchors[anchors.length - 1];
+                    break;
+                }
             }
+
+            const ratio = (H - p1.H) / (p2.H - p1.H);
+            ti_w = Math.round(p1.ti + ratio * (p2.ti - p1.ti));
+            Po_w = Math.round(p1.Po + ratio * (p2.Po - p1.Po));
+            IP_w = Math.round(p1.IP + ratio * (p2.IP - p1.IP));
+            VF_w = Math.round(p1.VF + ratio * (p2.VF - p1.VF));
+            Volt_w = (H <= 20) ? 'Low' : 'High';
+            gap_w = (p1.Gap + ratio * (p2.Gap - p1.Gap));
         }
         Wire_w = 1;
 
@@ -1554,7 +1574,7 @@ function initApp() {
         const time_min_w = L / feedRate_num;
 
         // 5. Khe hở phóng điện và Lượng bù dao Offset thực tế
-        const sparkGap_num = 0.015 + 0.00035 * ti_w * (IP_w / 3) + (Volt_w === 'High' ? 0.004 : 0.001);
+        const sparkGap_num = gap_w !== undefined ? gap_w : (0.015 + 0.00035 * ti_w * (IP_w / 3) + (Volt_w === 'High' ? 0.004 : 0.001));
         const sparkGap_w = sparkGap_num.toFixed(3);
         const offset_w = (0.090 + sparkGap_num).toFixed(3);
 
