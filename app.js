@@ -1458,6 +1458,56 @@ function initApp() {
                 "tolerance": "±0.010 mm"
             },
             "notes": "Dữ liệu đặc biệt: Cắt 1 Pass phôi dày 63mm nhưng ép chế độ Cấp 4/11 (Ton=24) để ưu tiên bề mặt bóng mịn (Ra nhỏ). Hệ quả: Tốc độ thực 55-65 mm2/p, thời gian 21p. Do điện yếu, dây kéo lê dính phôi (Gap âm -0.009mm). User nhập Offset 0.116 làm chày to 0.070mm -> Suy ra Offset chuẩn là 0.081mm."
+        }
+        ,{
+            "id": "WS-EXP-18",
+            "date": "2026-08-29",
+            "name": "Thực nghiệm SCM420 H=63mm (2 Pass Tiêu Chuẩn Cấp 6/11)",
+            "material": "SCM420",
+            "materialName": "Thép mềm SCM420 (HB < 200)",
+            "passCount": 2,
+            "thickness": 63,
+            "cutLength": 30,
+            "params": {
+                "ti": 44,
+                "Po": 7,
+                "IP": 5,
+                "Voltage": "High",
+                "VF": 55,
+                "Wire": 1
+            },
+            "measured": {
+                "ammeterA": "4.2A",
+                "sparkGap": 0.003,
+                "recommendedOffset": 0.093,
+                "tolerance": "±0.005 mm"
+            },
+            "notes": "Dữ liệu 2 Pass Cấp 6. P1: Ton 44, Offset nhập 0.118, ra chày to 0.05 -> Offset P1 chuẩn là 0.093. P2: Ton 20, Offset 0.024. Điểm đắt giá: P2 đạt kịch trần Max Speed 100Hz (240mm2/p) và chạy mất đúng 5p20s cho 30mm (tương đương 6mm/p)."
+        },
+        {
+            "id": "WS-EXP-19",
+            "date": "2026-08-29",
+            "name": "Thực nghiệm SCM420 H=30mm (2 Pass Tiêu Chuẩn Cấp 6/11)",
+            "material": "SCM420",
+            "materialName": "Thép mềm SCM420 (HB < 200)",
+            "passCount": 2,
+            "thickness": 30,
+            "cutLength": 644,
+            "params": {
+                "ti": 28,
+                "Po": 6,
+                "IP": 4,
+                "Voltage": "High",
+                "VF": 60,
+                "Wire": 1
+            },
+            "measured": {
+                "ammeterA": "4.1A",
+                "sparkGap": 0.0175,
+                "recommendedOffset": 0.1075,
+                "tolerance": "±0.005 mm"
+            },
+            "notes": "Dữ liệu 2 Pass Cấp 6. P1: Ton 28, Offset nhập 0.115, ra cối nhỏ 0.015 (do Offset dư). Offset P1 chuẩn là 0.1075. P2: Ton 16, áp Low, Offset 0.022. Điểm đắt giá: P2 đạt kịch trần Max Speed 150Hz (360mm2/p), thời gian 1h12p cho 644mm (tương đương 9mm/p)."
         }];
 
     const WORKSHOP_CALIBRATION_MODEL = {
