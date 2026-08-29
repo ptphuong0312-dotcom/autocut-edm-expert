@@ -889,6 +889,7 @@ function initApp() {
         "ti": 20,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 50,
         "maxSpeed": "",
@@ -902,6 +903,7 @@ function initApp() {
         "ti": 12,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "",
@@ -913,6 +915,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -931,6 +935,7 @@ function initApp() {
         "ti": 30,
         "Po": 7,
         "IP": 3,
+        "wire": 2,
         "volt": "Low",
         "vf": 50,
         "maxSpeed": "",
@@ -944,6 +949,7 @@ function initApp() {
         "ti": 5,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 10,
         "maxSpeed": "",
@@ -955,6 +961,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -973,6 +981,7 @@ function initApp() {
         "ti": 70,
         "Po": 7,
         "IP": 4,
+        "wire": 2,
         "volt": "High",
         "vf": 50,
         "maxSpeed": "",
@@ -986,6 +995,7 @@ function initApp() {
         "ti": 15,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "",
@@ -997,6 +1007,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1015,6 +1027,7 @@ function initApp() {
         "ti": 100,
         "Po": 7,
         "IP": 3,
+        "wire": 2,
         "volt": "High",
         "vf": 50,
         "maxSpeed": "",
@@ -1028,6 +1041,7 @@ function initApp() {
         "ti": 15,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "",
@@ -1039,6 +1053,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1057,6 +1073,7 @@ function initApp() {
         "ti": 100,
         "Po": 7,
         "IP": 4,
+        "wire": 2,
         "volt": "High",
         "vf": 50,
         "maxSpeed": "",
@@ -1070,6 +1087,7 @@ function initApp() {
         "ti": 15,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "",
@@ -1081,6 +1099,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1099,6 +1119,7 @@ function initApp() {
         "ti": 120,
         "Po": 7,
         "IP": 5,
+        "wire": 2,
         "volt": "High",
         "vf": 55,
         "maxSpeed": "",
@@ -1112,6 +1133,7 @@ function initApp() {
         "ti": 25,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "",
@@ -1123,6 +1145,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1141,6 +1165,7 @@ function initApp() {
         "ti": 20,
         "Po": 7,
         "IP": 3,
+        "wire": 2,
         "volt": "Low",
         "vf": 50,
         "maxSpeed": "150Hz",
@@ -1154,6 +1179,7 @@ function initApp() {
         "ti": 10,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "150Hz",
@@ -1167,6 +1193,7 @@ function initApp() {
         "ti": 3,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 10,
         "maxSpeed": "150Hz",
@@ -1178,6 +1205,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1196,6 +1225,7 @@ function initApp() {
         "ti": 30,
         "Po": 7,
         "IP": 3,
+        "wire": 2,
         "volt": "Low",
         "vf": 50,
         "maxSpeed": "200Hz",
@@ -1209,6 +1239,7 @@ function initApp() {
         "ti": 11,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "140Hz",
@@ -1222,6 +1253,7 @@ function initApp() {
         "ti": 2,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "120Hz",
@@ -1233,6 +1265,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1251,6 +1285,7 @@ function initApp() {
         "ti": 50,
         "Po": 7,
         "IP": 4,
+        "wire": 2,
         "volt": "Low",
         "vf": 50,
         "maxSpeed": "150Hz",
@@ -1264,6 +1299,7 @@ function initApp() {
         "ti": 20,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "150Hz",
@@ -1277,6 +1313,7 @@ function initApp() {
         "ti": 3,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 10,
         "maxSpeed": "150Hz",
@@ -1288,6 +1325,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1306,6 +1345,7 @@ function initApp() {
         "ti": 70,
         "Po": 7,
         "IP": 4,
+        "wire": 2,
         "volt": "High",
         "vf": 50,
         "maxSpeed": "150Hz",
@@ -1319,6 +1359,7 @@ function initApp() {
         "ti": 20,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "110Hz",
@@ -1332,6 +1373,7 @@ function initApp() {
         "ti": 5,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "100Hz",
@@ -1343,6 +1385,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1361,6 +1405,7 @@ function initApp() {
         "ti": 90,
         "Po": 7,
         "IP": 4,
+        "wire": 2,
         "volt": "High",
         "vf": 50,
         "maxSpeed": "150Hz",
@@ -1374,6 +1419,7 @@ function initApp() {
         "ti": 20,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "120Hz",
@@ -1387,6 +1433,7 @@ function initApp() {
         "ti": 6,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "100Hz",
@@ -1398,6 +1445,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1416,6 +1465,7 @@ function initApp() {
         "ti": 120,
         "Po": 7,
         "IP": 5,
+        "wire": 2,
         "volt": "High",
         "vf": 55,
         "maxSpeed": "60Hz",
@@ -1429,6 +1479,7 @@ function initApp() {
         "ti": 25,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "100Hz",
@@ -1442,6 +1493,7 @@ function initApp() {
         "ti": 5,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "100Hz",
@@ -1453,6 +1505,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1471,6 +1525,7 @@ function initApp() {
         "ti": 30,
         "Po": 7,
         "IP": 3,
+        "wire": 2,
         "volt": "Low",
         "vf": 50,
         "maxSpeed": "200Hz",
@@ -1484,6 +1539,7 @@ function initApp() {
         "ti": 10,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "150Hz",
@@ -1497,6 +1553,7 @@ function initApp() {
         "ti": 5,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 15,
         "maxSpeed": "140Hz",
@@ -1510,6 +1567,7 @@ function initApp() {
         "ti": 5,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "130Hz",
@@ -1523,6 +1581,7 @@ function initApp() {
         "ti": 2,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 1,
         "maxSpeed": "120Hz",
@@ -1534,6 +1593,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1552,6 +1613,7 @@ function initApp() {
         "ti": 20,
         "Po": 7,
         "IP": 3,
+        "wire": 2,
         "volt": "Low",
         "vf": 50,
         "maxSpeed": "150Hz",
@@ -1565,6 +1627,7 @@ function initApp() {
         "ti": 10,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "150Hz",
@@ -1578,6 +1641,7 @@ function initApp() {
         "ti": 5,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "200Hz",
@@ -1591,6 +1655,7 @@ function initApp() {
         "ti": 3,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "250Hz",
@@ -1604,6 +1669,7 @@ function initApp() {
         "ti": 1,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "300Hz",
@@ -1615,6 +1681,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1633,6 +1701,7 @@ function initApp() {
         "ti": 40,
         "Po": 7,
         "IP": 4,
+        "wire": 2,
         "volt": "Low",
         "vf": 50,
         "maxSpeed": "150Hz",
@@ -1646,6 +1715,7 @@ function initApp() {
         "ti": 20,
         "Po": 7,
         "IP": 3,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "150Hz",
@@ -1659,6 +1729,7 @@ function initApp() {
         "ti": 10,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 15,
         "maxSpeed": "150Hz",
@@ -1672,6 +1743,7 @@ function initApp() {
         "ti": 5,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "150Hz",
@@ -1685,6 +1757,7 @@ function initApp() {
         "ti": 3,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "150Hz",
@@ -1696,6 +1769,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1714,6 +1789,7 @@ function initApp() {
         "ti": 50,
         "Po": 7,
         "IP": 4,
+        "wire": 2,
         "volt": "Low",
         "vf": 50,
         "maxSpeed": "150Hz",
@@ -1727,6 +1803,7 @@ function initApp() {
         "ti": 30,
         "Po": 7,
         "IP": 3,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "150Hz",
@@ -1740,6 +1817,7 @@ function initApp() {
         "ti": 10,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 15,
         "maxSpeed": "150Hz",
@@ -1753,6 +1831,7 @@ function initApp() {
         "ti": 5,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "200Hz",
@@ -1766,6 +1845,7 @@ function initApp() {
         "ti": 2,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "250Hz",
@@ -1777,6 +1857,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1795,6 +1877,7 @@ function initApp() {
         "ti": 70,
         "Po": 7,
         "IP": 4,
+        "wire": 2,
         "volt": "High",
         "vf": 50,
         "maxSpeed": "150Hz",
@@ -1808,6 +1891,7 @@ function initApp() {
         "ti": 30,
         "Po": 7,
         "IP": 3,
+        "wire": 2,
         "volt": "Low",
         "vf": 30,
         "maxSpeed": "150Hz",
@@ -1821,6 +1905,7 @@ function initApp() {
         "ti": 10,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 15,
         "maxSpeed": "140Hz",
@@ -1834,6 +1919,7 @@ function initApp() {
         "ti": 5,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "100Hz",
@@ -1847,6 +1933,7 @@ function initApp() {
         "ti": 3,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 1,
         "maxSpeed": "100Hz",
@@ -1858,6 +1945,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1876,6 +1965,7 @@ function initApp() {
         "ti": 120,
         "Po": 7,
         "IP": 5,
+        "wire": 2,
         "volt": "High",
         "vf": 55,
         "maxSpeed": "60Hz",
@@ -1889,6 +1979,7 @@ function initApp() {
         "ti": 25,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "100Hz",
@@ -1902,6 +1993,7 @@ function initApp() {
         "ti": 15,
         "Po": 7,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 15,
         "maxSpeed": "100Hz",
@@ -1915,6 +2007,7 @@ function initApp() {
         "ti": 7,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "100Hz",
@@ -1928,6 +2021,7 @@ function initApp() {
         "ti": 3,
         "Po": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 1,
         "maxSpeed": "100Hz",
@@ -1939,6 +2033,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
   },
@@ -1946,6 +2042,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 12,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "",
@@ -1954,6 +2051,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -1962,6 +2061,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 5,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 10,
         "maxSpeed": "",
@@ -1970,6 +2070,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -1978,6 +2080,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 15,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "",
@@ -1986,6 +2089,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -1994,6 +2099,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 15,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "",
@@ -2002,6 +2108,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2010,6 +2118,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 15,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "",
@@ -2018,6 +2127,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2026,6 +2137,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 25,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "",
@@ -2034,6 +2146,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2042,6 +2156,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 10,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "150Hz",
@@ -2051,6 +2166,7 @@ function initApp() {
         "pass": "Pass 3",
         "ti": 3,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 10,
         "maxSpeed": "150Hz",
@@ -2059,6 +2175,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2067,6 +2185,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 11,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "140Hz",
@@ -2076,6 +2195,7 @@ function initApp() {
         "pass": "Pass 3",
         "ti": 2,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "120Hz",
@@ -2084,6 +2204,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2092,6 +2214,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 20,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "150Hz",
@@ -2101,6 +2224,7 @@ function initApp() {
         "pass": "Pass 3",
         "ti": 3,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 10,
         "maxSpeed": "150Hz",
@@ -2109,6 +2233,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2117,6 +2243,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 20,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "110Hz",
@@ -2126,6 +2253,7 @@ function initApp() {
         "pass": "Pass 3",
         "ti": 5,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "100Hz",
@@ -2134,6 +2262,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2142,6 +2272,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 20,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 20,
         "maxSpeed": "120Hz",
@@ -2151,6 +2282,7 @@ function initApp() {
         "pass": "Pass 3",
         "ti": 6,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "100Hz",
@@ -2159,6 +2291,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2167,6 +2301,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 25,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "100Hz",
@@ -2176,6 +2311,7 @@ function initApp() {
         "pass": "Pass 3",
         "ti": 5,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "100Hz",
@@ -2184,6 +2320,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2192,6 +2330,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 10,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "150Hz",
@@ -2201,6 +2340,7 @@ function initApp() {
         "pass": "Pass 3",
         "ti": 5,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 15,
         "maxSpeed": "140Hz",
@@ -2210,6 +2350,7 @@ function initApp() {
         "pass": "Pass 4",
         "ti": 5,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "130Hz",
@@ -2219,6 +2360,7 @@ function initApp() {
         "pass": "Pass 5",
         "ti": 2,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 1,
         "maxSpeed": "120Hz",
@@ -2227,6 +2369,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2235,6 +2379,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 10,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "150Hz",
@@ -2244,6 +2389,7 @@ function initApp() {
         "pass": "Pass 3",
         "ti": 5,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "200Hz",
@@ -2253,6 +2399,7 @@ function initApp() {
         "pass": "Pass 4",
         "ti": 3,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "250Hz",
@@ -2262,6 +2409,7 @@ function initApp() {
         "pass": "Pass 5",
         "ti": 1,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "300Hz",
@@ -2270,6 +2418,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2278,6 +2428,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 20,
         "IP": 3,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "150Hz",
@@ -2287,6 +2438,7 @@ function initApp() {
         "pass": "Pass 3",
         "ti": 10,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 15,
         "maxSpeed": "150Hz",
@@ -2296,6 +2448,7 @@ function initApp() {
         "pass": "Pass 4",
         "ti": 5,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "150Hz",
@@ -2305,6 +2458,7 @@ function initApp() {
         "pass": "Pass 5",
         "ti": 3,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "150Hz",
@@ -2313,6 +2467,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2321,6 +2477,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 30,
         "IP": 3,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "150Hz",
@@ -2330,6 +2487,7 @@ function initApp() {
         "pass": "Pass 3",
         "ti": 10,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 15,
         "maxSpeed": "150Hz",
@@ -2339,6 +2497,7 @@ function initApp() {
         "pass": "Pass 4",
         "ti": 5,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "200Hz",
@@ -2348,6 +2507,7 @@ function initApp() {
         "pass": "Pass 5",
         "ti": 2,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "250Hz",
@@ -2356,6 +2516,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2364,6 +2526,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 30,
         "IP": 3,
+        "wire": 2,
         "volt": "Low",
         "vf": 30,
         "maxSpeed": "150Hz",
@@ -2373,6 +2536,7 @@ function initApp() {
         "pass": "Pass 3",
         "ti": 10,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 15,
         "maxSpeed": "140Hz",
@@ -2382,6 +2546,7 @@ function initApp() {
         "pass": "Pass 4",
         "ti": 5,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "100Hz",
@@ -2391,6 +2556,7 @@ function initApp() {
         "pass": "Pass 5",
         "ti": 3,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 1,
         "maxSpeed": "100Hz",
@@ -2399,6 +2565,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2407,6 +2575,7 @@ function initApp() {
         "pass": "Pass 2",
         "ti": 25,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 25,
         "maxSpeed": "100Hz",
@@ -2416,6 +2585,7 @@ function initApp() {
         "pass": "Pass 3",
         "ti": 15,
         "IP": 2,
+        "wire": 2,
         "volt": "Low",
         "vf": 15,
         "maxSpeed": "100Hz",
@@ -2425,6 +2595,7 @@ function initApp() {
         "pass": "Pass 4",
         "ti": 7,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 5,
         "maxSpeed": "100Hz",
@@ -2434,6 +2605,7 @@ function initApp() {
         "pass": "Pass 5",
         "ti": 3,
         "IP": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 1,
         "maxSpeed": "100Hz",
@@ -2442,6 +2614,8 @@ function initApp() {
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    ,
+      "totalTimeStr": "Theo L=100mm"
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
@@ -2468,7 +2642,9 @@ function initApp() {
                                 "sparkGap": 0.015,
                                 "recommendedOffset": 0.105,
                                 "tolerance": "±0.005 mm"
-                    },
+                    ,
+      "totalTimeStr": "Theo L=100mm"
+    },
                     "notes": "Cắt 1 Pass phôi mỏng H=12mm bằng Low Voltage và IP=2 giúp khống chế khe hở siêu hẹp 15μm, Offset=0.105mm cho dung sai cực chuẩn ±0.005mm."
         },
         {
@@ -2494,7 +2670,9 @@ function initApp() {
                                 "actualDimension": "--",
                                 "recommendedOffset": 0.098,
                                 "tolerance": "±0.005 mm"
-                    },
+                    ,
+      "totalTimeStr": "Theo L=100mm"
+    },
                     "notes": "Xác định hằng số tủ nguồn: Dòng Ampe khi ở High luôn lớn hơn Low chính xác 20% (High/Low = 1.20) bất kể ở bộ điện nào (Test 1: 4.15A/3.45A = 1.20; Test 2: 3.0A/2.5A = 1.20)."
         },
         {
@@ -2579,7 +2757,9 @@ function initApp() {
                                 "sparkGap": 0.015,
                                 "recommendedOffset": 0.105,
                                 "tolerance": "±0.005 mm"
-                    },
+                    ,
+      "totalTimeStr": "Theo L=100mm"
+    },
                     "notes": "Cắt 1 Pass phôi dày H=45mm bằng Low Voltage giúp khe hở co hẹp ở 15μm, Offset=0.105mm đạt dung sai ±0.005mm. Khi chuyển sang Chuẩn Hãng (V=High), cần tăng Offset lên 0.115mm."
         },
         {
@@ -2665,7 +2845,9 @@ function initApp() {
                                 "sparkGap": 0.007,
                                 "recommendedOffset": 0.097,
                                 "tolerance": "±0.005 mm"
-                    },
+                    ,
+      "totalTimeStr": "Theo L=100mm"
+    },
                     "notes": "Thép tôi SCM440 dẫn điện tốt và thoát xỉ sạch, ở H=68mm khe hở co lại chỉ còn 7μm, Offset=0.097mm đạt kích thước chuẩn."
         },
         {
@@ -2720,7 +2902,9 @@ function initApp() {
                                 "sparkGap": 0.005,
                                 "recommendedOffset": 0.095,
                                 "tolerance": "±0.005 mm"
-                    },
+                    ,
+      "totalTimeStr": "Theo L=100mm"
+    },
                     "notes": "Phôi dày H=140mm bắt buộc dùng High Voltage và Ton=120, IP=5, Po=8 để năng lượng tia đạt 45.36mJ xuyên sâu qua phôi."
         },
         {
@@ -2745,7 +2929,9 @@ function initApp() {
                                 "sparkGap": 0.02,
                                 "recommendedOffset": 0.11,
                                 "tolerance": "±0.005 mm"
-                    },
+                    ,
+      "totalTimeStr": "Theo L=100mm"
+    },
                     "notes": "Ở H=160mm, hiện tượng tán xạ tia và xỉ tích ở 2 miệng phun làm khe hở nở rộng thành 20μm, bù dao Offset tăng lên 0.110mm (+15μm so với H=140mm)."
         },
         {
@@ -3028,7 +3214,9 @@ function initApp() {
                 "sparkGap": -0.009,
                 "recommendedOffset": 0.081,
                 "tolerance": "±0.010 mm"
-            },
+            ,
+      "totalTimeStr": "Theo L=100mm"
+    },
             "notes": "Dữ liệu đặc biệt: Cắt 1 Pass phôi dày 63mm nhưng ép chế độ Cấp 4/11 (Ton=24) để ưu tiên bề mặt bóng mịn (Ra nhỏ). Hệ quả: Tốc độ thực 55-65 mm2/p, thời gian 21p. Do điện yếu, dây kéo lê dính phôi (Gap âm -0.009mm). User nhập Offset 0.116 làm chày to 0.070mm -> Suy ra Offset chuẩn là 0.081mm."
         }
         ,{
@@ -3053,7 +3241,9 @@ function initApp() {
                 "sparkGap": 0.003,
                 "recommendedOffset": 0.093,
                 "tolerance": "±0.005 mm"
-            },
+            ,
+      "totalTimeStr": "Theo L=100mm"
+    },
             "notes": "Dữ liệu 2 Pass Cấp 6. P1: Ton 44, Offset nhập 0.118, ra chày to 0.05 -> Offset P1 chuẩn là 0.093. P2: Ton 20, Offset 0.024. Điểm đắt giá: P2 đạt kịch trần Max Speed 100Hz (240mm2/p) và chạy mất đúng 5p20s cho 30mm (tương đương 6mm/p)."
         },
         {
@@ -3078,7 +3268,9 @@ function initApp() {
                 "sparkGap": 0.0175,
                 "recommendedOffset": 0.1075,
                 "tolerance": "±0.005 mm"
-            },
+            ,
+      "totalTimeStr": "Theo L=100mm"
+    },
             "notes": "Dữ liệu 2 Pass Cấp 6. P1: Ton 28, Offset nhập 0.115, ra cối nhỏ 0.015 (do Offset dư). Offset P1 chuẩn là 0.1075. P2: Ton 16, áp Low, Offset 0.022. Điểm đắt giá: P2 đạt kịch trần Max Speed 150Hz (360mm2/p), thời gian 1h12p cho 644mm (tương đương 9mm/p)."
         }
 ];
