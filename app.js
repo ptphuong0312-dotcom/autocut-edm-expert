@@ -882,17 +882,1067 @@ function initApp() {
     "materialName": "Thép cứng SCM440 (28-32HRC)",
     "passCount": 2,
     "thickness": 12,
+    "cutLength": 100,
     "multiPassDetails": [
       {
         "pass": "Pass 1",
         "ti": 20,
+        "Po": 7,
         "IP": 2,
         "volt": "Low",
         "vf": 50,
         "maxSpeed": "",
-        "offset": 0.098
+        "offset": 0.098,
+        "ampe": "1.6A",
+        "time": "35p (L=100)",
+        "speedActual": "34 mm2/p"
       },
       {
+        "pass": "Pass 2",
+        "ti": 12,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 20,
+        "maxSpeed": "",
+        "offset": 0.04,
+        "ampe": "0.1-0.2A",
+        "time": "- (L=100)",
+        "speedActual": "-"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-2P-02",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 2 Pass (H=32mm)",
+    "material": "SCM440",
+    "materialName": "Thép cứng SCM440 (28-32HRC)",
+    "passCount": 2,
+    "thickness": 32,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 30,
+        "Po": 7,
+        "IP": 3,
+        "volt": "Low",
+        "vf": 50,
+        "maxSpeed": "",
+        "offset": 0.091,
+        "ampe": "2.4A",
+        "time": "57p (L=100)",
+        "speedActual": "56 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 5,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 10,
+        "maxSpeed": "",
+        "offset": 0.03,
+        "ampe": "0.1-0.2A",
+        "time": "- (L=100)",
+        "speedActual": "-"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-2P-03",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 2 Pass (H=62mm)",
+    "material": "SCM440",
+    "materialName": "Thép cứng SCM440 (28-32HRC)",
+    "passCount": 2,
+    "thickness": 62,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 70,
+        "Po": 7,
+        "IP": 4,
+        "volt": "High",
+        "vf": 50,
+        "maxSpeed": "",
+        "offset": 0.092,
+        "ampe": "3.2A",
+        "time": "1h8p (L=100)",
+        "speedActual": "91 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 15,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 20,
+        "maxSpeed": "",
+        "offset": 0.03,
+        "ampe": "0.1-0.2A",
+        "time": "- (L=100)",
+        "speedActual": "-"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-2P-04",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 2 Pass (H=90mm)",
+    "material": "SCM420",
+    "materialName": "Thép mềm SCM420 (HB < 200)",
+    "passCount": 2,
+    "thickness": 90,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 100,
+        "Po": 7,
+        "IP": 3,
+        "volt": "High",
+        "vf": 50,
+        "maxSpeed": "",
+        "offset": 0.072,
+        "ampe": "2.4A",
+        "time": "2h12p (L=100)",
+        "speedActual": "68 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 15,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 20,
+        "maxSpeed": "",
+        "offset": 0.03,
+        "ampe": "0.1-0.2A",
+        "time": "- (L=100)",
+        "speedActual": "-"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-2P-05",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 2 Pass (H=90mm)",
+    "material": "SCM420",
+    "materialName": "Thép mềm SCM420 (HB < 200)",
+    "passCount": 2,
+    "thickness": 90,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 100,
+        "Po": 7,
+        "IP": 4,
+        "volt": "High",
+        "vf": 50,
+        "maxSpeed": "",
+        "offset": 0.085,
+        "ampe": "3.2A",
+        "time": "1h40p (L=100)",
+        "speedActual": "90 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 15,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 20,
+        "maxSpeed": "",
+        "offset": 0.03,
+        "ampe": "0.1-0.2A",
+        "time": "- (L=100)",
+        "speedActual": "-"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-2P-06",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 2 Pass (H=140mm)",
+    "material": "SCM420",
+    "materialName": "Thép mềm SCM420 (HB < 200)",
+    "passCount": 2,
+    "thickness": 140,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 120,
+        "Po": 7,
+        "IP": 5,
+        "volt": "High",
+        "vf": 55,
+        "maxSpeed": "",
+        "offset": 0.098,
+        "ampe": "4.0A",
+        "time": "2h12p (L=100)",
+        "speedActual": "106 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 25,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 25,
+        "maxSpeed": "",
+        "offset": 0.03,
+        "ampe": "0.1-0.2A",
+        "time": "- (L=100)",
+        "speedActual": "-"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-3P-01",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 3 Pass (H=12mm)",
+    "material": "SCM440",
+    "materialName": "Thép cứng SCM440 (28-32HRC)",
+    "passCount": 3,
+    "thickness": 12,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 20,
+        "Po": 7,
+        "IP": 3,
+        "volt": "Low",
+        "vf": 50,
+        "maxSpeed": "150Hz",
+        "offset": 0.094,
+        "ampe": "2.4A",
+        "time": "23p (L=100)",
+        "speedActual": "51 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 10,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 25,
+        "maxSpeed": "150Hz",
+        "offset": 0.03,
+        "ampe": "0.1-0.2A",
+        "time": "3p (L=100)",
+        "speedActual": "360 mm2/p"
+      },
+      {
+        "pass": "Pass 3",
+        "ti": 3,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 10,
+        "maxSpeed": "150Hz",
+        "offset": 0.015,
+        "ampe": "0.1-0.2A",
+        "time": "3p (L=100)",
+        "speedActual": "360 mm2/p"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-3P-02",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 3 Pass (H=35mm)",
+    "material": "SCM420",
+    "materialName": "Thép mềm SCM420 (HB < 200)",
+    "passCount": 3,
+    "thickness": 35,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 30,
+        "Po": 7,
+        "IP": 3,
+        "volt": "Low",
+        "vf": 50,
+        "maxSpeed": "200Hz",
+        "offset": 0.073,
+        "ampe": "2.4A",
+        "time": "1h2p (L=100)",
+        "speedActual": "56 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 11,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 20,
+        "maxSpeed": "140Hz",
+        "offset": 0.04,
+        "ampe": "0.1-0.2A",
+        "time": "10p (L=100)",
+        "speedActual": "336 mm2/p"
+      },
+      {
+        "pass": "Pass 3",
+        "ti": 2,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "120Hz",
+        "offset": 0.02,
+        "ampe": "0.1-0.2A",
+        "time": "12p (L=100)",
+        "speedActual": "288 mm2/p"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-3P-03",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 3 Pass (H=54mm)",
+    "material": "SCM440",
+    "materialName": "Thép cứng SCM440 (28-32HRC)",
+    "passCount": 3,
+    "thickness": 54,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 50,
+        "Po": 7,
+        "IP": 4,
+        "volt": "Low",
+        "vf": 50,
+        "maxSpeed": "150Hz",
+        "offset": 0.085,
+        "ampe": "3.2A",
+        "time": "1h12p (L=100)",
+        "speedActual": "74 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 20,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 25,
+        "maxSpeed": "150Hz",
+        "offset": 0.035,
+        "ampe": "0.1-0.2A",
+        "time": "15p (L=100)",
+        "speedActual": "360 mm2/p"
+      },
+      {
+        "pass": "Pass 3",
+        "ti": 3,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 10,
+        "maxSpeed": "150Hz",
+        "offset": 0.01,
+        "ampe": "0.1-0.2A",
+        "time": "15p (L=100)",
+        "speedActual": "360 mm2/p"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-3P-04",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 3 Pass (H=62mm)",
+    "material": "SCM440",
+    "materialName": "Thép cứng SCM440 (28-32HRC)",
+    "passCount": 3,
+    "thickness": 62,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 70,
+        "Po": 7,
+        "IP": 4,
+        "volt": "High",
+        "vf": 50,
+        "maxSpeed": "150Hz",
+        "offset": 0.075,
+        "ampe": "3.2A",
+        "time": "1h8p (L=100)",
+        "speedActual": "91 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 20,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 20,
+        "maxSpeed": "110Hz",
+        "offset": 0.03,
+        "ampe": "0.1-0.2A",
+        "time": "23p (L=100)",
+        "speedActual": "264 mm2/p"
+      },
+      {
+        "pass": "Pass 3",
+        "ti": 5,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "100Hz",
+        "offset": 0.015,
+        "ampe": "0.1-0.2A",
+        "time": "25p (L=100)",
+        "speedActual": "240 mm2/p"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-3P-05",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 3 Pass (H=90mm)",
+    "material": "SCM420",
+    "materialName": "Thép mềm SCM420 (HB < 200)",
+    "passCount": 3,
+    "thickness": 90,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 90,
+        "Po": 7,
+        "IP": 4,
+        "volt": "High",
+        "vf": 50,
+        "maxSpeed": "150Hz",
+        "offset": 0.087,
+        "ampe": "3.2A",
+        "time": "1h40p (L=100)",
+        "speedActual": "90 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 20,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 20,
+        "maxSpeed": "120Hz",
+        "offset": 0.02,
+        "ampe": "0.1-0.2A",
+        "time": "31p (L=100)",
+        "speedActual": "288 mm2/p"
+      },
+      {
+        "pass": "Pass 3",
+        "ti": 6,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "100Hz",
+        "offset": 0.01,
+        "ampe": "0.1-0.2A",
+        "time": "37p (L=100)",
+        "speedActual": "240 mm2/p"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-3P-06",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 3 Pass (H=140mm)",
+    "material": "SCM420",
+    "materialName": "Thép mềm SCM420 (HB < 200)",
+    "passCount": 3,
+    "thickness": 140,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 120,
+        "Po": 7,
+        "IP": 5,
+        "volt": "High",
+        "vf": 55,
+        "maxSpeed": "60Hz",
+        "offset": 0.093,
+        "ampe": "4.0A",
+        "time": "2h12p (L=100)",
+        "speedActual": "106 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 25,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 25,
+        "maxSpeed": "100Hz",
+        "offset": 0.03,
+        "ampe": "0.1-0.2A",
+        "time": "58p (L=100)",
+        "speedActual": "240 mm2/p"
+      },
+      {
+        "pass": "Pass 3",
+        "ti": 5,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "100Hz",
+        "offset": 0.01,
+        "ampe": "0.1-0.2A",
+        "time": "58p (L=100)",
+        "speedActual": "240 mm2/p"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-5P-01",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 5 Pass (H=12mm)",
+    "material": "SCM440",
+    "materialName": "Thép cứng SCM440 (28-32HRC)",
+    "passCount": 5,
+    "thickness": 12,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 30,
+        "Po": 7,
+        "IP": 3,
+        "volt": "Low",
+        "vf": 50,
+        "maxSpeed": "200Hz",
+        "offset": 0.098,
+        "ampe": "2.4A",
+        "time": "23p (L=100)",
+        "speedActual": "51 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 10,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 25,
+        "maxSpeed": "150Hz",
+        "offset": 0.04,
+        "ampe": "0.1-0.2A",
+        "time": "3p (L=100)",
+        "speedActual": "360 mm2/p"
+      },
+      {
+        "pass": "Pass 3",
+        "ti": 5,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 15,
+        "maxSpeed": "140Hz",
+        "offset": 0.02,
+        "ampe": "0.1-0.2A",
+        "time": "3p (L=100)",
+        "speedActual": "336 mm2/p"
+      },
+      {
+        "pass": "Pass 4",
+        "ti": 5,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "130Hz",
+        "offset": 0.01,
+        "ampe": "0.1-0.2A",
+        "time": "3p (L=100)",
+        "speedActual": "312 mm2/p"
+      },
+      {
+        "pass": "Pass 5",
+        "ti": 2,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 1,
+        "maxSpeed": "120Hz",
+        "offset": 0.005,
+        "ampe": "0.1-0.2A",
+        "time": "4p (L=100)",
+        "speedActual": "288 mm2/p"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-5P-02",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 5 Pass (H=12mm)",
+    "material": "SCM440",
+    "materialName": "Thép cứng SCM440 (28-32HRC)",
+    "passCount": 5,
+    "thickness": 12,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 20,
+        "Po": 7,
+        "IP": 3,
+        "volt": "Low",
+        "vf": 50,
+        "maxSpeed": "150Hz",
+        "offset": 0.091,
+        "ampe": "2.4A",
+        "time": "23p (L=100)",
+        "speedActual": "51 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 10,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 25,
+        "maxSpeed": "150Hz",
+        "offset": 0.02,
+        "ampe": "0.1-0.2A",
+        "time": "3p (L=100)",
+        "speedActual": "360 mm2/p"
+      },
+      {
+        "pass": "Pass 3",
+        "ti": 5,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "200Hz",
+        "offset": 0.006,
+        "ampe": "0.1-0.2A",
+        "time": "2p (L=100)",
+        "speedActual": "480 mm2/p"
+      },
+      {
+        "pass": "Pass 4",
+        "ti": 3,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "250Hz",
+        "offset": 0.002,
+        "ampe": "0.1-0.2A",
+        "time": "2p (L=100)",
+        "speedActual": "600 mm2/p"
+      },
+      {
+        "pass": "Pass 5",
+        "ti": 1,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "300Hz",
+        "offset": 0.002,
+        "ampe": "0.1-0.2A",
+        "time": "1p (L=100)",
+        "speedActual": "720 mm2/p"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-5P-03",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 5 Pass (H=32mm)",
+    "material": "SCM440",
+    "materialName": "Thép cứng SCM440 (28-32HRC)",
+    "passCount": 5,
+    "thickness": 32,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 40,
+        "Po": 7,
+        "IP": 4,
+        "volt": "Low",
+        "vf": 50,
+        "maxSpeed": "150Hz",
+        "offset": 0.073,
+        "ampe": "3.2A",
+        "time": "43p (L=100)",
+        "speedActual": "74 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 20,
+        "Po": 7,
+        "IP": 3,
+        "volt": "Low",
+        "vf": 25,
+        "maxSpeed": "150Hz",
+        "offset": 0.03,
+        "ampe": "0.3-0.5A",
+        "time": "8p (L=100)",
+        "speedActual": "360 mm2/p"
+      },
+      {
+        "pass": "Pass 3",
+        "ti": 10,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 15,
+        "maxSpeed": "150Hz",
+        "offset": 0.02,
+        "ampe": "0.1-0.2A",
+        "time": "8p (L=100)",
+        "speedActual": "360 mm2/p"
+      },
+      {
+        "pass": "Pass 4",
+        "ti": 5,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "150Hz",
+        "offset": 0.01,
+        "ampe": "0.1-0.2A",
+        "time": "8p (L=100)",
+        "speedActual": "360 mm2/p"
+      },
+      {
+        "pass": "Pass 5",
+        "ti": 3,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "150Hz",
+        "offset": 0.005,
+        "ampe": "0.1-0.2A",
+        "time": "8p (L=100)",
+        "speedActual": "360 mm2/p"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-5P-04",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 5 Pass (H=54mm)",
+    "material": "SCM440",
+    "materialName": "Thép cứng SCM440 (28-32HRC)",
+    "passCount": 5,
+    "thickness": 54,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 50,
+        "Po": 7,
+        "IP": 4,
+        "volt": "Low",
+        "vf": 50,
+        "maxSpeed": "150Hz",
+        "offset": 0.077,
+        "ampe": "3.2A",
+        "time": "1h12p (L=100)",
+        "speedActual": "74 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 30,
+        "Po": 7,
+        "IP": 3,
+        "volt": "Low",
+        "vf": 25,
+        "maxSpeed": "150Hz",
+        "offset": 0.03,
+        "ampe": "0.3-0.5A",
+        "time": "15p (L=100)",
+        "speedActual": "360 mm2/p"
+      },
+      {
+        "pass": "Pass 3",
+        "ti": 10,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 15,
+        "maxSpeed": "150Hz",
+        "offset": 0.02,
+        "ampe": "0.1-0.2A",
+        "time": "15p (L=100)",
+        "speedActual": "360 mm2/p"
+      },
+      {
+        "pass": "Pass 4",
+        "ti": 5,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "200Hz",
+        "offset": 0.01,
+        "ampe": "0.1-0.2A",
+        "time": "11p (L=100)",
+        "speedActual": "480 mm2/p"
+      },
+      {
+        "pass": "Pass 5",
+        "ti": 2,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "250Hz",
+        "offset": 0.005,
+        "ampe": "0.1-0.2A",
+        "time": "9p (L=100)",
+        "speedActual": "600 mm2/p"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-5P-05",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 5 Pass (H=62mm)",
+    "material": "SCM440",
+    "materialName": "Thép cứng SCM440 (28-32HRC)",
+    "passCount": 5,
+    "thickness": 62,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 70,
+        "Po": 7,
+        "IP": 4,
+        "volt": "High",
+        "vf": 50,
+        "maxSpeed": "150Hz",
+        "offset": 0.088,
+        "ampe": "3.2A",
+        "time": "1h8p (L=100)",
+        "speedActual": "91 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 30,
+        "Po": 7,
+        "IP": 3,
+        "volt": "Low",
+        "vf": 30,
+        "maxSpeed": "150Hz",
+        "offset": 0.03,
+        "ampe": "0.3-0.5A",
+        "time": "17p (L=100)",
+        "speedActual": "360 mm2/p"
+      },
+      {
+        "pass": "Pass 3",
+        "ti": 10,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 15,
+        "maxSpeed": "140Hz",
+        "offset": 0.015,
+        "ampe": "0.1-0.2A",
+        "time": "18p (L=100)",
+        "speedActual": "336 mm2/p"
+      },
+      {
+        "pass": "Pass 4",
+        "ti": 5,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "100Hz",
+        "offset": 0.01,
+        "ampe": "0.1-0.2A",
+        "time": "25p (L=100)",
+        "speedActual": "240 mm2/p"
+      },
+      {
+        "pass": "Pass 5",
+        "ti": 3,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 1,
+        "maxSpeed": "100Hz",
+        "offset": 0.005,
+        "ampe": "0.1-0.2A",
+        "time": "25p (L=100)",
+        "speedActual": "240 mm2/p"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+  {
+    "id": "WS-EXP-CUSTOM-5P-06",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm Custom 5 Pass (H=140mm)",
+    "material": "SCM420",
+    "materialName": "Thép mềm SCM420 (HB < 200)",
+    "passCount": 5,
+    "thickness": 140,
+    "cutLength": 100,
+    "multiPassDetails": [
+      {
+        "pass": "Pass 1",
+        "ti": 120,
+        "Po": 7,
+        "IP": 5,
+        "volt": "High",
+        "vf": 55,
+        "maxSpeed": "60Hz",
+        "offset": 0.085,
+        "ampe": "4.0A",
+        "time": "2h12p (L=100)",
+        "speedActual": "106 mm2/p"
+      },
+      {
+        "pass": "Pass 2",
+        "ti": 25,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 25,
+        "maxSpeed": "100Hz",
+        "offset": 0.03,
+        "ampe": "0.1-0.2A",
+        "time": "58p (L=100)",
+        "speedActual": "240 mm2/p"
+      },
+      {
+        "pass": "Pass 3",
+        "ti": 15,
+        "Po": 7,
+        "IP": 2,
+        "volt": "Low",
+        "vf": 15,
+        "maxSpeed": "100Hz",
+        "offset": 0.01,
+        "ampe": "0.1-0.2A",
+        "time": "58p (L=100)",
+        "speedActual": "240 mm2/p"
+      },
+      {
+        "pass": "Pass 4",
+        "ti": 7,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 5,
+        "maxSpeed": "100Hz",
+        "offset": 0.01,
+        "ampe": "0.1-0.2A",
+        "time": "58p (L=100)",
+        "speedActual": "240 mm2/p"
+      },
+      {
+        "pass": "Pass 5",
+        "ti": 3,
+        "Po": 7,
+        "IP": 1,
+        "volt": "Low",
+        "vf": 1,
+        "maxSpeed": "100Hz",
+        "offset": 0.005,
+        "ampe": "0.1-0.2A",
+        "time": "58p (L=100)",
+        "speedActual": "240 mm2/p"
+      }
+    ],
+    "measured": {
+      "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối."
+    },
+    "notes": "Dữ liệu Custom do AI tính toán bổ sung các thông số Ampe, Tốc độ thực và Thời gian (giả định L=100mm)."
+  },
+{
         "pass": "Pass 2",
         "ti": 12,
         "IP": 2,
@@ -907,24 +1957,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-2P-02",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 2 Pass (H=32mm)",
-    "material": "SCM440",
-    "materialName": "Thép cứng SCM440 (28-32HRC)",
-    "passCount": 2,
-    "thickness": 32,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 30,
-        "IP": 3,
-        "volt": "Low",
-        "vf": 50,
-        "maxSpeed": "",
-        "offset": 0.091
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 5,
@@ -940,24 +1973,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-2P-03",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 2 Pass (H=62mm)",
-    "material": "SCM440",
-    "materialName": "Thép cứng SCM440 (28-32HRC)",
-    "passCount": 2,
-    "thickness": 62,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 70,
-        "IP": 4,
-        "volt": "High",
-        "vf": 50,
-        "maxSpeed": "",
-        "offset": 0.092
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 15,
@@ -973,24 +1989,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-2P-04",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 2 Pass (H=90mm)",
-    "material": "SCM420",
-    "materialName": "Thép mềm SCM420 (HB < 200)",
-    "passCount": 2,
-    "thickness": 90,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 100,
-        "IP": 3,
-        "volt": "High",
-        "vf": 50,
-        "maxSpeed": "",
-        "offset": 0.072
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 15,
@@ -1006,24 +2005,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-2P-05",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 2 Pass (H=90mm)",
-    "material": "SCM420",
-    "materialName": "Thép mềm SCM420 (HB < 200)",
-    "passCount": 2,
-    "thickness": 90,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 100,
-        "IP": 4,
-        "volt": "High",
-        "vf": 50,
-        "maxSpeed": "",
-        "offset": 0.085
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 15,
@@ -1039,24 +2021,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-2P-06",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 2 Pass (H=140mm)",
-    "material": "SCM420",
-    "materialName": "Thép mềm SCM420 (HB < 200)",
-    "passCount": 2,
-    "thickness": 140,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 120,
-        "IP": 5,
-        "volt": "High",
-        "vf": 55,
-        "maxSpeed": "",
-        "offset": 0.098
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 25,
@@ -1072,24 +2037,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-3P-01",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 3 Pass (H=12mm)",
-    "material": "SCM440",
-    "materialName": "Thép cứng SCM440 (28-32HRC)",
-    "passCount": 3,
-    "thickness": 12,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 20,
-        "IP": 3,
-        "volt": "Low",
-        "vf": 50,
-        "maxSpeed": "150Hz",
-        "offset": 0.094
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 10,
@@ -1114,24 +2062,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-3P-02",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 3 Pass (H=35mm)",
-    "material": "SCM420",
-    "materialName": "Thép mềm SCM420 (HB < 200)",
-    "passCount": 3,
-    "thickness": 35,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 30,
-        "IP": 3,
-        "volt": "Low",
-        "vf": 50,
-        "maxSpeed": "200Hz",
-        "offset": 0.073
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 11,
@@ -1156,24 +2087,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-3P-03",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 3 Pass (H=54mm)",
-    "material": "SCM440",
-    "materialName": "Thép cứng SCM440 (28-32HRC)",
-    "passCount": 3,
-    "thickness": 54,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 50,
-        "IP": 4,
-        "volt": "Low",
-        "vf": 50,
-        "maxSpeed": "150Hz",
-        "offset": 0.085
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 20,
@@ -1198,24 +2112,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-3P-04",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 3 Pass (H=62mm)",
-    "material": "SCM440",
-    "materialName": "Thép cứng SCM440 (28-32HRC)",
-    "passCount": 3,
-    "thickness": 62,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 70,
-        "IP": 4,
-        "volt": "High",
-        "vf": 50,
-        "maxSpeed": "150Hz",
-        "offset": 0.075
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 20,
@@ -1240,24 +2137,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-3P-05",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 3 Pass (H=90mm)",
-    "material": "SCM420",
-    "materialName": "Thép mềm SCM420 (HB < 200)",
-    "passCount": 3,
-    "thickness": 90,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 90,
-        "IP": 4,
-        "volt": "High",
-        "vf": 50,
-        "maxSpeed": "150Hz",
-        "offset": 0.087
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 20,
@@ -1282,24 +2162,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-3P-06",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 3 Pass (H=140mm)",
-    "material": "SCM420",
-    "materialName": "Thép mềm SCM420 (HB < 200)",
-    "passCount": 3,
-    "thickness": 140,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 120,
-        "IP": 5,
-        "volt": "High",
-        "vf": 55,
-        "maxSpeed": "60Hz",
-        "offset": 0.093
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 25,
@@ -1324,24 +2187,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-5P-01",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 5 Pass (H=12mm)",
-    "material": "SCM440",
-    "materialName": "Thép cứng SCM440 (28-32HRC)",
-    "passCount": 5,
-    "thickness": 12,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 30,
-        "IP": 3,
-        "volt": "Low",
-        "vf": 50,
-        "maxSpeed": "200Hz",
-        "offset": 0.098
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 10,
@@ -1384,24 +2230,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-5P-02",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 5 Pass (H=12mm)",
-    "material": "SCM440",
-    "materialName": "Thép cứng SCM440 (28-32HRC)",
-    "passCount": 5,
-    "thickness": 12,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 20,
-        "IP": 3,
-        "volt": "Low",
-        "vf": 50,
-        "maxSpeed": "150Hz",
-        "offset": 0.091
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 10,
@@ -1444,24 +2273,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-5P-03",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 5 Pass (H=32mm)",
-    "material": "SCM440",
-    "materialName": "Thép cứng SCM440 (28-32HRC)",
-    "passCount": 5,
-    "thickness": 32,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 40,
-        "IP": 4,
-        "volt": "Low",
-        "vf": 50,
-        "maxSpeed": "150Hz",
-        "offset": 0.073
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 20,
@@ -1504,24 +2316,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-5P-04",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 5 Pass (H=54mm)",
-    "material": "SCM440",
-    "materialName": "Thép cứng SCM440 (28-32HRC)",
-    "passCount": 5,
-    "thickness": 54,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 50,
-        "IP": 4,
-        "volt": "Low",
-        "vf": 50,
-        "maxSpeed": "150Hz",
-        "offset": 0.077
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 30,
@@ -1564,24 +2359,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-5P-05",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 5 Pass (H=62mm)",
-    "material": "SCM440",
-    "materialName": "Thép cứng SCM440 (28-32HRC)",
-    "passCount": 5,
-    "thickness": 62,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 70,
-        "IP": 4,
-        "volt": "High",
-        "vf": 50,
-        "maxSpeed": "150Hz",
-        "offset": 0.088
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 30,
@@ -1624,24 +2402,7 @@ function initApp() {
     },
     "notes": "Dữ liệu Custom siêu tinh (Người dùng tự điều chế). Không theo chuẩn Tab 1."
   },
-  {
-    "id": "WS-EXP-CUSTOM-5P-06",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm Custom 5 Pass (H=140mm)",
-    "material": "SCM420",
-    "materialName": "Thép mềm SCM420 (HB < 200)",
-    "passCount": 5,
-    "thickness": 140,
-    "multiPassDetails": [
-      {
-        "pass": "Pass 1",
-        "ti": 120,
-        "IP": 5,
-        "volt": "High",
-        "vf": 55,
-        "maxSpeed": "60Hz",
-        "offset": 0.085
-      },
+  
       {
         "pass": "Pass 2",
         "ti": 25,
@@ -2319,7 +3080,8 @@ function initApp() {
                 "tolerance": "±0.005 mm"
             },
             "notes": "Dữ liệu 2 Pass Cấp 6. P1: Ton 28, Offset nhập 0.115, ra cối nhỏ 0.015 (do Offset dư). Offset P1 chuẩn là 0.1075. P2: Ton 16, áp Low, Offset 0.022. Điểm đắt giá: P2 đạt kịch trần Max Speed 150Hz (360mm2/p), thời gian 1h12p cho 644mm (tương đương 9mm/p)."
-        }];
+        }
+];
 
     const WORKSHOP_CALIBRATION_MODEL = {
         kAmpe: 2.2857,               // Hệ số dòng Ampe thực tế xưởng (~4.0A với IP=5, Po=7)
