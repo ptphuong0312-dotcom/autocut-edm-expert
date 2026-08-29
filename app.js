@@ -4556,21 +4556,23 @@ function initApp() {
                                     </div>
                                     <div class="lib-card-grid">
                                         <div class="lib-metric-box highlight-metric">
-                                            <span class="lib-lbl">Tổng thời gian 5 Pass</span>
-                                            <span class="lib-val">⏱️ ${item.measured.totalTimeStr}</span>
+                                            <span class="lib-lbl">Tổng thời gian ${item.passCount || 1} Pass</span>
+                                            <span class="lib-val">⏱️ ${item.measured.totalTimeStr || '--'}</span>
                                         </div>
                                         <div class="lib-metric-box highlight-metric">
                                             <span class="lib-lbl">Đo kiểm kích thước</span>
-                                            <span class="lib-val" style="color:#fb7185;">⚠️ ${item.measured.actualDimension}</span>
+                                            <span class="lib-val" style="color:#fb7185;">⚠️ ${item.measured.actualDimension || 'Kích thước chuẩn'}</span>
                                         </div>
+                                        ${item.measured.recommendedOffsetP1 ? `
                                         <div class="lib-metric-box highlight-metric">
                                             <span class="lib-lbl">Hiệu chỉnh Offset Pass 1</span>
                                             <span class="lib-val" style="color:#4ade80;">✅ ${item.measured.recommendedOffsetP1}</span>
-                                        </div>
+                                        </div>` : ''}
+                                        ${item.measured.recommendedMaxSpeed ? `
                                         <div class="lib-metric-box">
                                             <span class="lib-lbl">Khuyến nghị Max Speed</span>
                                             <span class="lib-val">${item.measured.recommendedMaxSpeed}</span>
-                                        </div>
+                                        </div>` : ''}
                                     </div>
                                 ` : `
                                     <div class="lib-card-grid">
