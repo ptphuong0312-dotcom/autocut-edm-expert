@@ -1482,13 +1482,12 @@ function initApp() {
             Volt_w = 'High';
             VF_w = H <= 40 ? 60 : 55;
         } else {
-                        // THUẬT TOÁN NỘI SUY THỰC NGHIỆM (MACHINE LEARNING INTERPOLATION ALGORITHM)
-            // Dựa trên 8 điểm neo dữ liệu thực nghiệm (Anchor Data) từ xưởng của người dùng
+                                    // THUẬT TOÁN NỘI SUY THỰC NGHIỆM (MACHINE LEARNING INTERPOLATION ALGORITHM)
+            // Dựa trên 7 điểm neo dữ liệu thực nghiệm (Anchor Data) từ xưởng của người dùng (Đã loại H=55 do bất thường)
             const anchors = [
                 { H: 12, ti: 20, Po: 7, IP: 2, Volt: 'Low', VF: 50, Gap: 0.015 },
                 { H: 30, ti: 32, Po: 5, IP: 4, Volt: 'High', VF: 55, Gap: 0.008 },
                 { H: 40, ti: 36, Po: 5, IP: 4, Volt: 'High', VF: 60, Gap: 0.008 },
-                { H: 55, ti: 50, Po: 7, IP: 5, Volt: 'High', VF: 60, Gap: 0.048 },
                 { H: 63, ti: 44, Po: 7, IP: 5, Volt: 'High', VF: 60, Gap: 0.005 },
                 { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 60, Gap: 0.005 },
                 { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 60, Gap: 0.020 },
