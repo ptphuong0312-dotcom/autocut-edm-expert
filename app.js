@@ -895,7 +895,7 @@ function initApp() {
         "maxSpeed": "200Hz",
         "offset": 0.098,
         "ampe": "2.4A",
-        "time": "35p (L=100)",
+        "time": "21p (L=100)",
         "speedActual": "56 mm2/p"
       },
       {
@@ -984,7 +984,7 @@ function initApp() {
         "maxSpeed": "150Hz",
         "offset": 0.091,
         "ampe": "2.4A",
-        "time": "35p (L=100)",
+        "time": "21p (L=100)",
         "speedActual": "56 mm2/p"
       },
       {
@@ -1073,7 +1073,7 @@ function initApp() {
         "maxSpeed": "150Hz",
         "offset": 0.073,
         "ampe": "3.2A",
-        "time": "35p (L=100)",
+        "time": "43p (L=100)",
         "speedActual": "74 mm2/p"
       },
       {
@@ -1162,7 +1162,7 @@ function initApp() {
         "maxSpeed": "150Hz",
         "offset": 0.077,
         "ampe": "3.2A",
-        "time": "35p (L=100)",
+        "time": "73p (L=100)",
         "speedActual": "74 mm2/p"
       },
       {
@@ -1251,7 +1251,7 @@ function initApp() {
         "maxSpeed": "150Hz",
         "offset": 0.088,
         "ampe": "3.2A",
-        "time": "35p (L=100)",
+        "time": "68p (L=100)",
         "speedActual": "91 mm2/p"
       },
       {
@@ -1340,7 +1340,7 @@ function initApp() {
         "maxSpeed": "60Hz",
         "offset": 0.085,
         "ampe": "4.0A",
-        "time": "35p (L=100)",
+        "time": "123p (L=100)",
         "speedActual": "114 mm2/p"
       },
       {
@@ -1429,7 +1429,7 @@ function initApp() {
         "maxSpeed": "150Hz",
         "offset": 0.094,
         "ampe": "2.4A",
-        "time": "35p (L=100)",
+        "time": "21p (L=100)",
         "speedActual": "56 mm2/p"
       },
       {
@@ -1490,7 +1490,7 @@ function initApp() {
         "maxSpeed": "200Hz",
         "offset": 0.073,
         "ampe": "2.4A",
-        "time": "35p (L=100)",
+        "time": "62p (L=100)",
         "speedActual": "56 mm2/p"
       },
       {
@@ -1551,7 +1551,7 @@ function initApp() {
         "maxSpeed": "150Hz",
         "offset": 0.085,
         "ampe": "3.2A",
-        "time": "35p (L=100)",
+        "time": "73p (L=100)",
         "speedActual": "74 mm2/p"
       },
       {
@@ -1612,7 +1612,7 @@ function initApp() {
         "maxSpeed": "150Hz",
         "offset": 0.075,
         "ampe": "3.2A",
-        "time": "35p (L=100)",
+        "time": "68p (L=100)",
         "speedActual": "91 mm2/p"
       },
       {
@@ -1673,7 +1673,7 @@ function initApp() {
         "maxSpeed": "150Hz",
         "offset": 0.087,
         "ampe": "3.2A",
-        "time": "35p (L=100)",
+        "time": "99p (L=100)",
         "speedActual": "91 mm2/p"
       },
       {
@@ -1734,7 +1734,7 @@ function initApp() {
         "maxSpeed": "60Hz",
         "offset": 0.093,
         "ampe": "4.0A",
-        "time": "35p (L=100)",
+        "time": "123p (L=100)",
         "speedActual": "114 mm2/p"
       },
       {
@@ -1789,13 +1789,13 @@ function initApp() {
         "ti": 20,
         "Po": 7,
         "IP": 2,
-        "wire": 1,
+        "wire": 2,
         "volt": "Low",
         "vf": 50,
-        "maxSpeed": "",
+        "maxSpeed": "150Hz",
         "offset": 0.098,
         "ampe": "1.6A",
-        "time": "35p (L=100)",
+        "time": "32p (L=100)",
         "speedActual": "37 mm2/p"
       },
       {
@@ -1806,18 +1806,18 @@ function initApp() {
         "wire": 2,
         "volt": "Low",
         "vf": 20,
-        "maxSpeed": "",
+        "maxSpeed": "130Hz",
         "offset": 0.04,
         "ampe": "0.1-0.2A",
-        "time": "-",
-        "speedActual": "-"
+        "time": "4p (L=100)",
+        "speedActual": "312 mm2/p"
       }
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối.",
       "totalTimeStr": "Theo L=100mm",
       "recommendedOffsetP1": "0.098 mm",
-      "recommendedMaxSpeed": "P2: "
+      "recommendedMaxSpeed": "P2: 130Hz"
     },
     "notes": "Dữ liệu Custom 2 Pass tự điều chế. Kết hợp các bước bù dao để đạt kích thước chuẩn."
   },
@@ -1839,32 +1839,32 @@ function initApp() {
         "wire": 1,
         "volt": "Low",
         "vf": 50,
-        "maxSpeed": "",
+        "maxSpeed": "200Hz",
         "offset": 0.091,
         "ampe": "2.4A",
-        "time": "35p (L=100)",
+        "time": "57p (L=100)",
         "speedActual": "56 mm2/p"
       },
       {
         "pass": "Pass 2",
         "ti": 5,
-        "Po": 7,
+        "Po": 15,
         "IP": 1,
-        "wire": 2,
+        "wire": 1,
         "volt": "Low",
         "vf": 10,
-        "maxSpeed": "",
+        "maxSpeed": "130Hz",
         "offset": 0.03,
         "ampe": "0.1-0.2A",
-        "time": "-",
-        "speedActual": "-"
+        "time": "10p (L=100)",
+        "speedActual": "312 mm2/p"
       }
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối.",
       "totalTimeStr": "Theo L=100mm",
       "recommendedOffsetP1": "0.091 mm",
-      "recommendedMaxSpeed": "P2: "
+      "recommendedMaxSpeed": "P2: 130Hz"
     },
     "notes": "Dữ liệu Custom 2 Pass tự điều chế. Kết hợp các bước bù dao để đạt kích thước chuẩn."
   },
@@ -1886,10 +1886,10 @@ function initApp() {
         "wire": 1,
         "volt": "High",
         "vf": 50,
-        "maxSpeed": "",
+        "maxSpeed": "150Hz",
         "offset": 0.092,
         "ampe": "3.2A",
-        "time": "35p (L=100)",
+        "time": "68p (L=100)",
         "speedActual": "91 mm2/p"
       },
       {
@@ -1900,18 +1900,18 @@ function initApp() {
         "wire": 2,
         "volt": "Low",
         "vf": 20,
-        "maxSpeed": "",
+        "maxSpeed": "100Hz",
         "offset": 0.03,
         "ampe": "0.1-0.2A",
-        "time": "-",
-        "speedActual": "-"
+        "time": "26p (L=100)",
+        "speedActual": "240 mm2/p"
       }
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối.",
       "totalTimeStr": "Theo L=100mm",
       "recommendedOffsetP1": "0.092 mm",
-      "recommendedMaxSpeed": "P2: "
+      "recommendedMaxSpeed": "P2: 100Hz"
     },
     "notes": "Dữ liệu Custom 2 Pass tự điều chế. Kết hợp các bước bù dao để đạt kích thước chuẩn."
   },
@@ -1933,10 +1933,10 @@ function initApp() {
         "wire": 1,
         "volt": "High",
         "vf": 50,
-        "maxSpeed": "",
+        "maxSpeed": "150Hz",
         "offset": 0.072,
         "ampe": "2.4A",
-        "time": "35p (L=100)",
+        "time": "132p (L=100)",
         "speedActual": "68 mm2/p"
       },
       {
@@ -1944,21 +1944,21 @@ function initApp() {
         "ti": 15,
         "Po": 7,
         "IP": 2,
-        "wire": 2,
+        "wire": 3,
         "volt": "Low",
         "vf": 20,
-        "maxSpeed": "",
+        "maxSpeed": "100Hz",
         "offset": 0.03,
         "ampe": "0.1-0.2A",
-        "time": "-",
-        "speedActual": "-"
+        "time": "38p (L=100)",
+        "speedActual": "240 mm2/p"
       }
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối.",
       "totalTimeStr": "Theo L=100mm",
       "recommendedOffsetP1": "0.072 mm",
-      "recommendedMaxSpeed": "P2: "
+      "recommendedMaxSpeed": "P2: 100Hz"
     },
     "notes": "Dữ liệu Custom 2 Pass tự điều chế. Kết hợp các bước bù dao để đạt kích thước chuẩn."
   },
@@ -1980,10 +1980,10 @@ function initApp() {
         "wire": 1,
         "volt": "High",
         "vf": 50,
-        "maxSpeed": "",
+        "maxSpeed": "150Hz",
         "offset": 0.085,
         "ampe": "3.2A",
-        "time": "35p (L=100)",
+        "time": "99p (L=100)",
         "speedActual": "91 mm2/p"
       },
       {
@@ -1991,21 +1991,21 @@ function initApp() {
         "ti": 15,
         "Po": 7,
         "IP": 2,
-        "wire": 2,
+        "wire": 3,
         "volt": "Low",
         "vf": 20,
-        "maxSpeed": "",
+        "maxSpeed": "100Hz",
         "offset": 0.03,
         "ampe": "0.1-0.2A",
-        "time": "-",
-        "speedActual": "-"
+        "time": "38p (L=100)",
+        "speedActual": "240 mm2/p"
       }
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối.",
       "totalTimeStr": "Theo L=100mm",
       "recommendedOffsetP1": "0.085 mm",
-      "recommendedMaxSpeed": "P2: "
+      "recommendedMaxSpeed": "P2: 100Hz"
     },
     "notes": "Dữ liệu Custom 2 Pass tự điều chế. Kết hợp các bước bù dao để đạt kích thước chuẩn."
   },
@@ -2022,16 +2022,16 @@ function initApp() {
       {
         "pass": "Pass 1",
         "ti": 120,
-        "Po": 7,
+        "Po": 8,
         "IP": 5,
         "wire": 1,
         "volt": "High",
         "vf": 55,
-        "maxSpeed": "",
+        "maxSpeed": "60Hz",
         "offset": 0.098,
-        "ampe": "4.0A",
-        "time": "35p (L=100)",
-        "speedActual": "114 mm2/p"
+        "ampe": "3.6A",
+        "time": "139p (L=100)",
+        "speedActual": "101 mm2/p"
       },
       {
         "pass": "Pass 2",
@@ -2041,25 +2041,25 @@ function initApp() {
         "wire": 2,
         "volt": "Low",
         "vf": 25,
-        "maxSpeed": "",
+        "maxSpeed": "100Hz",
         "offset": 0.03,
         "ampe": "0.1-0.2A",
-        "time": "-",
-        "speedActual": "-"
+        "time": "58p (L=100)",
+        "speedActual": "240 mm2/p"
       }
     ],
     "measured": {
       "actualDimension": "Kích thước sau cắt đạt chuẩn tuyệt đối.",
       "totalTimeStr": "Theo L=100mm",
       "recommendedOffsetP1": "0.098 mm",
-      "recommendedMaxSpeed": "P2: "
+      "recommendedMaxSpeed": "P2: 100Hz"
     },
     "notes": "Dữ liệu Custom 2 Pass tự điều chế. Kết hợp các bước bù dao để đạt kích thước chuẩn."
   },
   {
     "id": "WS-EXP-NEW-01",
     "date": "2026-08-27",
-    "name": "Thực nghiệm Thép mềm SCM420 H=63mm (Chiến lược 4/11 - Mịn Cao)",
+    "name": "Thực nghiệm 2 Pass - SCM420 H=63mm (Chiến lược 4/11 Mịn Cao)",
     "material": "SCM420",
     "materialName": "Thép mềm SCM420 (HB < 200)",
     "passCount": 2,
@@ -2077,7 +2077,8 @@ function initApp() {
         "maxSpeed": "150Hz",
         "offset": 0.116,
         "ampe": "4A",
-        "time": "21p"
+        "time": "21p",
+        "speedActual": "55-65 mm2/p"
       },
       {
         "pass": "Pass 2",
@@ -2090,23 +2091,22 @@ function initApp() {
         "maxSpeed": "100Hz",
         "offset": 0.022,
         "ampe": "0.1-0.2A",
-        "time": "5p20'"
+        "time": "5p20'",
+        "speedActual": "240 mm2/p"
       }
     ],
     "measured": {
-      "ammeterA": "P1: 4A | P2: 0.1-0.2A (Đo thực tế trên máy)",
-      "totalMinutes": 26.33,
-      "totalTimeStr": "26p20'",
       "actualDimension": "+0.07 mm (Lập trình 30mm, cắt ra 30.07mm)",
-      "recommendedOffsetP1": "0.081 mm (Giảm từ 0.116 mm xuống 0.081 mm)",
+      "totalTimeStr": "26p20'",
+      "recommendedOffsetP1": "0.081 mm",
       "recommendedMaxSpeed": "P1: 150Hz | P2: 100Hz"
     },
-    "notes": "Cắt 2 Pass phôi H=63mm. Kích thước thực tế cắt ra to hơn 0.07mm do Offset Pass 1 quá lớn. Tốc độ thực tế Pass 1 là 55-65mm²/phút, Pass 2 là 240mm²/phút. Giải pháp: Cần đổi hệ số offset Pass 1 về 0.081mm."
+    "notes": "Cắt 2 Pass phôi H=63mm. Offset P1 ban đầu 0.116 làm chày to 0.07mm. Đã chuẩn hóa Offset P1 về 0.081mm."
   },
   {
     "id": "WS-EXP-NEW-02",
     "date": "2026-08-27",
-    "name": "Thực nghiệm Thép mềm SCM420 H=63mm (Chiến lược Tiêu Chuẩn 6/11)",
+    "name": "Thực nghiệm 2 Pass - SCM420 H=63mm (Chiến lược 6/11 Tiêu Chuẩn)",
     "material": "SCM420",
     "materialName": "Thép mềm SCM420 (HB < 200)",
     "passCount": 2,
@@ -2124,7 +2124,8 @@ function initApp() {
         "maxSpeed": "150Hz",
         "offset": 0.118,
         "ampe": "4.2A",
-        "time": "16p26'"
+        "time": "16p26'",
+        "speedActual": "75-85 mm2/p"
       },
       {
         "pass": "Pass 2",
@@ -2137,23 +2138,22 @@ function initApp() {
         "maxSpeed": "100Hz",
         "offset": 0.024,
         "ampe": "0.1-0.2A",
-        "time": "5p20'"
+        "time": "5p20'",
+        "speedActual": "240 mm2/p"
       }
     ],
     "measured": {
-      "ammeterA": "P1: 4.2A | P2: 0.1-0.2A (Đo thực tế)",
-      "totalMinutes": 21.77,
-      "totalTimeStr": "21p46'",
       "actualDimension": "+0.05 mm (Lập trình 30mm, cắt ra 30.05mm)",
-      "recommendedOffsetP1": "0.093 mm (Giảm 0.025 mm từ chuẩn 0.118 mm)",
+      "totalTimeStr": "21p46'",
+      "recommendedOffsetP1": "0.093 mm",
       "recommendedMaxSpeed": "P1: 150Hz | P2: 100Hz"
     },
-    "notes": "Cắt theo Cấp 6 (Tiêu chuẩn), Pass 1 cho ra sản phẩm dư 0.05mm. Xác nhận phải giảm Offset Pass 1 đi 0.025mm (còn 0.093). Giới hạn tốc độ Max Speed chuẩn xác."
+    "notes": "Cắt theo Cấp 6, Pass 1 offset 0.118 dư 0.05mm. Đã chuẩn hóa Offset P1 về 0.093mm."
   },
   {
     "id": "WS-EXP-NEW-03",
     "date": "2026-08-28",
-    "name": "Thực nghiệm Thép mềm SCM420 H=30mm (Cắt Lỗ Phi 205 - Cấp 6)",
+    "name": "Thực nghiệm 2 Pass - SCM420 H=30mm (Cắt Lỗ Cối Phi 205)",
     "material": "SCM420",
     "materialName": "Thép mềm SCM420 (HB < 200)",
     "passCount": 2,
@@ -2170,8 +2170,9 @@ function initApp() {
         "vf": 60,
         "maxSpeed": "200Hz",
         "offset": 0.115,
-        "ampe": "4.1-4.2A",
-        "time": "3h08p"
+        "ampe": "4.1A",
+        "time": "3h08p",
+        "speedActual": "140-150 mm2/p"
       },
       {
         "pass": "Pass 2",
@@ -2184,73 +2185,22 @@ function initApp() {
         "maxSpeed": "150Hz",
         "offset": 0.022,
         "ampe": "0.1-0.2A",
-        "time": "1h12p"
+        "time": "1h12p",
+        "speedActual": "360 mm2/p"
       }
     ],
     "measured": {
-      "ammeterA": "P1: 4.1-4.2A | P2: 0.1-0.2A",
-      "totalMinutes": 260,
-      "totalTimeStr": "4h20p",
       "actualDimension": "-0.015 mm (Lỗ phi 205mm, thực tế 204.985mm)",
-      "recommendedOffsetP1": "0.107 mm (Giảm 0.008 mm từ 0.115 mm)",
-      "recommendedMaxSpeed": "P2 Remain: 0.022 mm (Giữ nguyên không đổi)"
+      "totalTimeStr": "4h20p",
+      "recommendedOffsetP1": "0.1075 mm",
+      "recommendedMaxSpeed": "P1: 200Hz | P2: 150Hz"
     },
-    "notes": "Cắt lỗ tròn 205mm. Lỗ bị nhỏ đi trung bình 0.015mm và bị ô van 0.01mm. Nguyên lý Lượng dư Tương đối: Chỉ cần giảm Offset Pass 1 đi 0.008mm (còn 0.107). Giữ nguyên Remain Pass 2 là 0.022. Hệ thống AutoCut sẽ tự dịch toàn bộ quỹ đạo 2 Pass ra ngoài."
-  },
-  {
-    "id": "WS-EXP-17",
-    "date": "2026-08-29",
-    "name": "Thực nghiệm SCM420 H=63mm (Chiến lược 4/11 - Mịn Cao 1 Pass)",
-    "material": "SCM420",
-    "materialName": "Thép mềm SCM420 (HB < 200)",
-    "passCount": 1,
-    "thickness": 63,
-    "cutLength": 30,
-    "params": {
-      "ti": 24,
-      "Po": 7,
-      "IP": 4,
-      "Voltage": "High",
-      "VF": 43,
-      "Wire": 1
-    },
-    "measured": {
-      "ammeterA": "4.0A",
-      "sparkGap": -0.009,
-      "recommendedOffset": 0.081,
-      "tolerance": "±0.005 mm"
-    },
-    "notes": "Cắt 1 Pass phôi dày 63mm theo Cấp 4 (Ton=24). Do ép năng lượng quá nhỏ cho phôi dày, dây bị võng/kéo lê dẫn tới khe hở tia lửa âm (-0.009mm). Offset chuẩn phải hạ về 0.081mm."
-  },
-  {
-    "id": "WS-EXP-03",
-    "date": "2026-08-27",
-    "name": "Thực nghiệm SCM440 H=68mm (1 Pass Chuẩn)",
-    "material": "SCM440",
-    "materialName": "Thép tôi SCM440 (28-32HRC)",
-    "passCount": 1,
-    "thickness": 68,
-    "cutLength": 100,
-    "params": {
-      "ti": 70,
-      "Po": 7,
-      "IP": 3,
-      "Voltage": "Low",
-      "VF": 50,
-      "Wire": 1
-    },
-    "measured": {
-      "ammeterA": "3.2A",
-      "sparkGap": 0.007,
-      "recommendedOffset": 0.097,
-      "tolerance": "±0.005 mm"
-    },
-    "notes": "Cắt 1 Pass phôi dày 68mm thép cứng SCM440. Khe hở tia lửa thực tế 0.007mm. Offset chuẩn xác 0.097mm."
+    "notes": "Cắt lỗ tròn cối 205mm. Lỗ bị nhỏ 0.015mm do offset P1 dư. Chuẩn hóa Offset P1 về 0.1075mm."
   },
   {
     "id": "WS-EXP-02",
     "date": "2026-08-26",
-    "name": "Thực nghiệm SCM440 H=12mm (Sweet Spot Chuẩn)",
+    "name": "Thực nghiệm 1 Pass - SCM440 H=12mm (Sweet Spot Chuẩn)",
     "material": "SCM440",
     "materialName": "Thép tôi SCM440 (28-32HRC)",
     "passCount": 1,
@@ -2268,14 +2218,67 @@ function initApp() {
       "ammeterA": "1.8A",
       "sparkGap": 0.015,
       "recommendedOffset": 0.105,
+      "measuredSpeed": "140",
       "tolerance": "±0.005 mm"
     },
     "notes": "Điểm neo Sweet Spot phôi mỏng 12mm. Dòng êm, bề mặt phẳng, Offset chuẩn 0.105mm."
   },
   {
+    "id": "WS-EXP-11",
+    "date": "2026-08-27",
+    "name": "Thực nghiệm 1 Pass - SCM440 H=30mm (Cấp 6)",
+    "material": "SCM440",
+    "materialName": "Thép tôi SCM440 (28-32HRC)",
+    "passCount": 1,
+    "thickness": 30,
+    "cutLength": 100,
+    "params": {
+      "ti": 32,
+      "Po": 5,
+      "IP": 4,
+      "Voltage": "High",
+      "VF": 65,
+      "Wire": 1
+    },
+    "measured": {
+      "ammeterA": "4.0A",
+      "sparkGap": 0.008,
+      "recommendedOffset": 0.098,
+      "measuredSpeed": "135",
+      "tolerance": "±0.005 mm"
+    },
+    "notes": "Bù dao ban đầu 0.115 làm chày to 0.034. Đã giảm bù dao 0.017mm về mức chuẩn 0.098mm."
+  },
+  {
+    "id": "WS-EXP-12",
+    "date": "2026-08-27",
+    "name": "Thực nghiệm 1 Pass - SCM440 H=40mm (Cấp 6)",
+    "material": "SCM440",
+    "materialName": "Thép tôi SCM440 (28-32HRC)",
+    "passCount": 1,
+    "thickness": 40,
+    "cutLength": 100,
+    "params": {
+      "ti": 36,
+      "Po": 5,
+      "IP": 4,
+      "Voltage": "High",
+      "VF": 65,
+      "Wire": 1
+    },
+    "measured": {
+      "ammeterA": "4.0A",
+      "sparkGap": 0.008,
+      "recommendedOffset": 0.098,
+      "measuredSpeed": "130",
+      "tolerance": "±0.005 mm"
+    },
+    "notes": "Bù dao ban đầu 0.115 làm chày to 0.034. Đã giảm 0.017mm về mức chuẩn 0.098mm."
+  },
+  {
     "id": "WS-EXP-01",
     "date": "2026-08-25",
-    "name": "Thực nghiệm SCM420 H=45mm (1 Pass Chuẩn)",
+    "name": "Thực nghiệm 1 Pass - SCM420 H=45mm (Chuẩn)",
     "material": "SCM420",
     "materialName": "Thép mềm SCM420 (HB < 200)",
     "passCount": 1,
@@ -2293,11 +2296,169 @@ function initApp() {
       "ammeterA": "3.0A",
       "sparkGap": 0.015,
       "recommendedOffset": 0.105,
+      "measuredSpeed": "95",
       "tolerance": "±0.005 mm"
     },
     "notes": "Điểm neo phôi 45mm thép mềm. Offset chuẩn 0.105mm."
+  },
+  {
+    "id": "WS-EXP-14",
+    "date": "2026-08-27",
+    "name": "Thực nghiệm 1 Pass - SCM420 H=63mm (Chiến lược 6/11 Tiêu Chuẩn)",
+    "material": "SCM420",
+    "materialName": "Thép mềm SCM420 (HB < 200)",
+    "passCount": 1,
+    "thickness": 63,
+    "cutLength": 100,
+    "params": {
+      "ti": 44,
+      "Po": 7,
+      "IP": 5,
+      "Voltage": "High",
+      "VF": 55,
+      "Wire": 1
+    },
+    "measured": {
+      "ammeterA": "4.2A",
+      "sparkGap": 0.005,
+      "recommendedOffset": 0.095,
+      "measuredSpeed": "85",
+      "tolerance": "±0.005 mm"
+    },
+    "notes": "Bù dao ban đầu 0.118 làm chày to 0.046. Đã giảm bù dao 0.023mm về mức chuẩn 0.095mm."
+  },
+  {
+    "id": "WS-EXP-17",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm 1 Pass - SCM420 H=63mm (Chiến lược 4/11 Mịn Cao)",
+    "material": "SCM420",
+    "materialName": "Thép mềm SCM420 (HB < 200)",
+    "passCount": 1,
+    "thickness": 63,
+    "cutLength": 30,
+    "params": {
+      "ti": 24,
+      "Po": 7,
+      "IP": 4,
+      "Voltage": "High",
+      "VF": 43,
+      "Wire": 1
+    },
+    "measured": {
+      "ammeterA": "4.0A",
+      "sparkGap": -0.009,
+      "recommendedOffset": 0.081,
+      "measuredSpeed": "60",
+      "tolerance": "±0.005 mm"
+    },
+    "notes": "Cắt 1 Pass phôi dày 63mm theo Cấp 4 (Ton=24). Do ép năng lượng nhỏ cho phôi dày, dây bị kéo lê dẫn tới khe hở tia lửa âm (-0.009mm). Offset chuẩn phải hạ về 0.081mm."
+  },
+  {
+    "id": "WS-EXP-03",
+    "date": "2026-08-27",
+    "name": "Thực nghiệm 1 Pass - SCM440 H=68mm (Chuẩn)",
+    "material": "SCM440",
+    "materialName": "Thép tôi SCM440 (28-32HRC)",
+    "passCount": 1,
+    "thickness": 68,
+    "cutLength": 100,
+    "params": {
+      "ti": 70,
+      "Po": 7,
+      "IP": 3,
+      "Voltage": "Low",
+      "VF": 50,
+      "Wire": 1
+    },
+    "measured": {
+      "ammeterA": "3.2A",
+      "sparkGap": 0.007,
+      "recommendedOffset": 0.097,
+      "measuredSpeed": "75",
+      "tolerance": "±0.005 mm"
+    },
+    "notes": "Cắt 1 Pass phôi dày 68mm thép cứng SCM440. Khe hở tia lửa thực tế 0.007mm. Offset chuẩn xác 0.097mm."
+  },
+  {
+    "id": "WS-EXP-15",
+    "date": "2026-08-28",
+    "name": "Thực nghiệm 1 Pass - SCM420 H=140mm (Ép Dài)",
+    "material": "SCM420",
+    "materialName": "Thép mềm SCM420 (HB < 200)",
+    "passCount": 1,
+    "thickness": 140,
+    "cutLength": 100,
+    "params": {
+      "ti": 120,
+      "Po": 8,
+      "IP": 5,
+      "Voltage": "High",
+      "VF": 55,
+      "Wire": 1
+    },
+    "measured": {
+      "ammeterA": "4.5A",
+      "sparkGap": 0.005,
+      "recommendedOffset": 0.095,
+      "measuredSpeed": "65",
+      "tolerance": "±0.005 mm"
+    },
+    "notes": "Phôi dày 140mm. Bù dao 0.095mm, khe hở 0.005mm."
+  },
+  {
+    "id": "WS-EXP-16",
+    "date": "2026-08-28",
+    "name": "Thực nghiệm 1 Pass - SCM420 H=160mm (Ép Dài)",
+    "material": "SCM420",
+    "materialName": "Thép mềm SCM420 (HB < 200)",
+    "passCount": 1,
+    "thickness": 160,
+    "cutLength": 100,
+    "params": {
+      "ti": 120,
+      "Po": 8,
+      "IP": 5,
+      "Voltage": "High",
+      "VF": 55,
+      "Wire": 1
+    },
+    "measured": {
+      "ammeterA": "4.5A",
+      "sparkGap": 0.02,
+      "recommendedOffset": 0.11,
+      "measuredSpeed": "60",
+      "tolerance": "±0.005 mm"
+    },
+    "notes": "Phôi dày 160mm. Bù dao 0.110mm, khe hở 0.020mm."
+  },
+  {
+    "id": "WS-EXP-20",
+    "date": "2026-08-29",
+    "name": "Thực nghiệm 1 Pass - SCM440 H=300mm (Phá Thô Cực Hạn)",
+    "material": "SCM440",
+    "materialName": "Thép tôi SCM440 (28-32HRC)",
+    "passCount": 1,
+    "thickness": 300,
+    "cutLength": 100,
+    "params": {
+      "ti": 120,
+      "Po": 9,
+      "IP": 6,
+      "Voltage": "High",
+      "VF": 65,
+      "Wire": 1
+    },
+    "measured": {
+      "ammeterA": "5.0A",
+      "sparkGap": 0.02,
+      "recommendedOffset": 0.11,
+      "measuredSpeed": "45",
+      "tolerance": "±0.005 mm"
+    },
+    "notes": "Phôi cực dày 300mm. Nguồn phát cực hạn, Bù dao 0.110mm."
   }
 ];
+
 
 
     const WORKSHOP_CALIBRATION_MODEL = {
@@ -3408,7 +3569,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.45";
+    const CURRENT_VERSION = "3.4.46";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
