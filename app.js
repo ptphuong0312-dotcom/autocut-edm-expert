@@ -1433,7 +1433,32 @@ function initApp() {
                     },
                     "notes": "Cắt 5 Pass chi tiết H=12mm, L=58.2mm. Tổng thời gian thực tế 50p45s. Kích thước thực tế đo được 30.012mm (to +0.012mm) do Offset Pass 1 cài đặt ban đầu là 0.107mm bị dư và Max Speed P2 (200Hz) quá thả rông. Khắc phục: Hiệu chỉnh giảm Offset Pass 1 đi 0.006mm (từ 0.107mm về 0.101mm) để đưa chi tiết về đúng kích thước chuẩn 30.000mm, đồng thời hãm Max Speed Pass 2 xuống 150Hz."
         }
-    ];
+    
+        ,{
+            "id": "WS-EXP-17",
+            "date": "2026-08-29",
+            "name": "Thực nghiệm Thép mềm SCM420 H=63mm (1 Pass Siêu Mịn Cấp 4/11)",
+            "material": "SCM420",
+            "materialName": "Thép mềm SCM420 (HB < 200)",
+            "passCount": 1,
+            "thickness": 63,
+            "cutLength": 0,
+            "params": {
+                "ti": 24,
+                "Po": 7,
+                "IP": 4,
+                "Voltage": "High",
+                "VF": 43,
+                "Wire": 1
+            },
+            "measured": {
+                "ammeterA": "4.0 A (Đo thực tế)",
+                "sparkGap": -0.009,
+                "recommendedOffset": 0.081,
+                "tolerance": "±0.010 mm"
+            },
+            "notes": "Dữ liệu đặc biệt: Cắt 1 Pass phôi dày 63mm nhưng ép chế độ Cấp 4/11 (Ton=24) để ưu tiên bề mặt bóng mịn (Ra nhỏ). Hệ quả: Tốc độ thực 55-65 mm2/p, thời gian 21p. Do điện yếu, dây kéo lê dính phôi (Gap âm -0.009mm). User nhập Offset 0.116 làm chày to 0.070mm -> Suy ra Offset chuẩn là 0.081mm."
+        }];
 
     const WORKSHOP_CALIBRATION_MODEL = {
         kAmpe: 2.2857,               // Hệ số dòng Ampe thực tế xưởng (~4.0A với IP=5, Po=7)
