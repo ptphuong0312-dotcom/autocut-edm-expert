@@ -1482,16 +1482,18 @@ function initApp() {
             Volt_w = 'High';
             VF_w = H <= 40 ? 60 : 55;
         } else {
-                                    // THUẬT TOÁN NỘI SUY THỰC NGHIỆM (MACHINE LEARNING INTERPOLATION ALGORITHM)
-            // Dựa trên 7 điểm neo dữ liệu thực nghiệm (Anchor Data) từ xưởng của người dùng (Đã loại H=55 do bất thường)
+                                                // THUẬT TOÁN NỘI SUY THỰC NGHIỆM (MACHINE LEARNING INTERPOLATION ALGORITHM)
+            // Dựa trên 9 điểm neo dữ liệu thực nghiệm mới nhất từ hình ảnh Google Sheets của người dùng
             const anchors = [
-                { H: 12, ti: 20, Po: 7, IP: 2, Volt: 'Low', VF: 50, Gap: 0.015 },
-                { H: 30, ti: 32, Po: 5, IP: 4, Volt: 'High', VF: 55, Gap: 0.008 },
-                { H: 40, ti: 36, Po: 5, IP: 4, Volt: 'High', VF: 60, Gap: 0.008 },
-                { H: 63, ti: 44, Po: 7, IP: 5, Volt: 'High', VF: 60, Gap: 0.005 },
-                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 60, Gap: 0.005 },
-                { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 60, Gap: 0.020 },
-                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, Gap: 0.020 }
+                { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50, Gap: 0.015 }, // Row 4 (chuẩn)
+                { H: 30,  ti: 32,  Po: 5, IP: 4, Volt: 'High', VF: 65, Gap: 0.008 }, // Row 1 (đã trừ bù dao 0.017)
+                { H: 40,  ti: 36,  Po: 5, IP: 4, Volt: 'High', VF: 65, Gap: 0.008 }, // Row 2 (đã trừ bù dao 0.017)
+                { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 }, // Row 5 (chuẩn)
+                { H: 63,  ti: 44,  Po: 7, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 }, // Row 3 (đã trừ bù dao 0.023)
+                { H: 68,  ti: 70,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.007 }, // Row 6 (chuẩn)
+                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 }, // Row 7 (chuẩn)
+                { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.020 }, // Row 8 (chuẩn)
+                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, Gap: 0.020 }  // Row 21/22
             ];
 
             let p1 = anchors[0], p2 = anchors[anchors.length - 1];
@@ -1516,7 +1518,10 @@ function initApp() {
             Po_w = Math.round(p1.Po + ratio * (p2.Po - p1.Po));
             IP_w = Math.round(p1.IP + ratio * (p2.IP - p1.IP));
             VF_w = Math.round(p1.VF + ratio * (p2.VF - p1.VF));
-            Volt_w = (H <= 20) ? 'Low' : 'High';
+            
+            // Lấy Volt của mốc gần hơn (tránh đổi Volt nửa chừng)
+            Volt_w = (ratio < 0.5) ? p1.Volt : p2.Volt;
+            
             gap_w = (p1.Gap + ratio * (p2.Gap - p1.Gap));
         }
         Wire_w = 1;
