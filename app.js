@@ -2495,7 +2495,7 @@ function initApp() {
 
     
     // HỆ THỐNG LAI TẠO DỮ LIỆU & NHÂN QUẢ BÙ DAO (RULE 06, 07, 08)
-    fufunction generateWorkshopRows(state) {
+    function generateWorkshopRows(state) {
         const H = state.thickness;
         const passes = state.passCount;
         const strat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[3];
@@ -2776,7 +2776,7 @@ function initApp() {
         };
     }
 
-    nction computeTheoryKinematics({ ti, Po, IP, Voltage, VF, Wire, H, material, cutLength = 100 }) {
+    function computeTheoryKinematics({ ti, Po, IP, Voltage, VF, Wire, H, material, cutLength = 100 }) {
         const isHard = material === 'SCM440';
         const isCopper = material === 'COPPER';
         const isAlu = material === 'ALUMINUM';
@@ -3611,7 +3611,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.53";
+    const CURRENT_VERSION = "3.4.54";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
