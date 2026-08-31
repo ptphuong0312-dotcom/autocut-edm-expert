@@ -2575,8 +2575,8 @@ function initApp() {
 
         // Recalculate gap dynamically based on modified IP and Ton (Hybrid Engine)
         let gap = baseGap + (strat.IPMod * 0.002) + (strat.TonMod * 0.00005);
-        if (Volt === 'Low' && baseVolt === 'High') gap += 0.005;
-        if (Volt === 'High' && baseVolt === 'Low') gap -= 0.005;
+        if (Volt === 'Low' && baseVolt === 'High') gap -= 0.005; // Low V = hẹp tia lửa -> Offset nhỏ lại
+        if (Volt === 'High' && baseVolt === 'Low') gap += 0.005; // High V = phóng to tia lửa -> Offset phải bù rộng ra
 
         // Finish Pass Constants based on empirical data (Rule 04)
         const FINISH_CONSTANTS = [
@@ -3601,7 +3601,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.59";
+    const CURRENT_VERSION = "3.4.60";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
