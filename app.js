@@ -701,8 +701,7 @@ function initApp() {
         // ----------------------------------------------------
         if (passCount >= 3) {
             ti_3 = H <= 60 ? 6 : (H <= 150 ? 8 : 10);
-            Po_3 = isHard ? 3 : 4;
-            if (H > 100) Po_3 += 1;
+            Po_3 = isHard ? 8 : 10; if (H > 100) Po_3 += 2;
             IP_3 = H <= 60 ? 1 : 2;
             Volt_3 = 'Low';
             VF_3 = isHard ? 35 : 30;
@@ -745,7 +744,7 @@ function initApp() {
         // ----------------------------------------------------
         if (passCount >= 4) {
             ti_4 = H <= 60 ? 2 : (H <= 150 ? 3 : 4);
-            Po_4 = isHard ? 2 : 3;
+            Po_4 = isHard ? 12 : 15;
             IP_4 = 1;
             Volt_4 = 'Low';
             VF_4 = isHard ? 25 : 22;
@@ -781,7 +780,7 @@ function initApp() {
         // ----------------------------------------------------
         if (passCount >= 5) {
             ti_5 = H <= 80 ? 1 : 2;
-            Po_5 = 2;
+            Po_5 = isHard ? 15 : 20;
             IP_5 = 1;
             Volt_5 = 'Low';
             VF_5 = isHard ? 20 : 18;
@@ -817,7 +816,7 @@ function initApp() {
         // ----------------------------------------------------
         if (passCount >= 6) {
             ti_6 = 1;
-            Po_6 = 2;
+            Po_6 = isHard ? 20 : 25;
             IP_6 = 1;
             Volt_6 = 'Low';
             VF_6 = 15;
@@ -3602,7 +3601,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.62";
+    const CURRENT_VERSION = "3.4.63";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
