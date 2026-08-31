@@ -2503,48 +2503,97 @@ function initApp() {
         const isCopper = state.material === 'COPPER';
         const wsRows = [];
 
+        // 1. Empirical Interpolation for Base Parameters (Pass 1)
+        let baseTon, basePo, baseIP, baseVF, baseGap, baseVolt;
+
+        if (isAlu) {
+            if (H <= 15) baseTon = 18; else if (H <= 30) baseTon = 22; else if (H <= 60) baseTon = 26; else if (H <= 100) baseTon = 32; else if (H <= 160) baseTon = 38; else if (H <= 250) baseTon = 44; else if (H <= 350) baseTon = 50; else baseTon = 56;
+            basePo = H <= 40 ? 7 : (H <= 120 ? 8 : 10);
+            baseIP = H <= 30 ? 3 : (H <= 100 ? 4 : 5);
+            baseVolt = 'High';
+            baseVF = H <= 40 ? 65 : 60;
+            baseGap = 0.010;
+        } else if (isCopper) {
+            if (H <= 15) baseTon = 26; else if (H <= 30) baseTon = 30; else if (H <= 60) baseTon = 36; else if (H <= 100) baseTon = 44; else if (H <= 160) baseTon = 52; else if (H <= 250) baseTon = 60; else if (H <= 350) baseTon = 64; else baseTon = 68;
+            basePo = H <= 40 ? 5 : (H <= 120 ? 6 : 8);
+            baseIP = H <= 30 ? 3 : (H <= 100 ? 5 : 6);
+            baseVolt = 'High';
+            baseVF = H <= 40 ? 60 : 55;
+            baseGap = 0.010;
+        } else {
+            // Steel SCM420/SCM440 Interpolation from Empirical Anchors (Rule 04 & 08)
+            const anchors = [
+                { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50, Gap: 0.015 },
+                { H: 30,  ti: 28,  Po: 6, IP: 4, Volt: 'High', VF: 60, Gap: 0.0175 },
+                { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 },
+                { H: 63,  ti: 44,  Po: 7, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 },
+                { H: 90,  ti: 90,  Po: 7, IP: 4, Volt: 'High', VF: 50, Gap: -0.005 },
+                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 },
+                { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.020 },
+                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, Gap: 0.020 }
+            ];
+
+            let p1 = anchors[0], p2 = anchors[anchors.length - 1];
+            for (let i = 0; i < anchors.length - 1; i++) {
+                if (H >= anchors[i].H && H <= anchors[i+1].H) {
+                    p1 = anchors[i]; p2 = anchors[i+1]; break;
+                } else if (H < anchors[0].H) {
+                    p1 = anchors[0]; p2 = anchors[1]; break;
+                } else if (H > anchors[anchors.length - 1].H) {
+                    p1 = anchors[anchors.length - 2]; p2 = anchors[anchors.length - 1]; break;
+                }
+            }
+
+            const ratio = (H - p1.H) / (p2.H - p1.H);
+            baseTon = Math.round(p1.ti + ratio * (p2.ti - p1.ti));
+            basePo = Math.round(p1.Po + ratio * (p2.Po - p1.Po));
+            baseIP = Math.round(p1.IP + ratio * (p2.IP - p1.IP));
+            baseVF = Math.round(p1.VF + ratio * (p2.VF - p1.VF));
+            baseVolt = (ratio < 0.5) ? p1.Volt : p2.Volt;
+            baseGap = p1.Gap + ratio * (p2.Gap - p1.Gap);
+        }
+
+        // Apply Tab 2 5-level Strategy modifications
+        let Ton = Math.max(10, baseTon + strat.TonMod);
+        let IP = Math.max(1, Math.min(6, baseIP + strat.IPMod));
+        let Volt = strat.VoltMod === 'Auto' ? baseVolt : strat.VoltMod;
+        
+        // Safety limit for ultra-thin materials
+        if (Volt === 'High' && H <= 20 && strat.VoltMod === 'Auto') Volt = 'Low';
+
+        // Recalculate gap dynamically based on modified IP and Ton (Hybrid Engine)
+        let gap = baseGap + (strat.IPMod * 0.002) + (strat.TonMod * 0.00005);
+        if (Volt === 'Low' && baseVolt === 'High') gap += 0.005;
+        if (Volt === 'High' && baseVolt === 'Low') gap -= 0.005;
+
+        // Finish Pass Constants based on empirical data (Rule 04)
         const FINISH_CONSTANTS = [
             null,
             { Ton: 15, Po: 7, IP: 2, Volt: 'Low', VF: 25, Offset: 0.030, Speed: '120Hz' },
-            { Ton: 5, Po: 10, IP: 1, Volt: 'Low', VF: 15, Offset: 0.015, Speed: '150Hz' },
-            { Ton: 3, Po: 15, IP: 1, Volt: 'Low', VF: 10, Offset: 0.010, Speed: '200Hz' },
-            { Ton: 2, Po: 20, IP: 1, Volt: 'Low', VF: 5, Offset: 0.005, Speed: '250Hz' }
+            { Ton: 5,  Po: 10, IP: 1, Volt: 'Low', VF: 15, Offset: 0.015, Speed: '140Hz' },
+            { Ton: 3,  Po: 15, IP: 1, Volt: 'Low', VF: 10, Offset: 0.010, Speed: '150Hz' },
+            { Ton: 2,  Po: 20, IP: 1, Volt: 'Low', VF: 5,  Offset: 0.005, Speed: '200Hz' },
+            { Ton: 1,  Po: 20, IP: 1, Volt: 'Low', VF: 5,  Offset: 0.002, Speed: '250Hz' }
         ];
 
+        // Anchor adaptations for extremes
         if (H <= 20) {
-            FINISH_CONSTANTS[1] = { Ton: 12, Po: 7, IP: 2, Volt: 'Low', VF: 20, Offset: 0.040, Speed: '130Hz' };
-        } else if (H >= 120) {
+            FINISH_CONSTANTS[1] = { Ton: 10, Po: 7, IP: 2, Volt: 'Low', VF: 25, Offset: 0.030, Speed: '150Hz' };
+        } else if (H >= 90) {
             FINISH_CONSTANTS[1] = { Ton: 25, Po: 7, IP: 2, Volt: 'Low', VF: 25, Offset: 0.030, Speed: '100Hz' };
+            FINISH_CONSTANTS[2] = { Ton: 10, Po: 10, IP: 2, Volt: 'Low', VF: 15, Offset: 0.010, Speed: '100Hz' };
+            FINISH_CONSTANTS[3] = { Ton: 5,  Po: 15, IP: 1, Volt: 'Low', VF: 10, Offset: 0.010, Speed: '100Hz' };
+            FINISH_CONSTANTS[4] = { Ton: 3,  Po: 15, IP: 1, Volt: 'Low', VF: 5,  Offset: 0.005, Speed: '100Hz' };
         }
 
         for (let i = 0; i < passes; i++) {
             let row = { passName: `Pass ${i + 1}`, badgeClass: i === 0 ? 'badge-primary' : 'badge-secondary' };
             if (i === 0) {
-                let baseTon = 40; let baseIP = 3; let baseVolt = 'Low'; let basePo = 7;
-                if (H <= 30) { baseTon = 35; baseIP = 3; baseVolt = 'Low'; basePo = 7; }
-                else if (H <= 50) { baseTon = 50; baseIP = 4; baseVolt = 'Low'; basePo = 7; }
-                else if (H <= 80) { baseTon = 75; baseIP = 4; baseVolt = 'High'; basePo = 7; }
-                else if (H <= 110) { baseTon = 90; baseIP = 4; baseVolt = 'High'; basePo = 7; }
-                else if (H <= 140) { baseTon = 110; baseIP = 5; baseVolt = 'High'; basePo = 8; }
-                else { baseTon = 120; baseIP = 5; baseVolt = 'High'; basePo = 9; }
-
-                let Ton = Math.max(10, baseTon + strat.TonMod);
-                let IP = Math.max(2, Math.min(6, baseIP + strat.IPMod));
-                let Volt = strat.VoltMod === 'Auto' ? baseVolt : strat.VoltMod;
-                if (Volt === 'High' && H <= 20 && strat.VoltMod === 'Auto') Volt = 'Low';
-
-                let gap = (IP * 0.002) + (Ton * 0.00005);
-                if (Volt === 'Low') gap += 0.005;
-                if (H < 30) gap += 0.003;
-                else if (H >= 60 && H <= 100) gap -= 0.004;
-                else if (H > 140) gap += 0.002;
-                
+                // Multi-pass kinematics (Rule 03)
                 let O1 = 0.090 + gap;
                 if (passes > 1) {
                     let O2 = FINISH_CONSTANTS[1].Offset;
                     O1 = 0.090 + gap + O2 - 0.030;
-                    if (H >= 60 && H <= 100) O1 -= 0.005;
-                    if (H >= 120) O1 += 0.004;
                 }
                 
                 let cycle = Ton + basePo;
@@ -2554,24 +2603,30 @@ function initApp() {
                 let feedRate = (fc / H).toFixed(2);
                 let speedArea = Math.round(parseFloat(feedRate) * 40);
 
+                // Hz ML (Rule 02)
+                const hClamped = Math.max(12, Math.min(140, H));
+                row.hz = Math.round(150 - (hClamped - 12) * ((150 - 60) / (140 - 12)));
+
+                // Ammeter mapping
+                const i_peak = IP * 2.8;
+                row.ampe = (i_peak * duty * 2.2857).toFixed(1);
+
                 row.ti = Ton;
                 row.Po = basePo;
                 row.IP = IP;
                 row.Voltage = Volt;
-                row.VF = H <= 40 ? 50 : 55;
+                row.VF = baseVF;
                 row.Wire = '1';
                 row.offsetText = O1.toFixed(3);
                 row.speedArea = speedArea;
                 row.feedRate = feedRate;
                 row.Ra = passes === 1 ? (strat.TonMod > 0 ? '~ 3.5' : '~ 2.5') : '--';
                 
-                // --- Hz ML ---
-                const hClamped = Math.max(12, Math.min(140, H));
-                row.hz = Math.round(150 - (hClamped - 12) * ((150 - 60) / (140 - 12)));
-                
-                // --- Ampe ML ---
-                const i_peak = IP * 2.8;
-                row.ampe = (i_peak * duty * 2.2857).toFixed(1);
+                // Expose internal properties for calculateWorkshopEDM
+                row._gap = gap;
+                row._duty = duty;
+                row._fc = fc;
+
             } else {
                 let p = FINISH_CONSTANTS[i];
                 if (!p) p = FINISH_CONSTANTS[4];
@@ -2592,7 +2647,6 @@ function initApp() {
                 row.feedRate = p.Speed;
                 
                 let rawRa = i === passes - 1 ? (passes >= 3 ? '< 1.5' : '~ 2.0') : '--';
-                // Adjust Ra for workshop (slightly rougher)
                 if (rawRa.includes('<')) {
                     row.Ra = '< ' + (parseFloat(rawRa.split('<')[1].trim()) + 0.2).toFixed(1);
                 } else if (rawRa.includes('~')) {
@@ -2601,13 +2655,13 @@ function initApp() {
                     row.Ra = rawRa;
                 }
                 
-                // --- Hz ML ---
+                // Finish Pass Hz ceilings (Rule 02)
                 const hClamped = Math.max(12, Math.min(140, H));
                 let hz_val = 100;
                 if (i === 1) hz_val = Math.round(150 - (hClamped - 12) * ((150 - 100) / (140 - 12)));
-                if (i === 2) hz_val = Math.round(150 - (hClamped - 12) * ((150 - 100) / (140 - 12)));
-                if (i === 3) hz_val = Math.round(250 - (hClamped - 12) * ((250 - 100) / (140 - 12)));
-                if (i === 4) hz_val = Math.round(300 - (hClamped - 12) * ((300 - 100) / (140 - 12)));
+                if (i === 2) hz_val = Math.round(140 - (hClamped - 12) * ((140 - 100) / (140 - 12)));
+                if (i === 3) hz_val = Math.round(130 - (hClamped - 12) * ((130 - 100) / (140 - 12)));
+                if (i >= 4) hz_val = Math.round(120 - (hClamped - 12) * ((120 - 100) / (140 - 12)));
                 row.hz = hz_val;
                 
                 row.ampe = '< 0.1';
@@ -2618,94 +2672,22 @@ function initApp() {
     }
 
     function calculateWorkshopEDM(state) {
-        const { material, strategyLevel, thickness, cutLength } = state;
-        const H = thickness;
-        const L = cutLength || 100;
-        const isHard = material === 'SCM440';
-        const isCopper = material === 'COPPER';
-        const isAlu = material === 'ALUMINUM';
-        const strat = STRATEGY_CONFIGS[strategyLevel] || STRATEGY_CONFIGS[6];
+        // Delegate logic perfectly to the Pass 1 generation to ensure zero mismatches
+        const wsRows = generateWorkshopRows(state);
+        const p1 = wsRows[0];
+        
+        const L = state.cutLength || 100;
+        const H = state.thickness;
 
-        // 1. Xác định thông số xung xưởng cơ sở theo chiều dày H
-        let ti_w, Po_w, IP_w, Volt_w, VF_w, Wire_w, gap_w;
-        if (isAlu) {
-            if (H <= 15) ti_w = 18;
-            else if (H <= 30) ti_w = 22;
-            else if (H <= 60) ti_w = 26;
-            else if (H <= 100) ti_w = 32;
-            else if (H <= 160) ti_w = 38;
-            else if (H <= 250) ti_w = 44;
-            else if (H <= 350) ti_w = 50;
-            else ti_w = 56;
-            Po_w = H <= 40 ? 7 : (H <= 120 ? 8 : 10);
-            IP_w = H <= 30 ? 3 : (H <= 100 ? 4 : 5);
-            Volt_w = 'High';
-            VF_w = H <= 40 ? 65 : 60;
-        } else if (isCopper) {
-            if (H <= 15) ti_w = 26;
-            else if (H <= 30) ti_w = 30;
-            else if (H <= 60) ti_w = 36;
-            else if (H <= 100) ti_w = 44;
-            else if (H <= 160) ti_w = 52;
-            else if (H <= 250) ti_w = 60;
-            else if (H <= 350) ti_w = 64;
-            else ti_w = 68;
-            Po_w = H <= 40 ? 5 : (H <= 120 ? 6 : 8);
-            IP_w = H <= 30 ? 3 : (H <= 100 ? 5 : 6);
-            Volt_w = 'High';
-            VF_w = H <= 40 ? 60 : 55;
-        } else {
-                                                            // --- THUẬT TOÁN NỘI SUY THỰC NGHIỆM (MACHINE LEARNING INTERPOLATION ALGORITHM) ---
-            // Đã cập nhật theo 31 điểm neo Custom Thực nghiệm mới nhất
-            const anchors = [
-                { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50, Gap: 0.008 },
-                { H: 32,  ti: 30,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.001 },
-                { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 },
-                { H: 62,  ti: 70,  Po: 7, IP: 4, Volt: 'High', VF: 50, Gap: 0.002 },
-                { H: 90,  ti: 100, Po: 7, IP: 4, Volt: 'High', VF: 50, Gap: -0.005 },
-                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.008 },
-                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, Gap: 0.020 }
-            ];
+        const ti_w = p1.ti;
+        const Po_w = p1.Po;
+        const IP_w = p1.IP;
+        const Volt_w = p1.Voltage;
+        const VF_w = p1.VF;
+        const Wire_w = 1;
+        const gap_w = p1._gap;
 
-            let p1 = anchors[0], p2 = anchors[anchors.length - 1];
-            for (let i = 0; i < anchors.length - 1; i++) {
-                if (H >= anchors[i].H && H <= anchors[i+1].H) {
-                    p1 = anchors[i];
-                    p2 = anchors[i+1];
-                    break;
-                } else if (H < anchors[0].H) {
-                    p1 = anchors[0];
-                    p2 = anchors[1];
-                    break;
-                } else if (H > anchors[anchors.length - 1].H) {
-                    p1 = anchors[anchors.length - 2];
-                    p2 = anchors[anchors.length - 1];
-                    break;
-                }
-            }
-
-            const ratio = (H - p1.H) / (p2.H - p1.H);
-            ti_w = Math.round(p1.ti + ratio * (p2.ti - p1.ti));
-            Po_w = Math.round(p1.Po + ratio * (p2.Po - p1.Po));
-            IP_w = Math.round(p1.IP + ratio * (p2.IP - p1.IP));
-            VF_w = Math.round(p1.VF + ratio * (p2.VF - p1.VF));
-            
-            // Lấy Volt của mốc gần hơn (tránh đổi Volt nửa chừng)
-            Volt_w = (ratio < 0.5) ? p1.Volt : p2.Volt;
-            
-            gap_w = (p1.Gap + ratio * (p2.Gap - p1.Gap));
-        }
-        Wire_w = 1;
-
-        // Tinh chỉnh theo Cấp độ chiến lược nếu người dùng kéo thanh trượt
-        if (strategyLevel !== 6) {
-            ti_w = Math.max(4, Math.round(ti_w * strat.tiMult));
-            Po_w = Math.max(2, Math.min(25, Po_w + strat.poDelta));
-            IP_w = Math.max(1, Math.min(6, IP_w + strat.ipDelta));
-            VF_w = Math.max(15, Math.min(95, VF_w + strat.vfDelta));
-        }
-
-        // 2. Tính toán các đặc trưng điện động lực học theo công thức gốc
+        // 2. Tính toán các đặc trưng điện động lực học
         const toff_w = ti_w * Po_w;
         const cycle_w = ti_w + toff_w;
         const cycle_ms_w = (cycle_w / 1000).toFixed(3);
@@ -2719,77 +2701,36 @@ function initApp() {
         const we_score_w = ti_w * IP_w;
         const power_watts_w = ((freq_hz_w * parseFloat(we_mj_w)) / 1000).toFixed(2);
 
-        // 3. Tính toán dòng Ampe xưởng theo hệ số hiệu chỉnh kAmpe
-        const i_tb_high = (i_peak_w * (parseFloat(duty_factor_w) / 100) * WORKSHOP_CALIBRATION_MODEL.kAmpe).toFixed(1);
+        // 3. Dòng Ampe xưởng
+        const i_tb_high = p1.ampe;
         const i_tb_std = (i_peak_w * (parseFloat(duty_factor_w) / 100) * 0.75).toFixed(1);
 
-        // 4. Tính toán Năng suất bóc phôi Fc, Tốc độ tiến bàn Ft theo mô hình nhiệt bóc tách xưởng
-        // Fc = (60 * Cm_calibrated * Ptb * eta_h) / KerfB
-        let Cm_w = WORKSHOP_CALIBRATION_MODEL.calibratedCm; // 0.0111 mm3/J
-        if (isCopper) Cm_w = 0.0145;
-        if (isAlu) Cm_w = 0.0260;
-
-        let kerfB_w = WORKSHOP_CALIBRATION_MODEL.calibratedKerfB; // 0.276 mm
-
-        // Hiệu suất theo chiều cao H
-        let heightFactor = 1.0;
-        if (H > 80) heightFactor = Math.max(0.72, 1.0 - (H - 80) * 0.0011);
-        else if (H < 30) heightFactor = Math.max(0.80, 0.85 + H * 0.005);
-
-        const mrr_vol_w = (60 * Cm_w * parseFloat(power_watts_w) * heightFactor * strat.speedMult).toFixed(2);
-        let speedArea_w = Math.round(parseFloat(mrr_vol_w) / kerfB_w * WORKSHOP_CALIBRATION_MODEL.speedCalibrationFactor);
+        // 4. Năng suất bóc phôi Fc, Tốc độ tiến bàn Ft
+        const feedRate_num = parseFloat(p1.feedRate);
+        const feedRate_w = p1.feedRate;
+        const speedArea_w = p1.speedArea;
         
-        // Khớp tuyệt đối điểm thực nghiệm H=55, SCM420, Cấp 6: Fc = 114 mm2/p
-        if (!isAlu && !isCopper && H === 55 && strategyLevel === 6) {
-            speedArea_w = 114;
-        }
-
-        const feedRate_num = speedArea_w / H;
-        const feedRate_w = feedRate_num.toFixed(2);
+        const mrr_vol_w = (feedRate_num * H * WORKSHOP_CALIBRATION_MODEL.calibratedKerfB).toFixed(2);
         const time_min_w = L / feedRate_num;
 
-        // 5. Khe hở phóng điện và Lượng bù dao Offset thực tế
-        const sparkGap_num = gap_w !== undefined ? gap_w : (0.015 + 0.00035 * ti_w * (IP_w / 3) + (Volt_w === 'High' ? 0.004 : 0.001));
-        const sparkGap_w = sparkGap_num.toFixed(3);
-        const offset_w = (0.090 + sparkGap_num).toFixed(3);
-
-        let ra_w = isHard ? '2.4 - 2.8' : (isCopper ? '2.8 - 3.2' : (isAlu ? '3.0 - 3.5' : '2.8 - 3.2'));
+        // 5. Khe hở phóng điện và Lượng bù dao Offset
+        const sparkGap_w = gap_w.toFixed(3);
+        const offset_w = parseFloat(p1.offsetText).toFixed(3);
+        const ra_w = p1.Ra !== '--' ? p1.Ra : (state.material === 'SCM440' ? '2.4 - 2.8' : '2.8 - 3.2');
 
         return {
-            ti: ti_w,
-            Po: Po_w,
-            IP: IP_w,
-            Voltage: Volt_w,
-            VF: VF_w,
-            Wire: Wire_w,
-            toff: toff_w,
-            cycle: cycle_w,
-            cycle_ms: cycle_ms_w,
-            freq_hz: freq_hz_w,
-            freq_khz: freq_khz_w,
-            duty_factor: duty_factor_w,
-            we_mj: we_mj_w,
-            we_score: we_score_w,
-            power_watts: power_watts_w,
-            speedArea: speedArea_w,
-            feedRate: feedRate_w,
-            sparkGap: sparkGap_w,
-            offset: offset_w,
-            time_min: time_min_w,
-            Ra: ra_w,
-            i_tb_high,
-            i_tb_std,
-            mrr_vol: mrr_vol_w,
-            kerfB: kerfB_w,
+            ti: ti_w, Po: Po_w, IP: IP_w, Voltage: Volt_w, VF: VF_w, Wire: Wire_w,
+            toff: toff_w, cycle: cycle_w, cycle_ms: cycle_ms_w,
+            freq_hz: freq_hz_w, freq_khz: freq_khz_w, duty_factor: duty_factor_w,
+            we_mj: we_mj_w, we_score: we_score_w, power_watts: power_watts_w,
+            speedArea: speedArea_w, feedRate: feedRate_w, sparkGap: sparkGap_w,
+            offset: offset_w, time_min: time_min_w, Ra: ra_w,
+            i_tb_high, i_tb_std, mrr_vol: mrr_vol_w, kerfB: WORKSHOP_CALIBRATION_MODEL.calibratedKerfB,
             ammeterDisplay: `≈ ${i_tb_high} A (Khớp kim đo thực tế xưởng)`
         };
     }
 
-    // ==========================================
-    // 5. UNIFIED EDM PHYSICS ENGINE & TAILIEU.TXT THEORETICAL MODEL
-    // ==========================================
-
-    // 5a. Mô hình Nhiệt Điện Học Bóc Tách Kim Loại EDM Theo tailieu.txt (CÁCH 2 - Dòng 207-258)
+    // 
     function computeTheoryKinematics({ ti, Po, IP, Voltage, VF, Wire, H, material, cutLength = 100 }) {
         const isHard = material === 'SCM440';
         const isCopper = material === 'COPPER';
@@ -3625,7 +3566,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.51";
+    const CURRENT_VERSION = "3.4.52";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
