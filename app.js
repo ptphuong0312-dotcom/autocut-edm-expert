@@ -2526,8 +2526,8 @@ function initApp() {
                 { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50, Gap: 0.015 },
                 { H: 30,  ti: 30,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 },
                 { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 },
-                { H: 54,  ti: 50,  Po: 7, IP: 4, Volt: 'Low',  VF: 50, Gap: 0.015 },
-                { H: 63,  ti: 70,  Po: 7, IP: 4, Volt: 'High', VF: 50, Gap: 0.005 },
+                { H: 54,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 },
+                { H: 63,  ti: 70,  Po: 7, IP: 3, Volt: 'High', VF: 50, Gap: 0.005 },
                 { H: 90,  ti: 90,  Po: 7, IP: 4, Volt: 'High', VF: 50, Gap: -0.005 },
                 { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 },
                 { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.020 },
@@ -3602,7 +3602,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.61";
+    const CURRENT_VERSION = "3.4.62";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
