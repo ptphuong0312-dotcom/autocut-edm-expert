@@ -2485,12 +2485,12 @@ function initApp() {
 
 
     const WORKSHOP_CALIBRATION_MODEL = {
-        kAmpe: 1.85,               // Hệ số dòng Ampe thực tế xưởng (~4.0A với IP=5, Po=7)
+        kAmpe: 2.2857,               // Hệ số dòng Ampe thực tế xưởng (~4.0A với IP=5, Po=7)
         calibratedCm: 0.0111,        // Hệ số năng suất bóc tách phôi thực tế (mm3/J)
         calibratedKerfB: 0.276,      // Bề rộng rãnh cắt thực tế xưởng (mm)
         calibratedSparkGap: 0.048,   // Khe hở tia lửa thực tế xưởng (mm)
         speedCalibrationFactor: 1.0, // Hệ số tinh chỉnh tốc độ
-        actualAmmeterReading: '≈ 3.2 A (Khớp kim đo thực tế xưởng)'
+        actualAmmeterReading: '≈ 4.0 A (Khớp kim đo thực tế xưởng)'
     };
 
     
@@ -2507,53 +2507,30 @@ function initApp() {
         // 1. Empirical Interpolation for Base Parameters (Pass 1)
         let baseTon, basePo, baseIP, baseVF, baseGap, baseVolt;
 
-        // FACTORY Po LOGIC (Rule 08: Toff and Ampe follow Factory formulas)
-        if (isAlu) {
-            basePo = H <= 40 ? 7 : (H <= 120 ? 8 : 10);
-        } else if (isCopper) {
-            basePo = H <= 40 ? 5 : (H <= 120 ? 6 : 8);
-        } else {
-            if (isHard) {
-                if (H <= 15) basePo = 5;
-                else if (H <= 40) basePo = 6;
-                else if (H <= 70) basePo = 7;
-                else if (H <= 120) basePo = 7;
-                else if (H <= 200) basePo = 8;
-                else if (H <= 350) basePo = 10;
-                else basePo = 13;
-            } else {
-                if (H <= 15) basePo = 4;
-                else if (H <= 40) basePo = 5;
-                else if (H <= 70) basePo = 6;
-                else if (H <= 120) basePo = 7;
-                else if (H <= 200) basePo = 8;
-                else basePo = 10;
-            }
-        }
-
         if (isAlu) {
             if (H <= 15) baseTon = 18; else if (H <= 30) baseTon = 22; else if (H <= 60) baseTon = 26; else if (H <= 100) baseTon = 32; else if (H <= 160) baseTon = 38; else if (H <= 250) baseTon = 44; else if (H <= 350) baseTon = 50; else baseTon = 56;
+            basePo = H <= 40 ? 7 : (H <= 120 ? 8 : 10);
             baseIP = H <= 30 ? 3 : (H <= 100 ? 4 : 5);
             baseVolt = 'High';
             baseVF = H <= 40 ? 65 : 60;
             baseGap = 0.010;
         } else if (isCopper) {
             if (H <= 15) baseTon = 26; else if (H <= 30) baseTon = 30; else if (H <= 60) baseTon = 36; else if (H <= 100) baseTon = 44; else if (H <= 160) baseTon = 52; else if (H <= 250) baseTon = 60; else if (H <= 350) baseTon = 64; else baseTon = 68;
+            basePo = H <= 40 ? 5 : (H <= 120 ? 6 : 8);
             baseIP = H <= 30 ? 3 : (H <= 100 ? 5 : 6);
             baseVolt = 'High';
             baseVF = H <= 40 ? 60 : 55;
             baseGap = 0.010;
         } else {
-            // Steel SCM420/SCM440 Interpolation from Empirical Anchors for Ton, IP, VF, Gap
             const anchors = [
-                { H: 12,  ti: 20,  IP: 2, Volt: 'Low',  VF: 50, Gap: 0.015 },
-                { H: 30,  ti: 28,  IP: 4, Volt: 'High', VF: 60, Gap: 0.0175 },
-                { H: 45,  ti: 50,  IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 },
-                { H: 63,  ti: 44,  IP: 5, Volt: 'High', VF: 55, Gap: 0.005 },
-                { H: 90,  ti: 90,  IP: 4, Volt: 'High', VF: 50, Gap: -0.005 },
-                { H: 140, ti: 120, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 },
-                { H: 160, ti: 120, IP: 5, Volt: 'High', VF: 55, Gap: 0.020 },
-                { H: 300, ti: 120, IP: 6, Volt: 'High', VF: 65, Gap: 0.020 }
+                { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50, Gap: 0.015 },
+                { H: 30,  ti: 28,  Po: 6, IP: 4, Volt: 'High', VF: 60, Gap: 0.0175 },
+                { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 },
+                { H: 63,  ti: 44,  Po: 7, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 },
+                { H: 90,  ti: 90,  Po: 7, IP: 4, Volt: 'High', VF: 50, Gap: -0.005 },
+                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 },
+                { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.020 },
+                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, Gap: 0.020 }
             ];
 
             let p1 = anchors[0], p2 = anchors[anchors.length - 1];
@@ -2569,6 +2546,7 @@ function initApp() {
 
             const ratio = (H - p1.H) / (p2.H - p1.H);
             baseTon = Math.round(p1.ti + ratio * (p2.ti - p1.ti));
+            basePo = Math.round(p1.Po + ratio * (p2.Po - p1.Po));
             baseIP = Math.round(p1.IP + ratio * (p2.IP - p1.IP));
             baseVF = Math.round(p1.VF + ratio * (p2.VF - p1.VF));
             baseVolt = (ratio < 0.5) ? p1.Volt : p2.Volt;
@@ -2647,7 +2625,7 @@ function initApp() {
                 row.hz = Math.round(150 - (hClamped - 12) * ((150 - 60) / (140 - 12)));
 
                 // Ammeter mapping (Factory formula matching: i_tb_high = i_peak * duty * 1.85)
-                row.ampe = (i_peak * duty * 1.85).toFixed(1);
+                row.ampe = (i_peak * duty * 2.2857).toFixed(1);
 
                 row.ti = Ton;
                 row.Po = basePo;
@@ -3611,7 +3589,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.54";
+    const CURRENT_VERSION = "3.4.55";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
