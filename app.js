@@ -2522,15 +2522,15 @@ function initApp() {
             baseGap = 0.010;
         } else {
                         const anchors = [
-                { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50, Gap: 0.015 },
-                { H: 30,  ti: 30,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 },
-                { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 },
-                { H: 54,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 },
-                { H: 63,  ti: 70,  Po: 7, IP: 3, Volt: 'High', VF: 50, Gap: 0.005 },
-                { H: 90,  ti: 90,  Po: 7, IP: 4, Volt: 'High', VF: 50, Gap: -0.005 },
-                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 },
-                { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.020 },
-                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, Gap: 0.020 }
+                { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50},
+                { H: 30,  ti: 30,  Po: 7, IP: 3, Volt: 'Low',  VF: 50},
+                { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50},
+                { H: 54,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50},
+                { H: 63,  ti: 70,  Po: 7, IP: 3, Volt: 'High', VF: 50},
+                { H: 90,  ti: 90,  Po: 7, IP: 4, Volt: 'High', VF: 50},
+                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55},
+                { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55},
+                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65}
             ];
 
             let p1 = anchors[0], p2 = anchors[anchors.length - 1];
@@ -2562,7 +2562,10 @@ function initApp() {
             baseIP = Math.round(p1.IP + ratio * (p2.IP - p1.IP));
             baseVF = Math.round(p1.VF + ratio * (p2.VF - p1.VF));
             baseVolt = (ratio < 0.5) ? p1.Volt : p2.Volt;
-            baseGap = p1.Gap + ratio * (p2.Gap - p1.Gap);
+            // Universal Kerf Physics Equation (Reverse-calculated from electrical parameters)
+            baseGap = 0.005 + (baseIP * 0.002) + (baseTon * 0.00005);
+            if (baseVolt === 'High') baseGap += 0.005;
+            if (H > 100) baseGap -= (H - 100) * 0.00002; // Wire wear compensation for thick parts
         }
 
         // Apply Tab 2 5-level Strategy modifications
@@ -3601,7 +3604,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.63";
+    const CURRENT_VERSION = "3.4.64";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
