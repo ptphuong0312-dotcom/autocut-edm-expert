@@ -2545,8 +2545,20 @@ function initApp() {
             }
 
             const ratio = (H - p1.H) / (p2.H - p1.H);
+            
+            const isHard = state.material === 'SCM440';
+            if (isAlu) {
+                basePo = H <= 40 ? 7 : (H <= 120 ? 8 : 10);
+            } else if (isCopper) {
+                basePo = H <= 40 ? 5 : (H <= 120 ? 6 : 8);
+            } else {
+                if (isHard) {
+                    if (H <= 15) basePo = 5; else if (H <= 40) basePo = 6; else if (H <= 70) basePo = 7; else if (H <= 120) basePo = 7; else if (H <= 200) basePo = 8; else if (H <= 350) basePo = 10; else basePo = 13;
+                } else {
+                    if (H <= 15) basePo = 4; else if (H <= 40) basePo = 5; else if (H <= 70) basePo = 6; else if (H <= 120) basePo = 7; else if (H <= 200) basePo = 8; else basePo = 10;
+                }
+            }
             baseTon = Math.round(p1.ti + ratio * (p2.ti - p1.ti));
-            basePo = Math.round(p1.Po + ratio * (p2.Po - p1.Po));
             baseIP = Math.round(p1.IP + ratio * (p2.IP - p1.IP));
             baseVF = Math.round(p1.VF + ratio * (p2.VF - p1.VF));
             baseVolt = (ratio < 0.5) ? p1.Volt : p2.Volt;
@@ -3589,7 +3601,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.56";
+    const CURRENT_VERSION = "3.4.57";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
