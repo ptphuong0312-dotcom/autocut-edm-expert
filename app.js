@@ -2485,52 +2485,75 @@ function initApp() {
 
 
     const WORKSHOP_CALIBRATION_MODEL = {
-        kAmpe: 2.2857,               // Hệ số dòng Ampe thực tế xưởng (~4.0A với IP=5, Po=7)
+        kAmpe: 1.85,               // Hệ số dòng Ampe thực tế xưởng (~4.0A với IP=5, Po=7)
         calibratedCm: 0.0111,        // Hệ số năng suất bóc tách phôi thực tế (mm3/J)
         calibratedKerfB: 0.276,      // Bề rộng rãnh cắt thực tế xưởng (mm)
         calibratedSparkGap: 0.048,   // Khe hở tia lửa thực tế xưởng (mm)
         speedCalibrationFactor: 1.0, // Hệ số tinh chỉnh tốc độ
-        actualAmmeterReading: '≈ 4.0 A (Khớp kim đo thực tế xưởng)'
+        actualAmmeterReading: '≈ 3.2 A (Khớp kim đo thực tế xưởng)'
     };
 
     
     // HỆ THỐNG LAI TẠO DỮ LIỆU & NHÂN QUẢ BÙ DAO (RULE 06, 07, 08)
-    function generateWorkshopRows(state) {
+    fufunction generateWorkshopRows(state) {
         const H = state.thickness;
         const passes = state.passCount;
         const strat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[3];
         const isAlu = state.material === 'ALUMINUM';
         const isCopper = state.material === 'COPPER';
+        const isHard = state.material === 'SCM440';
         const wsRows = [];
 
         // 1. Empirical Interpolation for Base Parameters (Pass 1)
         let baseTon, basePo, baseIP, baseVF, baseGap, baseVolt;
 
+        // FACTORY Po LOGIC (Rule 08: Toff and Ampe follow Factory formulas)
+        if (isAlu) {
+            basePo = H <= 40 ? 7 : (H <= 120 ? 8 : 10);
+        } else if (isCopper) {
+            basePo = H <= 40 ? 5 : (H <= 120 ? 6 : 8);
+        } else {
+            if (isHard) {
+                if (H <= 15) basePo = 5;
+                else if (H <= 40) basePo = 6;
+                else if (H <= 70) basePo = 7;
+                else if (H <= 120) basePo = 7;
+                else if (H <= 200) basePo = 8;
+                else if (H <= 350) basePo = 10;
+                else basePo = 13;
+            } else {
+                if (H <= 15) basePo = 4;
+                else if (H <= 40) basePo = 5;
+                else if (H <= 70) basePo = 6;
+                else if (H <= 120) basePo = 7;
+                else if (H <= 200) basePo = 8;
+                else basePo = 10;
+            }
+        }
+
         if (isAlu) {
             if (H <= 15) baseTon = 18; else if (H <= 30) baseTon = 22; else if (H <= 60) baseTon = 26; else if (H <= 100) baseTon = 32; else if (H <= 160) baseTon = 38; else if (H <= 250) baseTon = 44; else if (H <= 350) baseTon = 50; else baseTon = 56;
-            basePo = H <= 40 ? 7 : (H <= 120 ? 8 : 10);
             baseIP = H <= 30 ? 3 : (H <= 100 ? 4 : 5);
             baseVolt = 'High';
             baseVF = H <= 40 ? 65 : 60;
             baseGap = 0.010;
         } else if (isCopper) {
             if (H <= 15) baseTon = 26; else if (H <= 30) baseTon = 30; else if (H <= 60) baseTon = 36; else if (H <= 100) baseTon = 44; else if (H <= 160) baseTon = 52; else if (H <= 250) baseTon = 60; else if (H <= 350) baseTon = 64; else baseTon = 68;
-            basePo = H <= 40 ? 5 : (H <= 120 ? 6 : 8);
             baseIP = H <= 30 ? 3 : (H <= 100 ? 5 : 6);
             baseVolt = 'High';
             baseVF = H <= 40 ? 60 : 55;
             baseGap = 0.010;
         } else {
-            // Steel SCM420/SCM440 Interpolation from Empirical Anchors (Rule 04 & 08)
+            // Steel SCM420/SCM440 Interpolation from Empirical Anchors for Ton, IP, VF, Gap
             const anchors = [
-                { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50, Gap: 0.015 },
-                { H: 30,  ti: 28,  Po: 6, IP: 4, Volt: 'High', VF: 60, Gap: 0.0175 },
-                { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 },
-                { H: 63,  ti: 44,  Po: 7, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 },
-                { H: 90,  ti: 90,  Po: 7, IP: 4, Volt: 'High', VF: 50, Gap: -0.005 },
-                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 },
-                { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.020 },
-                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, Gap: 0.020 }
+                { H: 12,  ti: 20,  IP: 2, Volt: 'Low',  VF: 50, Gap: 0.015 },
+                { H: 30,  ti: 28,  IP: 4, Volt: 'High', VF: 60, Gap: 0.0175 },
+                { H: 45,  ti: 50,  IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 },
+                { H: 63,  ti: 44,  IP: 5, Volt: 'High', VF: 55, Gap: 0.005 },
+                { H: 90,  ti: 90,  IP: 4, Volt: 'High', VF: 50, Gap: -0.005 },
+                { H: 140, ti: 120, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 },
+                { H: 160, ti: 120, IP: 5, Volt: 'High', VF: 55, Gap: 0.020 },
+                { H: 300, ti: 120, IP: 6, Volt: 'High', VF: 65, Gap: 0.020 }
             ];
 
             let p1 = anchors[0], p2 = anchors[anchors.length - 1];
@@ -2546,7 +2569,6 @@ function initApp() {
 
             const ratio = (H - p1.H) / (p2.H - p1.H);
             baseTon = Math.round(p1.ti + ratio * (p2.ti - p1.ti));
-            basePo = Math.round(p1.Po + ratio * (p2.Po - p1.Po));
             baseIP = Math.round(p1.IP + ratio * (p2.IP - p1.IP));
             baseVF = Math.round(p1.VF + ratio * (p2.VF - p1.VF));
             baseVolt = (ratio < 0.5) ? p1.Volt : p2.Volt;
@@ -2596,20 +2618,36 @@ function initApp() {
                     O1 = 0.090 + gap + O2 - 0.030;
                 }
                 
-                let cycle = Ton + basePo;
-                let duty = Ton / cycle;
-                let fc = (duty * IP * 15 * 0.70);
-                if (Volt === 'Low') fc *= 1.2;
-                let feedRate = (fc / H).toFixed(2);
-                let speedArea = Math.round(parseFloat(feedRate) * 40);
+                let cycle = Ton + basePo; // This is a simplification for visual display, correct logic below
+                let toff = Ton * basePo;
+                let true_cycle = Ton + toff;
+                let duty = Ton / true_cycle;
+                let duty_pct = duty * 100;
+                
+                // Fc from factory formula
+                let eta_eff = 0.85 * Math.pow(Math.max(1, Ton) / 50, 0.40);
+                if (Ton > 80) eta_eff = Math.min(0.95, eta_eff);
+                if (H > 100) eta_eff *= Math.max(0.72, 1.0 - (H - 100) * 0.0012);
+                
+                const u_arc = Volt === 'Low' ? 22 : 27;
+                const i_peak = IP * 2.8;
+                const power_watts = u_arc * i_peak * duty;
+                
+                let Cm = 0.012;
+                if (isCopper) Cm = 0.015;
+                if (isAlu) Cm = 0.028;
+                
+                const mrr_vol = 60 * Cm * power_watts * eta_eff;
+                const B = 0.23;
+                let speedArea = Math.round(mrr_vol / B);
+                let feedRate = (speedArea / H).toFixed(2);
 
                 // Hz ML (Rule 02)
                 const hClamped = Math.max(12, Math.min(140, H));
                 row.hz = Math.round(150 - (hClamped - 12) * ((150 - 60) / (140 - 12)));
 
-                // Ammeter mapping
-                const i_peak = IP * 2.8;
-                row.ampe = (i_peak * duty * 2.2857).toFixed(1);
+                // Ammeter mapping (Factory formula matching: i_tb_high = i_peak * duty * 1.85)
+                row.ampe = (i_peak * duty * 1.85).toFixed(1);
 
                 row.ti = Ton;
                 row.Po = basePo;
@@ -2625,7 +2663,8 @@ function initApp() {
                 // Expose internal properties for calculateWorkshopEDM
                 row._gap = gap;
                 row._duty = duty;
-                row._fc = fc;
+                row._power_watts = power_watts;
+                row._eta_eff = eta_eff;
 
             } else {
                 let p = FINISH_CONSTANTS[i];
@@ -2678,6 +2717,8 @@ function initApp() {
         
         const L = state.cutLength || 100;
         const H = state.thickness;
+        const isAlu = state.material === 'ALUMINUM';
+        const isCopper = state.material === 'COPPER';
 
         const ti_w = p1.ti;
         const Po_w = p1.Po;
@@ -2693,24 +2734,29 @@ function initApp() {
         const cycle_ms_w = (cycle_w / 1000).toFixed(3);
         const freq_hz_w = Math.round(1000000 / cycle_w);
         const freq_khz_w = (freq_hz_w / 1000).toFixed(2);
-        const duty_factor_w = ((ti_w / cycle_w) * 100).toFixed(1);
+        const duty_factor_w = (p1._duty * 100).toFixed(1);
 
         const u_arc_w = Volt_w === 'Low' ? 22 : 27;
         const i_peak_w = IP_w * 2.8;
         const we_mj_w = ((u_arc_w * i_peak_w * ti_w) / 1000).toFixed(2);
         const we_score_w = ti_w * IP_w;
-        const power_watts_w = ((freq_hz_w * parseFloat(we_mj_w)) / 1000).toFixed(2);
+        const power_watts_w = p1._power_watts.toFixed(2);
 
-        // 3. Dòng Ampe xưởng
+        // 3. Dòng Ampe xưởng (Matches Factory exactly)
         const i_tb_high = p1.ampe;
-        const i_tb_std = (i_peak_w * (parseFloat(duty_factor_w) / 100) * 0.75).toFixed(1);
+        const i_tb_std = (i_peak_w * p1._duty * 0.75).toFixed(1);
 
         // 4. Năng suất bóc phôi Fc, Tốc độ tiến bàn Ft
         const feedRate_num = parseFloat(p1.feedRate);
         const feedRate_w = p1.feedRate;
         const speedArea_w = p1.speedArea;
         
-        const mrr_vol_w = (feedRate_num * H * WORKSHOP_CALIBRATION_MODEL.calibratedKerfB).toFixed(2);
+        let Cm = 0.012;
+        if (isCopper) Cm = 0.015;
+        if (isAlu) Cm = 0.028;
+        
+        const B = 0.23;
+        const mrr_vol_w = (60 * Cm * p1._power_watts * p1._eta_eff).toFixed(2);
         const time_min_w = L / feedRate_num;
 
         // 5. Khe hở phóng điện và Lượng bù dao Offset
@@ -2725,13 +2771,12 @@ function initApp() {
             we_mj: we_mj_w, we_score: we_score_w, power_watts: power_watts_w,
             speedArea: speedArea_w, feedRate: feedRate_w, sparkGap: sparkGap_w,
             offset: offset_w, time_min: time_min_w, Ra: ra_w,
-            i_tb_high, i_tb_std, mrr_vol: mrr_vol_w, kerfB: WORKSHOP_CALIBRATION_MODEL.calibratedKerfB,
-            ammeterDisplay: `≈ ${i_tb_high} A (Khớp kim đo thực tế xưởng)`
+            i_tb_high, i_tb_std, mrr_vol: mrr_vol_w, kerfB: B,
+            ammeterDisplay: `≈ ${i_tb_high} A (Khớp theo điện gốc)`
         };
     }
 
-    // 
-    function computeTheoryKinematics({ ti, Po, IP, Voltage, VF, Wire, H, material, cutLength = 100 }) {
+    nction computeTheoryKinematics({ ti, Po, IP, Voltage, VF, Wire, H, material, cutLength = 100 }) {
         const isHard = material === 'SCM440';
         const isCopper = material === 'COPPER';
         const isAlu = material === 'ALUMINUM';
@@ -3566,7 +3611,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.52";
+    const CURRENT_VERSION = "3.4.53";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
