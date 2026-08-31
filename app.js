@@ -897,116 +897,182 @@ function initApp() {
 
     const WORKSHOP_EMPIRICAL_LIBRARY = [
         {
-            "id": "WS-EXP-1",
-            "name": "1 Lần (STT 1)",
-            "materialName": "SCM440 (28-32HRC)",
-            "thickness": 30,
-            "params": { "ti": 32, "Po": 5, "IP": 4, "Voltage": "High", "VF": 65 },
-            "measured": { "recommendedOffset": 0.115, "notes": "Cắt lấy chày: To hơn lập trình 0.034. Ampe: 4.45A-4.5A. Tốc độ: 165-175mm2/p" }
-        },
-        {
-            "id": "WS-EXP-2",
-            "name": "1 Lần (STT 2)",
-            "materialName": "SCM440 (28-32HRC)",
-            "thickness": 40,
-            "params": { "ti": 36, "Po": 5, "IP": 4, "Voltage": "High", "VF": 65 },
-            "measured": { "recommendedOffset": 0.115, "notes": "Cắt lấy chày: To hơn lập trình 0.034. Ampe: 4.35A-4.4A. Tốc độ: 130-140mm2/p" }
-        },
-        {
-            "id": "WS-EXP-3",
-            "name": "1 Lần (STT 3)",
-            "materialName": "SCM420 (HB<200)",
-            "thickness": 63,
-            "params": { "ti": 44, "Po": 7, "IP": 5, "Voltage": "High", "VF": 55 },
-            "measured": { "recommendedOffset": 0.118, "notes": "Cắt lấy chày: To hơn lập trình 0.046. Ampe: 4.1A-4.2A. Tốc độ: 75-85mm2/p" }
-        },
-        {
-            "id": "WS-EXP-4",
-            "name": "1 Lần (STT 4)",
+            "id": "WS-1P-STT4",
+            "name": "STT4: H=12mm (Chuẩn vàng)",
             "materialName": "SCM440 (28-32HRC)",
             "thickness": 12,
             "params": { "ti": 20, "Po": 7, "IP": 2, "Voltage": "Low", "VF": 50 },
-            "measured": { "recommendedOffset": 0.105, "notes": "Cắt lấy chày: Kích thước offset CHUẨN LUÔN" }
+            "measured": {
+                "recommendedOffset": 0.105,
+                "realGap": 0.015,
+                "notes": "✅ Offset = 0.105 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.015mm"
+            }
         },
         {
-            "id": "WS-EXP-5",
-            "name": "1 Lần (STT 5)",
+            "id": "WS-1P-STT5",
+            "name": "STT5: H=45mm (Chuẩn vàng)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 45,
             "params": { "ti": 50, "Po": 7, "IP": 3, "Voltage": "Low", "VF": 50 },
-            "measured": { "recommendedOffset": 0.105, "notes": "Cắt lấy chày: Kích thước offset CHUẨN LUÔN" }
+            "measured": {
+                "recommendedOffset": 0.105,
+                "realGap": 0.015,
+                "notes": "✅ Offset = 0.105 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.015mm"
+            }
         },
         {
-            "id": "WS-EXP-6",
-            "name": "1 Lần (STT 6)",
+            "id": "WS-1P-STT6",
+            "name": "STT6: H=68mm (Chuẩn vàng)",
             "materialName": "SCM440 (28-32HRC)",
             "thickness": 68,
             "params": { "ti": 70, "Po": 7, "IP": 3, "Voltage": "Low", "VF": 50 },
-            "measured": { "recommendedOffset": 0.097, "notes": "Cắt lấy chày: Kích thước offset CHUẨN LUÔN" }
+            "measured": {
+                "recommendedOffset": 0.097,
+                "realGap": 0.007,
+                "notes": "✅ Offset = 0.097 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.007mm"
+            }
         },
         {
-            "id": "WS-EXP-7",
-            "name": "1 Lần (STT 7)",
+            "id": "WS-1P-STT7",
+            "name": "STT7: H=140mm (Chuẩn vàng)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 140,
             "params": { "ti": 120, "Po": 8, "IP": 5, "Voltage": "High", "VF": 55 },
-            "measured": { "recommendedOffset": 0.095, "notes": "Cắt lấy chày: Kích thước offset CHUẨN LUÔN" }
+            "measured": {
+                "recommendedOffset": 0.095,
+                "realGap": 0.005,
+                "notes": "✅ Offset = 0.095 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.005mm. Mòn dây tại H=140 bù đắp điện năng lớn"
+            }
         },
         {
-            "id": "WS-EXP-8",
-            "name": "1 Lần (STT 8)",
+            "id": "WS-1P-STT8",
+            "name": "STT8: H=160mm (Chuẩn vàng)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 160,
             "params": { "ti": 120, "Po": 8, "IP": 5, "Voltage": "High", "VF": 55 },
-            "measured": { "recommendedOffset": 0.110, "notes": "Cắt lấy chày: Kích thước offset CHUẨN LUÔN" }
+            "measured": {
+                "recommendedOffset": 0.110,
+                "realGap": 0.020,
+                "notes": "✅ Offset = 0.110 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.020mm. Rung dây tăng ở phôi siêu dày"
+            }
         },
         {
-            "id": "WS-EXP-9",
-            "name": "1 Lần (STT 9)",
+            "id": "WS-1P-STT1",
+            "name": "STT1: H=30mm (Ampe 4.45-4.5A)",
+            "materialName": "SCM440 (28-32HRC)",
+            "thickness": 30,
+            "params": { "ti": 32, "Po": 5, "IP": 4, "Voltage": "High", "VF": 65 },
+            "measured": {
+                "recommendedOffset": 0.149,
+                "enteredOffset": 0.115,
+                "realGap": 0.059,
+                "overcut": 0.034,
+                "notes": "⚠️ Nhập 0.115 → To hơn 0.034. Gap thực = 0.059. Offset đúng phải là 0.149. Tốc độ 165-175mm²/p, Ampe 4.45-4.5A"
+            }
+        },
+        {
+            "id": "WS-1P-STT2",
+            "name": "STT2: H=40mm (Ampe 4.35-4.4A)",
+            "materialName": "SCM440 (28-32HRC)",
+            "thickness": 40,
+            "params": { "ti": 36, "Po": 5, "IP": 4, "Voltage": "High", "VF": 65 },
+            "measured": {
+                "recommendedOffset": 0.149,
+                "enteredOffset": 0.115,
+                "realGap": 0.059,
+                "overcut": 0.034,
+                "notes": "⚠️ Nhập 0.115 → To hơn 0.034. Gap thực = 0.059. Offset đúng phải là 0.149. Tốc độ 130-140mm²/p, Ampe 4.35-4.4A"
+            }
+        },
+        {
+            "id": "WS-1P-STT3",
+            "name": "STT3: H=63mm (Ampe 4.1-4.2A)",
+            "materialName": "SCM420 (HB<200)",
+            "thickness": 63,
+            "params": { "ti": 44, "Po": 7, "IP": 5, "Voltage": "High", "VF": 55 },
+            "measured": {
+                "recommendedOffset": 0.164,
+                "enteredOffset": 0.118,
+                "realGap": 0.074,
+                "overcut": 0.046,
+                "notes": "⚠️ Nhập 0.118 → To hơn 0.046. Gap thực = 0.074. Offset đúng phải là 0.164. Tốc độ 75-85mm²/p, Ampe 4.1-4.2A"
+            }
+        },
+        {
+            "id": "WS-1P-STT9",
+            "name": "STT9: H=63mm (Ton=24 bất thường)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 63,
             "params": { "ti": 24, "Po": 7, "IP": 4, "Voltage": "High", "VF": 43 },
-            "measured": { "recommendedOffset": 0.116, "notes": "Cắt lấy chày: To hơn lập trình 0.07. Ampe: 4A. Tốc độ: 55-65mm2/p" }
+            "measured": {
+                "recommendedOffset": 0.186,
+                "enteredOffset": 0.116,
+                "realGap": 0.096,
+                "overcut": 0.070,
+                "notes": "⛔ Nhập 0.116 → To hơn 0.07 (BẤT THƯỜNG). Gap thực 0.096 rất lớn do Ton=24 yếu nhưng Volt=High. Dây rung mạnh. Không dùng làm Anchor."
+            }
         },
         {
-            "id": "WS-EXP-10",
-            "name": "1 Lần (H=140 Thử 1)",
+            "id": "WS-1P-STT10",
+            "name": "STT10: H=140mm - Ton=52 (Không cắt được)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 140,
             "params": { "ti": 52, "Po": 8, "IP": 6, "Voltage": "High", "VF": 50 },
-            "measured": { "recommendedOffset": 0.120, "notes": "KHÔNG CẮT ĐƯỢC" }
+            "measured": {
+                "notes": "⛔ KHÔNG CẮT ĐƯỢC. Ton=52 quá nhỏ cho H=140. Cần Ton ≥ 100 cho H=140."
+            }
         },
         {
-            "id": "WS-EXP-11",
-            "name": "1 Lần (H=140 Thử 2)",
+            "id": "WS-1P-STT11",
+            "name": "STT11: H=140mm - Ton=80 (Không cắt được)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 140,
             "params": { "ti": 80, "Po": 8, "IP": 6, "Voltage": "High", "VF": 50 },
-            "measured": { "recommendedOffset": 0.120, "notes": "KHÔNG CẮT ĐƯỢC" }
+            "measured": {
+                "notes": "⛔ KHÔNG CẮT ĐƯỢC. Ton=80 vẫn chưa đủ cho H=140."
+            }
         },
         {
-            "id": "WS-EXP-12",
-            "name": "1 Lần (H=140 Thử 3)",
+            "id": "WS-1P-STT12",
+            "name": "STT12: H=140mm - Ton=100 (Ampe 3.7-3.8A)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 140,
             "params": { "ti": 100, "Po": 9, "IP": 6, "Voltage": "High", "VF": 60 },
-            "measured": { "recommendedOffset": 0.120, "notes": "Cắt lấy chày: To hơn lập trình 0.036. Ampe: 3.7-3.8A. Tốc độ: 30-40mm2/p" }
+            "measured": {
+                "recommendedOffset": 0.156,
+                "enteredOffset": 0.120,
+                "realGap": 0.066,
+                "overcut": 0.036,
+                "notes": "⚠️ Nhập 0.120 → To hơn 0.036. Gap thực = 0.066. Offset đúng = 0.156. Ampe 3.7-3.8A, tốc độ 30-40mm²/p"
+            }
         },
         {
-            "id": "WS-EXP-13",
-            "name": "1 Lần (H=300 GĐ 1)",
+            "id": "WS-1P-STT13",
+            "name": "STT13: H=300mm Giai đoạn 1 (Ampe 3.8-3.9A)",
             "materialName": "SCM440 (28-32HRC)",
             "thickness": 300,
             "params": { "ti": 80, "Po": 9, "IP": 6, "Voltage": "High", "VF": 50 },
-            "measured": { "recommendedOffset": 0.120, "notes": "Cắt lấy cối: Lớn hơn lập trình 0.01. Ampe: 3.8-3.9A. Tốc độ: 12-20mm2/p" }
+            "measured": {
+                "recommendedOffset": 0.130,
+                "enteredOffset": 0.120,
+                "realGap": 0.040,
+                "overcut": 0.010,
+                "notes": "⚠️ Nhập 0.120 → To hơn 0.01. Gap thực = 0.040. Offset đúng = 0.130. Ampe 3.8-3.9A, tốc độ 12-20mm²/p"
+            }
         },
         {
-            "id": "WS-EXP-14",
-            "name": "1 Lần (H=300 GĐ 2)",
+            "id": "WS-1P-STT14",
+            "name": "STT14: H=300mm Giai đoạn 2 (Ampe 3.7-3.9A)",
             "materialName": "SCM440 (28-32HRC)",
             "thickness": 300,
             "params": { "ti": 120, "Po": 9, "IP": 6, "Voltage": "High", "VF": 65 },
-            "measured": { "recommendedOffset": 0.120, "notes": "Cắt lấy cối: Lớn hơn lập trình 0.01. Ampe: 3.7-3.9A. Tốc độ: 12-20mm2/p" }
+            "measured": {
+                "recommendedOffset": 0.130,
+                "enteredOffset": 0.120,
+                "realGap": 0.040,
+                "overcut": 0.010,
+                "notes": "⚠️ Nhập 0.120 → To hơn 0.01. Gap thực = 0.040. Offset đúng = 0.130. Ampe 3.7-3.9A, tốc độ 12-20mm²/p"
+            }
         }
     ];
 
@@ -1091,11 +1157,34 @@ function initApp() {
             baseIP = Math.round(p1.IP + ratio * (p2.IP - p1.IP));
             baseVF = Math.round(p1.VF + ratio * (p2.VF - p1.VF));
             baseVolt = (ratio < 0.5) ? p1.Volt : p2.Volt;
-            // Universal Kerf Physics Equation (Reverse-calculated from electrical parameters)
-            baseGap = 0.005 + (baseIP * 0.002) + (baseTon * 0.00005);
-            if (baseVolt === 'High') baseGap += 0.005;
-            if (H > 100) baseGap -= (H - 100) * 0.00002; // Wire wear compensation for thick parts
-        }
+            // ═══════════════════════════════════════════════════════════════════════
+            // WORKSHOP CALIBRATED GAP EQUATION (Rule 06 + Rule 07)
+            // Piecewise interpolation from 5 golden standard anchors:
+            //   H=12, Low  -> Gap=0.015 -> Offset=0.105  (STT4)
+            //   H=45, Low  -> Gap=0.015 -> Offset=0.105  (STT5)
+            //   H=68, Low  -> Gap=0.007 -> Offset=0.097  (STT6)
+            //   H=140,High -> Gap=0.005 -> Offset=0.095  (STT7)
+            //   H=160,High -> Gap=0.020 -> Offset=0.110  (STT8)
+            // ═══════════════════════════════════════════════════════════════════════
+            const STANDARD_GAPS_LOW  = [{H:12,g:0.015},{H:45,g:0.015},{H:68,g:0.007},{H:500,g:0.007}];
+            const STANDARD_GAPS_HIGH = [{H:60,g:0.010},{H:140,g:0.005},{H:160,g:0.020},{H:500,g:0.020}];
+
+            const gapAnchors = (baseVolt === 'High') ? STANDARD_GAPS_HIGH : STANDARD_GAPS_LOW;
+            let baseGap;
+            if (H <= gapAnchors[0].H) {
+                baseGap = gapAnchors[0].g;
+            } else if (H >= gapAnchors[gapAnchors.length-1].H) {
+                baseGap = gapAnchors[gapAnchors.length-1].g;
+            } else {
+                baseGap = gapAnchors[gapAnchors.length-1].g;
+                for (let gi = 0; gi < gapAnchors.length-1; gi++) {
+                    if (H >= gapAnchors[gi].H && H <= gapAnchors[gi+1].H) {
+                        const t = (H - gapAnchors[gi].H) / (gapAnchors[gi+1].H - gapAnchors[gi].H);
+                        baseGap = gapAnchors[gi].g + t * (gapAnchors[gi+1].g - gapAnchors[gi].g);
+                        break;
+                    }
+                }
+            }        }
 
         // Apply Tab 2 5-level Strategy modifications
         let Ton = Math.max(10, baseTon + strat.TonMod);
@@ -1106,7 +1195,10 @@ function initApp() {
         if (Volt === 'High' && H <= 20 && strat.VoltMod === 'Auto') Volt = 'Low';
 
         // Recalculate gap dynamically based on modified IP and Ton (Hybrid Engine)
-        let gap = baseGap + (strat.IPMod * 0.002) + (strat.TonMod * 0.00005);
+        // Strategy level gap modifier (Rule 06: offset is function of electrical params)
+        const stratGapMods = {1: -0.006, 2: -0.003, 3: 0.0, 4: 0.004, 5: 0.008};
+        const stratGapMod = stratGapMods[state.wsStrategyLevel] || 0.0;
+        let gap = baseGap + stratGapMod;
         if (Volt === 'Low' && baseVolt === 'High') gap -= 0.005; // Low V = hẹp tia lửa -> Offset nhỏ lại
         if (Volt === 'High' && baseVolt === 'Low') gap += 0.005; // High V = phóng to tia lửa -> Offset phải bù rộng ra
 
@@ -2133,7 +2225,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.66";
+    const CURRENT_VERSION = "3.4.67";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
