@@ -2637,7 +2637,7 @@ function initApp() {
                 row.hz = Math.round(150 - (hClamped - 12) * ((150 - 60) / (140 - 12)));
 
                 // Ammeter mapping (Factory formula matching: i_tb_high = i_peak * duty * 1.85)
-                row.ampe = (i_peak * duty * 2.2857).toFixed(1);
+                row.ampe = (i_peak * duty * 2.2857 * (u_arc / 27)).toFixed(1);
 
                 row.ti = Ton;
                 row.Po = basePo;
@@ -3601,7 +3601,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.57";
+    const CURRENT_VERSION = "3.4.58";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
