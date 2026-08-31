@@ -393,11 +393,27 @@
                     <!-- 3. MỤC TIÊU CHẤT LƯỢNG & CHIẾN LƯỢC GIA CÔNG (11 CẤP ĐỘ) -->
                     <div class="form-group sub-option-box" id="ws-quality-strategy-box">
                         <div class="strategy-header">
-                            <label class="form-label text-warning" for="ws-strategy-slider">⚡ Mục tiêu Chất lượng &amp; Chiến lược (11 Cấp độ):</label>
-                            <span class="strategy-level-badge" id="ws-strategy-level-badge">⭐ Tiêu Chuẩn (Cấp 6/11)</span>
+                            <label class="form-label text-warning" for="ws-strategy-slider">⚡ Chế độ cắt Xưởng (5 Cấp độ):</label>
+                            <span class="strategy-level-badge" id="ws-strategy-level-badge">⭐ Tiêu Chuẩn (3)</span>
                         </div>
                         <div class="strategy-slider-wrapper">
-                            <input type="range" id="ws-strategy-slider" min="1" max="11" step="1" value="6">
+                            <input type="range" id="ws-strategy-slider" min="1" max="5" step="1" value="3">
+                            <div class="strategy-marks">
+                                <span class="mark-fine">◀ Siêu Mịn</span>
+                                <span class="mark-center">⭐ Tiêu Chuẩn</span>
+                                <span class="mark-speed">Siêu Năng Suất ▶</span>
+                            </div>
+                        </div>
+                        <div class="strategy-detail-box" id="ws-strategy-detail-box">
+                            <div class="strategy-name-line">
+                                <strong id="ws-strategy-name-display">⭐ Tiêu Chuẩn (Khuyên Dùng)</strong>
+                                <span class="strategy-tag" id="ws-strategy-badge-display">Hiệu Chuẩn Xưởng</span>
+                            </div>
+                            <p class="strategy-desc" id="ws-strategy-desc-display">Cân bằng tối ưu giữa tốc độ, độ nhám và độ bền dây theo thực tế xưởng.</p>
+                        </div>
+                    </div>
+                        <div class="strategy-slider-wrapper">
+                            <input type="range" id="ws-strategy-slider" min="1" max="5" step="1" value="3">
                             <div class="strategy-marks">
                                 <span class="mark-fine">◀ Mịn Cực Hạn (-3)</span>
                                 <span class="mark-center">⭐ Tiêu Chuẩn</span>
@@ -489,8 +505,8 @@
                         <button class="btn btn-sm btn-copy" id="ws-btn-copy-table">📋 Copy Bảng</button>
                     </div>
 
-                    <div class="workshop-notice-box" style="margin-top: 10px; margin-bottom: 14px;">
-                        📌 <strong>Vùng Hiệu Chuẩn Độc Quyền Xưởng:</strong> Tính toán đồng hồ Ampe $I_{tb} = \frac{6.4 \times IP}{1 + P_o}$ ($k_{ampe}=2.2857/2.8571$), năng suất bóc phôi $F_c$, tốc độ tiến bàn $F_t$ và lượng bù dao $Offset$ hiệu chỉnh chuẩn theo kết quả chạy máy thực tế tại xưởng.
+                    <div id="ws-notice-box" class="workshop-notice-box" style="margin-top: 10px; margin-bottom: 14px;">
+                        📌 <strong>Vùng Hiệu Chuẩn Đặc Quyền Xưởng:</strong> Tính toán đồng hồ Ampe I_tb = (6.4 × IP) / (1 + P_o) (k_ampe=2.2857/2.8571), năng suất bóc phôi $F_c$, tốc độ tiến bàn $F_t$ và lượng bù dao $Offset$ hiệu chỉnh chuẩn theo kết quả chạy máy thực tế tại xưởng.
                     </div>
 
                     <!-- MOBILE SCROLL HINT -->

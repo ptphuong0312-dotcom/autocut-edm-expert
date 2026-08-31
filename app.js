@@ -6,6 +6,14 @@
 
 function initApp() {
     // 11 CẤP ĐỘ CHIẾN LƯỢC GIA CÔNG (TÂM ĐIỂM = CẤP 6: TIÊU CHUẨN)
+        const WS_STRATEGY_CONFIGS = {
+        1: { name: 'Bề mặt siêu mịn', badge: 'Siêu Mịn', desc: 'Sử dụng điện cực yếu, cắt rất chậm, tạo bề mặt nhẵn bóng nhất có thể.', TonMod: -15, IPMod: -1, VoltMod: 'Low' },
+        2: { name: 'Bề mặt mịn', badge: 'Mịn', desc: 'Giảm nhẹ điện năng để bề mặt mượt hơn tiêu chuẩn.', TonMod: -8, IPMod: 0, VoltMod: 'Low' },
+        3: { name: 'Tiêu chuẩn', badge: 'Cân Bằng', desc: 'Cân bằng tối ưu giữa tốc độ, độ nhám và độ bền dây theo thực tế xưởng.', TonMod: 0, IPMod: 0, VoltMod: 'Auto' },
+        4: { name: 'Năng suất', badge: 'Nhanh', desc: 'Tăng cường xung lực, ưu tiên tốc độ cắt, bề mặt sẽ nhám hơn.', TonMod: 10, IPMod: 1, VoltMod: 'High' },
+        5: { name: 'Siêu năng suất', badge: 'Phá Thô', desc: 'Ép điện tối đa, tốc độ cực cao, có nguy cơ đứt dây nếu thoát xỉ kém.', TonMod: 20, IPMod: 2, VoltMod: 'High' }
+    };
+
     const STRATEGY_CONFIGS = {
         1: { name: 'Cực Hạn Tinh Xảo (Mịn +3)', shortName: 'Cực Hạn Tinh Xảo (Cấp 1)', badge: 'Gương Quang Học', desc: 'Vi xung nano, khống chế biến trắng tuyệt đối, độ bóng gương quang học đỉnh cao.', tiMult: 0.30, ipDelta: -2, vfDelta: -20, poDelta: +1, speedMult: 0.30 },
         2: { name: 'Siêu Mịn Cấp 2 (Mịn +2)', shortName: 'Siêu Mịn (Cấp 2)', badge: 'Gương Tế Vi', desc: 'Xung cực nhỏ, triệt tiêu hoàn toàn vi nứt bề mặt khuôn mẫu.', tiMult: 0.38, ipDelta: -2, vfDelta: -18, poDelta: +1, speedMult: 0.38 },
@@ -25,6 +33,7 @@ function initApp() {
         material: 'SCM420',
         passCount: 1,
         strategyLevel: 6,
+        wsStrategyLevel: 3,
         thickness: 40,
         cutLength: 100,
         compactMetrics: true, // Mặc định thu gọn ký hiệu (Ẩn tên dài theo phương ngang)
@@ -156,8 +165,9 @@ function initApp() {
 
         // Strategy
         if (strategySlider) strategySlider.value = state.strategyLevel;
-        if (wsStrategySlider) wsStrategySlider.value = state.strategyLevel;
+        if (wsStrategySlider) wsStrategySlider.value = state.wsStrategyLevel;
         updateStrategyDisplay(state.strategyLevel);
+        updateWsStrategyDisplay(state.wsStrategyLevel);
 
         // Thickness
         if (thicknessInput) thicknessInput.value = state.thickness;
@@ -209,7 +219,24 @@ function initApp() {
         });
     }
     bindStrategyEvents(strategySlider);
-    if (wsStrategySlider) bindStrategyEvents(wsStrategySlider);
+    
+    if (wsStrategySlider) {
+        wsStrategySlider.addEventListener('input', (e) => {
+            state.wsStrategyLevel = parseInt(e.target.value);
+            updateWsStrategyDisplay(state.wsStrategyLevel);
+            render();
+        });
+    }
+
+
+    
+    function updateWsStrategyDisplay(lvl) {
+        const conf = WS_STRATEGY_CONFIGS[lvl] || WS_STRATEGY_CONFIGS[3];
+        if (wsStrategyLevelBadge) wsStrategyLevelBadge.textContent = `${conf.name} (${lvl})`;
+        if (wsStrategyNameDisplay) wsStrategyNameDisplay.textContent = conf.name;
+        if (wsStrategyBadgeDisplay) wsStrategyBadgeDisplay.textContent = conf.badge;
+        if (wsStrategyDescDisplay) wsStrategyDescDisplay.textContent = conf.desc;
+    }
 
     function updateStrategyDisplay(lvl) {
         const conf = STRATEGY_CONFIGS[lvl] || STRATEGY_CONFIGS[6];
@@ -218,11 +245,7 @@ function initApp() {
         if (strategyBadgeDisplay) strategyBadgeDisplay.textContent = conf.badge;
         if (strategyDescDisplay) strategyDescDisplay.textContent = conf.desc;
         
-        if (wsStrategyLevelBadge) wsStrategyLevelBadge.textContent = `${conf.name} (Cấp ${lvl}/11)`;
-        if (wsStrategyNameDisplay) wsStrategyNameDisplay.textContent = conf.name;
-        if (wsStrategyBadgeDisplay) wsStrategyBadgeDisplay.textContent = 'Hiệu Chuẩn Xưởng';
-        if (wsStrategyDescDisplay) wsStrategyDescDisplay.textContent = conf.desc;
-    }
+        }
 
     function bindThicknessSliderEvents(slider) {
         if (!slider) return;
@@ -2470,6 +2493,130 @@ function initApp() {
         actualAmmeterReading: '≈ 4.0 A (Khớp kim đo thực tế xưởng)'
     };
 
+    
+    // HỆ THỐNG LAI TẠO DỮ LIỆU & NHÂN QUẢ BÙ DAO (RULE 06, 07, 08)
+    function generateWorkshopRows(state) {
+        const H = state.thickness;
+        const passes = state.passCount;
+        const strat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[3];
+        const isAlu = state.material === 'ALUMINUM';
+        const isCopper = state.material === 'COPPER';
+        const wsRows = [];
+
+        const FINISH_CONSTANTS = [
+            null,
+            { Ton: 15, Po: 7, IP: 2, Volt: 'Low', VF: 25, Offset: 0.030, Speed: '120Hz' },
+            { Ton: 5, Po: 10, IP: 1, Volt: 'Low', VF: 15, Offset: 0.015, Speed: '150Hz' },
+            { Ton: 3, Po: 15, IP: 1, Volt: 'Low', VF: 10, Offset: 0.010, Speed: '200Hz' },
+            { Ton: 2, Po: 20, IP: 1, Volt: 'Low', VF: 5, Offset: 0.005, Speed: '250Hz' }
+        ];
+
+        if (H <= 20) {
+            FINISH_CONSTANTS[1] = { Ton: 12, Po: 7, IP: 2, Volt: 'Low', VF: 20, Offset: 0.040, Speed: '130Hz' };
+        } else if (H >= 120) {
+            FINISH_CONSTANTS[1] = { Ton: 25, Po: 7, IP: 2, Volt: 'Low', VF: 25, Offset: 0.030, Speed: '100Hz' };
+        }
+
+        for (let i = 0; i < passes; i++) {
+            let row = { passName: `Pass ${i + 1}`, badgeClass: i === 0 ? 'badge-primary' : 'badge-secondary' };
+            if (i === 0) {
+                let baseTon = 40; let baseIP = 3; let baseVolt = 'Low'; let basePo = 7;
+                if (H <= 30) { baseTon = 35; baseIP = 3; baseVolt = 'Low'; basePo = 7; }
+                else if (H <= 50) { baseTon = 50; baseIP = 4; baseVolt = 'Low'; basePo = 7; }
+                else if (H <= 80) { baseTon = 75; baseIP = 4; baseVolt = 'High'; basePo = 7; }
+                else if (H <= 110) { baseTon = 90; baseIP = 4; baseVolt = 'High'; basePo = 7; }
+                else if (H <= 140) { baseTon = 110; baseIP = 5; baseVolt = 'High'; basePo = 8; }
+                else { baseTon = 120; baseIP = 5; baseVolt = 'High'; basePo = 9; }
+
+                let Ton = Math.max(10, baseTon + strat.TonMod);
+                let IP = Math.max(2, Math.min(6, baseIP + strat.IPMod));
+                let Volt = strat.VoltMod === 'Auto' ? baseVolt : strat.VoltMod;
+                if (Volt === 'High' && H <= 20 && strat.VoltMod === 'Auto') Volt = 'Low';
+
+                let gap = (IP * 0.002) + (Ton * 0.00005);
+                if (Volt === 'Low') gap += 0.005;
+                if (H < 30) gap += 0.003;
+                else if (H >= 60 && H <= 100) gap -= 0.004;
+                else if (H > 140) gap += 0.002;
+                
+                let O1 = 0.090 + gap;
+                if (passes > 1) {
+                    let O2 = FINISH_CONSTANTS[1].Offset;
+                    O1 = 0.090 + gap + O2 - 0.030;
+                    if (H >= 60 && H <= 100) O1 -= 0.005;
+                    if (H >= 120) O1 += 0.004;
+                }
+                
+                let cycle = Ton + basePo;
+                let duty = Ton / cycle;
+                let fc = (duty * IP * 15 * 0.70);
+                if (Volt === 'Low') fc *= 1.2;
+                let feedRate = (fc / H).toFixed(2);
+                let speedArea = Math.round(parseFloat(feedRate) * 40);
+
+                row.ti = Ton;
+                row.Po = basePo;
+                row.IP = IP;
+                row.Voltage = Volt;
+                row.VF = H <= 40 ? 50 : 55;
+                row.Wire = '1';
+                row.offsetText = O1.toFixed(3);
+                row.speedArea = speedArea;
+                row.feedRate = feedRate;
+                row.Ra = passes === 1 ? (strat.TonMod > 0 ? '~ 3.5' : '~ 2.5') : '--';
+                
+                // --- Hz ML ---
+                const hClamped = Math.max(12, Math.min(140, H));
+                row.hz = Math.round(150 - (hClamped - 12) * ((150 - 60) / (140 - 12)));
+                
+                // --- Ampe ML ---
+                const i_peak = IP * 2.8;
+                row.ampe = (i_peak * duty * 2.2857).toFixed(1);
+            } else {
+                let p = FINISH_CONSTANTS[i];
+                if (!p) p = FINISH_CONSTANTS[4];
+                
+                let fTon = p.Ton;
+                let fIP = p.IP;
+                if (state.wsStrategyLevel === 1) { fTon = Math.max(2, fTon - 2); fIP = Math.max(1, fIP - 1); }
+                else if (state.wsStrategyLevel === 5) { fTon += 5; }
+                
+                row.ti = fTon;
+                row.Po = p.Po;
+                row.IP = fIP;
+                row.Voltage = p.Volt;
+                row.VF = p.VF;
+                row.Wire = '2';
+                row.offsetText = p.Offset.toFixed(3);
+                row.speedArea = '--';
+                row.feedRate = p.Speed;
+                
+                let rawRa = i === passes - 1 ? (passes >= 3 ? '< 1.5' : '~ 2.0') : '--';
+                // Adjust Ra for workshop (slightly rougher)
+                if (rawRa.includes('<')) {
+                    row.Ra = '< ' + (parseFloat(rawRa.split('<')[1].trim()) + 0.2).toFixed(1);
+                } else if (rawRa.includes('~')) {
+                    row.Ra = '~ ' + (parseFloat(rawRa.split('~')[1].trim()) + 0.2).toFixed(1);
+                } else {
+                    row.Ra = rawRa;
+                }
+                
+                // --- Hz ML ---
+                const hClamped = Math.max(12, Math.min(140, H));
+                let hz_val = 100;
+                if (i === 1) hz_val = Math.round(150 - (hClamped - 12) * ((150 - 100) / (140 - 12)));
+                if (i === 2) hz_val = Math.round(150 - (hClamped - 12) * ((150 - 100) / (140 - 12)));
+                if (i === 3) hz_val = Math.round(250 - (hClamped - 12) * ((250 - 100) / (140 - 12)));
+                if (i === 4) hz_val = Math.round(300 - (hClamped - 12) * ((300 - 100) / (140 - 12)));
+                row.hz = hz_val;
+                
+                row.ampe = '< 0.1';
+            }
+            wsRows.push(row);
+        }
+        return wsRows;
+    }
+
     function calculateWorkshopEDM(state) {
         const { material, strategyLevel, thickness, cutLength } = state;
         const H = thickness;
@@ -2508,18 +2655,16 @@ function initApp() {
             Volt_w = 'High';
             VF_w = H <= 40 ? 60 : 55;
         } else {
-                                                // THUẬT TOÁN NỘI SUY THỰC NGHIỆM (MACHINE LEARNING INTERPOLATION ALGORITHM)
-            // Dựa trên 9 điểm neo dữ liệu thực nghiệm mới nhất từ hình ảnh Google Sheets của người dùng
+                                                            // --- THUẬT TOÁN NỘI SUY THỰC NGHIỆM (MACHINE LEARNING INTERPOLATION ALGORITHM) ---
+            // Đã cập nhật theo 31 điểm neo Custom Thực nghiệm mới nhất
             const anchors = [
-                { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50, Gap: 0.015 }, // Row 4 (chuẩn)
-                { H: 30,  ti: 32,  Po: 5, IP: 4, Volt: 'High', VF: 65, Gap: 0.008 }, // Row 1 (đã trừ bù dao 0.017)
-                { H: 40,  ti: 36,  Po: 5, IP: 4, Volt: 'High', VF: 65, Gap: 0.008 }, // Row 2 (đã trừ bù dao 0.017)
-                { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 }, // Row 5 (chuẩn)
-                { H: 63,  ti: 44,  Po: 7, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 }, // Row 3 (đã trừ bù dao 0.023)
-                { H: 68,  ti: 70,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.007 }, // Row 6 (chuẩn)
-                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.005 }, // Row 7 (chuẩn)
-                { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.020 }, // Row 8 (chuẩn)
-                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, Gap: 0.020 }  // Row 21/22
+                { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50, Gap: 0.008 },
+                { H: 32,  ti: 30,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.001 },
+                { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, Gap: 0.015 },
+                { H: 62,  ti: 70,  Po: 7, IP: 4, Volt: 'High', VF: 50, Gap: 0.002 },
+                { H: 90,  ti: 100, Po: 7, IP: 4, Volt: 'High', VF: 50, Gap: -0.005 },
+                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, Gap: 0.008 },
+                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, Gap: 0.020 }
             ];
 
             let p1 = anchors[0], p2 = anchors[anchors.length - 1];
@@ -3390,114 +3535,25 @@ function initApp() {
 
         // Render Workshop Table Body (Tab 2)
         if (typeof wsTableBody !== 'undefined' && wsTableBody) {
-            wsTableBody.innerHTML = rows.map((r, idx) => {
-                // Workshop Logic mapping from standard row
-                const ti = parseFloat(r.ti);
-                const Po = parseFloat(r.Po);
-                const IP = parseFloat(r.IP);
-                const isPass1 = (idx === 0);
-                
-                // Hiệu chuẩn Offset từ dữ liệu WS-EXP-02: 
-                // Pass 1 chuẩn hãng bị dư, thực tế xưởng giảm ~0.017mm.
-                // Các Pass sau xưởng dùng: P2: 0.018-0.055, P3: 0.008, P4: 0.004, P5: 0.002
-                const stdOffset = parseFloat(r.offsetText);
-                // --- THUẬT TOÁN NỘI SUY ML (WORKSHOP CALIBRATION) CHO TRUE SPARK GAP & OFFSET ---
-                let trueSparkGap = 0.019; // H <= 12 (Neo H=12, Ton=26/28)
-                if (state.thickness > 12 && state.thickness <= 30) {
-                    trueSparkGap = 0.019 - (state.thickness - 12) * ((0.019 - 0.008) / (30 - 12));
-                } else if (state.thickness > 30 && state.thickness <= 40) {
-                    trueSparkGap = 0.008; // Neo H=30, H=40
-                } else if (state.thickness > 40 && state.thickness <= 63) {
-                    trueSparkGap = 0.008 - (state.thickness - 40) * ((0.008 - 0.005) / (63 - 40));
-                } else if (state.thickness > 63 && state.thickness <= 140) {
-                    // Đường cong chữ U: Phôi dày cần Ton lớn (Ton 100) -> Gap bành ra 0.012mm
-                    trueSparkGap = 0.005 + (state.thickness - 63) * ((0.012 - 0.005) / (140 - 63));
-                } else if (state.thickness > 140) {
-                    // Phôi siêu dày H=300 dùng Ton 120 -> Gap = 0.020mm
-                    trueSparkGap = 0.012 + (state.thickness - 140) * ((0.020 - 0.012) / (300 - 140));
-                }
-
-                // Remain Pass 2 nội suy
-                let p2Remain = 0.015;
-                if (state.thickness > 12 && state.thickness <= 30) {
-                    p2Remain = 0.015 + (state.thickness - 12) * ((0.029 - 0.015) / (30 - 12));
-                } else if (state.thickness > 30 && state.thickness <= 63) {
-                    p2Remain = 0.029 + (state.thickness - 30) * ((0.049 - 0.029) / (63 - 30));
-                } else if (state.thickness > 63 && state.thickness <= 140) {
-                    p2Remain = 0.049 + (state.thickness - 63) * ((0.055 - 0.049) / (140 - 63));
-                } else if (state.thickness > 140) {
-                    p2Remain = 0.055;
-                }
-
-                let wsOffsetNum = stdOffset;
-                if (idx === 0) wsOffsetNum = 0.090 + trueSparkGap;
-                else if (idx === 1) wsOffsetNum = p2Remain;
-                else if (idx === 2) wsOffsetNum = 0.008;
-                else if (idx === 3) wsOffsetNum = 0.004;
-                else if (idx === 4) wsOffsetNum = 0.002;
-                else wsOffsetNum = 0.001;
-                const wsOffset = wsOffsetNum.toFixed(3);
-                
-                // Fc & Ft: Thực tế xưởng chậm hơn khá nhiều so với lý thuyết
-                const wsFeedRate = ( (r.speedArea * 0.70) / state.thickness ).toFixed(2);
-                const wsSpeedArea = Math.round(parseFloat(wsFeedRate) * 40);
-                
-                // --- THUẬT TOÁN NỘI SUY ML (WORKSHOP CALIBRATION) CHO GIỚI HẠN TỐC ĐỘ HZ ---
-                // Dữ liệu Neo 1 (H=12mm): P1=200Hz, P2=150Hz, P3=120Hz, P4=100Hz, P5=80Hz.
-                // Dữ liệu Neo 2 (H=63mm): P1=150Hz, P2=100Hz, P3=80Hz, P4=60Hz, P5=50Hz.
-                // Nội suy tuyến tính trần an toàn Hz theo chiều dày H.
-                const hClamped = Math.max(12, Math.min(200, state.thickness));
-                const hz_p1 = Math.round(200 - (hClamped - 12) * ((200 - 150) / (63 - 12)));
-                const hz_p2 = Math.round(150 - (hClamped - 12) * ((150 - 100) / (63 - 12)));
-                const hz_p3 = Math.round(120 - (hClamped - 12) * ((120 - 80) / (63 - 12)));
-                const hz_p4 = Math.round(100 - (hClamped - 12) * ((100 - 60) / (63 - 12)));
-                const hz_p5 = Math.round(80 - (hClamped - 12) * ((80 - 50) / (63 - 12)));
-                
-                const hzLimits = [
-                    Math.max(80, hz_p1),
-                    Math.max(60, hz_p2),
-                    Math.max(40, hz_p3),
-                    Math.max(30, hz_p4),
-                    Math.max(20, hz_p5),
-                    Math.max(20, hz_p5)
-                ];
-                const wsHz = hzLimits[idx] || 80;
-                
-                // Ampe: Standard peak current, but Workshop uses a different ammeter calibration (~2.28)
-                const toff = ti * Po;
-                const cycle = ti + toff;
-                const duty = ti / cycle;
-                const i_peak = IP * 2.8;
-                // kAmpe = 2.2857 (from WORKSHOP_CALIBRATION_MODEL)
-                const wsAmpe = (i_peak * duty * 2.2857).toFixed(1);
-                
-                // Ra: slightly rougher
-                let wsRa = r.Ra;
-                const raParts = r.Ra.split(' - ');
-                if (raParts.length === 2) {
-                    wsRa = (parseFloat(raParts[0]) + 0.2).toFixed(1) + ' - ' + (parseFloat(raParts[1]) + 0.2).toFixed(1);
-                }
-
-                return `
-                    <tr>
-                        <td class="pass-cell sticky-col"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
-                        <td><strong>${r.ti}</strong></td>
-                        <td>${r.Po}</td>
-                        <td><span class="badge-ip">${r.IP}</span></td>
-                        <td><span class="${r.Voltage === 'High' ? 'val-volt-high' : 'val-volt-low'}">${r.Voltage}</span></td>
-                        <td>${r.VF}</td>
-                        <td>${r.Wire}</td>
-                        <td class="val-offset" style="color:var(--accent-amber);">${wsOffset}mm</td>
-                        <td><span style="color:var(--accent-amber);">${wsSpeedArea}</span></td>
-                        <td><strong style="color:var(--accent-amber);">${wsFeedRate}</strong></td>
-                        <td><strong style="color:var(--accent-amber);">${wsHz} Hz</strong></td>
-                        <td><strong style="color:var(--accent-amber);">${isPass1 ? wsAmpe : '< 0.1'}</strong></td>
-                        <td class="val-ra">${wsRa}</td>
-                    </tr>
-                `;
-            }).join('');
+            const wsRowsList = generateWorkshopRows(state);
+            wsTableBody.innerHTML = wsRowsList.map((r, idx) => `
+                <tr>
+                    <td class="pass-cell sticky-col"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
+                    <td><strong>${r.ti}</strong></td>
+                    <td>${r.Po}</td>
+                    <td><span class="badge-ip">${r.IP}</span></td>
+                    <td><span class="${r.Voltage === 'High' ? 'val-volt-high' : 'val-volt-low'}">${r.Voltage}</span></td>
+                    <td>${r.VF}</td>
+                    <td>${r.Wire}</td>
+                    <td class="val-offset fw-bold" style="color:var(--accent-amber)">${r.offsetText} mm</td>
+                    <td><span style="color:var(--accent-amber)">${r.speedArea}</span></td>
+                    <td><strong style="color:var(--accent-amber)">${r.feedRate}</strong></td>
+                    <td><strong style="color:var(--accent-amber)">${r.hz} Hz</strong></td>
+                    <td><strong style="color:var(--accent-amber)">${r.ampe}</strong></td>
+                    <td class="val-ra">${r.Ra}</td>
+                </tr>
+            `).join('');
         }
-
         // Render Notices
         if (typeof noticeList !== 'undefined' && noticeList) {
             noticeList.innerHTML = notices.map(n => `<li>${n}</li>`).join('');
@@ -3813,6 +3869,7 @@ function initApp() {
 
     // INITIAL RENDER
     updateStrategyDisplay(state.strategyLevel);
+        updateWsStrategyDisplay(state.wsStrategyLevel);
     render();
 }
 
