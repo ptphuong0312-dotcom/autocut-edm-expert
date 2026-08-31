@@ -897,94 +897,116 @@ function initApp() {
 
     const WORKSHOP_EMPIRICAL_LIBRARY = [
         {
-            "id": "WS-EXP-1P-12",
-            "date": "2026-08-30",
-            "name": "Cắt 1 Pass (H=12mm)",
-            "materialName": "Thép SCM440",
-            "thickness": 12,
-            "params": { "ti": 20, "Po": 7, "IP": 2, "Voltage": "Low", "VF": 50 },
-            "measured": { "recommendedOffset": 0.105, "notes": "Chuẩn kích thước tuyệt đối (WS-EXP-02)" }
-        },
-        {
-            "id": "WS-EXP-1P-30",
-            "date": "2026-08-30",
-            "name": "Cắt 1 Pass (H=30mm) - Cấp 6",
-            "materialName": "Thép SCM440",
+            "id": "WS-EXP-1",
+            "name": "1 Lần (STT 1)",
+            "materialName": "SCM440 (28-32HRC)",
             "thickness": 30,
             "params": { "ti": 32, "Po": 5, "IP": 4, "Voltage": "High", "VF": 65 },
-            "measured": { "recommendedOffset": 0.098, "notes": "Bù dao ban đầu 0.115 ăn lẹm 0.034. Đã giảm 0.017" }
+            "measured": { "recommendedOffset": 0.115, "notes": "Cắt lấy chày: To hơn lập trình 0.034. Ampe: 4.45A-4.5A. Tốc độ: 165-175mm2/p" }
         },
         {
-            "id": "WS-EXP-1P-40",
-            "date": "2026-08-30",
-            "name": "Cắt 1 Pass (H=40mm) - Cấp 6",
-            "materialName": "Thép SCM440",
+            "id": "WS-EXP-2",
+            "name": "1 Lần (STT 2)",
+            "materialName": "SCM440 (28-32HRC)",
             "thickness": 40,
             "params": { "ti": 36, "Po": 5, "IP": 4, "Voltage": "High", "VF": 65 },
-            "measured": { "recommendedOffset": 0.098, "notes": "Bù dao ban đầu 0.115 ăn lẹm 0.034. Đã giảm 0.017" }
+            "measured": { "recommendedOffset": 0.115, "notes": "Cắt lấy chày: To hơn lập trình 0.034. Ampe: 4.35A-4.4A. Tốc độ: 130-140mm2/p" }
         },
         {
-            "id": "WS-EXP-1P-45",
-            "date": "2026-08-30",
-            "name": "Cắt 1 Pass (H=45mm)",
-            "materialName": "Thép SCM420",
-            "thickness": 45,
-            "params": { "ti": 50, "Po": 7, "IP": 3, "Voltage": "Low", "VF": 50 },
-            "measured": { "recommendedOffset": 0.105, "notes": "Chuẩn kích thước tuyệt đối (WS-EXP-01)" }
-        },
-        {
-            "id": "WS-EXP-1P-63-C6",
-            "date": "2026-08-30",
-            "name": "Cắt 1 Pass (H=63mm) - Cấp 6",
-            "materialName": "Thép SCM420",
+            "id": "WS-EXP-3",
+            "name": "1 Lần (STT 3)",
+            "materialName": "SCM420 (HB<200)",
             "thickness": 63,
             "params": { "ti": 44, "Po": 7, "IP": 5, "Voltage": "High", "VF": 55 },
-            "measured": { "recommendedOffset": 0.095, "notes": "Bù dao ban đầu 0.118 ăn lẹm 0.046. Đã giảm 0.023" }
+            "measured": { "recommendedOffset": 0.118, "notes": "Cắt lấy chày: To hơn lập trình 0.046. Ampe: 4.1A-4.2A. Tốc độ: 75-85mm2/p" }
         },
         {
-            "id": "WS-EXP-1P-63-C4",
-            "date": "2026-08-30",
-            "name": "Cắt 1 Pass (H=63mm) - Cấp 4",
-            "materialName": "Thép SCM420",
-            "thickness": 63,
-            "params": { "ti": 24, "Po": 7, "IP": 4, "Voltage": "High", "VF": 43 },
-            "measured": { "recommendedOffset": 0.081, "notes": "Ép điện yếu cho phôi dày, dây kéo lê dính phôi" }
+            "id": "WS-EXP-4",
+            "name": "1 Lần (STT 4)",
+            "materialName": "SCM440 (28-32HRC)",
+            "thickness": 12,
+            "params": { "ti": 20, "Po": 7, "IP": 2, "Voltage": "Low", "VF": 50 },
+            "measured": { "recommendedOffset": 0.105, "notes": "Cắt lấy chày: Kích thước offset CHUẨN LUÔN" }
         },
         {
-            "id": "WS-EXP-1P-68",
-            "date": "2026-08-30",
-            "name": "Cắt 1 Pass (H=68mm)",
-            "materialName": "Thép SCM440",
+            "id": "WS-EXP-5",
+            "name": "1 Lần (STT 5)",
+            "materialName": "SCM420 (HB<200)",
+            "thickness": 45,
+            "params": { "ti": 50, "Po": 7, "IP": 3, "Voltage": "Low", "VF": 50 },
+            "measured": { "recommendedOffset": 0.105, "notes": "Cắt lấy chày: Kích thước offset CHUẨN LUÔN" }
+        },
+        {
+            "id": "WS-EXP-6",
+            "name": "1 Lần (STT 6)",
+            "materialName": "SCM440 (28-32HRC)",
             "thickness": 68,
             "params": { "ti": 70, "Po": 7, "IP": 3, "Voltage": "Low", "VF": 50 },
-            "measured": { "recommendedOffset": 0.097, "notes": "Chuẩn kích thước tuyệt đối (WS-EXP-03)" }
+            "measured": { "recommendedOffset": 0.097, "notes": "Cắt lấy chày: Kích thước offset CHUẨN LUÔN" }
         },
         {
-            "id": "WS-EXP-1P-140",
-            "date": "2026-08-30",
-            "name": "Cắt 1 Pass (H=140mm)",
-            "materialName": "Thép SCM420",
+            "id": "WS-EXP-7",
+            "name": "1 Lần (STT 7)",
+            "materialName": "SCM420 (HB<200)",
             "thickness": 140,
             "params": { "ti": 120, "Po": 8, "IP": 5, "Voltage": "High", "VF": 55 },
-            "measured": { "recommendedOffset": 0.095, "notes": "Chuẩn kích thước tuyệt đối" }
+            "measured": { "recommendedOffset": 0.095, "notes": "Cắt lấy chày: Kích thước offset CHUẨN LUÔN" }
         },
         {
-            "id": "WS-EXP-1P-160",
-            "date": "2026-08-30",
-            "name": "Cắt 1 Pass (H=160mm)",
-            "materialName": "Thép SCM420",
+            "id": "WS-EXP-8",
+            "name": "1 Lần (STT 8)",
+            "materialName": "SCM420 (HB<200)",
             "thickness": 160,
             "params": { "ti": 120, "Po": 8, "IP": 5, "Voltage": "High", "VF": 55 },
-            "measured": { "recommendedOffset": 0.110, "notes": "Chuẩn kích thước tuyệt đối" }
+            "measured": { "recommendedOffset": 0.110, "notes": "Cắt lấy chày: Kích thước offset CHUẨN LUÔN" }
         },
         {
-            "id": "WS-EXP-1P-300",
-            "date": "2026-08-30",
-            "name": "Cắt 1 Pass (H=300mm)",
-            "materialName": "Thép SCM440",
+            "id": "WS-EXP-9",
+            "name": "1 Lần (STT 9)",
+            "materialName": "SCM420 (HB<200)",
+            "thickness": 63,
+            "params": { "ti": 24, "Po": 7, "IP": 4, "Voltage": "High", "VF": 43 },
+            "measured": { "recommendedOffset": 0.116, "notes": "Cắt lấy chày: To hơn lập trình 0.07. Ampe: 4A. Tốc độ: 55-65mm2/p" }
+        },
+        {
+            "id": "WS-EXP-10",
+            "name": "1 Lần (H=140 Thử 1)",
+            "materialName": "SCM420 (HB<200)",
+            "thickness": 140,
+            "params": { "ti": 52, "Po": 8, "IP": 6, "Voltage": "High", "VF": 50 },
+            "measured": { "recommendedOffset": 0.120, "notes": "KHÔNG CẮT ĐƯỢC" }
+        },
+        {
+            "id": "WS-EXP-11",
+            "name": "1 Lần (H=140 Thử 2)",
+            "materialName": "SCM420 (HB<200)",
+            "thickness": 140,
+            "params": { "ti": 80, "Po": 8, "IP": 6, "Voltage": "High", "VF": 50 },
+            "measured": { "recommendedOffset": 0.120, "notes": "KHÔNG CẮT ĐƯỢC" }
+        },
+        {
+            "id": "WS-EXP-12",
+            "name": "1 Lần (H=140 Thử 3)",
+            "materialName": "SCM420 (HB<200)",
+            "thickness": 140,
+            "params": { "ti": 100, "Po": 9, "IP": 6, "Voltage": "High", "VF": 60 },
+            "measured": { "recommendedOffset": 0.120, "notes": "Cắt lấy chày: To hơn lập trình 0.036. Ampe: 3.7-3.8A. Tốc độ: 30-40mm2/p" }
+        },
+        {
+            "id": "WS-EXP-13",
+            "name": "1 Lần (H=300 GĐ 1)",
+            "materialName": "SCM440 (28-32HRC)",
+            "thickness": 300,
+            "params": { "ti": 80, "Po": 9, "IP": 6, "Voltage": "High", "VF": 50 },
+            "measured": { "recommendedOffset": 0.120, "notes": "Cắt lấy cối: Lớn hơn lập trình 0.01. Ampe: 3.8-3.9A. Tốc độ: 12-20mm2/p" }
+        },
+        {
+            "id": "WS-EXP-14",
+            "name": "1 Lần (H=300 GĐ 2)",
+            "materialName": "SCM440 (28-32HRC)",
             "thickness": 300,
             "params": { "ti": 120, "Po": 9, "IP": 6, "Voltage": "High", "VF": 65 },
-            "measured": { "recommendedOffset": 0.110, "notes": "Dữ liệu nội suy phá thô góc cực hạn" }
+            "measured": { "recommendedOffset": 0.120, "notes": "Cắt lấy cối: Lớn hơn lập trình 0.01. Ampe: 3.7-3.9A. Tốc độ: 12-20mm2/p" }
         }
     ];
 
@@ -2111,7 +2133,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.65";
+    const CURRENT_VERSION = "3.4.66";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
