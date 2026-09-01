@@ -898,181 +898,255 @@ function initApp() {
     const WORKSHOP_EMPIRICAL_LIBRARY = [
         {
             "id": "WS-1P-STT4",
-            "name": "STT4: H=12mm (Chuẩn vàng)",
+            "name": "STT4: H=12mm — Chuẩn Vàng",
             "materialName": "SCM440 (28-32HRC)",
             "thickness": 12,
+            "cutLength": 100,
+            "passCount": 1,
             "params": { "ti": 20, "Po": 7, "IP": 2, "Voltage": "Low", "VF": 50 },
             "measured": {
+                "ammeterA": "--",
+                "measuredSpeed": null,
+                "totalTimeStr": null,
+                "tolerance": "Chưa đo thời gian",
                 "recommendedOffset": 0.105,
-                "realGap": 0.015,
-                "notes": "✅ Offset = 0.105 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.015mm"
-            }
+                "sparkGap": "0.015"
+            },
+            "notes": "✅ Offset 0.105 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.015mm. (WS-EXP-02)"
         },
         {
             "id": "WS-1P-STT5",
-            "name": "STT5: H=45mm (Chuẩn vàng)",
+            "name": "STT5: H=45mm — Chuẩn Vàng",
             "materialName": "SCM420 (HB<200)",
             "thickness": 45,
+            "cutLength": 100,
+            "passCount": 1,
             "params": { "ti": 50, "Po": 7, "IP": 3, "Voltage": "Low", "VF": 50 },
             "measured": {
+                "ammeterA": "--",
+                "measuredSpeed": null,
+                "totalTimeStr": null,
+                "tolerance": "Chưa đo thời gian",
                 "recommendedOffset": 0.105,
-                "realGap": 0.015,
-                "notes": "✅ Offset = 0.105 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.015mm"
-            }
+                "sparkGap": "0.015"
+            },
+            "notes": "✅ Offset 0.105 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.015mm. (WS-EXP-01)"
         },
         {
             "id": "WS-1P-STT6",
-            "name": "STT6: H=68mm (Chuẩn vàng)",
+            "name": "STT6: H=68mm — Chuẩn Vàng",
             "materialName": "SCM440 (28-32HRC)",
             "thickness": 68,
+            "cutLength": 100,
+            "passCount": 1,
             "params": { "ti": 70, "Po": 7, "IP": 3, "Voltage": "Low", "VF": 50 },
             "measured": {
+                "ammeterA": "--",
+                "measuredSpeed": null,
+                "totalTimeStr": null,
+                "tolerance": "Chưa đo thời gian",
                 "recommendedOffset": 0.097,
-                "realGap": 0.007,
-                "notes": "✅ Offset = 0.097 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.007mm"
-            }
+                "sparkGap": "0.007"
+            },
+            "notes": "✅ Offset 0.097 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.007mm. (WS-EXP-03)"
         },
         {
             "id": "WS-1P-STT7",
-            "name": "STT7: H=140mm (Chuẩn vàng)",
+            "name": "STT7: H=140mm — Chuẩn Vàng",
             "materialName": "SCM420 (HB<200)",
             "thickness": 140,
+            "cutLength": 100,
+            "passCount": 1,
             "params": { "ti": 120, "Po": 8, "IP": 5, "Voltage": "High", "VF": 55 },
             "measured": {
+                "ammeterA": "--",
+                "measuredSpeed": null,
+                "totalTimeStr": null,
+                "tolerance": "Chưa đo thời gian",
                 "recommendedOffset": 0.095,
-                "realGap": 0.005,
-                "notes": "✅ Offset = 0.095 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.005mm. Mòn dây tại H=140 bù đắp điện năng lớn"
-            }
+                "sparkGap": "0.005"
+            },
+            "notes": "✅ Offset 0.095 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.005mm. Mòn dây mạnh tại H=140 bù đắp điện năng lớn."
         },
         {
             "id": "WS-1P-STT8",
-            "name": "STT8: H=160mm (Chuẩn vàng)",
+            "name": "STT8: H=160mm — Chuẩn Vàng",
             "materialName": "SCM420 (HB<200)",
             "thickness": 160,
+            "cutLength": 100,
+            "passCount": 1,
             "params": { "ti": 120, "Po": 8, "IP": 5, "Voltage": "High", "VF": 55 },
             "measured": {
+                "ammeterA": "--",
+                "measuredSpeed": null,
+                "totalTimeStr": null,
+                "tolerance": "Chưa đo thời gian",
                 "recommendedOffset": 0.110,
-                "realGap": 0.020,
-                "notes": "✅ Offset = 0.110 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.020mm. Rung dây tăng ở phôi siêu dày"
-            }
+                "sparkGap": "0.020"
+            },
+            "notes": "✅ Offset 0.110 → Kích thước CHUẨN TUYỆT ĐỐI. Gap thực = 0.020mm. Rung dây tăng ở phôi siêu dày."
         },
         {
             "id": "WS-1P-STT1",
             "name": "STT1: H=30mm (Ampe 4.45-4.5A)",
             "materialName": "SCM440 (28-32HRC)",
             "thickness": 30,
+            "cutLength": 100,
+            "passCount": 1,
             "params": { "ti": 32, "Po": 5, "IP": 4, "Voltage": "High", "VF": 65 },
             "measured": {
+                "ammeterA": "4.45–4.5A",
+                "measuredSpeed": "165–175",
+                "totalTimeStr": "8p40",
+                "tolerance": "Lệch +0.034mm (cắt lấy chày)",
                 "recommendedOffset": 0.149,
-                "enteredOffset": 0.115,
-                "realGap": 0.059,
-                "overcut": 0.034,
-                "notes": "⚠️ Nhập 0.115 → To hơn 0.034. Gap thực = 0.059. Offset đúng phải là 0.149. Tốc độ 165-175mm²/p, Ampe 4.45-4.5A"
-            }
+                "sparkGap": "0.059"
+            },
+            "notes": "⚠️ Nhập 0.115 → To hơn 0.034. Gap thực = 0.059. OFFSET ĐÚNG cần nhập: 0.149. Tốc độ 165-175mm²/p"
         },
         {
             "id": "WS-1P-STT2",
             "name": "STT2: H=40mm (Ampe 4.35-4.4A)",
             "materialName": "SCM440 (28-32HRC)",
             "thickness": 40,
+            "cutLength": 100,
+            "passCount": 1,
             "params": { "ti": 36, "Po": 5, "IP": 4, "Voltage": "High", "VF": 65 },
             "measured": {
+                "ammeterA": "4.35–4.4A",
+                "measuredSpeed": "130–140",
+                "totalTimeStr": "9p36",
+                "tolerance": "Lệch +0.034mm (cắt lấy chày)",
                 "recommendedOffset": 0.149,
-                "enteredOffset": 0.115,
-                "realGap": 0.059,
-                "overcut": 0.034,
-                "notes": "⚠️ Nhập 0.115 → To hơn 0.034. Gap thực = 0.059. Offset đúng phải là 0.149. Tốc độ 130-140mm²/p, Ampe 4.35-4.4A"
-            }
+                "sparkGap": "0.059"
+            },
+            "notes": "⚠️ Nhập 0.115 → To hơn 0.034. Gap thực = 0.059. OFFSET ĐÚNG cần nhập: 0.149. Tốc độ 130-140mm²/p"
         },
         {
             "id": "WS-1P-STT3",
             "name": "STT3: H=63mm (Ampe 4.1-4.2A)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 63,
+            "cutLength": 100,
+            "passCount": 1,
             "params": { "ti": 44, "Po": 7, "IP": 5, "Voltage": "High", "VF": 55 },
             "measured": {
+                "ammeterA": "4.1–4.2A",
+                "measuredSpeed": "75–85",
+                "totalTimeStr": "14p20",
+                "tolerance": "Lệch +0.046mm (cắt lấy chày)",
                 "recommendedOffset": 0.164,
-                "enteredOffset": 0.118,
-                "realGap": 0.074,
-                "overcut": 0.046,
-                "notes": "⚠️ Nhập 0.118 → To hơn 0.046. Gap thực = 0.074. Offset đúng phải là 0.164. Tốc độ 75-85mm²/p, Ampe 4.1-4.2A"
-            }
+                "sparkGap": "0.074"
+            },
+            "notes": "⚠️ Nhập 0.118 → To hơn 0.046. Gap thực = 0.074. OFFSET ĐÚNG cần nhập: 0.164. Tốc độ 75-85mm²/p"
         },
         {
             "id": "WS-1P-STT9",
-            "name": "STT9: H=63mm (Ton=24 bất thường)",
+            "name": "STT9: H=63mm — Ton=24 (Bất thường)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 63,
+            "cutLength": 100,
+            "passCount": 1,
             "params": { "ti": 24, "Po": 7, "IP": 4, "Voltage": "High", "VF": 43 },
             "measured": {
+                "ammeterA": "4A",
+                "measuredSpeed": "55–65",
+                "totalTimeStr": "21p",
+                "tolerance": "Lệch +0.070mm (BẤT THƯỜNG)",
                 "recommendedOffset": 0.186,
-                "enteredOffset": 0.116,
-                "realGap": 0.096,
-                "overcut": 0.070,
-                "notes": "⛔ Nhập 0.116 → To hơn 0.07 (BẤT THƯỜNG). Gap thực 0.096 rất lớn do Ton=24 yếu nhưng Volt=High. Dây rung mạnh. Không dùng làm Anchor."
-            }
+                "sparkGap": "0.096"
+            },
+            "notes": "⛔ Nhập 0.116 → To hơn 0.070 (BẤT THƯỜNG). Ton=24 quá yếu cho Volt=High. Dây rung mạnh. Không dùng làm Anchor nội suy."
         },
         {
             "id": "WS-1P-STT10",
-            "name": "STT10: H=140mm - Ton=52 (Không cắt được)",
+            "name": "STT10: H=140mm — Ton=52 (Không cắt được)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 140,
+            "cutLength": 100,
+            "passCount": 1,
             "params": { "ti": 52, "Po": 8, "IP": 6, "Voltage": "High", "VF": 50 },
             "measured": {
-                "notes": "⛔ KHÔNG CẮT ĐƯỢC. Ton=52 quá nhỏ cho H=140. Cần Ton ≥ 100 cho H=140."
-            }
+                "ammeterA": "--",
+                "measuredSpeed": null,
+                "totalTimeStr": null,
+                "tolerance": "KHÔNG CẮT ĐƯỢC",
+                "recommendedOffset": null,
+                "sparkGap": null
+            },
+            "notes": "⛔ KHÔNG CẮT ĐƯỢC. Ton=52 quá nhỏ cho H=140. Cần Ton ≥ 100 cho H=140."
         },
         {
             "id": "WS-1P-STT11",
-            "name": "STT11: H=140mm - Ton=80 (Không cắt được)",
+            "name": "STT11: H=140mm — Ton=80 (Không cắt được)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 140,
+            "cutLength": 100,
+            "passCount": 1,
             "params": { "ti": 80, "Po": 8, "IP": 6, "Voltage": "High", "VF": 50 },
             "measured": {
-                "notes": "⛔ KHÔNG CẮT ĐƯỢC. Ton=80 vẫn chưa đủ cho H=140."
-            }
+                "ammeterA": "--",
+                "measuredSpeed": null,
+                "totalTimeStr": null,
+                "tolerance": "KHÔNG CẮT ĐƯỢC",
+                "recommendedOffset": null,
+                "sparkGap": null
+            },
+            "notes": "⛔ KHÔNG CẮT ĐƯỢC. Ton=80 vẫn chưa đủ cho H=140."
         },
         {
             "id": "WS-1P-STT12",
-            "name": "STT12: H=140mm - Ton=100 (Ampe 3.7-3.8A)",
+            "name": "STT12: H=140mm — Ton=100 (Ampe 3.7-3.8A)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 140,
+            "cutLength": 28.4,
+            "passCount": 1,
             "params": { "ti": 100, "Po": 9, "IP": 6, "Voltage": "High", "VF": 60 },
             "measured": {
+                "ammeterA": "3.7–3.8A",
+                "measuredSpeed": "30–40",
+                "totalTimeStr": "36p",
+                "tolerance": "Lệch +0.036mm (cắt lấy chày)",
                 "recommendedOffset": 0.156,
-                "enteredOffset": 0.120,
-                "realGap": 0.066,
-                "overcut": 0.036,
-                "notes": "⚠️ Nhập 0.120 → To hơn 0.036. Gap thực = 0.066. Offset đúng = 0.156. Ampe 3.7-3.8A, tốc độ 30-40mm²/p"
-            }
+                "sparkGap": "0.066"
+            },
+            "notes": "⚠️ Nhập 0.120 → To hơn 0.036. Gap thực = 0.066. OFFSET ĐÚNG cần nhập: 0.156. Ampe 3.7-3.8A"
         },
         {
             "id": "WS-1P-STT13",
-            "name": "STT13: H=300mm Giai đoạn 1 (Ampe 3.8-3.9A)",
+            "name": "STT13: H=300mm GD1 (Ampe 3.8-3.9A)",
             "materialName": "SCM440 (28-32HRC)",
             "thickness": 300,
+            "cutLength": 31.3,
+            "passCount": 1,
             "params": { "ti": 80, "Po": 9, "IP": 6, "Voltage": "High", "VF": 50 },
             "measured": {
+                "ammeterA": "3.8–3.9A",
+                "measuredSpeed": "12–20",
+                "totalTimeStr": "1h29p",
+                "tolerance": "Lệch +0.010mm (cắt lấy cối)",
                 "recommendedOffset": 0.130,
-                "enteredOffset": 0.120,
-                "realGap": 0.040,
-                "overcut": 0.010,
-                "notes": "⚠️ Nhập 0.120 → To hơn 0.01. Gap thực = 0.040. Offset đúng = 0.130. Ampe 3.8-3.9A, tốc độ 12-20mm²/p"
-            }
+                "sparkGap": "0.040"
+            },
+            "notes": "⚠️ Nhập 0.120 → To hơn 0.010. Gap thực = 0.040. OFFSET ĐÚNG cần nhập: 0.130. Tốc độ 12-20mm²/p"
         },
         {
             "id": "WS-1P-STT14",
-            "name": "STT14: H=300mm Giai đoạn 2 (Ampe 3.7-3.9A)",
+            "name": "STT14: H=300mm GD2 (Ampe 3.7-3.9A)",
             "materialName": "SCM440 (28-32HRC)",
             "thickness": 300,
+            "cutLength": 76.1,
+            "passCount": 1,
             "params": { "ti": 120, "Po": 9, "IP": 6, "Voltage": "High", "VF": 65 },
             "measured": {
+                "ammeterA": "3.7–3.9A",
+                "measuredSpeed": "12–20",
+                "totalTimeStr": "3h",
+                "tolerance": "Lệch +0.010mm (cắt lấy cối)",
                 "recommendedOffset": 0.130,
-                "enteredOffset": 0.120,
-                "realGap": 0.040,
-                "overcut": 0.010,
-                "notes": "⚠️ Nhập 0.120 → To hơn 0.01. Gap thực = 0.040. Offset đúng = 0.130. Ampe 3.7-3.9A, tốc độ 12-20mm²/p"
-            }
+                "sparkGap": "0.040"
+            },
+            "notes": "⚠️ Nhập 0.120 → To hơn 0.010. Gap thực = 0.040. OFFSET ĐÚNG cần nhập: 0.130. Tốc độ 12-20mm²/p"
         }
     ];
 
@@ -1184,7 +1258,7 @@ function initApp() {
                         break;
                     }
                 }
-            }        }
+            }}
 
         // Apply Tab 2 5-level Strategy modifications
         let Ton = Math.max(10, baseTon + strat.TonMod);
@@ -2225,7 +2299,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.67";
+    const CURRENT_VERSION = "3.4.68";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
