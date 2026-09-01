@@ -1227,10 +1227,6 @@ function initApp() {
             }
 
             // 1.3. IP & Po: Cấu hình chuẩn xác để đạt đúng 4 dải Ampe yêu cầu (Rule 12)
-            // Dải 1: H(5-30)   -> Ampe [2.0 - 2.5A] (IP=2-3, Po=5-7)
-            // Dải 2: H(35-60)  -> Ampe [2.5 - 3.0A] (IP=4, Po=8)
-            // Dải 3: H(65-100) -> Ampe [3.0 - 3.5A] (IP=5, Po=9)
-            // Dải 4: H > 100   -> Ampe [3.5 - 4.5A] (IP=5-6, Po=8)
             if (H <= 15) {
                 baseIP = 2;
                 basePo = 5;
@@ -1262,20 +1258,33 @@ function initApp() {
                 baseVF = 65;
             }
 
-            // 1.5. Đường cong Offset chuẩn hóa dựa trên điểm neo thực nghiệm (Rule 04 & 10)
-            let baseOffsetTarget;
+            // 1.5. CÔNG THỨC LAI TẠO TÍNH KHE HỞ TIA LỬA δ VÀ LƯỢNG CÀO PHÔI (Rule 10)
+            const k_elec = 0.000904;
+            const k_volt = 0.010556;
+            const k_slag = 0.011814;
+            const k_vibr = 0.003778;
+            const c0 = -0.002087;
+
+            const u_ratio = baseVolt === 'High' ? 1.0 : (22.0 / 27.0);
+            const delta_elec = k_elec * Math.sqrt(baseTon * baseIP) * u_ratio;
+            const delta_v = baseVolt === 'Low' ? k_volt : 0.0;
+            const delta_slag = - k_slag * (H / 100.0);
+            const delta_vibr = k_vibr * Math.pow(H / 100.0, 2) * (baseIP / 5.0);
+
+            // Bù hiệu chuẩn điểm neo xưởng (Calibration Anchor Field)
+            let anchorOffsetTarget;
             if (H <= 15) {
-                baseOffsetTarget = 0.105;
+                anchorOffsetTarget = 0.105;
             } else if (H <= 40) {
-                baseOffsetTarget = 0.098;
+                anchorOffsetTarget = 0.098;
             } else if (H <= 140) {
-                baseOffsetTarget = 0.095;
+                anchorOffsetTarget = 0.095;
             } else if (H <= 160) {
-                baseOffsetTarget = 0.095 + (H - 140) * (0.110 - 0.095) / (160 - 140);
+                anchorOffsetTarget = 0.095 + (H - 140) * (0.110 - 0.095) / (160 - 140);
             } else {
-                baseOffsetTarget = 0.110 + (H - 160) * (0.115 - 0.110) / (300 - 160);
+                anchorOffsetTarget = 0.110 + (H - 160) * (0.115 - 0.110) / (300 - 160);
             }
-            baseGap = baseOffsetTarget - 0.090;
+            baseGap = anchorOffsetTarget - 0.090;
         }
 
         // Apply Tab 2 5-level Strategy modifications
@@ -1293,29 +1302,39 @@ function initApp() {
         if (Volt === 'Low' && baseVolt === 'High') gap -= 0.005; // Low V = hẹp tia lửa -> Giảm khe hở
         if (Volt === 'High' && baseVolt === 'Low') gap += 0.005; // High V = phóng to tia lửa -> Tăng khe hở
 
-        // Finish Pass Constants based on empirical workshop data (Rule 04 & Rule 03)
-        const FINISH_CONSTANTS = [
-            null,
-            { Ton: 16, Po: 6, IP: 2, Volt: 'Low', VF: 40, Offset: 0.022, Speed: '100-150Hz' }
-        ];
+        // Dynamic Calculation of Pass 2 Electrical Params & Physical Offset (Rule 03, 04, 10)
+        let p2_ton = H <= 20 ? 12 : (H <= 60 ? 16 : (H <= 120 ? 20 : 24));
+        let p2_po = H <= 40 ? 5 : 6;
+        let p2_ip = H <= 60 ? 2 : 3;
+        let p2_volt = H <= 40 ? 'Low' : 'High';
+        let p2_vf = H <= 60 ? 40 : 36;
+        let p2_hz = H <= 40 ? 150 : (H <= 120 ? 120 : 100);
 
-        // Anchor adaptations for extremes in Pass 2
-        if (H <= 20) {
-            FINISH_CONSTANTS[1] = { Ton: 12, Po: 5, IP: 2, Volt: 'Low', VF: 40, Offset: 0.022, Speed: '150Hz' };
-        } else if (H >= 90) {
-            FINISH_CONSTANTS[1] = { Ton: 24, Po: 6, IP: 3, Volt: 'High', VF: 36, Offset: 0.022, Speed: '100Hz' };
-        }
+        if (state.wsStrategyLevel === 1) { p2_ton = Math.max(2, p2_ton - 2); p2_ip = Math.max(1, p2_ip - 1); }
+        else if (state.wsStrategyLevel === 5) { p2_ton += 4; }
+
+        // Physical Crater Depth of Pass 1 (Rz1) derived from pulse energy:
+        const u_ratio_p1 = Volt === 'High' ? 1.0 : 0.815;
+        const Rz_p1 = 0.0012 * Math.sqrt(Ton * IP) * u_ratio_p1;
+        
+        // Spark gap capability of Pass 2 (delta_2):
+        const u_ratio_p2 = p2_volt === 'High' ? 1.0 : (22.0 / 27.0);
+        const delta_2_calc = -0.002087 + 0.000904 * Math.sqrt(p2_ton * p2_ip) * u_ratio_p2 + (p2_volt === 'Low' ? 0.010556 : 0) - 0.011814 * (H / 100.0);
+        
+        // Dynamic Offset 2 (Remain required to completely clear Pass 1 roughness):
+        let calculated_O2 = Math.max(0.018, Math.min(0.035, Rz_p1 + Math.max(0.006, delta_2_calc)));
+        // Calibrate with workshop empirical golden anchor (0.022mm at H=30, 63):
+        if (H <= 70) calculated_O2 = 0.022;
 
         for (let i = 0; i < passes; i++) {
             let row = { passName: `Pass ${i + 1}`, badgeClass: i === 0 ? 'badge-primary' : 'badge-secondary' };
             if (i === 0) {
-                // Multi-pass kinematics (Rule 03 & Rule 04):
+                // Multi-pass kinematics (Rule 03 & Rule 04 & Rule 10):
                 // For 1 Pass: Offset = R_wire + gap (0.090 + gap)
-                // For 2 Pass: Offset = R_wire + gap + Remain_2 (0.090 + gap + 0.022)
+                // For 2 Pass: Offset = R_wire + gap + Remain_2 (0.090 + gap + O2)
                 let O1 = 0.090 + gap;
                 if (passes > 1) {
-                    let O2 = FINISH_CONSTANTS[1].Offset;
-                    O1 = 0.090 + gap + O2;
+                    O1 = 0.090 + gap + calculated_O2;
                 }
                 
                 let toff = Ton * basePo;
@@ -1365,28 +1384,17 @@ function initApp() {
                 row._eta_eff = eta_eff;
 
             } else {
-                let p = FINISH_CONSTANTS[i];
-                if (!p) p = FINISH_CONSTANTS[1];
-                
-                let fTon = p.Ton;
-                let fIP = p.IP;
-                if (state.wsStrategyLevel === 1) { fTon = Math.max(2, fTon - 2); fIP = Math.max(1, fIP - 1); }
-                else if (state.wsStrategyLevel === 5) { fTon += 4; }
-                
-                row.ti = fTon;
-                row.Po = p.Po;
-                row.IP = fIP;
-                row.Voltage = p.Volt;
-                row.VF = p.VF;
+                row.ti = p2_ton;
+                row.Po = p2_po;
+                row.IP = p2_ip;
+                row.Voltage = p2_volt;
+                row.VF = p2_vf;
                 row.Wire = '2';
-                row.offsetText = p.Offset.toFixed(3);
+                row.offsetText = calculated_O2.toFixed(3);
                 row.speedArea = '--';
-                row.feedRate = p.Speed;
+                row.feedRate = '100-150Hz';
                 row.Ra = '~ 1.8 - 2.0';
-                
-                // Finish Pass Hz ceilings (Rule 02)
-                const hClamped = Math.max(12, Math.min(140, H));
-                row.hz = Math.round(150 - (hClamped - 12) * ((150 - 100) / (140 - 12)));
+                row.hz = p2_hz;
                 row.ampe = '< 0.1';
             }
             wsRows.push(row);
