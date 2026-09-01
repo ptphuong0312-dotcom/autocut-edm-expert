@@ -20,6 +20,8 @@ Before modifying ANY file or executing any logic, you MUST adhere to the followi
 6. **STRICT IMMUTABILITY OF WORKSHOP RAW DATA BANK:**
    - Dữ liệu thô trong `WORKSHOP_DATA_BANK.md` và `.agents/rules/09-WORKSHOP_RAW_DATA_BANK_AND_REVERSE_INTERPOLATION.md` là tài sản thiêng liêng lưu trữ số liệu thực nghiệm gốc.
    - AI TUYỆT ĐỐI KHÔNG ĐƯỢC TỰ Ý SỬA ĐỔI nếu chưa có lệnh của người dùng. AI chỉ được ĐỌC để tính toán.
-7. **UNIVERSAL HYBRID PHYSICS-EMPIRICAL OFFSET ENGINE (CƠ CHẾ LAI TẠO VẬT LÝ HÃNG + XƯỞNG):**
-   - AI KHÔNG ĐƯỢC CHỈ DÙNG ĐƠN ĐỘC DỮ LIỆU XƯỞNG hoặc ĐƠN ĐỘC LÝ THUYẾT HÃNG.
-   - AI phải kết hợp Năng lượng xung đơn $E_p$, điện áp hồ quang $U_{arc}$ của Hãng với các điểm neo thực nghiệm cào phôi $\delta(H)$ của Xưởng (Xem `.agents/rules/10-UNIVERSAL_HYBRID_OFFSET_FORMULA.md`) để tính toán chính xác hệ số bù dao Offset cho bất kỳ độ dày $H$ và bất kỳ chế độ điện nào.
+7. **UNIVERSAL MULTIVARIABLE HYBRID OFFSET ENGINE:**
+   - AI KHÔNG ĐƯỢC CỐ ĐỊNH $\delta$ THEO $H$.
+   - AI phải kết hợp Năng lượng xung đơn $E_p$, điện áp hồ quang $U_{arc}$ của Hãng với các điểm neo thực nghiệm cào phôi $\delta(H, \text{Ton}, \text{IP}, \text{Volt})$ của Xưởng (Xem `.agents/rules/10-UNIVERSAL_HYBRID_OFFSET_FORMULA.md`) để tính toán chính xác hệ số bù dao Offset cho bất kỳ độ dày $H$ và bất kỳ chế độ điện nào.
+8. **MANDATORY 6-STEP SOP FOR NEW DATA INTEGRATION:**
+   - Khi người dùng cung cấp dữ liệu cắt thực nghiệm mới, AI BẮT BUỘC phải thực thi đúng **Quy trình chuẩn 6 bước** quy định trong `.agents/rules/11-SOP_NEW_EMPIRICAL_DATA_INTEGRATION.md` và `SOP_NEW_DATA_INTEGRATION.md` (Đọc lại 5 tài liệu tiên quyết -> Giải mã -> Tính phân tích ngược -> Cập nhật Data Bank -> Nạp bộ não tính toán -> Kiểm thử & Deploy).
