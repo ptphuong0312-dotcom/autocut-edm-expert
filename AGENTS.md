@@ -24,4 +24,6 @@ Before modifying ANY file or executing any logic, you MUST adhere to the followi
    - AI KHÔNG ĐƯỢC CỐ ĐỊNH $\delta$ THEO $H$.
    - AI phải kết hợp Năng lượng xung đơn $E_p$, điện áp hồ quang $U_{arc}$ của Hãng với các điểm neo thực nghiệm cào phôi $\delta(H, \text{Ton}, \text{IP}, \text{Volt})$ của Xưởng (Xem `.agents/rules/10-UNIVERSAL_HYBRID_OFFSET_FORMULA.md`) để tính toán chính xác hệ số bù dao Offset cho bất kỳ độ dày $H$ và bất kỳ chế độ điện nào.
 8. **MANDATORY 6-STEP SOP FOR NEW DATA INTEGRATION:**
-   - Khi người dùng cung cấp dữ liệu cắt thực nghiệm mới, AI BẮT BUỘC phải thực thi đúng **Quy trình chuẩn 6 bước** quy định trong `.agents/rules/11-SOP_NEW_EMPIRICAL_DATA_INTEGRATION.md` và `SOP_NEW_DATA_INTEGRATION.md` (Đọc lại 5 tài liệu tiên quyết -> Giải mã -> Tính phân tích ngược -> Cập nhật Data Bank -> Nạp bộ não tính toán -> Kiểm thử & Deploy).
+   - Khi người dùng cung cấp dữ liệu cắt thực nghiệm mới, AI BẮT BUỘC phải thực thi đúng **Quy trình chuẩn 6 bước** quy định trong `.agents/rules/11-SOP_NEW_EMPIRICAL_DATA_INTEGRATION.md` và `SOP_NEW_DATA_INTEGRATION.md`.
+9. **4-TIER STANDARD AMMETER PROGRESSION LAW:**
+   - Trong Chế độ Tiêu chuẩn (Tab 2 Cấp 3), kim đồng hồ Ampe phải tuân thủ nghiêm ngặt 4 dải: $H(5-30) \rightarrow 2.0-2.5\text{A}$, $H(35-60) \rightarrow 2.5-3.0\text{A}$, $H(65-100) \rightarrow 3.0-3.5\text{A}$, $H>100 \rightarrow 3.5-4.5\text{A}$ (Xem `.agents/rules/12-STANDARD_AMMETER_PROGRESSION_LAW.md`).

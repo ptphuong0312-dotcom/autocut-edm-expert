@@ -1188,7 +1188,7 @@ function initApp() {
         const isHard = state.material === 'SCM440';
         const wsRows = [];
 
-        // 1. Hệ thống Quy luật Vật lý Biến đổi Mượt mà Liên tục (Continuous Monotonic EDM Law)
+        // 1. Hệ thống Quy luật Vật lý Biến đổi Mượt mà & 4 Dải Ampe Tiêu Chuẩn (Rule 12)
         let baseTon, basePo, baseIP, baseVF, baseGap, baseVolt;
 
         if (isAlu) {
@@ -1206,43 +1206,52 @@ function initApp() {
             baseVF = H <= 40 ? 60 : 55;
             baseGap = 0.012;
         } else {
-            // THÉP SCM440 / SCM420 / THÉP KHUÔN: QUY LUẬT VẬT LÝ BIẾN ĐỔI LIÊN TỤC KHÔNG GIẬT CỤC
+            // THÉP SCM440 / SCM420 / THÉP KHUÔN - BỘ THÔNG SỐ ĐIỆN 4 DẢI AMPE CHUẨN XƯỞNG
             
-            // 1.1. Điện áp Volt: Có ngưỡng chuyển tiếp logic mượt mà
+            // 1.1. Điện áp Volt: Ngưỡng chuyển tiếp logic mượt mà
             baseVolt = H <= 15 ? 'Low' : 'High';
 
-            // 1.2. Ton: Tăng mượt mà đơn điệu từ 16us đến 120us (chạm trần nhiệt bảo vệ dây Moly)
+            // 1.2. Ton: Tăng mượt mà đơn điệu từ 16us đến 120us
             if (H <= 15) {
                 baseTon = Math.round(16 + (H - 5) * (20 - 16) / (15 - 5));
-            } else if (H <= 40) {
-                baseTon = Math.round(20 + (H - 15) * (36 - 20) / (40 - 15));
-            } else if (H <= 70) {
-                baseTon = Math.round(36 + (H - 40) * (52 - 36) / (70 - 40));
+            } else if (H <= 30) {
+                baseTon = Math.round(20 + (H - 15) * (30 - 20) / (30 - 15));
+            } else if (H <= 60) {
+                baseTon = Math.round(30 + (H - 30) * (48 - 30) / (60 - 30));
+            } else if (H <= 100) {
+                baseTon = Math.round(48 + (H - 60) * (80 - 48) / (100 - 60));
             } else if (H <= 140) {
-                baseTon = Math.round(52 + (H - 70) * (120 - 52) / (140 - 70));
+                baseTon = Math.round(80 + (H - 100) * (120 - 80) / (140 - 100));
             } else {
                 baseTon = 120; // H > 140: Kịch trần công suất xung cho dây 0.18mm
             }
 
-            // 1.3. IP: Cấp công suất sò tăng tuần tự mượt mà
+            // 1.3. IP & Po: Cấu hình chuẩn xác để đạt đúng 4 dải Ampe yêu cầu (Rule 12)
+            // Dải 1: H(5-30)   -> Ampe [2.0 - 2.5A] (IP=2-3, Po=5-7)
+            // Dải 2: H(35-60)  -> Ampe [2.5 - 3.0A] (IP=4, Po=8)
+            // Dải 3: H(65-100) -> Ampe [3.0 - 3.5A] (IP=5, Po=9)
+            // Dải 4: H > 100   -> Ampe [3.5 - 4.5A] (IP=5-6, Po=8)
             if (H <= 15) {
                 baseIP = 2;
-            } else if (H <= 45) {
+                basePo = 5;
+            } else if (H <= 30) {
+                baseIP = 3;
+                basePo = 7;
+            } else if (H <= 60) {
                 baseIP = 4;
-            } else if (H <= 120) {
+                basePo = 8;
+            } else if (H <= 100) {
                 baseIP = 5;
+                basePo = 9;
+            } else if (H <= 160) {
+                baseIP = 5;
+                basePo = 8;
             } else {
                 baseIP = 6;
+                basePo = 8;
             }
 
-            // 1.4. Toff / Po: Bậc thang tỷ lệ nghịch chu kỳ xung chuẩn nhiệt động học Hãng
-            if (isHard) {
-                if (H <= 15) basePo = 5; else if (H <= 40) basePo = 6; else if (H <= 70) basePo = 7; else if (H <= 120) basePo = 7; else if (H <= 200) basePo = 8; else if (H <= 350) basePo = 10; else basePo = 13;
-            } else {
-                if (H <= 15) basePo = 4; else if (H <= 40) basePo = 5; else if (H <= 70) basePo = 6; else if (H <= 120) basePo = 7; else if (H <= 200) basePo = 8; else basePo = 10;
-            }
-
-            // 1.5. VF: Điện áp theo dõi điều khiển Servo bám phôi mượt mà
+            // 1.4. VF: Điện áp theo dõi điều khiển Servo bám phôi mượt mà
             if (H <= 40) {
                 baseVF = 65;
             } else if (H <= 140) {
@@ -1253,7 +1262,7 @@ function initApp() {
                 baseVF = 65;
             }
 
-            // 1.6. Đường cong Offset chuẩn hóa dựa trên điểm neo thực nghiệm (Rule 04 & 10)
+            // 1.5. Đường cong Offset chuẩn hóa dựa trên điểm neo thực nghiệm (Rule 04 & 10)
             let baseOffsetTarget;
             if (H <= 15) {
                 baseOffsetTarget = 0.105;
