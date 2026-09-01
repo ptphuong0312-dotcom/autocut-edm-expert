@@ -110,3 +110,14 @@ Các dữ liệu này là cơ sở để tính toán Tốc độ mài (Fc), Khe 
 | | P3 | 15 | 10 | 2 | 2 | Low | 15 | 100Hz | **0.010** |
 | | P4 | 7 | 12 | 1 | 3 | Low | 5 | 100Hz | **0.010** |
 | | P5 | 3 | 15 | 1 | 3 | Low | 1 | 100Hz | **0.005** |
+
+## PHẦN 4: DỮ LIỆU ĐỐI CHIẾU DÒNG ĐIỆN (AMPE) THEO ĐIỆN ÁP (VOLT)
+Người dùng đã cung cấp 2 bài test thực tế chứng minh dòng Ampe trên kim đồng hồ đo tỷ lệ thuận với điện áp khe hở (Volt):
+- **Test 1 (H=30, Cấp 6, Ton=28, Toff=6, IP=4):** 
+  - Volt = High -> Ampe = 4.1A
+  - Volt = Low -> Ampe = 3.45A
+- **Test 2 (H=30, Ton=30, Toff=7, IP=3):**
+  - Volt = High -> Ampe = 3.0A
+  - Volt = Low -> Ampe = 2.5A
+
+=> **Quy luật rút ra:** Khi chuyển từ High xuống Low, dòng Ampe sụt giảm từ 16% - 17%. Dữ liệu này được dùng làm Anchor để tinh chỉnh phương trình vật lý tính Ampe của hệ thống.

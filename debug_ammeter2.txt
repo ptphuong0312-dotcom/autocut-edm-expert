@@ -1,0 +1,2 @@
+actualAmmeterReading: '≈ 3.2 A (Khớp kim đo thực tế xưởng)'
+ammeterDisplay: `≈ ${i_tb_high} A (Khớp theo điện gốc)`

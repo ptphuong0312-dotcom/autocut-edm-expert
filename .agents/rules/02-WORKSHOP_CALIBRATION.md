@@ -36,6 +36,13 @@ Người dùng đã cung cấp kết quả cắt hoàn hảo cho thép SCM440, c
     4. Sau khi chốt được Cấp độ, AI mới bắt đầu phân tích sâu các kết quả kèm theo (thời gian, Hz, tốc độ, sai lệch).
     5. AI Agent có nhiệm vụ dùng kết quả đó làm "Anchor Data" để sửa lại thuật toán nội suy (Machine Learning) **bên trong Tab 2**, giúp Tab 2 ngày càng chính xác hơn để chuẩn bị cho tương lai.
 
+
+### 🚨 CHECKLIST BẮT BUỘC KHI NHẬN DỮ LIỆU THỰC NGHIỆM TỪ USER:
+Khi User gửi bất kỳ bảng số liệu cắt nào (hình ảnh hoặc text), Agent KHÔNG ĐƯỢC tính toán nội suy ngay. Phải thực hiện ĐÚNG 3 BƯỚC:
+1. **MAPPING TAB 1:** Áp dụng ngược các hệ số (tiMult, ipDelta, vfDelta) của 11 Cấp độ Chiến lược (STRATEGY_CONFIGS) vào Ton, IP, VF gốc để tìm ra dữ liệu User gửi khớp với Cấp độ nào. Báo cáo rõ ràng ra màn hình.
+2. **QA FILTER (Lọc bất thường):** Phân tích xem có điểm mù nào (như Ton quá yếu làm khe hở Gap bị âm, bù dao sai lệch lớn) hay không. Cảnh báo cho User.
+3. **CHỐT ANCHOR:** Nếu dữ liệu chuẩn, mới tiến hành lưu nó làm Điểm Neo (Anchor) vào `WORKSHOP_EMPIRICAL_LIBRARY` để nội suy cho Tab 2.
+
 ## 6. ĐẶC TÍNH HIỂN THỊ CỦA MÁY CNC THỰC TẾ (AUTOCUT DISPLAY QUIRKS)
 *   **Nguyên tắc "Ảo ảnh H=40mm":** Bất kể phôi thực tế của bạn dày bao nhiêu (12mm, 55mm, 63mm...), phần mềm AutoCut luôn mặc định lấy Tốc độ tiến bàn cơ học (Ft) nhân với hằng số `40` để in ra con số `mm²/phút` trên màn hình.
 *   **Công thức quy đổi tuyệt đối:** Vì tốc độ bàn `Ft (mm/phút) = Hz * 0.06`, và màn hình hiển thị `Hiển thị = Ft * 40`, chúng ta có công thức bất di bất dịch:

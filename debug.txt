@@ -1,0 +1,8 @@
+actor: 1.0, // Hệ số tinh chỉnh tốc độ
+        actualAmmeterReading: '≈ 3.2 A (Khớp kim đo thực tế xưởng)'
+    };
+
+    
+    // HỆ THỐNG LAI TẠO DỮ LIỆU & NHÂN QUẢ BÙ DAO (RULE 06, 07, 08)
+    fufunction generateWorkshopRows(state) {
+        co
