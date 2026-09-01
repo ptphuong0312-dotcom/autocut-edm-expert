@@ -1188,7 +1188,7 @@ function initApp() {
         const isHard = state.material === 'SCM440';
         const wsRows = [];
 
-        // 1. Empirical Interpolation for Base Parameters (Pass 1)
+        // 1. Hệ thống Quy luật Vật lý Biến đổi Mượt mà Liên tục (Continuous Monotonic EDM Law)
         let baseTon, basePo, baseIP, baseVF, baseGap, baseVolt;
 
         if (isAlu) {
@@ -1206,45 +1206,67 @@ function initApp() {
             baseVF = H <= 40 ? 60 : 55;
             baseGap = 0.012;
         } else {
-            // STEEL / SCM440 / SCM420 - High Precision Empirical Ground Truth Anchors (14 STT)
-            const anchors = [
-                { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50, offset: 0.105 }, // STT 4: Chuẩn luôn (0.105)
-                { H: 30,  ti: 32,  Po: 5, IP: 4, Volt: 'High', VF: 65, offset: 0.098 }, // STT 1: Nhập 0.115 chày to 0.034 -> Chuẩn = 0.098
-                { H: 40,  ti: 36,  Po: 5, IP: 4, Volt: 'High', VF: 65, offset: 0.098 }, // STT 2: Nhập 0.115 chày to 0.034 -> Chuẩn = 0.098
-                { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, offset: 0.105 }, // STT 5: Chuẩn luôn (0.105)
-                { H: 63,  ti: 44,  Po: 7, IP: 5, Volt: 'High', VF: 55, offset: 0.095 }, // STT 3: Nhập 0.118 chày to 0.046 -> Chuẩn = 0.095
-                { H: 68,  ti: 70,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, offset: 0.097 }, // STT 6: Chuẩn luôn (0.097)
-                { H: 90,  ti: 90,  Po: 7, IP: 4, Volt: 'High', VF: 50, offset: 0.096 }, // Điểm chuyển tiếp mượt mà
-                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, offset: 0.095 }, // STT 7: Chuẩn luôn (0.095)
-                { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, offset: 0.110 }, // STT 8: Chuẩn luôn (0.110)
-                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, offset: 0.115 }  // STT 14: Nhập 0.120 cối to 0.010 -> Chuẩn = 0.115
-            ];
+            // THÉP SCM440 / SCM420 / THÉP KHUÔN: QUY LUẬT VẬT LÝ BIẾN ĐỔI LIÊN TỤC KHÔNG GIẬT CỤC
+            
+            // 1.1. Điện áp Volt: Có ngưỡng chuyển tiếp logic mượt mà
+            baseVolt = H <= 15 ? 'Low' : 'High';
 
-            let p1 = anchors[0], p2 = anchors[anchors.length - 1];
-            for (let i = 0; i < anchors.length - 1; i++) {
-                if (H >= anchors[i].H && H <= anchors[i+1].H) {
-                    p1 = anchors[i]; p2 = anchors[i+1]; break;
-                } else if (H < anchors[0].H) {
-                    p1 = anchors[0]; p2 = anchors[1]; break;
-                } else if (H > anchors[anchors.length - 1].H) {
-                    p1 = anchors[anchors.length - 2]; p2 = anchors[anchors.length - 1]; break;
-                }
+            // 1.2. Ton: Tăng mượt mà đơn điệu từ 16us đến 120us (chạm trần nhiệt bảo vệ dây Moly)
+            if (H <= 15) {
+                baseTon = Math.round(16 + (H - 5) * (20 - 16) / (15 - 5));
+            } else if (H <= 40) {
+                baseTon = Math.round(20 + (H - 15) * (36 - 20) / (40 - 15));
+            } else if (H <= 70) {
+                baseTon = Math.round(36 + (H - 40) * (52 - 36) / (70 - 40));
+            } else if (H <= 140) {
+                baseTon = Math.round(52 + (H - 70) * (120 - 52) / (140 - 70));
+            } else {
+                baseTon = 120; // H > 140: Kịch trần công suất xung cho dây 0.18mm
             }
 
-            const ratio = (H - p1.H) / (p2.H - p1.H);
-            
-            // Factory Po stepped curve for thermal stability
+            // 1.3. IP: Cấp công suất sò tăng tuần tự mượt mà
+            if (H <= 15) {
+                baseIP = 2;
+            } else if (H <= 45) {
+                baseIP = 4;
+            } else if (H <= 120) {
+                baseIP = 5;
+            } else {
+                baseIP = 6;
+            }
+
+            // 1.4. Toff / Po: Bậc thang tỷ lệ nghịch chu kỳ xung chuẩn nhiệt động học Hãng
             if (isHard) {
                 if (H <= 15) basePo = 5; else if (H <= 40) basePo = 6; else if (H <= 70) basePo = 7; else if (H <= 120) basePo = 7; else if (H <= 200) basePo = 8; else if (H <= 350) basePo = 10; else basePo = 13;
             } else {
                 if (H <= 15) basePo = 4; else if (H <= 40) basePo = 5; else if (H <= 70) basePo = 6; else if (H <= 120) basePo = 7; else if (H <= 200) basePo = 8; else basePo = 10;
             }
-            baseTon = Math.round(p1.ti + ratio * (p2.ti - p1.ti));
-            baseIP = Math.round(p1.IP + ratio * (p2.IP - p1.IP));
-            baseVF = Math.round(p1.VF + ratio * (p2.VF - p1.VF));
-            baseVolt = (ratio < 0.5) ? p1.Volt : p2.Volt;
-            const baseOffset = p1.offset + ratio * (p2.offset - p1.offset);
-            baseGap = baseOffset - 0.090;
+
+            // 1.5. VF: Điện áp theo dõi điều khiển Servo bám phôi mượt mà
+            if (H <= 40) {
+                baseVF = 65;
+            } else if (H <= 140) {
+                baseVF = Math.round(65 - (H - 40) * (65 - 55) / (140 - 40));
+            } else if (H <= 300) {
+                baseVF = Math.round(55 + (H - 140) * (65 - 55) / (300 - 140));
+            } else {
+                baseVF = 65;
+            }
+
+            // 1.6. Đường cong Offset chuẩn hóa dựa trên điểm neo thực nghiệm (Rule 04 & 10)
+            let baseOffsetTarget;
+            if (H <= 15) {
+                baseOffsetTarget = 0.105;
+            } else if (H <= 40) {
+                baseOffsetTarget = 0.098;
+            } else if (H <= 140) {
+                baseOffsetTarget = 0.095;
+            } else if (H <= 160) {
+                baseOffsetTarget = 0.095 + (H - 140) * (0.110 - 0.095) / (160 - 140);
+            } else {
+                baseOffsetTarget = 0.110 + (H - 160) * (0.115 - 0.110) / (300 - 160);
+            }
+            baseGap = baseOffsetTarget - 0.090;
         }
 
         // Apply Tab 2 5-level Strategy modifications
