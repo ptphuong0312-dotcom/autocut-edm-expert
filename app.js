@@ -1244,7 +1244,7 @@ function initApp() {
             const STANDARD_GAPS_HIGH = [{H:60,g:0.010},{H:140,g:0.005},{H:160,g:0.020},{H:500,g:0.020}];
 
             const gapAnchors = (baseVolt === 'High') ? STANDARD_GAPS_HIGH : STANDARD_GAPS_LOW;
-            let baseGap;
+            baseGap = 0;
             if (H <= gapAnchors[0].H) {
                 baseGap = gapAnchors[0].g;
             } else if (H >= gapAnchors[gapAnchors.length-1].H) {
@@ -1258,7 +1258,9 @@ function initApp() {
                         break;
                     }
                 }
-            }}
+            }
+
+                }
 
         // Apply Tab 2 5-level Strategy modifications
         let Ton = Math.max(10, baseTon + strat.TonMod);
@@ -2299,7 +2301,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.68";
+    const CURRENT_VERSION = "3.4.69";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -2506,7 +2508,7 @@ function initApp() {
                                         </div>
                                         <div class="lib-metric-box highlight-metric">
                                             <span class="lib-lbl">Tốc độ &amp; Năng suất</span>
-                                            <span class="lib-val">${item.measured.fcAvg ? `Fc lý thuyết: <strong>${item.measured.fcAvg} mm²/p</strong> (Tức thời: ${item.measured.fcInstantRange})` : (item.measured.measuredSpeed ? `Fc ≈ ${item.measured.measuredSpeed} mm²/p (Đo thực tế)` : 'Chưa đo tốc độ (Test Offset & Dung sai)')}</span>
+                                            <span class="lib-val">${item.measured.fcAvg ? `Fc lý thuyết: <strong>${item.measured.fcAvg} mm²/p</strong> (Tức thời: ${item.measured.fcInstantRange})` : (item.measured.measuredSpeed ? `Tốc độ thực: ${item.measured.measuredSpeed} mm²/phút` : 'Chưa đo tốc độ (Test Offset & Dung sai)')}</span>
                                         </div>
                                         <div class="lib-metric-box highlight-metric">
                                             <span class="lib-lbl">Thời gian / Dung sai</span>
