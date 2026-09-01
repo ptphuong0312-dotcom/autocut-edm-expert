@@ -1163,8 +1163,7 @@ function initApp() {
                 "tolerance": "Cối lớn hơn lập trình 0.010mm"
             },
             "notes": "GĐ 2: Cắt cối lỗ lớn hơn lập trình 0.010mm. OFFSET CHUẨN HIỆU CHỈNH = 0.120 - 0.005 = 0.115mm (Khe hở δ = 0.025mm)."
-        }
-    ,
+        },
         {
             "id": "2P-01",
             "name": "SCM420 | H=63mm | 2 Lần (Cấp 4)",
@@ -1173,8 +1172,8 @@ function initApp() {
             "cutLength": "30mm",
             "passCount": 2,
             "multiPassDetails": [
-                { "pass": "Pass 1", "ti": 24, "Po": 7, "IP": 4, "wire": 1, "Voltage": "High", "VF": 43, "maxSpeed": "150Hz", "enteredOffset": 0.116, "time": "21p", "ampe": "4A", "speed": "55-65 mm²/p" },
-                { "pass": "Pass 2", "ti": 15, "Po": 5, "IP": 2, "wire": 2, "Voltage": "High", "VF": 36, "maxSpeed": "100Hz", "enteredOffset": 0.022, "time": "5p20'", "ampe": "0,1-0,2A", "speed": "240 mm²/p" }
+                { "pass": "Pass 1", "ti": 24, "Po": 7, "IP": 4, "wire": 1, "voltage": "High", "vf": 43, "maxSpeed": "150Hz", "offset": 0.116, "time": "21p", "ampe": "4A", "speed": "55-65 mm²/p" },
+                { "pass": "Pass 2", "ti": 15, "Po": 5, "IP": 2, "wire": 2, "voltage": "High", "vf": 36, "maxSpeed": "100Hz", "offset": 0.022, "time": "5p20'", "ampe": "0,1-0,2A", "speed": "240 mm²/p" }
             ],
             "measured": {
                 "totalTimeStr": "26p20'",
@@ -1184,9 +1183,9 @@ function initApp() {
                 "enteredOffsetP2": 0.022,
                 "recommendedOffsetP1": 0.081,
                 "recommendedOffsetP2": 0.022,
-                "tolerance": "Chày to hơn lập trình 0.070mm"
+                "actualDimension": "Chày to hơn lập trình 0.070mm"
             },
-            "notes": "Nhập test P1=0.116, P2=0.022 -> Chày to hơn 0.070mm (dư mỗi bên 0.035mm). Offset chuẩn hiệu chỉnh: P1=0.081mm, P2=0.022mm (Tốc độ P2 đạt kịch trần 240 mm²/p)."
+            "notes": "Nhập test P1=0.116, P2=0.022 -> Chày to hơn 0.070mm. Offset chuẩn hiệu chỉnh: P1=0.081mm, P2=0.022mm."
         },
         {
             "id": "2P-02",
@@ -1196,8 +1195,8 @@ function initApp() {
             "cutLength": "30mm",
             "passCount": 2,
             "multiPassDetails": [
-                { "pass": "Pass 1", "ti": 44, "Po": 7, "IP": 5, "wire": 1, "Voltage": "High", "VF": 55, "maxSpeed": "150Hz", "enteredOffset": 0.118, "time": "16p26'", "ampe": "4,2A", "speed": "75-85 mm²/p" },
-                { "pass": "Pass 2", "ti": 20, "Po": 5, "IP": 3, "wire": 2, "Voltage": "High", "VF": 40, "maxSpeed": "100Hz", "enteredOffset": 0.024, "time": "5p20'", "ampe": "0,1-0,2A", "speed": "240 mm²/p" }
+                { "pass": "Pass 1", "ti": 44, "Po": 7, "IP": 5, "wire": 1, "voltage": "High", "vf": 55, "maxSpeed": "150Hz", "offset": 0.118, "time": "16p26'", "ampe": "4,2A", "speed": "75-85 mm²/p" },
+                { "pass": "Pass 2", "ti": 20, "Po": 5, "IP": 3, "wire": 2, "voltage": "High", "vf": 40, "maxSpeed": "100Hz", "offset": 0.024, "time": "5p20'", "ampe": "0,1-0,2A", "speed": "240 mm²/p" }
             ],
             "measured": {
                 "totalTimeStr": "21p46'",
@@ -1207,9 +1206,9 @@ function initApp() {
                 "enteredOffsetP2": 0.024,
                 "recommendedOffsetP1": 0.093,
                 "recommendedOffsetP2": 0.024,
-                "tolerance": "Chày to hơn lập trình 0.050mm"
+                "actualDimension": "Chày to hơn lập trình 0.050mm"
             },
-            "notes": "Nhập test P1=0.118, P2=0.024 -> Chày to hơn 0.050mm (dư mỗi bên 0.025mm). Offset chuẩn hiệu chỉnh: P1=0.093mm, P2=0.024mm (Tốc độ P2 đạt kịch trần 240 mm²/p)."
+            "notes": "Nhập test P1=0.118, P2=0.024 -> Chày to hơn 0.050mm. Offset chuẩn hiệu chỉnh: P1=0.093mm, P2=0.024mm."
         },
         {
             "id": "2P-03",
@@ -1219,8 +1218,8 @@ function initApp() {
             "cutLength": "644mm",
             "passCount": 2,
             "multiPassDetails": [
-                { "pass": "Pass 1", "ti": 28, "Po": 6, "IP": 4, "wire": 1, "Voltage": "High", "VF": 60, "maxSpeed": "200Hz", "enteredOffset": 0.115, "time": "3h08p", "ampe": "4,1A", "speed": "140-150 mm²/p" },
-                { "pass": "Pass 2", "ti": 16, "Po": 5, "IP": 2, "wire": 2, "Voltage": "Low", "VF": 40, "maxSpeed": "150Hz", "enteredOffset": 0.022, "time": "1h12p", "ampe": "0,1-0,2A", "speed": "360 mm²/p" }
+                { "pass": "Pass 1", "ti": 28, "Po": 6, "IP": 4, "wire": 1, "voltage": "High", "vf": 60, "maxSpeed": "200Hz", "offset": 0.115, "time": "3h08p", "ampe": "4,1A", "speed": "140-150 mm²/p" },
+                { "pass": "Pass 2", "ti": 16, "Po": 5, "IP": 2, "wire": 2, "voltage": "Low",  "vf": 40, "maxSpeed": "150Hz", "offset": 0.022, "time": "1h12p", "ampe": "0,1-0,2A", "speed": "360 mm²/p" }
             ],
             "measured": {
                 "totalTimeStr": "4h20p",
@@ -1230,12 +1229,149 @@ function initApp() {
                 "enteredOffsetP2": 0.022,
                 "recommendedOffsetP1": 0.1075,
                 "recommendedOffsetP2": 0.022,
-                "tolerance": "Cối nhỏ hơn lập trình 0.015mm"
+                "actualDimension": "Cối nhỏ hơn lập trình 0.015mm"
             },
-            "notes": "Cắt cối L=644mm. Nhập test P1=0.115, P2=0.022 -> Cối nhỏ hơn 0.015mm (phôi lấn 0.0075mm/bên). Offset chuẩn hiệu chỉnh: P1=0.1075mm, P2=0.022mm (Tốc độ P2 đạt kịch trần 360 mm²/p)."
-        }];
-
-
+            "notes": "Cắt cối L=644mm. Nhập test P1=0.115, P2=0.022 -> Cối nhỏ hơn 0.015mm. Offset chuẩn hiệu chỉnh: P1=0.1075mm, P2=0.022mm."
+        },
+        {
+            "id": "2P-04",
+            "name": "SCM440 | H=12mm | 2 Lần (Đã Chuẩn)",
+            "materialName": "SCM440 (28-32HRC)",
+            "thickness": 12,
+            "cutLength": "--",
+            "passCount": 2,
+            "multiPassDetails": [
+                { "pass": "Pass 1", "ti": 20, "Po": 7, "IP": 2, "wire": 2, "voltage": "Low", "vf": 50, "maxSpeed": "150Hz", "offset": 0.098, "time": "--", "ampe": "--", "speed": "--" },
+                { "pass": "Pass 2", "ti": 12, "Po": 7, "IP": 2, "wire": 2, "voltage": "Low", "vf": 20, "maxSpeed": "130Hz", "offset": 0.040, "time": "--", "ampe": "--", "speed": "--" }
+            ],
+            "measured": {
+                "totalTimeStr": "--",
+                "ammeterA": "--",
+                "measuredSpeed": "--",
+                "enteredOffsetP1": 0.098,
+                "enteredOffsetP2": 0.040,
+                "recommendedOffsetP1": 0.098,
+                "recommendedOffsetP2": 0.040,
+                "actualDimension": "Kích thước đã chuẩn 100%"
+            },
+            "notes": "H=12mm Thép SCM440. P1(Ton=20, IP=2, Low, VF=50, O1=0.098) + P2(Ton=12, IP=2, Low, VF=20, O2=0.040) -> Kích thước đã chuẩn."
+        },
+        {
+            "id": "2P-05",
+            "name": "SCM440 | H=32mm | 2 Lần (Đã Chuẩn)",
+            "materialName": "SCM440 (28-32HRC)",
+            "thickness": 32,
+            "cutLength": "--",
+            "passCount": 2,
+            "multiPassDetails": [
+                { "pass": "Pass 1", "ti": 30, "Po": 7, "IP": 3, "wire": 1, "voltage": "Low", "vf": 50, "maxSpeed": "200Hz", "offset": 0.091, "time": "--", "ampe": "--", "speed": "--" },
+                { "pass": "Pass 2", "ti": 5,  "Po": 15,"IP": 1, "wire": 1, "voltage": "Low", "vf": 10, "maxSpeed": "130Hz", "offset": 0.030, "time": "--", "ampe": "--", "speed": "--" }
+            ],
+            "measured": {
+                "totalTimeStr": "--",
+                "ammeterA": "--",
+                "measuredSpeed": "--",
+                "enteredOffsetP1": 0.091,
+                "enteredOffsetP2": 0.030,
+                "recommendedOffsetP1": 0.091,
+                "recommendedOffsetP2": 0.030,
+                "actualDimension": "Kích thước đã chuẩn 100%"
+            },
+            "notes": "H=32mm Thép SCM440. P1(Ton=30, IP=3, Low, VF=50, O1=0.091) + P2(Ton=5, IP=1, Low, VF=10, O2=0.030) -> Kích thước đã chuẩn."
+        },
+        {
+            "id": "2P-06",
+            "name": "SCM440 | H=62mm | 2 Lần (Đã Chuẩn)",
+            "materialName": "SCM440 (28-32HRC)",
+            "thickness": 62,
+            "cutLength": "--",
+            "passCount": 2,
+            "multiPassDetails": [
+                { "pass": "Pass 1", "ti": 70, "Po": 7, "IP": 4, "wire": 1, "voltage": "High", "vf": 50, "maxSpeed": "150Hz", "offset": 0.092, "time": "--", "ampe": "--", "speed": "--" },
+                { "pass": "Pass 2", "ti": 15, "Po": 7, "IP": 2, "wire": 2, "voltage": "Low",  "vf": 20, "maxSpeed": "100Hz", "offset": 0.030, "time": "--", "ampe": "--", "speed": "--" }
+            ],
+            "measured": {
+                "totalTimeStr": "--",
+                "ammeterA": "--",
+                "measuredSpeed": "--",
+                "enteredOffsetP1": 0.092,
+                "enteredOffsetP2": 0.030,
+                "recommendedOffsetP1": 0.092,
+                "recommendedOffsetP2": 0.030,
+                "actualDimension": "Kích thước đã chuẩn 100%"
+            },
+            "notes": "H=62mm Thép SCM440. P1(Ton=70, IP=4, High, VF=50, O1=0.092) + P2(Ton=15, IP=2, Low, VF=20, O2=0.030) -> Kích thước đã chuẩn."
+        },
+        {
+            "id": "2P-07",
+            "name": "SCM420 | H=90mm | 2 Lần (IP=3 Đã Chuẩn)",
+            "materialName": "SCM420 (HB<200)",
+            "thickness": 90,
+            "cutLength": "--",
+            "passCount": 2,
+            "multiPassDetails": [
+                { "pass": "Pass 1", "ti": 100, "Po": 7, "IP": 3, "wire": 1, "voltage": "High", "vf": 50, "maxSpeed": "150Hz", "offset": 0.072, "time": "--", "ampe": "--", "speed": "--" },
+                { "pass": "Pass 2", "ti": 15,  "Po": 7, "IP": 2, "wire": 3, "voltage": "Low",  "vf": 20, "maxSpeed": "100Hz", "offset": 0.030, "time": "--", "ampe": "--", "speed": "--" }
+            ],
+            "measured": {
+                "totalTimeStr": "--",
+                "ammeterA": "--",
+                "measuredSpeed": "--",
+                "enteredOffsetP1": 0.072,
+                "enteredOffsetP2": 0.030,
+                "recommendedOffsetP1": 0.072,
+                "recommendedOffsetP2": 0.030,
+                "actualDimension": "Kích thước đã chuẩn 100%"
+            },
+            "notes": "H=90mm SCM420. P1(Ton=100, IP=3, High, VF=50, O1=0.072) + P2(Ton=15, IP=2, Low, VF=20, O2=0.030) -> Kích thước đã chuẩn."
+        },
+        {
+            "id": "2P-08",
+            "name": "SCM420 | H=90mm | 2 Lần (IP=4 Đã Chuẩn)",
+            "materialName": "SCM420 (HB<200)",
+            "thickness": 90,
+            "cutLength": "--",
+            "passCount": 2,
+            "multiPassDetails": [
+                { "pass": "Pass 1", "ti": 100, "Po": 7, "IP": 4, "wire": 1, "voltage": "High", "vf": 50, "maxSpeed": "150Hz", "offset": 0.085, "time": "--", "ampe": "--", "speed": "--" },
+                { "pass": "Pass 2", "ti": 15,  "Po": 7, "IP": 2, "wire": 3, "voltage": "Low",  "vf": 20, "maxSpeed": "100Hz", "offset": 0.030, "time": "--", "ampe": "--", "speed": "--" }
+            ],
+            "measured": {
+                "totalTimeStr": "--",
+                "ammeterA": "--",
+                "measuredSpeed": "--",
+                "enteredOffsetP1": 0.085,
+                "enteredOffsetP2": 0.030,
+                "recommendedOffsetP1": 0.085,
+                "recommendedOffsetP2": 0.030,
+                "actualDimension": "Kích thước đã chuẩn 100%"
+            },
+            "notes": "H=90mm SCM420. P1(Ton=100, IP=4, High, VF=50, O1=0.085) + P2(Ton=15, IP=2, Low, VF=20, O2=0.030) -> Kích thước đã chuẩn."
+        },
+        {
+            "id": "2P-09",
+            "name": "SCM420 | H=140mm | 2 Lần (Đã Chuẩn)",
+            "materialName": "SCM420 (HB<200)",
+            "thickness": 140,
+            "cutLength": "--",
+            "passCount": 2,
+            "multiPassDetails": [
+                { "pass": "Pass 1", "ti": 120, "Po": 8, "IP": 5, "wire": 1, "voltage": "High", "vf": 55, "maxSpeed": "60Hz",  "offset": 0.098, "time": "--", "ampe": "--", "speed": "--" },
+                { "pass": "Pass 2", "ti": 25,  "Po": 7, "IP": 2, "wire": 2, "voltage": "Low",  "vf": 25, "maxSpeed": "100Hz", "offset": 0.030, "time": "--", "ampe": "--", "speed": "--" }
+            ],
+            "measured": {
+                "totalTimeStr": "--",
+                "ammeterA": "--",
+                "measuredSpeed": "--",
+                "enteredOffsetP1": 0.098,
+                "enteredOffsetP2": 0.030,
+                "recommendedOffsetP1": 0.098,
+                "recommendedOffsetP2": 0.030,
+                "actualDimension": "Kích thước đã chuẩn 100%"
+            },
+            "notes": "H=140mm Phôi dày SCM420. P1(Ton=120, IP=5, High, VF=55, O1=0.098) + P2(Ton=25, IP=2, Low, VF=25, O2=0.030) -> Kích thước đã chuẩn."
+        }
+    ];
 
     const WORKSHOP_CALIBRATION_MODEL = {
         kAmpe: 2.2857,               // Hệ số dòng Ampe thực tế xưởng (~4.0A với IP=5, Po=7)
