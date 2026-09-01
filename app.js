@@ -908,11 +908,12 @@ function initApp() {
                 "totalTimeStr": "8p40'",
                 "ammeterA": "4,45A - 4,5A",
                 "measuredSpeed": "165 - 175",
-                "recommendedOffset": 0.115,
-                "sparkGap": "0.025",
-                "tolerance": "To hơn lập trình 0,034"
+                "enteredOffset": 0.115,
+                "standardOffset": 0.098,
+                "sparkGap": "0.008",
+                "tolerance": "Chày to hơn lập trình 0.034mm"
             },
-            "notes": "cắt lấy chày : kích thước to hơn lập trình 0,034"
+            "notes": "Nhập test 0.115mm -> Cắt lấy chày: To hơn lập trình 0.034mm (bù mỗi bên 0.017mm). OFFSET CHUẨN HIỆU CHỈNH = 0.115 - 0.017 = 0.098mm (Khe hở δ = 0.008mm)."
         },
         {
             "id": "STT 2",
@@ -926,11 +927,12 @@ function initApp() {
                 "totalTimeStr": "9p36'",
                 "ammeterA": "4,35A - 4,4A",
                 "measuredSpeed": "130 - 140",
-                "recommendedOffset": 0.115,
-                "sparkGap": "0.025",
-                "tolerance": "To hơn lập trình 0,034"
+                "enteredOffset": 0.115,
+                "standardOffset": 0.098,
+                "sparkGap": "0.008",
+                "tolerance": "Chày to hơn lập trình 0.034mm"
             },
-            "notes": "cắt lấy chày : kích thước to hơn lập trình 0,034"
+            "notes": "Nhập test 0.115mm -> Cắt lấy chày: To hơn lập trình 0.034mm (bù mỗi bên 0.017mm). OFFSET CHUẨN HIỆU CHỈNH = 0.115 - 0.017 = 0.098mm (Khe hở δ = 0.008mm)."
         },
         {
             "id": "STT 3",
@@ -944,15 +946,16 @@ function initApp() {
                 "totalTimeStr": "14p20'",
                 "ammeterA": "4,1A - 4,2A",
                 "measuredSpeed": "75 - 85",
-                "recommendedOffset": 0.118,
-                "sparkGap": "0.028",
-                "tolerance": "To hơn lập trình 0,046"
+                "enteredOffset": 0.118,
+                "standardOffset": 0.095,
+                "sparkGap": "0.005",
+                "tolerance": "Chày to hơn lập trình 0.046mm"
             },
-            "notes": "cắt lấy chày : kích thước to hơn lập trình 0,046"
+            "notes": "Nhập test 0.118mm -> Cắt lấy chày: To hơn lập trình 0.046mm (bù mỗi bên 0.023mm). OFFSET CHUẨN HIỆU CHỈNH = 0.118 - 0.023 = 0.095mm (Khe hở δ = 0.005mm)."
         },
         {
             "id": "STT 4",
-            "name": "SCM440 (28-32HRC) | H=12mm | 1 Lần (Chuẩn)",
+            "name": "SCM440 (28-32HRC) | H=12mm | 1 Lần (Chuẩn Vàng)",
             "materialName": "SCM440 (28-32HRC)",
             "thickness": 12,
             "cutLength": "",
@@ -962,15 +965,16 @@ function initApp() {
                 "totalTimeStr": "",
                 "ammeterA": "",
                 "measuredSpeed": null,
-                "recommendedOffset": 0.105,
+                "enteredOffset": 0.105,
+                "standardOffset": 0.105,
                 "sparkGap": "0.015",
-                "tolerance": "Offset chuẩn luôn"
+                "tolerance": "Chuẩn tuyệt đối"
             },
-            "notes": "cắt lấy chày : kích thước offset chuẩn luôn"
+            "notes": "Nhập test 0.105mm -> Cắt lấy chày: Kích thước offset chuẩn luôn! OFFSET CHUẨN = 0.105mm (Khe hở δ = 0.015mm)."
         },
         {
             "id": "STT 5",
-            "name": "SCM420 (HB<200) | H=45mm | 1 Lần (Chuẩn)",
+            "name": "SCM420 (HB<200) | H=45mm | 1 Lần (Chuẩn Vàng)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 45,
             "cutLength": "",
@@ -980,15 +984,16 @@ function initApp() {
                 "totalTimeStr": "",
                 "ammeterA": "",
                 "measuredSpeed": null,
-                "recommendedOffset": 0.105,
+                "enteredOffset": 0.105,
+                "standardOffset": 0.105,
                 "sparkGap": "0.015",
-                "tolerance": "Offset chuẩn luôn"
+                "tolerance": "Chuẩn tuyệt đối"
             },
-            "notes": "cắt lấy chày : kích thước offset chuẩn luôn"
+            "notes": "Nhập test 0.105mm -> Cắt lấy chày: Kích thước offset chuẩn luôn! OFFSET CHUẨN = 0.105mm (Khe hở δ = 0.015mm)."
         },
         {
             "id": "STT 6",
-            "name": "SCM440 (28-32HRC) | H=68mm | 1 Lần (Chuẩn)",
+            "name": "SCM440 (28-32HRC) | H=68mm | 1 Lần (Chuẩn Vàng)",
             "materialName": "SCM440 (28-32HRC)",
             "thickness": 68,
             "cutLength": "",
@@ -998,15 +1003,16 @@ function initApp() {
                 "totalTimeStr": "",
                 "ammeterA": "",
                 "measuredSpeed": null,
-                "recommendedOffset": 0.097,
+                "enteredOffset": 0.097,
+                "standardOffset": 0.097,
                 "sparkGap": "0.007",
-                "tolerance": "Offset chuẩn luôn"
+                "tolerance": "Chuẩn tuyệt đối"
             },
-            "notes": "cắt lấy chày : kích thước offset chuẩn luôn"
+            "notes": "Nhập test 0.097mm -> Cắt lấy chày: Kích thước offset chuẩn luôn! OFFSET CHUẨN = 0.097mm (Khe hở δ = 0.007mm)."
         },
         {
             "id": "STT 7",
-            "name": "SCM420 (HB<200) | H=140mm | 1 Lần (Chuẩn)",
+            "name": "SCM420 (HB<200) | H=140mm | 1 Lần (Chuẩn Vàng)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 140,
             "cutLength": "",
@@ -1016,15 +1022,16 @@ function initApp() {
                 "totalTimeStr": "",
                 "ammeterA": "",
                 "measuredSpeed": null,
-                "recommendedOffset": 0.095,
+                "enteredOffset": 0.095,
+                "standardOffset": 0.095,
                 "sparkGap": "0.005",
-                "tolerance": "Offset chuẩn luôn"
+                "tolerance": "Chuẩn tuyệt đối"
             },
-            "notes": "cắt lấy chày : kích thước offset chuẩn luôn"
+            "notes": "Nhập test 0.095mm -> Cắt lấy chày: Kích thước offset chuẩn luôn! OFFSET CHUẨN = 0.095mm (Khe hở δ = 0.005mm)."
         },
         {
             "id": "STT 8",
-            "name": "SCM420 (HB<200) | H=160mm | 1 Lần (Chuẩn)",
+            "name": "SCM420 (HB<200) | H=160mm | 1 Lần (Chuẩn Vàng)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 160,
             "cutLength": "",
@@ -1034,15 +1041,16 @@ function initApp() {
                 "totalTimeStr": "",
                 "ammeterA": "",
                 "measuredSpeed": null,
-                "recommendedOffset": 0.110,
+                "enteredOffset": 0.110,
+                "standardOffset": 0.110,
                 "sparkGap": "0.020",
-                "tolerance": "Offset chuẩn luôn"
+                "tolerance": "Chuẩn tuyệt đối"
             },
-            "notes": "cắt lấy chày : kích thước offset chuẩn luôn"
+            "notes": "Nhập test 0.110mm -> Cắt lấy chày: Kích thước offset chuẩn luôn! OFFSET CHUẨN = 0.110mm (Khe hở δ = 0.020mm)."
         },
         {
             "id": "STT 9",
-            "name": "SCM420 (HB<200) | H=63mm | 1 Lần",
+            "name": "SCM420 (HB<200) | H=63mm | 1 Lần (Bất thường)",
             "materialName": "SCM420 (HB<200)",
             "thickness": 63,
             "cutLength": "",
@@ -1052,11 +1060,12 @@ function initApp() {
                 "totalTimeStr": "21p",
                 "ammeterA": "4A",
                 "measuredSpeed": "55 - 65",
-                "recommendedOffset": 0.116,
-                "sparkGap": "0.026",
-                "tolerance": "To hơn lập trình 0,07"
+                "enteredOffset": 0.116,
+                "standardOffset": 0.081,
+                "sparkGap": "-0.009",
+                "tolerance": "Chày to hơn lập trình 0.070mm"
             },
-            "notes": "cắt lấy chày : kích thước to hơn lập trình 0,07"
+            "notes": "Nhập test 0.116mm -> Chày to hơn 0.070mm do Ton=24 quá yếu cho Volt=High gây rung/kéo lê dây. OFFSET CHUẨN HIỆU CHỈNH = 0.116 - 0.035 = 0.081mm."
         },
         {
             "id": "STT 10",
@@ -1071,11 +1080,12 @@ function initApp() {
                 "ammeterA": "",
                 "measuredSpeed": null,
                 "speedNote": "không cắt được",
-                "recommendedOffset": 0.120,
-                "sparkGap": "0.030",
+                "enteredOffset": 0.120,
+                "standardOffset": null,
+                "sparkGap": null,
                 "tolerance": "Không cắt được"
             },
-            "notes": "cắt lấy chày : không cắt được"
+            "notes": "Không cắt được: Ton=52 quá nhỏ không duy trì được hồ quang ổn định cho H=140mm."
         },
         {
             "id": "STT 11",
@@ -1090,11 +1100,12 @@ function initApp() {
                 "ammeterA": "",
                 "measuredSpeed": null,
                 "speedNote": "không cắt được",
-                "recommendedOffset": 0.120,
-                "sparkGap": "0.030",
+                "enteredOffset": 0.120,
+                "standardOffset": null,
+                "sparkGap": null,
                 "tolerance": "Không cắt được"
             },
-            "notes": "cắt lấy chày : không cắt được"
+            "notes": "Không cắt được: Ton=80 vẫn chưa đủ bù suy hao năng lượng trên khoảng cách 140mm."
         },
         {
             "id": "STT 12",
@@ -1108,11 +1119,12 @@ function initApp() {
                 "totalTimeStr": "36p",
                 "ammeterA": "3,7A - 3,8A",
                 "measuredSpeed": "30 - 40",
-                "recommendedOffset": 0.120,
-                "sparkGap": "0.030",
-                "tolerance": "To hơn lập trình 0,036"
+                "enteredOffset": 0.120,
+                "standardOffset": 0.102,
+                "sparkGap": "0.012",
+                "tolerance": "Chày to hơn lập trình 0.036mm"
             },
-            "notes": "cắt lấy chày : kích thước to hơn lập trình 0,036"
+            "notes": "Nhập test 0.120mm -> Chày to hơn 0.036mm. OFFSET CHUẨN HIỆU CHỈNH = 0.120 - 0.018 = 0.102mm (Khe hở δ = 0.012mm)."
         },
         {
             "id": "STT 13",
@@ -1126,11 +1138,12 @@ function initApp() {
                 "totalTimeStr": "1h29p",
                 "ammeterA": "3,8A - 3,9A",
                 "measuredSpeed": "12 - 20",
-                "recommendedOffset": 0.120,
-                "sparkGap": "0.030",
-                "tolerance": "Lớn hơn lập trình 0,01"
+                "enteredOffset": 0.120,
+                "standardOffset": 0.115,
+                "sparkGap": "0.025",
+                "tolerance": "Cối lớn hơn lập trình 0.010mm"
             },
-            "notes": "giai đoạn 1 : cắt lấy cối : kích thước lớn hơn lập trình 0,01"
+            "notes": "GĐ 1: Cắt cối lỗ lớn hơn lập trình 0.010mm. OFFSET CHUẨN HIỆU CHỈNH = 0.120 - 0.005 = 0.115mm (Khe hở δ = 0.025mm)."
         },
         {
             "id": "STT 14",
@@ -1144,11 +1157,12 @@ function initApp() {
                 "totalTimeStr": "3h",
                 "ammeterA": "3,7A - 3,9A",
                 "measuredSpeed": "12 - 20",
-                "recommendedOffset": 0.120,
-                "sparkGap": "0.030",
-                "tolerance": "Lớn hơn lập trình 0,01"
+                "enteredOffset": 0.120,
+                "standardOffset": 0.115,
+                "sparkGap": "0.025",
+                "tolerance": "Cối lớn hơn lập trình 0.010mm"
             },
-            "notes": "giai đoạn 2 : cắt lấy cối : kích thước lớn hơn lập trình 0,01"
+            "notes": "GĐ 2: Cắt cối lỗ lớn hơn lập trình 0.010mm. OFFSET CHUẨN HIỆU CHỈNH = 0.120 - 0.005 = 0.115mm (Khe hở δ = 0.025mm)."
         }
     ];
 
@@ -1193,15 +1207,16 @@ function initApp() {
             baseGap = 0.010;
         } else {
                         const anchors = [
-                { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50, offset: 0.105 }, // STT 4 (Chuẩn luôn)
-                { H: 30,  ti: 30,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, offset: 0.105 }, // Nội suy êm ái
-                { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, offset: 0.105 }, // STT 5 (Chuẩn luôn)
-                { H: 54,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, offset: 0.101 }, // Điểm chuyển tiếp
-                { H: 68,  ti: 70,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, offset: 0.097 }, // STT 6 (Chuẩn luôn)
-                { H: 90,  ti: 90,  Po: 7, IP: 4, Volt: 'High', VF: 50, offset: 0.096 }, // Chuyển sang High Volt
-                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, offset: 0.095 }, // STT 7 (Chuẩn luôn)
-                { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, offset: 0.110 }, // STT 8 (Chuẩn luôn)
-                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, offset: 0.110 }  // STT 14 (Chuẩn luôn)
+                { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50, offset: 0.105 }, // STT 4: Chuẩn luôn (0.105)
+                { H: 30,  ti: 32,  Po: 5, IP: 4, Volt: 'High', VF: 65, offset: 0.098 }, // STT 1: Nhập 0.115 chày to 0.034 -> Chuẩn = 0.098
+                { H: 40,  ti: 36,  Po: 5, IP: 4, Volt: 'High', VF: 65, offset: 0.098 }, // STT 2: Nhập 0.115 chày to 0.034 -> Chuẩn = 0.098
+                { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, offset: 0.105 }, // STT 5: Chuẩn luôn (0.105)
+                { H: 63,  ti: 44,  Po: 7, IP: 5, Volt: 'High', VF: 55, offset: 0.095 }, // STT 3: Nhập 0.118 chày to 0.046 -> Chuẩn = 0.095
+                { H: 68,  ti: 70,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, offset: 0.097 }, // STT 6: Chuẩn luôn (0.097)
+                { H: 90,  ti: 90,  Po: 7, IP: 4, Volt: 'High', VF: 50, offset: 0.096 }, // Điểm chuyển tiếp mượt
+                { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, offset: 0.095 }, // STT 7: Chuẩn luôn (0.095)
+                { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, offset: 0.110 }, // STT 8: Chuẩn luôn (0.110)
+                { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, offset: 0.115 }  // STT 14: Nhập 0.120 cối to 0.010 -> Chuẩn = 0.115
             ];
 
             let p1 = anchors[0], p2 = anchors[anchors.length - 1];
@@ -2490,8 +2505,12 @@ function initApp() {
                                             <span class="lib-val">${item.measured.totalTimeStr ? `⏱️ ${item.measured.totalTimeStr}` : `Dung sai: ${item.measured.tolerance}`}</span>
                                         </div>
                                         <div class="lib-metric-box">
-                                            <span class="lib-lbl">Lượng bù dao Offset</span>
-                                            <span class="lib-val">📏 Offset = ${item.measured.recommendedOffset} mm ${item.measured.sparkGap ? `(δ = ${item.measured.sparkGap} mm)` : ''}</span>
+                                            <span class="lib-lbl">Offset nhập test</span>
+                                            <span class="lib-val" style="color:#94a3b8;">${item.measured.enteredOffset !== null && item.measured.enteredOffset !== undefined ? item.measured.enteredOffset + ' mm' : '--'}</span>
+                                        </div>
+                                        <div class="lib-metric-box highlight-metric" style="border: 1px solid #10b981; background: rgba(16,185,129,0.08);">
+                                            <span class="lib-lbl" style="color:#34d399; font-weight:700;">📐 OFFSET CHUẨN HIỆU CHỈNH</span>
+                                            <span class="lib-val" style="color:#4ade80; font-size: 1.1em; font-weight:800;">${item.measured.standardOffset !== null && item.measured.standardOffset !== undefined ? item.measured.standardOffset + ' mm' : 'Chưa đạt'} ${item.measured.sparkGap ? `<span style="font-size:0.8em; color:#a7f3d0; font-weight:500;">(δ = ${item.measured.sparkGap}mm)</span>` : ''}</span>
                                         </div>
                                     </div>
                                 `}
