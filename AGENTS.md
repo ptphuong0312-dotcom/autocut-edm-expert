@@ -8,7 +8,7 @@ Before modifying ANY file or executing any logic, you MUST adhere to the followi
    - The EDM physics formulas, standard pass tables (P1 to P6), standard speeds, and manufacturer baselines are **STRICTLY IMMUTABLE**.
    - NEVER alter these core equations or standard baselines unless explicitly commanded by the user.
 2. **ISOLATED WORKSHOP CALIBRATION ZONE:**
-   - Any workshop-specific calibration (matching actual factory cut times, ammeter readings, or specific workpiece offsets) must ONLY be adjusted inside the designated **Workshop Calibration Model / Table**.
+   - Any workshop-specific calibration (matching actual factory cut times, ammeter readings, or specific workpiece offsets) must ONLY be adjusted inside the designated **Workshop Calibration Model / Table (Tab 2)**.
 3. **BACKUP CONVENTION:**
    - Place all zipped backups in `/backups/autocut_YYYY-MM-DD(n).zip`.
 4. **VERSION INTEGRITY & SYNTAX SAFETY:**
@@ -17,9 +17,9 @@ Before modifying ANY file or executing any logic, you MUST adhere to the followi
 5. **CONTINUOUS EMPIRICAL CALIBRATION (VÒNG LẶP HỌC MÁY THỰC NGHIỆM):**
    - The user will routinely provide actual cutting results (e.g., actual dimensions, cutting time, surface finish) from their workshop.
    - The agent MUST actively use these empirical data points to recalibrate the offset, speed, and other outputs in the Workshop Calibration Model (Tab 2) to ensure the software converges on perfect accuracy for the user's specific machine conditions.
-
-### 6. MACHINE LEARNING INTERPOLATION ALGORITHM (THUẬT TOÁN NỘI SUY THỰC NGHIỆM)
-- The agent acknowledges that it cannot purely theoretically calculate the absolute "Sweet Spot" (e.g., optimal Hz limits for finishing passes to prevent servo hunting and secondary sparking) due to invisible mechanical variables (guide wheel wear, flushing fluid quality, etc.).
-- **Anchor Data:** The user will provide empirical "Sweet Spot" data for specific workpiece thicknesses (e.g., WS-EXP-02 provided optimal Hz for H=12mm).
-- **Interpolation:** The agent MUST use these empirical data points as "Anchors" and apply physics-based equations to interpolate or scale these values for any requested workpiece thickness (H) or material.
-- **Continuous Evolution:** As the user provides more data points for different thicknesses, the agent must update the interpolation curve, making the predictions increasingly accurate over time. The agent is effectively a dynamic ML model for the user's specific CNC machine.
+6. **STRICT IMMUTABILITY OF WORKSHOP RAW DATA BANK:**
+   - Dữ liệu thô trong `WORKSHOP_DATA_BANK.md` và `.agents/rules/09-WORKSHOP_RAW_DATA_BANK_AND_REVERSE_INTERPOLATION.md` là tài sản thiêng liêng lưu trữ số liệu thực nghiệm gốc.
+   - AI TUYỆT ĐỐI KHÔNG ĐƯỢC TỰ Ý SỬA ĐỔI nếu chưa có lệnh của người dùng. AI chỉ được ĐỌC để tính toán.
+7. **UNIVERSAL HYBRID PHYSICS-EMPIRICAL OFFSET ENGINE (CƠ CHẾ LAI TẠO VẬT LÝ HÃNG + XƯỞNG):**
+   - AI KHÔNG ĐƯỢC CHỈ DÙNG ĐƠN ĐỘC DỮ LIỆU XƯỞNG hoặc ĐƠN ĐỘC LÝ THUYẾT HÃNG.
+   - AI phải kết hợp Năng lượng xung đơn $E_p$, điện áp hồ quang $U_{arc}$ của Hãng với các điểm neo thực nghiệm cào phôi $\delta(H)$ của Xưởng (Xem `.agents/rules/10-UNIVERSAL_HYBRID_OFFSET_FORMULA.md`) để tính toán chính xác hệ số bù dao Offset cho bất kỳ độ dày $H$ và bất kỳ chế độ điện nào.
