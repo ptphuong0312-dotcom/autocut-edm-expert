@@ -30,3 +30,6 @@ Before modifying ANY file or executing any logic, you MUST adhere to the followi
 10. **DATA BANK IS GROUND TRUTH BENCHMARK ONLY (DỮ LIỆU CHỈ DÙNG ĐỂ ĐỐI CHỨNG):**
    - Dữ liệu thực nghiệm cắt xưởng LÀ THƯỚC ĐO CHUẨN ĐỂ ĐỐI CHỨNG KẾT QUẢ TÍNH TOÁN CỦA HỆ THỐNG CÔNG THỨC TOÁN - VẬT LÝ.
    - AI TUYỆT ĐỐI KHÔNG ĐƯỢC TỰ Ý SUY DIỄN BỪA BÃI, không được dùng dữ liệu thực nghiệm để "suy ra cái này suy ra cái kia" gây sai lệch logic cốt lõi.
+11. **RAW EMPIRICAL TRIAL DATA BENCHMARKING PROTOCOL:**
+   - Dữ liệu người dùng gửi là dữ liệu cắt thử nghiệm thô (Offset nhập lúc cắt có thể là số thử nghiệm ngẫu nhiên). AI TUYỆT ĐỐI KHÔNG ĐƯỢC LẤY OFFSET NHẬP THỰC TẾ LÀM THƯỚC ĐO CHUẨN ĐỂ BẮT CHƯỚC THEO.
+   - AI chỉ nạp thông số điện thực tế vào công thức lý thuyết để so sánh kết quả đầu ra, và GIỮ NGUYÊN HỆ THỐNG CÔNG THỨC GỐC BẤT BIẾN, không hiệu chỉnh gì cho đến khi có lệnh rõ ràng từ người dùng (Xem `.agents/rules/13-RAW_EMPIRICAL_DATA_BENCHMARKING_PROTOCOL.md`).
