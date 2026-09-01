@@ -1204,16 +1204,17 @@ function initApp() {
             baseIP = H <= 30 ? 3 : (H <= 100 ? 5 : 6);
             baseVolt = 'High';
             baseVF = H <= 40 ? 60 : 55;
-            baseGap = 0.010;
+            baseGap = 0.012;
         } else {
-                        const anchors = [
+            // STEEL / SCM440 / SCM420 - High Precision Empirical Ground Truth Anchors (14 STT)
+            const anchors = [
                 { H: 12,  ti: 20,  Po: 7, IP: 2, Volt: 'Low',  VF: 50, offset: 0.105 }, // STT 4: Chuẩn luôn (0.105)
                 { H: 30,  ti: 32,  Po: 5, IP: 4, Volt: 'High', VF: 65, offset: 0.098 }, // STT 1: Nhập 0.115 chày to 0.034 -> Chuẩn = 0.098
                 { H: 40,  ti: 36,  Po: 5, IP: 4, Volt: 'High', VF: 65, offset: 0.098 }, // STT 2: Nhập 0.115 chày to 0.034 -> Chuẩn = 0.098
                 { H: 45,  ti: 50,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, offset: 0.105 }, // STT 5: Chuẩn luôn (0.105)
                 { H: 63,  ti: 44,  Po: 7, IP: 5, Volt: 'High', VF: 55, offset: 0.095 }, // STT 3: Nhập 0.118 chày to 0.046 -> Chuẩn = 0.095
                 { H: 68,  ti: 70,  Po: 7, IP: 3, Volt: 'Low',  VF: 50, offset: 0.097 }, // STT 6: Chuẩn luôn (0.097)
-                { H: 90,  ti: 90,  Po: 7, IP: 4, Volt: 'High', VF: 50, offset: 0.096 }, // Điểm chuyển tiếp mượt
+                { H: 90,  ti: 90,  Po: 7, IP: 4, Volt: 'High', VF: 50, offset: 0.096 }, // Điểm chuyển tiếp mượt mà
                 { H: 140, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, offset: 0.095 }, // STT 7: Chuẩn luôn (0.095)
                 { H: 160, ti: 120, Po: 8, IP: 5, Volt: 'High', VF: 55, offset: 0.110 }, // STT 8: Chuẩn luôn (0.110)
                 { H: 300, ti: 120, Po: 9, IP: 6, Volt: 'High', VF: 65, offset: 0.115 }  // STT 14: Nhập 0.120 cối to 0.010 -> Chuẩn = 0.115
@@ -1232,17 +1233,11 @@ function initApp() {
 
             const ratio = (H - p1.H) / (p2.H - p1.H);
             
-            const isHard = state.material === 'SCM440';
-            if (isAlu) {
-                basePo = H <= 40 ? 7 : (H <= 120 ? 8 : 10);
-            } else if (isCopper) {
-                basePo = H <= 40 ? 5 : (H <= 120 ? 6 : 8);
+            // Factory Po stepped curve for thermal stability
+            if (isHard) {
+                if (H <= 15) basePo = 5; else if (H <= 40) basePo = 6; else if (H <= 70) basePo = 7; else if (H <= 120) basePo = 7; else if (H <= 200) basePo = 8; else if (H <= 350) basePo = 10; else basePo = 13;
             } else {
-                if (isHard) {
-                    if (H <= 15) basePo = 5; else if (H <= 40) basePo = 6; else if (H <= 70) basePo = 7; else if (H <= 120) basePo = 7; else if (H <= 200) basePo = 8; else if (H <= 350) basePo = 10; else basePo = 13;
-                } else {
-                    if (H <= 15) basePo = 4; else if (H <= 40) basePo = 5; else if (H <= 70) basePo = 6; else if (H <= 120) basePo = 7; else if (H <= 200) basePo = 8; else basePo = 10;
-                }
+                if (H <= 15) basePo = 4; else if (H <= 40) basePo = 5; else if (H <= 70) basePo = 6; else if (H <= 120) basePo = 7; else if (H <= 200) basePo = 8; else basePo = 10;
             }
             baseTon = Math.round(p1.ti + ratio * (p2.ti - p1.ti));
             baseIP = Math.round(p1.IP + ratio * (p2.IP - p1.IP));
@@ -1260,49 +1255,41 @@ function initApp() {
         // Safety limit for ultra-thin materials
         if (Volt === 'High' && H <= 20 && strat.VoltMod === 'Auto') Volt = 'Low';
 
-        // Recalculate gap dynamically based on modified IP and Ton (Hybrid Engine)
-        // Strategy level gap modifier (Rule 06: offset is function of electrical params)
+        // Recalculate gap dynamically based on modified IP and Ton (Universal Multivariable Hybrid Engine - Rule 10)
         const stratGapMods = {1: -0.006, 2: -0.003, 3: 0.0, 4: 0.004, 5: 0.008};
         const stratGapMod = stratGapMods[state.wsStrategyLevel] || 0.0;
         let gap = baseGap + stratGapMod;
-        if (Volt === 'Low' && baseVolt === 'High') gap -= 0.005; // Low V = hẹp tia lửa -> Offset nhỏ lại
-        if (Volt === 'High' && baseVolt === 'Low') gap += 0.005; // High V = phóng to tia lửa -> Offset phải bù rộng ra
+        if (Volt === 'Low' && baseVolt === 'High') gap -= 0.005; // Low V = hẹp tia lửa -> Giảm khe hở
+        if (Volt === 'High' && baseVolt === 'Low') gap += 0.005; // High V = phóng to tia lửa -> Tăng khe hở
 
-        // Finish Pass Constants based on empirical data (Rule 04)
+        // Finish Pass Constants based on empirical workshop data (Rule 04 & Rule 03)
         const FINISH_CONSTANTS = [
             null,
-            { Ton: 15, Po: 7, IP: 2, Volt: 'Low', VF: 25, Offset: 0.030, Speed: '120Hz' },
-            { Ton: 5,  Po: 10, IP: 1, Volt: 'Low', VF: 15, Offset: 0.015, Speed: '140Hz' },
-            { Ton: 3,  Po: 15, IP: 1, Volt: 'Low', VF: 10, Offset: 0.010, Speed: '150Hz' },
-            { Ton: 2,  Po: 20, IP: 1, Volt: 'Low', VF: 5,  Offset: 0.005, Speed: '200Hz' },
-            { Ton: 1,  Po: 20, IP: 1, Volt: 'Low', VF: 5,  Offset: 0.002, Speed: '250Hz' }
+            { Ton: 16, Po: 6, IP: 2, Volt: 'Low', VF: 40, Offset: 0.022, Speed: '100-150Hz' }
         ];
 
-        // Anchor adaptations for extremes
+        // Anchor adaptations for extremes in Pass 2
         if (H <= 20) {
-            FINISH_CONSTANTS[1] = { Ton: 10, Po: 7, IP: 2, Volt: 'Low', VF: 25, Offset: 0.030, Speed: '150Hz' };
+            FINISH_CONSTANTS[1] = { Ton: 12, Po: 5, IP: 2, Volt: 'Low', VF: 40, Offset: 0.022, Speed: '150Hz' };
         } else if (H >= 90) {
-            FINISH_CONSTANTS[1] = { Ton: 25, Po: 7, IP: 2, Volt: 'Low', VF: 25, Offset: 0.030, Speed: '100Hz' };
-            FINISH_CONSTANTS[2] = { Ton: 10, Po: 10, IP: 2, Volt: 'Low', VF: 15, Offset: 0.010, Speed: '100Hz' };
-            FINISH_CONSTANTS[3] = { Ton: 5,  Po: 15, IP: 1, Volt: 'Low', VF: 10, Offset: 0.010, Speed: '100Hz' };
-            FINISH_CONSTANTS[4] = { Ton: 3,  Po: 15, IP: 1, Volt: 'Low', VF: 5,  Offset: 0.005, Speed: '100Hz' };
+            FINISH_CONSTANTS[1] = { Ton: 24, Po: 6, IP: 3, Volt: 'High', VF: 36, Offset: 0.022, Speed: '100Hz' };
         }
 
         for (let i = 0; i < passes; i++) {
             let row = { passName: `Pass ${i + 1}`, badgeClass: i === 0 ? 'badge-primary' : 'badge-secondary' };
             if (i === 0) {
-                // Multi-pass kinematics (Rule 03)
+                // Multi-pass kinematics (Rule 03 & Rule 04):
+                // For 1 Pass: Offset = R_wire + gap (0.090 + gap)
+                // For 2 Pass: Offset = R_wire + gap + Remain_2 (0.090 + gap + 0.022)
                 let O1 = 0.090 + gap;
                 if (passes > 1) {
                     let O2 = FINISH_CONSTANTS[1].Offset;
-                    O1 = 0.090 + gap + O2 - 0.030;
+                    O1 = 0.090 + gap + O2;
                 }
                 
-                let cycle = Ton + basePo; // This is a simplification for visual display, correct logic below
                 let toff = Ton * basePo;
                 let true_cycle = Ton + toff;
                 let duty = Ton / true_cycle;
-                let duty_pct = duty * 100;
                 
                 // Fc from factory formula
                 let eta_eff = 0.85 * Math.pow(Math.max(1, Ton) / 50, 0.40);
@@ -1326,7 +1313,7 @@ function initApp() {
                 const hClamped = Math.max(12, Math.min(140, H));
                 row.hz = Math.round(150 - (hClamped - 12) * ((150 - 60) / (140 - 12)));
 
-                // Ammeter mapping (Factory formula matching: i_tb_high = i_peak * duty * 1.85)
+                // Ammeter mapping (Factory formula matching with U_arc factor)
                 row.ampe = (i_peak * duty * 2.2857 * (u_arc / 27)).toFixed(1);
 
                 row.ti = Ton;
@@ -1348,12 +1335,12 @@ function initApp() {
 
             } else {
                 let p = FINISH_CONSTANTS[i];
-                if (!p) p = FINISH_CONSTANTS[4];
+                if (!p) p = FINISH_CONSTANTS[1];
                 
                 let fTon = p.Ton;
                 let fIP = p.IP;
                 if (state.wsStrategyLevel === 1) { fTon = Math.max(2, fTon - 2); fIP = Math.max(1, fIP - 1); }
-                else if (state.wsStrategyLevel === 5) { fTon += 5; }
+                else if (state.wsStrategyLevel === 5) { fTon += 4; }
                 
                 row.ti = fTon;
                 row.Po = p.Po;
@@ -1364,25 +1351,11 @@ function initApp() {
                 row.offsetText = p.Offset.toFixed(3);
                 row.speedArea = '--';
                 row.feedRate = p.Speed;
-                
-                let rawRa = i === passes - 1 ? (passes >= 3 ? '< 1.5' : '~ 2.0') : '--';
-                if (rawRa.includes('<')) {
-                    row.Ra = '< ' + (parseFloat(rawRa.split('<')[1].trim()) + 0.2).toFixed(1);
-                } else if (rawRa.includes('~')) {
-                    row.Ra = '~ ' + (parseFloat(rawRa.split('~')[1].trim()) + 0.2).toFixed(1);
-                } else {
-                    row.Ra = rawRa;
-                }
+                row.Ra = '~ 1.8 - 2.0';
                 
                 // Finish Pass Hz ceilings (Rule 02)
                 const hClamped = Math.max(12, Math.min(140, H));
-                let hz_val = 100;
-                if (i === 1) hz_val = Math.round(150 - (hClamped - 12) * ((150 - 100) / (140 - 12)));
-                if (i === 2) hz_val = Math.round(140 - (hClamped - 12) * ((140 - 100) / (140 - 12)));
-                if (i === 3) hz_val = Math.round(130 - (hClamped - 12) * ((130 - 100) / (140 - 12)));
-                if (i >= 4) hz_val = Math.round(120 - (hClamped - 12) * ((120 - 100) / (140 - 12)));
-                row.hz = hz_val;
-                
+                row.hz = Math.round(150 - (hClamped - 12) * ((150 - 100) / (140 - 12)));
                 row.ampe = '< 0.1';
             }
             wsRows.push(row);
