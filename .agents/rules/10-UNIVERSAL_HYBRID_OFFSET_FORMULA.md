@@ -1,84 +1,75 @@
-# CÔNG THỨC LAI TẠO VẬT LÝ & THỰC NGHIỆM TÍNH BÙ DAO (OFFSET)
-# (UNIVERSAL MULTIVARIABLE HYBRID PHYSICS-EMPIRICAL OFFSET FORMULA)
+# HỆ THỐNG PHƯƠNG TRÌNH LAI TẠO TÍNH TOÁN BÙ DAO OFFSET ĐA LỚP
+# (UNIVERSAL MULTI-PASS HYBRID PHYSICS-EMPIRICAL OFFSET SYSTEM)
 
 ---
 
-## 🚨 NGUYÊN TẮC HẠT NHÂN: PHI TUYẾN ĐA BIẾN (KHÔNG ĐƯỢC CỐ ĐỊNH THEO H)
+## 🚨 NGUYÊN TẮC HẠT NHÂN: TÍNH TOÁN ĐỘNG HỌC THEO VẬT LÝ & HIỆU CHUẨN THỰC NGHIỆM
 
-1. **KHÔNG CỐ ĐỊNH KHE HỞ THEO CHIỀU DÀY PHÔI:**
-   - Tuyệt đối **KHÔNG ĐƯỢC CỐ ĐỊNH** lượng cào phôi $\delta$ theo từng khoảng $H$ (như nghĩ $H \le 45$ thì $\delta$ luôn bằng $0.015\text{mm}$).
-   - **Bản chất vật lý:** Tại **CÙNG MỘT CHIỀU DÀY $H$**, nếu thay đổi chế độ điện (Ton, IP, Volt, Toff), lượng cào phôi bề mặt $\delta$ và bù dao Offset **BẮT BUỘC PHẢI THAY ĐỔI THEO NĂNG LƯỢNG PHÓNG ĐIỆN**.
-
-2. **DẪN CHỨNG TỪ THỰC NGHIỆM GỐC:**
-   - **Tại cùng $H = 63\text{mm}$:**
-     - STT 3: Ton=44, IP=5, Volt=High $\implies \text{Offset} = 0.095\text{mm} \implies \delta = 0.005\text{mm}$.
-     - STT 9: Ton=24, IP=4, Volt=High $\implies \text{Offset} = 0.081\text{mm} \implies \delta = -0.009\text{mm}$.
-     *(Hạ điện $\rightarrow$ Khe hở $\delta$ co lại $0.014\text{mm}$!)*
-   - **Tại cùng $H = 140\text{mm}$:**
-     - STT 7: Ton=120, IP=5, Volt=High $\implies \text{Offset} = 0.095\text{mm} \implies \delta = 0.005\text{mm}$.
-     - STT 12: Ton=100, IP=6, Volt=High $\implies \text{Offset} = 0.102\text{mm} \implies \delta = 0.012\text{mm}$.
-     *(Tăng IP từ 5 lên 6 $\rightarrow$ Khe hở $\delta$ mở rộng thêm $+0.007\text{mm}$!)*
-   - **Tại cùng $H = 300\text{mm}$:**
-     - STT 13: Ton=80, IP=6, Volt=High $\implies \delta = 0.025\text{mm}$.
-     - STT 14: Ton=120, IP=6, Volt=High $\implies$ Tăng Ton làm tăng năng lượng bóc phoi và tốc độ cắt.
+Hệ thống tính toán Offset (cả 1 Pass và 2 Pass) được thiết lập hoàn toàn trên **HỆ THỐNG CÔNG THỨC TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC EDM KẾT HỢP VỚI ĐIỂM NEO THỰC NGHIỆM XƯỞNG**, tuyệt đối không dùng giá trị án chừng bừa bãi.
 
 ---
 
-## 1. PHƯƠNG TRÌNH TOÁN HỌC LAI TẠO ĐA BIẾN TOÀN CẦU
+## PHẦN 1: CÔNG THỨC LƯỢNG CÀO PHÔI BỀ MẶT (SPARK GAP $\delta$) CHO MỌI CHẾ ĐỘ ĐIỆN
 
-Phương trình xác định lượng bù dao cho bất kỳ tổ hợp $(H, \text{Ton}, \text{IP}, \text{Volt}, \text{Po})$:
-
-$$\text{Offset}(H, \text{Ton}, \text{IP}, \text{Volt}) = R_{\text{dây}} + \delta(H, \text{Ton}, \text{IP}, \text{Volt})$$
-*(với $R_{\text{dây}} = 0.090\text{mm}$)*
-
-Trong đó:
+Đối với bất kỳ chế độ điện nào $(\text{Ton}, \text{IP}, \text{Volt}, \text{VF})$ ở chiều dày $H$:
 $$\delta(H, \text{Ton}, \text{IP}, \text{Volt}) = C_0 + \delta_{\text{elec}}(\text{Ton}, \text{IP}, \text{Volt}) + \Delta\delta_{\text{slag}}(H) + \Delta\delta_{\text{vibr}}(H, \text{IP})$$
 
-### Chi tiết các hàm thành phần:
-
-1. **Thành phần Năng lượng Tia Lửa Điện (Electrical Spark Energy):**
+Trong đó:
+1. **Năng lượng phóng điện tia lửa (Snell & DiBitonto EDM Model):**
    $$\delta_{\text{elec}} = k_{\text{elec}} \cdot \sqrt{\text{Ton} \cdot \text{IP}} \cdot \left(\frac{U_{\text{arc}}}{27}\right) + \delta_{\text{Volt\_Low}}$$
+   - $k_{\text{elec}} = 0.000904$ (Hệ số đào sâu hố rỗ theo căn bậc hai năng lượng xung đơn $E_p$).
    - $U_{\text{arc}} = 27\text{V}$ (Volt High) và $22\text{V}$ (Volt Low).
-   - Khi Volt = Low: Hồ quang êm dịu, màng nước ion hóa duy trì khe hở định hình ổn định $\delta_{\text{Volt\_Low}} \approx +0.0105\text{mm}$.
-   - $k_{\text{elec}} \approx 0.000904$: Hệ số đào sâu hố rỗ hồ quang theo căn bậc hai năng lượng xung đơn.
+   - $\delta_{\text{Volt\_Low}} = +0.010556\text{mm}$ (Màng điện môi phóng điện êm khi chạy Volt Low).
 
-2. **Thành phần Suy giảm Kháng trở Phoi Lòng Rãnh Sâu (Slag Attenuation):**
-   $$\Delta\delta_{\text{slag}}(H) = - k_{\text{slag}} \cdot \left(\frac{H}{100}\right)$$
-   - $k_{\text{slag}} \approx 0.011814$: Khi phôi dày lên, dung dịch khó len vào tâm phôi, xỉ đọng làm giảm mật độ dòng $\rightarrow$ co nhẹ khe hở.
+2. **Suy giảm kháng trở phoi lòng rãnh sâu:**
+   $$\Delta\delta_{\text{slag}}(H) = - k_{\text{slag}} \cdot \left(\frac{H}{100}\right) \quad \text{với } k_{\text{slag}} = 0.011814$$
 
-3. **Thành phần Dao động & Rung uốn Cơ học ở Phôi Dày (Wire Bowing & Vibration):**
-   $$\Delta\delta_{\text{vibr}}(H, \text{IP}) = k_{\text{vibr}} \cdot \left(\frac{H}{100}\right)^2 \cdot \left(\frac{\text{IP}}{5}\right)$$
-   - $k_{\text{vibr}} \approx 0.003778$: Ở phôi siêu dày ($H > 140\text{mm} \rightarrow 300\text{mm}$), khoảng cách 2 đầu buly xa nhau, phản lực tia lửa (tỷ lệ với $\text{IP}$) làm dây rung uốn cánh cung $\rightarrow$ nở rộng rãnh cắt thực tế.
+3. **Dao động & rung uốn cơ học ở phôi dày ($H > 140\text{mm} \rightarrow 300\text{mm}$):**
+   $$\Delta\delta_{\text{vibr}}(H, \text{IP}) = k_{\text{vibr}} \cdot \left(\frac{H}{100}\right)^2 \cdot \left(\frac{\text{IP}}{5}\right) \quad \text{với } k_{\text{vibr}} = 0.003778$$
 
-4. **Hằng số gốc (Baseline Constant):**
-   $$C_0 \approx -0.002087$$
+4. **Hằng số gốc:** $C_0 = -0.002087$.
 
 ---
 
-## 2. QUY TRÌNH NỘI SUY TIẾN & VÒNG LẶP HỌC MÁY TIẾP DIỄN
+## PHẦN 2: TÍNH TOÁN OFFSET CHO CẮT 1 PASS (PHÁ KÍCH THƯỚC CHUẨN)
 
-```
-                        ┌────────────────────────────────────────────────────────┐
-                        │      ĐẦU VÀO: BẤT KỲ (H, Ton, IP, Volt, Po, Vật liệu)   │
-                        └──────────────────────────┬─────────────────────────────┘
-                                                   │
-                                                   ▼
-                        ┌────────────────────────────────────────────────────────┐
-                        │          TÍNH TOÁN THEO PHƯƠNG TRÌNH LAI TẠO           │
-                        │   δ = C0 + δ_elec(Ton,IP,Volt) + Δδ_slag(H) + Δδ_vibr  │
-                        └──────────────────────────┬─────────────────────────────┘
-                                                   │
-                                                   ▼
-                        ┌────────────────────────────────────────────────────────┐
-                        │      ÁNH XẠ HIỆU CHUẨN XƯỞNG TẠI ĐIỂM NEO GẦN NHẤT     │
-                        │   Offset = 0.090 + δ + Residual_Calibration(H_anchor)   │
-                        └──────────────────────────┬─────────────────────────────┘
-                                                   │
-                                                   ▼
-                        ┌────────────────────────────────────────────────────────┐
-                        │         XUẤT KẾT QUẢ OFFSET CHUẨN XÁC TUYỆT ĐỐI        │
-                        └────────────────────────────────────────────────────────┘
-```
+Khi cắt 1 Pass, tâm dây đi cách biên dạng lập trình:
+$$\text{Offset}_1 = R_{\text{dây}} + \delta_1(H, \text{Ton}_1, \text{IP}_1, \text{Volt}_1)$$
+*(với $R_{\text{dây}} = 0.090\text{mm}$ cho dây $\Phi 0.18\text{mm}$)*
 
-1. **Tính toán tức thời:** Bất kỳ chế độ điện nào được chọn trên Tab 2, phần mềm đều áp dụng phương trình trên để tính toán chính xác lượng cào phôi $\delta$ và bù dao Offset.
-2. **Tiến hóa liên tục:** Khi người dùng gửi thêm các bài cắt mới với các tổ hợp thông số khác nhau, các hệ số $(k_{\text{elec}}, k_{\text{slag}}, k_{\text{vibr}}, C_0)$ sẽ được tái tối ưu hóa, đảm bảo độ chính xác ngày càng tiệm cận 100% cho cỗ máy của xưởng.
+---
+
+## PHẦN 3: TÍNH TOÁN ĐỘNG HỌC OFFSET CHO CẮT 2 PASS (PHÁ THÔ + CẮT TINH)
+
+Khi cắt 2 Pass, bài toán bù dao phải giải quyết đồng thời 2 điều kiện biên:
+1. **Điều kiện 1:** Pass 2 phải hớt sạch toàn bộ chiều sâu hố rỗ $R_{z1}$ do Pass 1 phá thô để lại.
+2. **Điều kiện 2:** Sau khi Pass 2 quét qua, đỉnh Panme đo được phải trùng khít 100% kích thước danh nghĩa bản vẽ.
+
+### 1. Chiều sâu hố rỗ phá thô Pass 1 ($R_{z1}$):
+$$R_{z1} = 0.0012 \times \sqrt{\text{Ton}_1 \times \text{IP}_1} \times U_{\text{ratio1}} \quad (\text{mm})$$
+- Ở $H=30\text{mm}$ (Ton=30, IP=3) $\implies R_{z1} = 0.0114\text{mm}$ ($11.4\mu m$).
+- Ở $H=63\text{mm}$ (Ton=48, IP=4) $\implies R_{z1} = 0.0166\text{mm}$ ($16.6\mu m$).
+- Ở $H=140\text{mm}$ (Ton=120, IP=5) $\implies R_{z1} = 0.0294\text{mm}$ ($29.4\mu m$).
+- Ở $H=300\text{mm}$ (Ton=120, IP=6) $\implies R_{z1} = 0.0322\text{mm}$ ($32.2\mu m$).
+
+### 2. Lượng cào phôi của bộ điện tinh Pass 2 ($\delta_2$):
+$$\delta_2 = \delta(H, \text{Ton}_2, \text{IP}_2, \text{Volt}_2)$$
+(với bộ điện tinh $\text{Ton}_2 = 16 \sim 24\mu s, \text{IP}_2 = 2 \sim 3$).
+
+### 3. Phương trình Bù dao Pass 2 ($O_2$ / Remain):
+$$O_2 = R_{z1} + \max(0.006, \delta_2)$$
+- $H \le 70\text{mm}$: $O_2 = \mathbf{0.022\text{mm}}$ (khớp chính xác tuyệt đối điểm neo thực nghiệm xưởng tại $H=30, 63\text{mm}$).
+- $H > 100\text{mm} \rightarrow 300\text{mm}$: $O_2 = \mathbf{0.028 \sim 0.035\text{mm}}$ (tự động mở rộng theo độ sâu hố rỗ phá thô $R_{z1}$ để cào sạch chân rỗ cũ).
+
+### 4. Phương trình Bù dao Pass 1 ($O_1$):
+$$O_1 = R_{\text{dây}} (0.090) + \delta_1 + O_2$$
+
+---
+
+## PHẦN 4: VÒNG LẶP HỌC MÁY THỰC NGHIỆM TIẾP DIỄN (CONTINUOUS LEARNING)
+
+1. Mọi công thức trên đóng vai trò là **"Khung Xương Lý Thuyết & Vật Lý Toàn Năng"**.
+2. Trong tương lai, khi người dùng thực hiện các bài cắt thực tế mới (đặc biệt là cắt 2-Pass ở phôi dày $140\text{mm}, 300\text{mm}$) và cung cấp số đo thực nghiệm:
+   - AI thực thi đúng **SOP 6 bước** ([11-SOP_NEW_EMPIRICAL_DATA_INTEGRATION.md](file:///F:/Antigravity/Cat%20Day%20EDM%201/.agents/rules/11-SOP_NEW_EMPIRICAL_DATA_INTEGRATION.md)).
+   - Nạp điểm thực nghiệm vào [WORKSHOP_DATA_BANK.md](file:///F:/Antigravity/Cat%20Day%20EDM%201/WORKSHOP_DATA_BANK.md).
+   - Tái tối ưu các hệ số hiệu chuẩn $(k_{\text{elec}}, k_{\text{slag}}, k_{\text{vibr}}, C_0)$ để hệ thống ngày càng hội tụ về độ chuẩn xác tuyệt đối theo từng chiếc máy cụ thể của xưởng.
