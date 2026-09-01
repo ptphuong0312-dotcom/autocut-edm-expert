@@ -111,3 +111,16 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 2. AI ghi nhận bài cắt mới vào cuối Bảng dữ liệu thô (Raw Data Bank) trong tài liệu này (cấp mã STT tiếp theo: STT 15, STT 16...).
 3. AI tính toán lượng cào phôi $\delta$ của bài cắt mới.
 4. AI cập nhật mảng `const anchors` trong `app.js` để đường cong nội suy Offset ngày càng dày đặc và hội tụ tiệm cận độ chính xác 100% cho chiếc máy cắt dây cụ thể của xưởng.
+
+---
+
+## PHẦN 2: BẢNG DỮ LIỆU THÔ CẮT 2 PASS THỰC TẾ (2-PASS RAW DATA BANK)
+
+| STT 2P | Số lần | Vật Liệu | H | Bước | Ton | Toff | IP | Wire | Volt | VF | Max Speed | Offset Nhập | Thời gian | Chiều dài L | Ampe đo | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset P1 Chuẩn | Offset P2 Chuẩn |
+|:---:|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---:|:---:|:---:|
+| **2P-01** | 2 Lần | SCM420 (HB<200) | 63 | **P1** | 24 | 7 | 4 | 1 | High | 43 | 150Hz | **0,116** | 21p | 30mm | 4A | 55-65 mm²/p | cắt lấy chày : kích thước to hơn lập trình 0,07 | -0.035 mm | **0.081 mm** | **0.022 mm** |
+| | | | | **P2** | 15 | 5 | 2 | 2 | High | 36 | 100Hz | **0,022** | 5p20' | 30mm | 0,1-0,2A | 240 mm²/p | | | | |
+| **2P-02** | 2 Lần | SCM420 (HB<200) | 63 | **P1** | 44 | 7 | 5 | 1 | High | 55 | 150Hz | **0,118** | 16p26' | 30mm | 4,2A | 75-85 mm²/p | cắt lấy chày : kích thước to hơn lập trình 0,05 | -0.025 mm | **0.093 mm** | **0.024 mm** |
+| | | | | **P2** | 20 | 5 | 3 | 2 | High | 40 | 100Hz | **0,024** | 5p20' | 30mm | 0,1-0,2A | 240 mm²/p | | | | |
+| **2P-03** | 2 Lần | SCM420 (HB<200) | 30 | **P1** | 28 | 6 | 4 | 1 | High | 60 | 200Hz | **0,115** | 3h08p | 644mm | 4,1A | 140-150 mm²/p | cắt lấy cối : kích thước nhỏ hơn lập trình 0,015 | -0.0075 mm | **0.1075 mm**| **0.022 mm** |
+| | | | | **P2** | 16 | 5 | 2 | 2 | Low | 40 | 150Hz | **0,022** | 1h12p | 644mm | 0,1-0,2A | 360 mm²/p | | | | |
