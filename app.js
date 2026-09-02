@@ -108,6 +108,7 @@ function initApp() {
     const wsTotalTimeText = document.getElementById('ws-total-time-text');
     const wsConfigSummary = document.getElementById('ws-config-summary');
     const wsTableBody = document.getElementById("ws-table-body");
+    const wsBtnCopyTable = document.getElementById('ws-btn-copy-table');
 
 
     // Custom analysis & Mode switch elements
@@ -359,9 +360,12 @@ function initApp() {
         window.print();
     });
 
-    // Copy Table
+    // Copy Table (Tab 1 & Tab 2)
     if (btnCopyTable) btnCopyTable.addEventListener('click', () => {
         copyTableToClipboard();
+    });
+    if (wsBtnCopyTable) wsBtnCopyTable.addEventListener('click', () => {
+        copyWorkshopTableToClipboard();
     });
 
     // Mode Switch Buttons: "Nhập Chế độ Riêng" & "TT Lý thuyết"
@@ -2760,7 +2764,7 @@ function initApp() {
             'ALUMINUM': 'Nhôm (Al 6061/7075)'
         };
         const matLabel = matNames[state.material] || state.material;
-        let text = `AUTOCUT EDM SERVO - BẢNG THÔNG SỐ CẮT\n`;
+        let text = `AUTOCUT EDM SERVO - BẢNG THÔNG SỐ CẮT (TAB 1 CHUẨN HÃNG)\n`;
         text += `Vật liệu: ${matLabel} | Chiều dày H: ${state.thickness}mm | Quy trình: ${state.passCount} Pass | Chiến lược: ${strat.name}\n\n`;
         text += `P\tTon\tToff\tIP\tV\tVF\tWire\tOFFSET\tFc(mm2/p)\tFt(mm/p)\tRa\tSai số\n`;
         
@@ -2773,6 +2777,34 @@ function initApp() {
             setTimeout(() => {
                 btnCopyTable.textContent = '📋 Copy Bảng';
             }, 2000);
+        });
+    }
+
+    function copyWorkshopTableToClipboard() {
+        const wsRows = generateWorkshopRows(state);
+        const strat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[3];
+        const matNames = {
+            'SCM420': 'Thép mềm SCM420 (HB<200)',
+            'SCM440': 'Thép tôi SCM440 (28-32HRC)',
+            'COPPER': 'Đồng (Cu/Thau)',
+            'ALUMINUM': 'Nhôm (Al 6061/7075)'
+        };
+        const matLabel = matNames[state.material] || state.material;
+        let text = `AUTOCUT EDM SERVO - BẢNG HIỆU CHỈNH THỰC TẾ XƯỞNG (TAB 2)\n`;
+        text += `Vật liệu: ${matLabel} | Chiều dày H: ${state.thickness}mm | Quy trình: ${state.passCount} Pass | Chế độ: ${strat.name}\n\n`;
+        text += `P\tTon\tToff\tIP\tV\tVF\tWire\tOFFSET\tFc(mm2/p)\tFt(mm/p)\tGiới hạn(Hz)\tAmpe(A)\tRa\n`;
+        
+        wsRows.forEach(r => {
+            text += `${r.passName}\t${r.ti}\t${r.Po}\t${r.IP}\t${r.Voltage}\t${r.VF}\t${r.Wire}\t${r.offsetText}\t${r.speedArea}\t${r.feedRate}\t${r.hz || '--'}\t${r.ampe}\t${r.Ra}\n`;
+        });
+
+        navigator.clipboard.writeText(text).then(() => {
+            if (wsBtnCopyTable) {
+                wsBtnCopyTable.textContent = '✅ Đã Copy!';
+                setTimeout(() => {
+                    wsBtnCopyTable.textContent = '📋 Copy Bảng';
+                }, 2000);
+            }
         });
     }
 
