@@ -492,11 +492,11 @@ function initApp() {
             if (H <= 15) ti_1 = isHard ? 28 : 24;
             else if (H <= 30) ti_1 = isHard ? 32 : 28;
             else if (H <= 60) ti_1 = isHard ? 36 : 32;
-            else if (H <= 100) ti_1 = 44;
-            else if (H <= 160) ti_1 = 52;
-            else if (H <= 250) ti_1 = 60;
-            else if (H <= 350) ti_1 = 64;
-            else ti_1 = 68;
+            else if (H <= 100) ti_1 = isHard ? 48 : 44;
+            else if (H <= 160) ti_1 = isHard ? 56 : 52;
+            else if (H <= 250) ti_1 = isHard ? 64 : 60;
+            else if (H <= 350) ti_1 = isHard ? 68 : 64;
+            else ti_1 = isHard ? 72 : 68;
         }
 
         // Base Toff (Po) calculation
@@ -1583,39 +1583,57 @@ function initApp() {
             baseVF = H <= 40 ? 60 : 55;
             baseGap = 0.012;
         } else {
-            // THÉP SCM440 / SCM420 / THÉP KHUÔN - BỘ THÔNG SỐ ĐIỆN 4 DẢI AMPE CHUẨN XƯỞNG
+            // THÉP SCM440 (28-32 HRC) VS SCM420 (HB < 200) - PHÂN ĐỊNH RÕ RÀNG THEO CƠ LÝ TÍNH VẬT LIỆU
             
             // 1.1. Điện áp Volt: Ngưỡng chuyển tiếp logic mượt mà
             baseVolt = H <= 15 ? 'Low' : 'High';
 
-            // 1.2. Ton: Tăng mượt mà đơn điệu từ 16us đến 120us
-            if (H <= 15) {
-                baseTon = Math.round(16 + (H - 5) * (20 - 16) / (15 - 5));
-            } else if (H <= 30) {
-                baseTon = Math.round(20 + (H - 15) * (30 - 20) / (30 - 15));
-            } else if (H <= 60) {
-                baseTon = Math.round(30 + (H - 30) * (48 - 30) / (60 - 30));
-            } else if (H <= 100) {
-                baseTon = Math.round(48 + (H - 60) * (80 - 48) / (100 - 60));
-            } else if (H <= 140) {
-                baseTon = Math.round(80 + (H - 100) * (120 - 80) / (140 - 100));
+            // 1.2. Ton: SCM440 bóc phoi giòn tốt hơn -> Ton khỏe hơn; SCM420 thép dẻo dễ dính phoi -> Ton dịu hơn
+            if (isHard) {
+                // SCM440 (28-32 HRC) - Thép tôi cứng / tiền tôi
+                if (H <= 15) {
+                    baseTon = Math.round(16 + (H - 5) * (20 - 16) / (15 - 5));
+                } else if (H <= 30) {
+                    baseTon = Math.round(20 + (H - 15) * (32 - 20) / (30 - 15));
+                } else if (H <= 60) {
+                    baseTon = Math.round(32 + (H - 30) * (50 - 32) / (60 - 30));
+                } else if (H <= 100) {
+                    baseTon = Math.round(50 + (H - 60) * (82 - 50) / (100 - 60));
+                } else if (H <= 140) {
+                    baseTon = Math.round(82 + (H - 100) * (120 - 82) / (140 - 100));
+                } else {
+                    baseTon = 120; // H > 140: Kịch trần công suất xung cho dây 0.18mm
+                }
             } else {
-                baseTon = 120; // H > 140: Kịch trần công suất xung cho dây 0.18mm
+                // SCM420 (HB < 200) - Thép mềm, dễ dính phoi màng nước
+                if (H <= 15) {
+                    baseTon = Math.round(14 + (H - 5) * (18 - 14) / (15 - 5));
+                } else if (H <= 30) {
+                    baseTon = Math.round(18 + (H - 15) * (28 - 18) / (30 - 15));
+                } else if (H <= 60) {
+                    baseTon = Math.round(28 + (H - 30) * (44 - 28) / (60 - 30));
+                } else if (H <= 100) {
+                    baseTon = Math.round(44 + (H - 60) * (72 - 44) / (100 - 60));
+                } else if (H <= 140) {
+                    baseTon = Math.round(72 + (H - 100) * (110 - 72) / (140 - 100));
+                } else {
+                    baseTon = 110;
+                }
             }
 
-            // 1.3. IP & Po: Cấu hình chuẩn xác để đạt đúng 4 dải Ampe yêu cầu (Rule 12)
+            // 1.3. IP & Po: SCM420 tăng thời gian nghỉ xung Po để rửa sạch xỉ dẻo, SCM440 tối ưu Po tăng năng suất
             if (H <= 15) {
                 baseIP = 2;
-                basePo = 5;
+                basePo = isHard ? 5 : 6;
             } else if (H <= 30) {
                 baseIP = 3;
-                basePo = 7;
+                basePo = isHard ? 6 : 7;
             } else if (H <= 60) {
                 baseIP = 4;
-                basePo = 8;
+                basePo = isHard ? 7 : 8;
             } else if (H <= 100) {
                 baseIP = 5;
-                basePo = 9;
+                basePo = isHard ? 8 : 9;
             } else if (H <= 160) {
                 baseIP = 5;
                 basePo = 8;
@@ -1624,15 +1642,17 @@ function initApp() {
                 basePo = 8;
             }
 
-            // 1.4. VF: Điện áp theo dõi điều khiển Servo bám phôi mượt mà
+            // 1.4. VF: SCM440 chịu bám sát tốt (VF cao hơn +5); SCM420 giảm VF để chống ngắn mạch / dính phoi
+            const vfMax = isHard ? 65 : 60;
+            const vfMin = isHard ? 55 : 50;
             if (H <= 40) {
-                baseVF = 65;
+                baseVF = vfMax;
             } else if (H <= 140) {
-                baseVF = Math.round(65 - (H - 40) * (65 - 55) / (140 - 40));
+                baseVF = Math.round(vfMax - (H - 40) * (vfMax - vfMin) / (140 - 40));
             } else if (H <= 300) {
-                baseVF = Math.round(55 + (H - 140) * (65 - 55) / (300 - 140));
+                baseVF = Math.round(vfMin + (H - 140) * (vfMax - vfMin) / (300 - 140));
             } else {
-                baseVF = 65;
+                baseVF = vfMax;
             }
 
             // 1.5. CÔNG THỨC LAI TẠO TÍNH KHE HỞ TIA LỬA δ VÀ LƯỢNG CÀO PHÔI (Rule 10)
@@ -1680,11 +1700,12 @@ function initApp() {
         if (Volt === 'High' && baseVolt === 'Low') gap += 0.005; // High V = phóng to tia lửa -> Tăng khe hở
 
         // Dynamic Calculation of Pass 2 Electrical Params & Physical Offset (Rule 03, 04, 10)
-        let p2_ton = H <= 20 ? 12 : (H <= 60 ? 16 : (H <= 120 ? 20 : 24));
-        let p2_po = H <= 40 ? 5 : 6;
+        let p2_ton = isHard ? (H <= 20 ? 12 : (H <= 60 ? 16 : (H <= 120 ? 20 : 24)))
+                            : (H <= 20 ? 10 : (H <= 60 ? 14 : (H <= 120 ? 18 : 22)));
+        let p2_po = isHard ? (H <= 40 ? 5 : 6) : (H <= 40 ? 6 : 7);
         let p2_ip = H <= 60 ? 2 : 3;
         let p2_volt = H <= 40 ? 'Low' : 'High';
-        let p2_vf = H <= 60 ? 40 : 36;
+        let p2_vf = isHard ? (H <= 60 ? 40 : 36) : (H <= 60 ? 36 : 32);
         let p2_hz = H <= 40 ? 150 : (H <= 120 ? 120 : 100);
 
         if (state.wsStrategyLevel === 1) { p2_ton = Math.max(2, p2_ton - 2); p2_ip = Math.max(1, p2_ip - 1); }
