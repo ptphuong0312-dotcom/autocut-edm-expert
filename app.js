@@ -8,34 +8,46 @@ function initApp() {
     // 11 CẤP ĐỘ CHIẾN LƯỢC GIA CÔNG (TÂM ĐIỂM = CẤP 6: TIÊU CHUẨN)
         const WS_STRATEGY_CONFIGS = {
         1: {
-            name: 'Bề mặt siêu mịn (Bóng gương)',
-            badge: 'Siêu Mịn (Cấp 1)',
-            desc: 'Hạ IP tối thiểu (1-2 sò), vi xung Ton cực ngắn, Po kéo dài nghỉ sâu, Volt Low, VF thấp để triệt tiêu hố rỗ, đạt độ bóng cao Ra ≤ 1.2 - 1.6µm.',
-            TonMod: -20, IPMod: -2, PoMod: 3, VFMod: -12, VoltMod: 'Low', Wire: '2', RaStr: '≤ 1.6'
+            name: 'Cực hạn siêu mịn (Bóng gương)',
+            badge: 'Gương (Cấp 1)',
+            desc: 'Vi xung nano, hạ IP tối thiểu (1 sò), Po dài, Volt Low, triệt tiêu hố rỗ tia lửa. Ampe giảm ~1.8A so với chuẩn, Ra ≤ 1.0 - 1.2µm.',
+            Wire: '2', RaStr: '≤ 1.2'
         },
         2: {
-            name: 'Bề mặt mịn (Satin mờ)',
-            badge: 'Mịn (Cấp 2)',
-            desc: 'Giảm nhẹ IP và Ton, kéo dài Po, chuyển Volt Low để bề mặt mượt hơn tiêu chuẩn, loại bỏ sọc vằn, Ra ≤ 1.8 - 2.2µm.',
-            TonMod: -10, IPMod: -1, PoMod: 1, VFMod: -6, VoltMod: 'Low', Wire: '2', RaStr: '1.8 - 2.2'
+            name: 'Siêu mịn (Gương mờ)',
+            badge: 'Siêu Mịn (Cấp 2)',
+            desc: 'Dập xung cực ngắn, hạ IP 1-2 sò, chuyển Volt Low, tăng Po xối rửa sạch xỉ. Ampe giảm ~1.2A so với chuẩn, Ra ≤ 1.4 - 1.8µm.',
+            Wire: '2', RaStr: '1.4 - 1.8'
         },
         3: {
-            name: 'Tiêu chuẩn (Khuyên Dùng)',
-            badge: 'Cân Bằng (Cấp 3)',
-            desc: 'Cân bằng hoàn hảo giữa tốc độ, độ nhám Ra và tuổi thọ dây Moly, tuân thủ nghiêm ngặt 4 dải Ampe chuẩn Rule 12.',
-            TonMod: 0, IPMod: 0, PoMod: 0, VFMod: 0, VoltMod: 'Auto', Wire: '1', RaStr: '2.5 - 3.2'
+            name: 'Bề mặt mịn (Satin mờ)',
+            badge: 'Mịn (Cấp 3)',
+            desc: 'Kéo dài thời gian nghỉ Po, giảm nhẹ Ton, triệt tiêu đánh lửa thứ cấp gây sọc gân. Ampe giảm ~0.6A (2.0 - 2.2A tại H30), Ra ≤ 1.8 - 2.2µm.',
+            Wire: '2', RaStr: '1.8 - 2.2'
         },
         4: {
-            name: 'Năng suất cao (Cắt nhanh)',
-            badge: 'Nhanh (Cấp 4)',
-            desc: 'Tăng năng suất chuẩn khoa học: Rút ngắn Po để tăng tần số xung, tăng nhẹ Ton và VF, giữ IP an toàn chống đứt dây (Rule 15).',
-            TonMod: 10, IPMod: 0, PoMod: -1, VFMod: 6, VoltMod: 'High', Wire: '1', RaStr: '3.2 - 4.0'
+            name: 'Tiêu chuẩn (Khuyên Dùng)',
+            badge: 'Cân Bằng (Cấp 4)',
+            desc: 'Chuẩn xưởng trung tâm, tuân thủ nghiêm ngặt 4 dải Ampe Rule 12 (2.7A tại H30), tối ưu giữa tốc độ, độ phẳng và độ bền dây.',
+            Wire: '1', RaStr: '2.5 - 3.2'
         },
         5: {
+            name: 'Năng suất (Cắt nhanh)',
+            badge: 'Nhanh (Cấp 5)',
+            desc: 'Rút ngắn Po 1 nấc tăng tần số xung, tăng nhẹ Ton và VF, giữ IP an toàn. Ampe tăng ~0.6A (3.2 - 3.4A tại H30), tốc độ tăng 20-30%.',
+            Wire: '1', RaStr: '3.2 - 3.8'
+        },
+        6: {
+            name: 'Năng suất cao (Rất nhanh)',
+            badge: 'Rất Nhanh (Cấp 6)',
+            desc: 'Rút ngắn Po 2 nấc, nâng cao VF bám sát phôi, tăng thêm Ton bóc tách phoi mạnh mẽ. Ampe tăng ~1.2A (3.8 - 4.0A tại H30).',
+            Wire: '1', RaStr: '3.8 - 4.5'
+        },
+        7: {
             name: 'Siêu năng suất (Phá thô)',
-            badge: 'Siêu Tốc (Cấp 5)',
-            desc: 'Ép tốc độ tối đa: Rút ngắn Po tối đa 2 nấc, ép servo VF bám sát, tăng Ton cực đại. Yêu cầu áp lực nước xối mạnh.',
-            TonMod: 20, IPMod: 1, PoMod: -2, VFMod: 12, VoltMod: 'High', Wire: '1', RaStr: '4.0 - 5.0'
+            badge: 'Siêu Tốc (Cấp 7)',
+            desc: 'Ép tốc độ cực đại: Rút ngắn Po tối đa, ép servo VF bám sát, tăng Ton cực đại. Ampe tăng ~1.8A (4.3 - 4.6A tại H30). Yêu cầu nước xối mạnh.',
+            Wire: '1', RaStr: '4.5 - 5.5'
         }
     };
 
@@ -1714,34 +1726,72 @@ function initApp() {
             baseGap = anchorOffsetTarget - 0.090;
         }
 
-        // Apply Tab 2 5-level Strategy modifications strictly adhering to Rule 15 (Productivity vs Fine Surface)
-        let Ton = Math.max(8, baseTon + (strat.TonMod || 0));
-        
-        // Rule 15: Fine surface requires minimal IP (1-2 sò); Productivity keeps IP clamped to prevent wire breakage
-        let IP;
-        if (state.wsStrategyLevel === 1) {
-            IP = H <= 30 ? 1 : (H <= 100 ? 2 : 3);
-        } else if (state.wsStrategyLevel === 2) {
-            IP = Math.max(1, Math.min(baseIP - 1, baseIP + (strat.IPMod || 0)));
-        } else if (state.wsStrategyLevel === 4) {
-            IP = baseIP; // Rule 15: Keep IP fixed at safe anchor, increase productivity via Po and VF!
-        } else if (state.wsStrategyLevel === 5) {
-            IP = Math.min(6, baseIP + (H <= 60 ? 1 : 0)); // Only bump IP for thin workpieces, keep 5-6 for thick
-        } else {
+        // Apply Tab 2 7-level Strategy strictly adhering to Regular Ammeter Stepping (ΔI = 0.5 - 0.7A)
+        let Ton, Po, IP, Volt, VF;
+        const lvl = state.wsStrategyLevel || 4;
+
+        if (lvl === 4) {
+            // CẤP 4: TIÊU CHUẨN (CHUẨN XƯỞNG RULE 12 - 2.7A TẠI H30)
+            Ton = baseTon;
+            Po = basePo;
             IP = baseIP;
+            Volt = baseVolt;
+            VF = baseVF;
+        } else if (lvl === 3) {
+            // CẤP 3: BỀ MẶT MỊN (GIẢM 0.5 - 0.7A -> 2.0 - 2.2A TẠI H30)
+            Ton = Math.max(8, baseTon - 6);
+            Po = basePo + 2;
+            IP = baseIP;
+            Volt = baseVolt;
+            VF = Math.max(25, baseVF - 5);
+        } else if (lvl === 2) {
+            // CẤP 2: SIÊU MỊN (GIẢM 1.0 - 1.3A -> 1.3 - 1.5A TẠI H30)
+            Ton = Math.max(8, baseTon - 12);
+            IP = Math.max(1, baseIP - 1);
+            Po = basePo + 1;
+            Volt = H <= 40 ? 'Low' : baseVolt;
+            VF = Math.max(25, baseVF - 10);
+        } else if (lvl === 1) {
+            // CẤP 1: CỰC HẠN SIÊU MỊN (GIẢM 1.6 - 1.9A -> 0.7 - 0.9A TẠI H30)
+            Ton = Math.max(6, baseTon - 18);
+            IP = H <= 30 ? 1 : (H <= 120 ? 2 : 3);
+            Po = basePo + (IP > 1 ? 2 : 0);
+            Volt = 'Low';
+            VF = Math.max(25, baseVF - 15);
+        } else if (lvl === 5) {
+            // CẤP 5: NĂNG SUẤT (TĂNG 0.5 - 0.7A -> 3.2 - 3.4A TẠI H30)
+            Ton = baseTon + 6;
+            Po = Math.max(3, basePo - 1);
+            IP = baseIP;
+            Volt = 'High';
+            VF = Math.min(85, baseVF + 5);
+        } else if (lvl === 6) {
+            // CẤP 6: NĂNG SUẤT CAO (TĂNG 1.0 - 1.3A -> 3.8 - 4.0A TẠI H30)
+            Ton = baseTon + 14;
+            Po = Math.max(3, basePo - 2);
+            IP = baseIP;
+            Volt = 'High';
+            VF = Math.min(88, baseVF + 10);
+        } else {
+            // CẤP 7: SIÊU NĂNG SUẤT PHÁ THÔ (TĂNG 1.6 - 1.9A -> 4.3 - 4.6A TẠI H30)
+            Ton = baseTon + 22;
+            if (H <= 60 && baseIP <= 4) {
+                IP = baseIP + 1;
+                Po = Math.max(3, basePo - 1);
+            } else {
+                IP = baseIP;
+                Po = Math.max(3, basePo - 3);
+            }
+            Volt = 'High';
+            VF = Math.min(90, baseVF + 15);
         }
 
-        let Po = Math.max(4, Math.min(16, basePo + (strat.PoMod || 0)));
-        let VF = Math.max(25, Math.min(85, baseVF + (strat.VFMod || 0)));
-        let Volt = strat.VoltMod === 'Auto' ? baseVolt : strat.VoltMod;
-        if (H <= 20 && state.wsStrategyLevel <= 3) Volt = 'Low';
-
-        // Recalculate gap dynamically based on modified IP and Ton (Universal Multivariable Hybrid Engine - Rule 10 & 15)
-        const stratGapMods = {1: -0.006, 2: -0.003, 3: 0.0, 4: 0.004, 5: 0.008};
-        const stratGapMod = stratGapMods[state.wsStrategyLevel] || 0.0;
+        // Recalculate gap dynamically based on modified IP and Ton (7 Levels Universal Hybrid Engine)
+        const stratGapMods = {1: -0.009, 2: -0.006, 3: -0.003, 4: 0.0, 5: +0.003, 6: +0.006, 7: +0.010};
+        const stratGapMod = stratGapMods[lvl] || 0.0;
         let gap = baseGap + stratGapMod;
-        if (Volt === 'Low' && baseVolt === 'High') gap -= 0.004; // Low V = hẹp tia lửa -> Giảm khe hở
-        if (Volt === 'High' && baseVolt === 'Low') gap += 0.004; // High V = phóng to tia lửa -> Tăng khe hở
+        if (Volt === 'Low' && baseVolt === 'High') gap -= 0.004;
+        if (Volt === 'High' && baseVolt === 'Low') gap += 0.004;
 
         // Dynamic Calculation of Pass 2 Electrical Params & Physical Offset (Rule 03, 04, 10)
         let p2_ton = isHard ? (H <= 20 ? 12 : (H <= 60 ? 16 : (H <= 120 ? 20 : 24)))
@@ -2684,19 +2734,24 @@ function initApp() {
         const wsNoticeList = document.getElementById('ws-notice-list');
         if (typeof wsNoticeList !== 'undefined' && wsNoticeList) {
             const wsNotices = [];
-            const wsStrat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[3];
+            const wsStrat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[4];
             
-            // Strategy specific physics guidance
-            if (state.wsStrategyLevel === 1) {
-                wsNotices.push("💎 <strong>Bề mặt siêu mịn (Cấp 1):</strong> Đã hạ IP xuống mức tối thiểu (1-2 sò), vi xung Ton cực ngắn, điện áp Low và Po kéo dài nghỉ sâu để triệt tiêu toàn bộ hố rỗ nung chảy. Khuyên dùng <strong>Wire 2 hoặc 3</strong> để dây lướt êm đạt độ bóng $Ra \le 1.2 - 1.6\mu m$.");
-            } else if (state.wsStrategyLevel === 2) {
-                wsNotices.push("✨ <strong>Bề mặt mịn (Cấp 2):</strong> Đã giảm nhẹ IP và Ton, kéo dài thời gian nghỉ Po giúp màng nước rửa trôi sạch 100% xỉ phoi, triệt tiêu hiện tượng đánh lửa thứ cấp (Secondary Sparking) gây sọc vằn.");
-            } else if (state.wsStrategyLevel === 3) {
-                wsNotices.push("⭐ <strong>Chế độ Tiêu chuẩn (Cấp 3):</strong> Cân bằng hoàn hảo giữa năng suất và độ bền dây, tuân thủ nghiêm ngặt 4 dải Ampe Rule 12 chuẩn thực nghiệm xưởng.");
-            } else if (state.wsStrategyLevel === 4) {
-                wsNotices.push("🚀 <strong>Năng suất cao (Cấp 4):</strong> Tuân thủ Rule 15 - Tăng tốc khoa học bằng cách rút ngắn thời gian nghỉ Po (Toff) và tăng điện áp theo dõi VF lên bám sát phôi, giữ IP an toàn để triệt tiêu nguy cơ sốc nhiệt đứt dây.");
-            } else if (state.wsStrategyLevel === 5) {
-                wsNotices.push("⚡ <strong>Siêu năng suất phá thô (Cấp 5):</strong> Rút ngắn Po tối đa và ép servo VF cực đại. <em>Cảnh báo:</em> Bắt buộc phải điều chỉnh áp lực nước xối cực mạnh và bọc kín vòi phun để làm mát dây liên tục.");
+            // Strategy specific physics guidance (7 Levels with Regular 0.5 - 0.7A Steps)
+            const curLvl = state.wsStrategyLevel || 4;
+            if (curLvl === 1) {
+                wsNotices.push("💎 <strong>Cực hạn siêu mịn (Cấp 1/7):</strong> Dòng kim Ampe giảm ~1.8A (còn 0.7 - 0.9A tại H30). Vi xung nano, hạ IP tối thiểu (1 sò), Volt Low. Khuyên dùng <strong>Wire 2 hoặc 3</strong> để đạt độ bóng gương $Ra \le 1.0 - 1.2\mu m$.");
+            } else if (curLvl === 2) {
+                wsNotices.push("✨ <strong>Siêu mịn (Cấp 2/7):</strong> Dòng kim Ampe giảm ~1.2A (còn 1.3 - 1.5A tại H30). Hạ IP 1-2 sò, dập xung Ton cực ngắn, Po kéo dài nghỉ sâu, $Ra \le 1.4 - 1.8\mu m$.");
+            } else if (curLvl === 3) {
+                wsNotices.push("🌟 <strong>Bề mặt mịn (Cấp 3/7):</strong> Dòng kim Ampe giảm đúng 0.5 - 0.7A (đạt 2.0 - 2.2A tại H30). Kéo dài Po để nước xối rửa sạch 100% xỉ, triệt tiêu đánh lửa thứ cấp, $Ra \le 1.8 - 2.2\mu m$.");
+            } else if (curLvl === 4) {
+                wsNotices.push("⭐ <strong>Tiêu chuẩn Chuẩn xưởng (Cấp 4/7):</strong> Điểm neo trung tâm Rule 12 (đúng 2.7A tại H30). Cân bằng tối ưu giữa tốc độ cắt, độ phẳng mép và độ bền dây Moly.");
+            } else if (curLvl === 5) {
+                wsNotices.push("🚀 <strong>Năng suất Cắt nhanh (Cấp 5/7):</strong> Dòng kim Ampe tăng đúng 0.5 - 0.7A (đạt 3.2 - 3.4A tại H30). Rút ngắn Po 1 nấc tăng tần số xung, tăng nhẹ Ton và VF, giữ IP an toàn chống đứt dây.");
+            } else if (curLvl === 6) {
+                wsNotices.push("⚡ <strong>Năng suất cao Rất nhanh (Cấp 6/7):</strong> Dòng kim Ampe tăng ~1.2A (đạt 3.8 - 4.0A tại H30). Rút ngắn Po 2 nấc, ép servo VF bám sát phôi, tăng tốc vượt trội 35-45%.");
+            } else if (curLvl === 7) {
+                wsNotices.push("🔥 <strong>Siêu năng suất Phá thô (Cấp 7/7):</strong> Dòng kim Ampe tăng ~1.8A (đạt 4.3 - 4.6A tại H30). Rút ngắn Po tối đa và ép VF cực đại. <em>Yêu cầu:</em> Áp lực nước xối cực mạnh để làm mát liên tục.");
             }
 
             // Material specific notices
