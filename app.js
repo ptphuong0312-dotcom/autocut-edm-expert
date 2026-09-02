@@ -7,11 +7,36 @@
 function initApp() {
     // 11 CẤP ĐỘ CHIẾN LƯỢC GIA CÔNG (TÂM ĐIỂM = CẤP 6: TIÊU CHUẨN)
         const WS_STRATEGY_CONFIGS = {
-        1: { name: 'Bề mặt siêu mịn', badge: 'Siêu Mịn', desc: 'Sử dụng điện cực yếu, cắt rất chậm, tạo bề mặt nhẵn bóng nhất có thể.', TonMod: -20, IPMod: -2, PoMod: 2, VFMod: -10, VoltMod: 'Low' },
-        2: { name: 'Bề mặt mịn', badge: 'Mịn', desc: 'Giảm nhẹ điện năng để bề mặt mượt hơn tiêu chuẩn.', TonMod: -10, IPMod: -1, PoMod: 1, VFMod: -5, VoltMod: 'Low' },
-        3: { name: 'Tiêu chuẩn', badge: 'Cân Bằng', desc: 'Cân bằng tối ưu giữa tốc độ, độ nhám và độ bền dây theo thực tế xưởng.', TonMod: 0, IPMod: 0, PoMod: 0, VFMod: 0, VoltMod: 'Auto' },
-        4: { name: 'Năng suất', badge: 'Nhanh', desc: 'Tăng cường xung lực, ưu tiên tốc độ cắt, bề mặt sẽ nhám hơn.', TonMod: 10, IPMod: 1, PoMod: -1, VFMod: 5, VoltMod: 'High' },
-        5: { name: 'Siêu năng suất', badge: 'Phá Thô', desc: 'Ép điện tối đa, tốc độ cực cao, có nguy cơ đứt dây nếu thoát xỉ kém.', TonMod: 20, IPMod: 1, PoMod: -2, VFMod: 10, VoltMod: 'High' }
+        1: {
+            name: 'Bề mặt siêu mịn (Bóng gương)',
+            badge: 'Siêu Mịn (Cấp 1)',
+            desc: 'Hạ IP tối thiểu (1-2 sò), vi xung Ton cực ngắn, Po kéo dài nghỉ sâu, Volt Low, VF thấp để triệt tiêu hố rỗ, đạt độ bóng cao Ra ≤ 1.2 - 1.6µm.',
+            TonMod: -20, IPMod: -2, PoMod: 3, VFMod: -12, VoltMod: 'Low', Wire: '2', RaStr: '≤ 1.6'
+        },
+        2: {
+            name: 'Bề mặt mịn (Satin mờ)',
+            badge: 'Mịn (Cấp 2)',
+            desc: 'Giảm nhẹ IP và Ton, kéo dài Po, chuyển Volt Low để bề mặt mượt hơn tiêu chuẩn, loại bỏ sọc vằn, Ra ≤ 1.8 - 2.2µm.',
+            TonMod: -10, IPMod: -1, PoMod: 1, VFMod: -6, VoltMod: 'Low', Wire: '2', RaStr: '1.8 - 2.2'
+        },
+        3: {
+            name: 'Tiêu chuẩn (Khuyên Dùng)',
+            badge: 'Cân Bằng (Cấp 3)',
+            desc: 'Cân bằng hoàn hảo giữa tốc độ, độ nhám Ra và tuổi thọ dây Moly, tuân thủ nghiêm ngặt 4 dải Ampe chuẩn Rule 12.',
+            TonMod: 0, IPMod: 0, PoMod: 0, VFMod: 0, VoltMod: 'Auto', Wire: '1', RaStr: '2.5 - 3.2'
+        },
+        4: {
+            name: 'Năng suất cao (Cắt nhanh)',
+            badge: 'Nhanh (Cấp 4)',
+            desc: 'Tăng năng suất chuẩn khoa học: Rút ngắn Po để tăng tần số xung, tăng nhẹ Ton và VF, giữ IP an toàn chống đứt dây (Rule 15).',
+            TonMod: 10, IPMod: 0, PoMod: -1, VFMod: 6, VoltMod: 'High', Wire: '1', RaStr: '3.2 - 4.0'
+        },
+        5: {
+            name: 'Siêu năng suất (Phá thô)',
+            badge: 'Siêu Tốc (Cấp 5)',
+            desc: 'Ép tốc độ tối đa: Rút ngắn Po tối đa 2 nấc, ép servo VF bám sát, tăng Ton cực đại. Yêu cầu áp lực nước xối mạnh.',
+            TonMod: 20, IPMod: 1, PoMod: -2, VFMod: 12, VoltMod: 'High', Wire: '1', RaStr: '4.0 - 5.0'
+        }
     };
 
     const STRATEGY_CONFIGS = {
@@ -1685,22 +1710,34 @@ function initApp() {
             baseGap = anchorOffsetTarget - 0.090;
         }
 
-        // Apply Tab 2 5-level Strategy modifications (Dynamically modulates Ton, IP, Po, VF, Volt)
-        let Ton = Math.max(10, baseTon + (strat.TonMod || 0));
-        let IP = Math.max(1, Math.min(6, baseIP + (strat.IPMod || 0)));
-        let Po = Math.max(3, Math.min(16, basePo + (strat.PoMod || 0)));
-        let VF = Math.max(20, Math.min(90, baseVF + (strat.VFMod || 0)));
-        let Volt = strat.VoltMod === 'Auto' ? baseVolt : strat.VoltMod;
+        // Apply Tab 2 5-level Strategy modifications strictly adhering to Rule 15 (Productivity vs Fine Surface)
+        let Ton = Math.max(8, baseTon + (strat.TonMod || 0));
         
-        // Safety limit for ultra-thin materials
-        if (Volt === 'High' && H <= 20 && strat.VoltMod === 'Auto') Volt = 'Low';
+        // Rule 15: Fine surface requires minimal IP (1-2 sò); Productivity keeps IP clamped to prevent wire breakage
+        let IP;
+        if (state.wsStrategyLevel === 1) {
+            IP = H <= 30 ? 1 : (H <= 100 ? 2 : 3);
+        } else if (state.wsStrategyLevel === 2) {
+            IP = Math.max(1, Math.min(baseIP - 1, baseIP + (strat.IPMod || 0)));
+        } else if (state.wsStrategyLevel === 4) {
+            IP = baseIP; // Rule 15: Keep IP fixed at safe anchor, increase productivity via Po and VF!
+        } else if (state.wsStrategyLevel === 5) {
+            IP = Math.min(6, baseIP + (H <= 60 ? 1 : 0)); // Only bump IP for thin workpieces, keep 5-6 for thick
+        } else {
+            IP = baseIP;
+        }
 
-        // Recalculate gap dynamically based on modified IP and Ton (Universal Multivariable Hybrid Engine - Rule 10)
+        let Po = Math.max(4, Math.min(16, basePo + (strat.PoMod || 0)));
+        let VF = Math.max(25, Math.min(85, baseVF + (strat.VFMod || 0)));
+        let Volt = strat.VoltMod === 'Auto' ? baseVolt : strat.VoltMod;
+        if (H <= 20 && state.wsStrategyLevel <= 3) Volt = 'Low';
+
+        // Recalculate gap dynamically based on modified IP and Ton (Universal Multivariable Hybrid Engine - Rule 10 & 15)
         const stratGapMods = {1: -0.006, 2: -0.003, 3: 0.0, 4: 0.004, 5: 0.008};
         const stratGapMod = stratGapMods[state.wsStrategyLevel] || 0.0;
         let gap = baseGap + stratGapMod;
-        if (Volt === 'Low' && baseVolt === 'High') gap -= 0.005; // Low V = hẹp tia lửa -> Giảm khe hở
-        if (Volt === 'High' && baseVolt === 'Low') gap += 0.005; // High V = phóng to tia lửa -> Tăng khe hở
+        if (Volt === 'Low' && baseVolt === 'High') gap -= 0.004; // Low V = hẹp tia lửa -> Giảm khe hở
+        if (Volt === 'High' && baseVolt === 'Low') gap += 0.004; // High V = phóng to tia lửa -> Tăng khe hở
 
         // Dynamic Calculation of Pass 2 Electrical Params & Physical Offset (Rule 03, 04, 10)
         let p2_ton = isHard ? (H <= 20 ? 12 : (H <= 60 ? 16 : (H <= 120 ? 20 : 24)))
@@ -1773,11 +1810,11 @@ function initApp() {
                 row.IP = IP;
                 row.Voltage = Volt;
                 row.VF = VF;
-                row.Wire = '1';
+                row.Wire = strat.Wire || '1';
                 row.offsetText = O1.toFixed(3);
                 row.speedArea = speedArea;
                 row.feedRate = feedRate;
-                row.Ra = passes === 1 ? (strat.TonMod > 0 ? '~ 3.5' : '~ 2.5') : '--';
+                row.Ra = passes === 1 ? (strat.RaStr || '~ 2.8') : (isHard ? '1.0 - 1.4' : '1.2 - 1.6');
                 
                 // Expose internal properties for calculateWorkshopEDM
                 row._gap = gap;
@@ -2639,10 +2676,47 @@ function initApp() {
             noticeList.innerHTML = notices.map(n => `<li>${n}</li>`).join('');
         }
         
-        // Render Workshop Notices
+        // Render Dedicated Workshop Notices (Rule 12 & Rule 15)
         const wsNoticeList = document.getElementById('ws-notice-list');
         if (typeof wsNoticeList !== 'undefined' && wsNoticeList) {
-            wsNoticeList.innerHTML = notices.map(n => `<li>${n}</li>`).join('');
+            const wsNotices = [];
+            const wsStrat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[3];
+            
+            // Strategy specific physics guidance
+            if (state.wsStrategyLevel === 1) {
+                wsNotices.push("💎 <strong>Bề mặt siêu mịn (Cấp 1):</strong> Đã hạ IP xuống mức tối thiểu (1-2 sò), vi xung Ton cực ngắn, điện áp Low và Po kéo dài nghỉ sâu để triệt tiêu toàn bộ hố rỗ nung chảy. Khuyên dùng <strong>Wire 2 hoặc 3</strong> để dây lướt êm đạt độ bóng $Ra \le 1.2 - 1.6\mu m$.");
+            } else if (state.wsStrategyLevel === 2) {
+                wsNotices.push("✨ <strong>Bề mặt mịn (Cấp 2):</strong> Đã giảm nhẹ IP và Ton, kéo dài thời gian nghỉ Po giúp màng nước rửa trôi sạch 100% xỉ phoi, triệt tiêu hiện tượng đánh lửa thứ cấp (Secondary Sparking) gây sọc vằn.");
+            } else if (state.wsStrategyLevel === 3) {
+                wsNotices.push("⭐ <strong>Chế độ Tiêu chuẩn (Cấp 3):</strong> Cân bằng hoàn hảo giữa năng suất và độ bền dây, tuân thủ nghiêm ngặt 4 dải Ampe Rule 12 chuẩn thực nghiệm xưởng.");
+            } else if (state.wsStrategyLevel === 4) {
+                wsNotices.push("🚀 <strong>Năng suất cao (Cấp 4):</strong> Tuân thủ Rule 15 - Tăng tốc khoa học bằng cách rút ngắn thời gian nghỉ Po (Toff) và tăng điện áp theo dõi VF lên bám sát phôi, giữ IP an toàn để triệt tiêu nguy cơ sốc nhiệt đứt dây.");
+            } else if (state.wsStrategyLevel === 5) {
+                wsNotices.push("⚡ <strong>Siêu năng suất phá thô (Cấp 5):</strong> Rút ngắn Po tối đa và ép servo VF cực đại. <em>Cảnh báo:</em> Bắt buộc phải điều chỉnh áp lực nước xối cực mạnh và bọc kín vòi phun để làm mát dây liên tục.");
+            }
+
+            // Material specific notices
+            if (state.material === 'SCM420') {
+                wsNotices.push("🛡️ <strong>Thép mềm SCM420 (HB &lt; 200):</strong> Phoi dẻo dễ dính bám. Hệ thống đã tự động tăng Po thêm 1 nấc và giảm VF để giữ khoảng cách phóng điện an toàn, chống đoản mạch.");
+            } else if (state.material === 'SCM440') {
+                wsNotices.push("💎 <strong>Thép tôi cứng SCM440 (28-32 HRC):</strong> Thoát xỉ giòn rất trơn tru. Hệ thống tăng Ton và VF giúp nâng cao tốc độ cắt và bề mặt phẳng sáng bóng.");
+            } else if (state.material === 'ALUMINUM') {
+                wsNotices.push("⚙️ <strong>Nhôm (Al 6061/7075):</strong> Tốc độ bóc phoi cực nhanh. Cần dùng dung dịch dầu cắt dây loãng hơn và tăng xối rửa để xỉ nhôm không bết dính vào puly dẫn dây.");
+            } else if (state.material === 'COPPER') {
+                wsNotices.push("⚡ <strong>Đồng đỏ / Đồng thau:</strong> Tản nhiệt rất nhanh. Cần áp lực xung điện bám tải ổn định để duy trì kênh hồ quang không bị tắt giữa chừng.");
+            }
+
+            // Ultra thick notice
+            if (state.thickness > 160) {
+                wsNotices.push("📏 <strong>Phôi siêu dày (H &gt; 160mm):</strong> Đã kích hoạt 6 sò công suất (IP=6 kịch trần). Năng suất cắt được điều khiển tối ưu thông qua biến thiên chu kỳ nghỉ Po và điện áp theo dõi VF.");
+            }
+
+            // Multi-pass notice
+            if (state.passCount === 2) {
+                wsNotices.push("🎯 <strong>Quy trình 2 Pass chuẩn xác:</strong> Pass 1 phá thô xẻ rãnh chừa lượng phôi $O_2 = 0.022\text{mm}$; Pass 2 vi xung siêu mịn lướt sạch gờ nhám, đưa kích thước về chuẩn tuyệt đối.");
+            }
+
+            wsNoticeList.innerHTML = wsNotices.map(n => `<li>${n}</li>`).join('');
         }
 
         // Render Total Time
