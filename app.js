@@ -7,11 +7,11 @@
 function initApp() {
     // 11 CẤP ĐỘ CHIẾN LƯỢC GIA CÔNG (TÂM ĐIỂM = CẤP 6: TIÊU CHUẨN)
         const WS_STRATEGY_CONFIGS = {
-        1: { name: 'Bề mặt siêu mịn', badge: 'Siêu Mịn', desc: 'Sử dụng điện cực yếu, cắt rất chậm, tạo bề mặt nhẵn bóng nhất có thể.', TonMod: -15, IPMod: -1, VoltMod: 'Low' },
-        2: { name: 'Bề mặt mịn', badge: 'Mịn', desc: 'Giảm nhẹ điện năng để bề mặt mượt hơn tiêu chuẩn.', TonMod: -8, IPMod: 0, VoltMod: 'Low' },
-        3: { name: 'Tiêu chuẩn', badge: 'Cân Bằng', desc: 'Cân bằng tối ưu giữa tốc độ, độ nhám và độ bền dây theo thực tế xưởng.', TonMod: 0, IPMod: 0, VoltMod: 'Auto' },
-        4: { name: 'Năng suất', badge: 'Nhanh', desc: 'Tăng cường xung lực, ưu tiên tốc độ cắt, bề mặt sẽ nhám hơn.', TonMod: 10, IPMod: 1, VoltMod: 'High' },
-        5: { name: 'Siêu năng suất', badge: 'Phá Thô', desc: 'Ép điện tối đa, tốc độ cực cao, có nguy cơ đứt dây nếu thoát xỉ kém.', TonMod: 20, IPMod: 2, VoltMod: 'High' }
+        1: { name: 'Bề mặt siêu mịn', badge: 'Siêu Mịn', desc: 'Sử dụng điện cực yếu, cắt rất chậm, tạo bề mặt nhẵn bóng nhất có thể.', TonMod: -20, IPMod: -2, PoMod: 2, VFMod: -10, VoltMod: 'Low' },
+        2: { name: 'Bề mặt mịn', badge: 'Mịn', desc: 'Giảm nhẹ điện năng để bề mặt mượt hơn tiêu chuẩn.', TonMod: -10, IPMod: -1, PoMod: 1, VFMod: -5, VoltMod: 'Low' },
+        3: { name: 'Tiêu chuẩn', badge: 'Cân Bằng', desc: 'Cân bằng tối ưu giữa tốc độ, độ nhám và độ bền dây theo thực tế xưởng.', TonMod: 0, IPMod: 0, PoMod: 0, VFMod: 0, VoltMod: 'Auto' },
+        4: { name: 'Năng suất', badge: 'Nhanh', desc: 'Tăng cường xung lực, ưu tiên tốc độ cắt, bề mặt sẽ nhám hơn.', TonMod: 10, IPMod: 1, PoMod: -1, VFMod: 5, VoltMod: 'High' },
+        5: { name: 'Siêu năng suất', badge: 'Phá Thô', desc: 'Ép điện tối đa, tốc độ cực cao, có nguy cơ đứt dây nếu thoát xỉ kém.', TonMod: 20, IPMod: 1, PoMod: -2, VFMod: 10, VoltMod: 'High' }
     };
 
     const STRATEGY_CONFIGS = {
@@ -605,7 +605,8 @@ function initApp() {
         let strategySpeedMult = strat.speedMult;
         if (strategyLevel !== 6) {
             const minTi1 = passCount > 1 ? 10 : 6;
-            ti_1 = Math.max(minTi1, Math.min(80, Math.round(ti_1 * strat.tiMult)));
+            const maxTiAllowed = H > 160 ? 120 : (H > 100 ? 100 : 80);
+            ti_1 = Math.max(minTi1, Math.min(maxTiAllowed, Math.round(ti_1 * strat.tiMult)));
             IP_1 = Math.max(passCount > 1 ? 2 : 1, Math.min(6, IP_1 + strat.ipDelta));
             VF_1 = Math.max(20, Math.min(90, VF_1 + strat.vfDelta));
             Po_1 = Math.max(2, Math.min(16, Po_1 + strat.poDelta));
@@ -1684,9 +1685,11 @@ function initApp() {
             baseGap = anchorOffsetTarget - 0.090;
         }
 
-        // Apply Tab 2 5-level Strategy modifications
-        let Ton = Math.max(10, baseTon + strat.TonMod);
-        let IP = Math.max(1, Math.min(6, baseIP + strat.IPMod));
+        // Apply Tab 2 5-level Strategy modifications (Dynamically modulates Ton, IP, Po, VF, Volt)
+        let Ton = Math.max(10, baseTon + (strat.TonMod || 0));
+        let IP = Math.max(1, Math.min(6, baseIP + (strat.IPMod || 0)));
+        let Po = Math.max(3, Math.min(16, basePo + (strat.PoMod || 0)));
+        let VF = Math.max(20, Math.min(90, baseVF + (strat.VFMod || 0)));
         let Volt = strat.VoltMod === 'Auto' ? baseVolt : strat.VoltMod;
         
         // Safety limit for ultra-thin materials
@@ -1736,12 +1739,12 @@ function initApp() {
                 // AutoCut tự động cộng Path1 = O1 + O2 khi chạy máy
                 let O1 = 0.090 + gap;
                 
-                let toff = Ton * basePo;
+                let toff = Ton * Po;
                 let true_cycle = Ton + toff;
                 let duty = Ton / true_cycle;
                 
                 // Fc from factory formula
-                let eta_eff = 0.85 * Math.pow(Math.max(1, Ton) / 50, 0.40);
+                let eta_eff = (isHard ? 0.88 : 0.80) * Math.pow(Math.max(1, Ton) / 50, 0.40);
                 if (Ton > 80) eta_eff = Math.min(0.95, eta_eff);
                 if (H > 100) eta_eff *= Math.max(0.72, 1.0 - (H - 100) * 0.0012);
                 
@@ -1766,10 +1769,10 @@ function initApp() {
                 row.ampe = (i_peak * duty * 2.2857 * (u_arc / 27)).toFixed(1);
 
                 row.ti = Ton;
-                row.Po = basePo;
+                row.Po = Po;
                 row.IP = IP;
                 row.Voltage = Volt;
-                row.VF = baseVF;
+                row.VF = VF;
                 row.Wire = '1';
                 row.offsetText = O1.toFixed(3);
                 row.speedArea = speedArea;
