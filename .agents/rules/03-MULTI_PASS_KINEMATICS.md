@@ -1,28 +1,43 @@
-# ĐỘNG HỌC OFFSET NHIỀU PASS (MULTI-PASS KINEMATICS)
+# ĐỘNG HỌC BÙ DAO NHIỀU PASS TRONG AUTOCUT
+# (AUTOCUT MULTI-PASS KINEMATICS & SPARK GAP FORMULATION)
 
-🚨 **TÀI LIỆU CỐT LÕI - BẮT BUỘC ĐỌC TRƯỚC KHI TÍNH TOÁN OFFSET NHIỀU PASS** 🚨
-Tài liệu này định nghĩa bản chất toán học tuyệt đối của hệ thống AutoCut khi xử lý cắt nhiều Pass, được công nhận qua kiểm thử thực tế từ người dùng.
+---
 
-## 1. BẢN CHẤT CỦA CÁC THÔNG SỐ NHẬP VÀO MÁY
-Khi người dùng nhập 2 hệ số bù dao:
-- `O1` (Offset Pass 1)
-- `O2` (Offset Pass 2 / Lượng dư Remain)
-Máy AutoCut sẽ diễn dịch thành quỹ đạo chạy tâm dây (Path) như sau:
-*   **Path 1 (Tâm dây P1):** `Path 1 = O1 + O2`
-*   **Path 2 (Tâm dây P2):** `Path 2 = R_wire (0.090) + O2`
+## 🚨 NGUYÊN LÝ ĐỘNG HỌC THỰC TẾ TRONG HỆ ĐIỀU KHIỂN AUTOCUT:
 
-## 2. NGHỊCH LÝ QUỸ ĐẠO & HIỆN TƯỢNG "TẦM VƯƠN GIỚI HẠN" (THE REACH LIMIT)
-*   **Nghịch lý:** Quỹ đạo của Pass 2 **KHÔNG HỀ CHỨA** biến số `O1`. Tâm dây Pass 2 bị khóa chết tuyệt đối bởi `O2`.
-*   **Tầm vươn (Reach):** Ở Pass 2, bề mặt sợi dây cách vạch đích (Kích thước 0) một khoảng đúng bằng `O2`. Tại đây, dây phóng ra tia lửa `G2`. Tọa độ phôi bị cào sâu tối đa là: `O2 - G2`.
-*   **Vai trò cứu thế của O1:** 
-    - Nếu `O1` nhập quá lớn: Pass 1 chạy quá xa ra ngoài, chừa lại bức tường phôi (Remain) quá dày. Khi Pass 2 đi qua, tia lửa `G2` cào hết lực cũng không với tới vạch đích -> Sản phẩm bị dư (to).
-    - Giải pháp: Chỉ cần GIẢM `O1` xuống. Pass 1 sẽ ép sát vào, làm bức tường phôi mỏng lại vừa khít với tầm vươn `G2` của Pass 2 -> Kích thước chuẩn.
+Khi người dùng nhập 2 hệ số bù dao trên phần mềm AutoCut:
+- **`O1`** (Hệ số Offset cho Pass 1)
+- **`O2`** (Hệ số Offset cho Pass 2 / Lượng chừa phôi Remain)
 
-## 3. SỨ MỆNH NỘI SUY CỦA AI (BẢN CHẤT VẬT LÝ VS SỰ KỲ VỌNG)
-Máy AutoCut luôn "ảo tưởng" (kỳ vọng) rằng khe hở Pass 1 là `O1 - 0.09` và khe hở Pass 2 là `O2`. Nhưng thực tế vật lý tia lửa (Gap) to hay nhỏ lại phụ thuộc vào `Ton` và `IP`.
-Chính vì sự mù mờ này của máy, AI phải làm nhiệm vụ:
-1.  **Dùng dữ liệu 1 Pass:** Để đo thực tế chế độ điện phá thô phóng ra tia lửa rộng bao nhiêu (`G1`).
-2.  **Dùng dữ liệu 2 Pass:** Để đo "tầm vươn cào phôi" thực tế của chế độ mài bóng (`G2`).
-3.  **Toán học giải ngược:** Bất kể người dùng nhập mốc `O2` là số nào (thậm chí là một số ảo/vớ vẩn), AI mang trọng trách giải phương trình động học để tìm ra con số **`O1` hoàn hảo nhất**. Con số `O1` này sẽ có tác dụng "dịch chuyển bức tường phôi" về đúng điểm rơi tia lửa của Pass 2.
+Hệ thống AutoCut sẽ tự động điều khiển tâm dây chạy theo quỹ đạo thực tế như sau:
+*   **Quỹ đạo Pass 1 (Tâm dây P1):** $\text{Path}_1 = \mathbf{O_1 + O_2}$
+    *(Ví dụ: Người dùng nhập $O_1 = 0.120$ và $O_2 = 0.020 \implies$ Pass 1 tâm dây sẽ đi cách biên dạng bản vẽ một khoảng $0.120 + 0.020 = \mathbf{0.140\text{mm}}$)*
+*   **Quỹ đạo Pass 2 (Tâm dây P2):** $\text{Path}_2 = \mathbf{R_{\text{dây}} + O_2}$
+    *(Ví dụ: Dây $\Phi 0.18$ có $R_{\text{dây}} = 0.090\text{mm}$, Pass 2 tâm dây sẽ đi cách biên dạng bản vẽ một khoảng $0.090 + 0.020 = \mathbf{0.110\text{mm}}$)*
 
-=> **QUY TẮC BẤT DI BẤT DỊCH:** Tính toán Offset nhiều Pass thực chất là bài toán tìm bù dao `O1` để sửa sai cho sự chênh lệch giữa "Lượng dư cơ học O2" và "Sức công phá vật lý của tia lửa G2".
+---
+
+## 📐 CÔNG THỨC TOÁN HỌC XUẤT THÔNG SỐ BÙ DAO TỪ WEB APP:
+
+Vì AutoCut **tự động cộng $O_2$ vào Pass 1**, công thức tính toán xuất thông số bù dao cho người dùng nhập máy được xác lập chuẩn xác tuyệt đối như sau:
+
+$$\mathbf{O_1 = R_{\text{dây}} (0.090) + \text{gap}_1}$$
+$$\mathbf{O_2 = \text{gap}_2}$$
+
+Trong đó:
+1. **$R_{\text{dây}} = 0.090\text{mm}$:** Bán kính dây Moly $\Phi 0.18\text{mm}$.
+2. **$\text{gap}_1$:** Lượng cào phôi (khe hở phóng điện) của bộ điện Pass 1 phá thô $(\text{Ton}_1, \text{IP}_1, \text{Volt}_1, H)$.
+3. **$\text{gap}_2$:** Lượng cào phôi (khe hở phóng điện) của bộ điện Pass 2 cắt tinh $(\text{Ton}_2, \text{IP}_2, \text{Volt}_2, H)$.
+
+---
+
+## 🔍 KIỂM CHỨNG TỌA ĐỘ VẾT CẮT KHI MÁY HOẠT ĐỘNG:
+1. Khi máy chạy **Pass 1**:
+   - Tâm dây đi tại: $\text{Path}_1 = O_1 + O_2 = (R_{\text{dây}} + \text{gap}_1) + \text{gap}_2$
+   - Tia lửa Pass 1 ăn vào phôi một khoảng $\text{gap}_1$ từ bề mặt dây $\implies$ Tọa độ bức tường phôi còn lại sau Pass 1 đúng bằng:
+     $$\text{Bức tường phôi còn lại} = \text{Path}_1 - R_{\text{dây}} - \text{gap}_1 = \mathbf{gap_2}$$
+2. Khi máy chạy **Pass 2**:
+   - Tâm dây đi tại: $\text{Path}_2 = R_{\text{dây}} + O_2 = R_{\text{dây}} + \text{gap}_2$
+   - Bề mặt sợi dây nằm đúng ngay vị trí bức tường phôi $\text{gap}_2$.
+   - Tia lửa Pass 2 có lượng cào $\text{gap}_2 \implies$ Gọt sạch hoàn toàn bức tường phôi này, đưa bề mặt chi tiết về đúng tọa độ:
+     $$\text{gap}_2 - \text{gap}_2 = \mathbf{0.000} \quad (\text{TRÙNG KHÍT TUYỆT ĐỐI VỚI BẢN VẼ DANH NGHĨA!})$$

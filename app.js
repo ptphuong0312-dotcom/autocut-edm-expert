@@ -1529,7 +1529,7 @@ function initApp() {
         // Dynamic Offset 2 (Remain required to completely clear Pass 1 roughness):
         let calculated_O2 = Math.max(0.018, Math.min(0.035, Rz_p1 + Math.max(0.006, delta_2_calc)));
         // Calibrate with workshop empirical golden anchor (0.022mm at H=30, 63):
-        if (H <= 70) calculated_O2 = 0.022;
+        if (H <= 70) calculated_O2 = 0.022; else calculated_O2 = 0.030;
 
         for (let i = 0; i < passes; i++) {
             let row = { passName: `Pass ${i + 1}`, badgeClass: i === 0 ? 'badge-primary' : 'badge-secondary' };
@@ -1537,10 +1537,11 @@ function initApp() {
                 // Multi-pass kinematics (Rule 03 & Rule 04 & Rule 10):
                 // For 1 Pass: Offset = R_wire + gap (0.090 + gap)
                 // For 2 Pass: Offset = R_wire + gap + Remain_2 (0.090 + gap + O2)
+                // AutoCut Kinematics:
+                // O1 = R_wire (0.090) + gap1 (Lượng cào phôi của Pass 1)
+                // O2 = gap2 (Lượng cào phôi của Pass 2)
+                // AutoCut tự động cộng Path1 = O1 + O2 khi chạy máy
                 let O1 = 0.090 + gap;
-                if (passes > 1) {
-                    O1 = 0.090 + gap + calculated_O2;
-                }
                 
                 let toff = Ton * basePo;
                 let true_cycle = Ton + toff;
