@@ -33,3 +33,8 @@ Before modifying ANY file or executing any logic, you MUST adhere to the followi
 11. **RAW EMPIRICAL TRIAL DATA BENCHMARKING PROTOCOL:**
    - Dữ liệu người dùng gửi là dữ liệu cắt thử nghiệm thô (Offset nhập lúc cắt có thể là số thử nghiệm ngẫu nhiên). AI TUYỆT ĐỐI KHÔNG ĐƯỢC LẤY OFFSET NHẬP THỰC TẾ LÀM THƯỚC ĐO CHUẨN ĐỂ BẮT CHƯỚC THEO.
    - AI chỉ nạp thông số điện thực tế vào công thức lý thuyết để so sánh kết quả đầu ra, và GIỮ NGUYÊN HỆ THỐNG CÔNG THỨC GỐC BẤT BIẾN, không hiệu chỉnh gì cho đến khi có lệnh rõ ràng từ người dùng (Xem `.agents/rules/13-RAW_EMPIRICAL_DATA_BENCHMARKING_PROTOCOL.md`).
+12. **CLOSED-LOOP EMPIRICAL VALIDATION PROTOCOL (VÒNG LẶP ĐỐI CHỨNG THỰC NGHIỆM KHÉP KÍN 95%):**
+    - Người dùng đã ghim nguyên tắc: Kể từ nay, người dùng sẽ **dùng chính 95% bộ thông số do Web App xuất ra (Ton, Po, IP, Volt, VF, Wire, Offset $O_1, O_2$) để cắt thực tế trên máy và phản hồi lại kết quả đo kiểm**.
+    - AI BẮT BUỘC PHẢI NHỚ RẰNG: Dữ liệu gửi về sau này là kết quả đo lường trực tiếp độ lệch thực tế của chính công thức do hệ thống tính toán ra, không phải thông số thử nghiệm ngẫu nhiên.
+    - AI dùng kết quả này để đánh giá chính xác độ hội tụ của $\text{gap}_1, \text{gap}_2$ và làm căn cứ tinh chỉnh khi có lệnh từ người dùng (Xem `.agents/rules/14-CLOSED_LOOP_EMPIRICAL_VALIDATION_PROTOCOL.md`).
+
