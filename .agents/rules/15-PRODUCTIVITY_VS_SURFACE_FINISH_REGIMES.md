@@ -75,3 +75,33 @@ Mục tiêu: Đạt bề mặt phẳng lì, satin mờ mịn hoặc bóng gươn
 Để đạt được cả **Tốc độ xẻ phôi nhanh** lẫn **Bề mặt khuôn mẫu tuyệt đối mịn màng**, người vận hành máy luôn áp dụng quy trình 2 Pass:
 * **Pass 1:** Chạy chế độ Năng suất cao $\rightarrow$ Chừa lượng phôi mỏng $\mathbf{O_2 = 0.022 \sim 0.030\text{mm}}$.
 * **Pass 2:** Chạy chế độ Siêu mịn ($\text{Ton}=12\sim 16, \text{Po}=5\sim 6, \text{IP}=2, \text{Volt Low}, \text{VF}=36\sim 40, \text{Ampe} \le 0.2\text{A}$) $\rightarrow$ Lướt sạch đỉnh nhám, đưa chi tiết về độ chính xác danh nghĩa hoàn mỹ!
+
+---
+
+## V. QUY LUẬT BẬC THANG AMPE 7 CẤP ĐỘ ĐỀU NHỊP (REGULAR 7-TIER AMMETER PROGRESSION LAW: ΔI = 0.5 - 0.7A)
+
+Để người vận hành máy dễ dàng kiểm soát và dự đoán chính xác tải điện trên đồng hồ ampe kim của tủ nguồn AutoCut, hệ thống Tab 2 được thiết lập chuẩn hóa thành **7 Cấp độ đối xứng** (với Cấp 4 là Chuẩn xưởng Trung tâm), tuân thủ nghiêm ngặt bước nhảy đều đặn:
+$$\Delta I_{\text{ampe}} \approx 0.5 - 0.7\text{A} \quad \text{cho mỗi nấc chuyển đổi}$$
+
+### Ma trận 7 Cấp độ tại độ dày thực nghiệm H = 30mm (Thép SCM440):
+1. **Cấp 1 - Cực hạn siêu mịn (Bóng gương quang học):**
+   * Ampe kim: **$0.7\text{A} - 0.9\text{A}$** (Giảm $\approx 1.8\text{A}$ so với chuẩn).
+   * Chế độ điện: $\text{Ton}=14\mu s, \text{Po}=6, \text{IP}=1, \text{Volt}=\text{Low}, \text{VF}=50, \text{Wire 2}$. Độ bóng $Ra \le 1.2\mu m$.
+2. **Cấp 2 - Siêu mịn (Gương mờ):**
+   * Ampe kim: **$1.3\text{A} - 1.5\text{A}$** (Giảm $\approx 1.2\text{A}$ so với chuẩn).
+   * Chế độ điện: $\text{Ton}=20\mu s, \text{Po}=7, \text{IP}=2, \text{Volt}=\text{Low}, \text{VF}=55, \text{Wire 2}$. Độ bóng $Ra \le 1.4 - 1.8\mu m$.
+3. **Cấp 3 - Bề mặt mịn (Satin mờ):**
+   * Ampe kim: **$2.0\text{A} - 2.2\text{A}$** (Giảm đúng $\mathbf{0.5 - 0.7\text{A}}$ so với chuẩn).
+   * Chế độ điện: $\text{Ton}=26\mu s, \text{Po}=8, \text{IP}=3, \text{Volt}=\text{High}, \text{VF}=60, \text{Wire 2}$. Độ bóng $Ra \le 1.8 - 2.2\mu m$.
+4. **Cấp 4 - Tiêu chuẩn (Chuẩn xưởng - Benchmark Rule 12):**
+   * Ampe kim: **$2.7\text{A}$** (Điểm neo thực nghiệm chuẩn).
+   * Chế độ điện: $\text{Ton}=32\mu s, \text{Po}=6, \text{IP}=3, \text{Volt}=\text{High}, \text{VF}=65, \text{Wire 1}$. $Ra \approx 2.5 - 3.2\mu m$.
+5. **Cấp 5 - Năng suất (Cắt nhanh):**
+   * Ampe kim: **$3.2\text{A} - 3.4\text{A}$** (Tăng đúng $\mathbf{0.5 - 0.7\text{A}}$ so với chuẩn).
+   * Chế độ điện: $\text{Ton}=38\mu s, \text{Po}=5, \text{IP}=3, \text{Volt}=\text{High}, \text{VF}=70, \text{Wire 1}$. $Ra \approx 3.2 - 3.8\mu m$.
+6. **Cấp 6 - Năng suất cao (Rất nhanh):**
+   * Ampe kim: **$3.8\text{A} - 4.0\text{A}$** (Tăng tiếp $\approx 0.6\text{A}$).
+   * Chế độ điện: $\text{Ton}=46\mu s, \text{Po}=4, \text{IP}=3, \text{Volt}=\text{High}, \text{VF}=75, \text{Wire 1}$. $Ra \approx 3.8 - 4.5\mu m$.
+7. **Cấp 7 - Siêu năng suất (Phá thô cực đại):**
+   * Ampe kim: **$4.3\text{A} - 4.6\text{A}$** (Tăng tiếp $\approx 0.6\text{A}$).
+   * Chế độ điện: $\text{Ton}=54\mu s, \text{Po}=5, \text{IP}=4, \text{Volt}=\text{High}, \text{VF}=80, \text{Wire 1}$. $Ra \approx 4.5 - 5.5\mu m$.

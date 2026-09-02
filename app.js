@@ -58,7 +58,7 @@ function initApp() {
         material: 'SCM420',
         passCount: 1,
         strategyLevel: 6,
-        wsStrategyLevel: 3,
+        wsStrategyLevel: 4,
         thickness: 40,
         cutLength: 100,
         compactMetrics: true, // Mặc định thu gọn ký hiệu (Ẩn tên dài theo phương ngang)
@@ -257,7 +257,7 @@ function initApp() {
 
     
     function updateWsStrategyDisplay(lvl) {
-        const conf = WS_STRATEGY_CONFIGS[lvl] || WS_STRATEGY_CONFIGS[3];
+        const conf = WS_STRATEGY_CONFIGS[lvl] || WS_STRATEGY_CONFIGS[4];
         if (wsStrategyLevelBadge) wsStrategyLevelBadge.textContent = `${conf.name} (${lvl})`;
         if (wsStrategyNameDisplay) wsStrategyNameDisplay.textContent = conf.name;
         if (wsStrategyBadgeDisplay) wsStrategyBadgeDisplay.textContent = conf.badge;
@@ -1589,7 +1589,7 @@ function initApp() {
     function generateWorkshopRows(state) {
         const H = state.thickness;
         const passes = state.passCount;
-        const strat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[3];
+        const strat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[4];
         const isAlu = state.material === 'ALUMINUM';
         const isCopper = state.material === 'COPPER';
         const isHard = state.material === 'SCM440';
@@ -2782,7 +2782,7 @@ function initApp() {
 
     function copyWorkshopTableToClipboard() {
         const wsRows = generateWorkshopRows(state);
-        const strat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[3];
+        const strat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[4];
         const matNames = {
             'SCM420': 'Thép mềm SCM420 (HB<200)',
             'SCM440': 'Thép tôi SCM440 (28-32HRC)',
