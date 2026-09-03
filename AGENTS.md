@@ -45,4 +45,9 @@ Before modifying ANY file or executing any logic, you MUST adhere to the followi
     - **CẢNH BÁO TỐI THƯỢNG:** AI TUYỆT ĐỐI KHÔNG ĐƯỢC NHẦM LẪN rằng chế độ điện của Pass tinh (Pass 2, Pass 3... với Ton nhỏ, IP nhỏ) có thể tự thân bóc tách được $0.030 - 0.035\text{mm}$ trên bề mặt thép phẳng đặc. Khả năng cào thực chất của nó trên phôi phẳng chỉ là $\delta pprox 0.008 - 0.012\text{mm}$.
     - Lượng $0.035\text{mm}$ bóc đi trong Pass 2 (như thực tế phôi $H=85\text{mm}$) là do Pass 2 đã **phạt gọt các chóp đỉnh nhọn rỗng xốp của miệng núi lửa ($Rz_1$) do Pass 1 để lại** (vốn là phần nổi duy nhất mà thước Panme chạm tới), cộng với khe hở phóng điện nhỏ của Pass 2 ($pprox 5 - 7\mu m$).
     - Khi phân tích và xây dựng chế độ cắt nhiều Pass (2 đến 6 Pass): Lượng chừa phôi $O_n$ luôn là tổ hợp: $O_n = R_{z(n-1)} + \delta_n$. Tuyệt đối không được lấy tổng lượng bóc tách đo được sau Pass tinh gán ghép thành năng lực cào phôi thép đặc (Xem `.agents/rules/03-SPARK_GAP_CAPABILITY.md`).
+15. **MANDATORY PASS-1 SOLID EROSION (&delta;1) CAPTURE FOR 1-PASS CALIBRATION:**
+    - **CHỈ THỊ CÔNG NGHỆ BẮT BUỘC:** Mỗi khi người dùng cung cấp dữ liệu cắt nhiều Pass có số đo trung gian sau Pass 1, AI **BẮT BUỘC PHẢI TÍNH TOÁN VÀ LƯU LẠI CHÍNH XÁC LƯỢNG BÀO MÒN THÉP ĐẶC CỦA PASS 1 ($\delta_1$)**:
+      $$\delta_1 = 	ext{Khoảng cách mép dây Pass 1} - 	ext{Khoảng cách vách đo Panme Pass 1}$$
+    - Thông số $\delta_1$ này là thước đo chuẩn xác về năng lực cào phôi thép đặc của chế độ điện phá thô ($	ext{Ton}_1, 	ext{Po}_1, 	ext{IP}_1, 	ext{Volt}_1, H$).
+    - AI **BẮT BUỘC PHẢI LƯU THÔNG SỐ NÀY VÀ QUY ĐỔI THÀNH OFFSET 1 PASS TƯƠNG ĐƯƠNG ($	ext{Offset}_{	ext{1P}} = 0.090 + \delta_1$)** vào Data Bank để dùng làm căn cứ thực nghiệm tinh chỉnh thuật toán tính toán cắt 1 Pass chuẩn xác tuyệt đối (Xem `.agents/rules/11-SOP_NEW_EMPIRICAL_DATA_INTEGRATION.md`).
 

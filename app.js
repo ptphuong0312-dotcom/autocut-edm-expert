@@ -1683,7 +1683,9 @@ function initApp() {
                         "recommendedOffsetP2": 0.020,
                         "actualDimension": "Sau P1: 23.95-23.96mm | Sau P2: 23.95-23.96mm (nhỏ hơn lập trình 0.045mm)"
                 },
-                "notes": "H=165mm SCM440 phôi siêu dày. Phát hiện bước ngoặt: VF=70 tăng độ nhạy dò dây giúp máy đi chậm rãi, bóc phoi an toàn, chống đâm sầm vào phôi. Sau P1 cối nhỏ hơn lập trình 0.045mm (chừa 0.0225mm/bên). Sang P2 để O2=0.030 lùi quá xa ngoài tầm vươn tia lửa P2 nên kích thước giữ nguyên. Hiệu chỉnh Offset chuẩn: P1=0.0875mm, P2=0.020mm."
+                "delta1Solid": 0.0275,
+                        "equivalent1PassOffset": 0.1175,
+                        "notes": "H=165mm SCM440 phôi siêu dày. LƯỢNG CÀO THÉP ĐẶC PASS 1: δ1 = 0.050 - 0.0225 = 0.0275mm (Bào mòn cực mạnh 27.5 micron). Quy đổi Offset 1-Pass chuẩn tương đương: O_1P = 0.090 + 0.0275 = 0.1175mm (dùng tinh chỉnh công thức 1-Pass). Phát hiện bước ngoặt: VF=70 tăng độ nhạy dò dây giúp máy đi chậm rãi, chống đâm sầm vào phôi. P2 hụt tầm vươn do O2 đặt lùi quá xa. Hiệu chỉnh 2 Pass chuẩn: P1=0.0875mm, P2=0.020mm."
         }
 ];
 

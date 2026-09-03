@@ -144,3 +144,12 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 
 > ⚠️ **QUY TẮC NÚI LỬA (GHI NHỚ ĐẶC BIỆT TỪ USER):** Pass 2 ăn 0.035mm là do phạt gọt các chóp đỉnh nhọn rỗng xốp của miệng núi lửa ($Rz_1 pprox 28\mu m$) do Pass 1 để lại + khe hở $\delta_2 pprox 7\mu m$. Chế độ điện Pass 2 ($	ext{Ton}=20, 	ext{IP}=3$) KHÔNG THỂ tự cào được 0.035mm trên bề mặt thép phẳng đặc (trên thép phẳng đặc chỉ cào được ~0.010mm). Tuyệt đối không được nhầm lẫn khi phân tích cắt nhiều Pass!
 
+> 💡 **TÍNH TOÁN NĂNG LỰC BÀO MÒN PASS 1 VÀ HIỆU CHUẨN 1 PASS TỪ BÀI CẮT 2P-11 (H=165mm):**
+> * Mép dây Pass 1 cách bản vẽ: $0.110 + 0.030 - 0.090 = 0.050	ext{mm}$.
+> * Vách phôi đo được sau Pass 1 cách bản vẽ: $0.045 / 2 = 0.0225	ext{mm}$.
+> * **Lượng cào phôi thép đặc thực tế của Pass 1 ($\delta_1$):**
+>   $$\delta_1 = 0.050 - 0.0225 = \mathbf{0.0275	ext{ mm}} \quad (27.5\mu m)$$
+> * **Bề rộng rãnh cắt thực tế Pass 1:** $B_1 = 2 	imes (0.090 + 0.0275) = \mathbf{0.235	ext{ mm}}$.
+> * **Quy đổi Offset CẮT 1 PASS CHUẨN cho bộ điện $	ext{Ton}=135, 	ext{Po}=11, 	ext{IP}=6, 	ext{VF}=70$ tại $H=165	ext{mm}$:**
+>   $$\mathbf{	ext{Offset 1-Pass Chuẩn}} = R_{	ext{dây}} + \delta_1 = 0.090 + 0.0275 = \mathbf{0.1175	ext{ mm}}$$
+>   *(Dữ liệu này được lưu trữ vĩnh viễn để hiệu chỉnh công thức cắt 1 Pass cho phôi cực dày).*
