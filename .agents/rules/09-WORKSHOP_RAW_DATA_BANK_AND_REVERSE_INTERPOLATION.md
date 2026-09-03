@@ -139,5 +139,8 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 | **2P-10** | 2 Lần | SCM440 (28-32HRC)| 85 | **P1** | 70 | 8 | 5 | 1 | High | 61 | 150Hz | **0,095** | 48p | 65,6mm | 3,6A-3,7A | 55-65 mm²/p | Sau P1 đo: 19.94 - 19.95mm (chừa 0.0275mm/bên) | +0.0075 mm | **0.1025 mm**| **0.030 mm** |
 | | | | | **P2** | 20 | 6 | 3 | 2 | High | 36 | 100Hz | **0,030** | 10p24' | 65,6mm | 0,5A-1,0A | 240 mm²/p | Sau P2: cối to hơn lập trình 0.015 (20.015mm) | (Đo khép kín) | (Khe hở δ1=0.0125) | (P2 ăn 0.035mm/bên) |
 
+| **2P-11** | 2 Lần | SCM440 (28-32HRC)| 165 | **P1** | 135 | 11 | 6 | 1 | High | 70 | 60Hz | **0,110** | 1h17' | 43,6mm | 2,8A-3,0A | 15-35 mm²/p | Sau P1: 23.95 - 23.96mm (cối nhỏ hơn lập trình 0.045mm) | -0.0225 mm | **0.0875 mm**| **0.020 mm** |
+| | | | | **P2** | 24 | 6 | 3 | 2 | High | 36 | 80Hz | **0,030** | 9p | 43,6mm | 1,0A-1,5A | 190 mm²/p | Sau P2: 23.95 - 23.96mm (kích thước giữ nguyên do O2 đặt lùi quá xa tầm vươn tia lửa P2) | (VF=70 cứu máy) | (Khe hở δ1=0.0275) | (P2 hụt tầm vươn) |
+
 > ⚠️ **QUY TẮC NÚI LỬA (GHI NHỚ ĐẶC BIỆT TỪ USER):** Pass 2 ăn 0.035mm là do phạt gọt các chóp đỉnh nhọn rỗng xốp của miệng núi lửa ($Rz_1 pprox 28\mu m$) do Pass 1 để lại + khe hở $\delta_2 pprox 7\mu m$. Chế độ điện Pass 2 ($	ext{Ton}=20, 	ext{IP}=3$) KHÔNG THỂ tự cào được 0.035mm trên bề mặt thép phẳng đặc (trên thép phẳng đặc chỉ cào được ~0.010mm). Tuyệt đối không được nhầm lẫn khi phân tích cắt nhiều Pass!
 

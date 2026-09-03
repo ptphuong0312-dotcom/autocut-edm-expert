@@ -1,24 +1,24 @@
-# 💡 CHIẾN THUẬT CẮT PHÔI SIÊU DÀY (>200mm) VÀ ĐIỀU KHIỂN VF (VARIABLE FREQUENCY)
-*Đúc kết từ dữ liệu thực chiến phôi 300mm SCM440.*
+# 💡 ĐIỀU KHIỂN VF (VARIABLE FREQUENCY / TRACKING VOLTAGE) VÀ CHIẾN THUẬT CẮT PHÔI DÀY (>100mm)
+*Đúc kết từ bài học thực chiến phôi H=165mm SCM440 (STT 2P-11) do người dùng khám phá và hiệu chuẩn.*
 
-## 1. Bản chất của thông số VF (AutoCut)
-- **VF (Biến tần)** chính là Tần số xung cấp cho mô-tơ bước/servo (Tần số gia công).
-- **VF Thấp (40-50):** Tần số cấp cho mô-tơ chậm. Mâm máy tiến "rón rén", an toàn nhưng dễ bị nghẽn đơ nếu gặp xỉ cản đường.
-- **VF Cao (60-70):** Tần số cấp cho mô-tơ nhanh. Mâm máy "hung hãn, lỳ lợm", ép dây tiến mạnh về phía trước, bất chấp điện áp chập chờn nhẹ.
+---
 
-## 2. Hội chứng "Điểm nghẽn 2 giờ" (The 2-Hour Choke Point)
-Khi cắt phôi siêu dày (300mm), sau khoảng 2 giờ hoạt động:
-- Lượng xỉ tích tụ giữa rãnh cắt quá lớn, nước làm mát mất áp lực không đẩy được xỉ ra.
-- Dây Molypden bị hao mòn, nhỏ lại -> Rãnh cắt hẹp đi.
-- **Biểu hiện:** Máy khựng lại, liên tục lùi dao, không thể cắt tiếp dù dòng Ampe có vẻ bình thường. Mâm máy chạy VF thấp bị đùn lùi lại do tín hiệu chạm chập từ đống xỉ.
+## 1. BẢN CHẤT CỐT LÕI CỦA THÔNG SỐ VF TRÊN AUTOCUT:
+VF trong AutoCut là **Điện áp theo dõi / Độ nhạy cảm biến dò phôi của hệ thống Servo (Voltage Feedback Tracking Sensitivity)**:
+*   **VF CAO (65 - 75):**
+    *   Máy **TĂNG HỆ SỐ CẢM NHẬN** giữa dây phóng điện và bề mặt phôi.
+    *   Servo trở nên cực kỳ cẩn trọng, nhạy bén: Khi thấy điện áp khe hở có dấu hiệu sụt áp do tích tụ xỉ, nó lập tức **hãm tốc độ tiến bàn máy lại**, cho phép dây có đủ thời gian phóng điện phá phoi và nước kịp xối rửa sạch rãnh cắt sâu.
+    *   👉 **KẾT LUẬN:** **CẮT PHÔI DÀY BẮT BUỘC PHẢI DÙNG VF CAO (68 - 72)** để máy đi chậm rãi, nhịp nhàng, chống đâm sầm vào phôi!
+*   **VF THẤP (35 - 50):**
+    *   Máy **GIẢM HỆ SỐ CẢM NHẬN**, servo trở nên "lỳ lợm", dung sai khe hở bị thu hẹp.
+    *   Servo sẽ **THÚC MÁY CHẠY NHANH HƠN**, ép sợi dây lao hùng hục về phía trước.
+    *   Ở phôi mỏng, phoi thoát nhanh thì cắt rất bốc. Nhưng ở **phôi dày ($H > 100	ext{mm}$)**, việc thúc dây quá nhanh trong khi xỉ chưa kịp thoát sẽ khiến dây **ĐÂM SẦM VÀO THÀNH PHÔI** gây đoản mạch, đứng máy và đứt dây ngay lập tức!
 
-## 3. Combo "Mìn phá băng & Lệnh xung phong" (Giải pháp)
-Khi gặp "Điểm nghẽn 2 giờ", tuyệt đối không được ép VF ngay (sẽ đứt dây). Phải dùng chiến thuật kết hợp:
-1. **Bước 1: Tăng mạnh Ton (Ví dụ từ 80 lên 110):**
-   - Đóng vai trò là "Mìn phá băng". Tia lửa nổ to hơn 37.5%, thổi bay xỉ, làm bành rộng rãnh cắt, bù trừ hoàn hảo cho sợi dây đã bị mòn.
-2. **Bước 2: Tăng VF (Ví dụ từ 45 lên 65):**
-   - Đóng vai trò là "Lệnh xung phong". Sau khi Ton đã dọn đường và mở rộng rãnh cắt, VF cao sẽ cấp tần số mạnh, ép mô-tơ hung hãn lao tới chiếm lĩnh không gian rãnh cắt vừa được mở rộng.
-   - Nhờ khoảng trống đã có, VF cao không làm đứt dây mà giúp máy vượt qua điểm nghẽn và cắt tiếp với tốc độ kinh hoàng (20-30 mm2/p cho phôi 300mm).
+---
 
-## 4. Chú ý an toàn
-Chiến thuật đẩy Ton > 100 sẽ gây rỗ dây (cratering). Chỉ dùng khi máy bế tắc và hệ thống xối nước phải hoạt động ở công suất tối đa. Nới lỏng nhẹ lực căng dây để tránh đứt cơ học.
+## 2. BÀI HỌC THỰC NGHIỆM TỪ PHÔI H=165mm SCM440 (STT 2P-11):
+*   Khi để VF thấp (57 theo tính toán cũ): Máy bị thúc lao vào phôi quá nhanh, đâm sầm vào vách và không thể cắt được.
+*   Khi người dùng **nâng VF lên 70**: Máy tăng độ nhạy dò dây, chạy chậm rãi an toàn, cắt êm ru $L=43.6	ext{mm}$ trong 1h17 phút, Ampe ổn định $2.8 - 3.0	ext{A}$.
+*   **Bộ thông số thực chiến chuẩn H=165mm SCM440:**
+    *   **Pass 1:** Ton=135, Po=11, IP=6, Wire=1, Volt=High, **VF=70**, Max Speed=60Hz, Offset=0.110.
+    *   **Pass 2:** Ton=24, Po=6, IP=3, Wire=2, Volt=High, **VF=36**, Max Speed=80Hz, Offset=0.020 - 0.030.

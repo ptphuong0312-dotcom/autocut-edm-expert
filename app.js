@@ -1635,6 +1635,56 @@ function initApp() {
                 },
                 "notes": "H=85mm SCM440 cắt 2 Pass theo chuẩn Web App Tab 2. Sau Pass 1 đo đạt 19.94-19.95mm (chừa đúng 0.0275mm lượng dư mỗi bên). Sau Pass 2 đạt 20.015mm (to hơn 0.015mm do Pass 2 ăn 0.035mm/bên). Offset P1 chuẩn hiệu chỉnh: 0.1025mm, Offset P2: 0.030mm."
         }
+,
+        {
+                "id": "2P-11",
+                "name": "SCM440 | H=165mm | 2 Lần (Hiệu chuẩn VF=70)",
+                "materialName": "SCM440 (28-32HRC)",
+                "thickness": 165,
+                "cutLength": "43,6mm",
+                "passCount": 2,
+                "multiPassDetails": [
+                        {
+                                "pass": "Pass 1",
+                                "ti": 135,
+                                "Po": 11,
+                                "IP": 6,
+                                "wire": 1,
+                                "voltage": "High",
+                                "vf": 70,
+                                "maxSpeed": "60Hz",
+                                "offset": 0.110,
+                                "time": "1h17'",
+                                "ampe": "2,8A - 3,0A",
+                                "speed": "15 - 35 mm²/p"
+                        },
+                        {
+                                "pass": "Pass 2",
+                                "ti": 24,
+                                "Po": 6,
+                                "IP": 3,
+                                "wire": 2,
+                                "voltage": "High",
+                                "vf": 36,
+                                "maxSpeed": "80Hz",
+                                "offset": 0.030,
+                                "time": "9p",
+                                "ampe": "1,0A - 1,5A",
+                                "speed": "190 mm²/p"
+                        }
+                ],
+                "measured": {
+                        "totalTimeStr": "1h26' (P1: 1h17', P2: 9p)",
+                        "ammeterA": "2.8 - 3.0A (P1) | 1.0 - 1.5A (P2)",
+                        "measuredSpeed": "15 - 35 mm²/p (P1) | 190 mm²/p (P2)",
+                        "enteredOffsetP1": 0.110,
+                        "enteredOffsetP2": 0.030,
+                        "recommendedOffsetP1": 0.0875,
+                        "recommendedOffsetP2": 0.020,
+                        "actualDimension": "Sau P1: 23.95-23.96mm | Sau P2: 23.95-23.96mm (nhỏ hơn lập trình 0.045mm)"
+                },
+                "notes": "H=165mm SCM440 phôi siêu dày. Phát hiện bước ngoặt: VF=70 tăng độ nhạy dò dây giúp máy đi chậm rãi, bóc phoi an toàn, chống đâm sầm vào phôi. Sau P1 cối nhỏ hơn lập trình 0.045mm (chừa 0.0225mm/bên). Sang P2 để O2=0.030 lùi quá xa ngoài tầm vươn tia lửa P2 nên kích thước giữ nguyên. Hiệu chỉnh Offset chuẩn: P1=0.0875mm, P2=0.020mm."
+        }
 ];
 
     const WORKSHOP_CALIBRATION_MODEL = {
@@ -1739,12 +1789,14 @@ function initApp() {
             const vfMin = isHard ? 55 : 50;
             if (H <= 40) {
                 baseVF = vfMax;
-            } else if (H <= 140) {
-                baseVF = Math.round(vfMax - (H - 40) * (vfMax - vfMin) / (140 - 40));
-            } else if (H <= 300) {
-                baseVF = Math.round(vfMin + (H - 140) * (vfMax - vfMin) / (300 - 140));
+            } else if (H <= 100) {
+                baseVF = Math.round(vfMax - (H - 40) * (vfMax - vfMin) / (100 - 40));
+            } else if (H <= 160) {
+                // Phôi dày: Nâng dần VF lên 65-70 để tăng độ nhạy dò dây, hãm servo chạy cẩn trọng
+                baseVF = Math.round(vfMin + (H - 100) * (70 - vfMin) / (160 - 100));
             } else {
-                baseVF = vfMax;
+                // Phôi cực dày H > 160mm: Bắt buộc VF = 70-72 để servo không đâm sầm vào phôi
+                baseVF = Math.min(72, Math.round(70 + (H - 160) * 2 / 40));
             }
 
             // 1.5. CÔNG THỨC LAI TẠO TÍNH KHE HỞ TIA LỬA δ VÀ LƯỢNG CÀO PHÔI (Rule 10)

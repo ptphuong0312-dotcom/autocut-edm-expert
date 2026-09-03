@@ -1,4 +1,4 @@
-const CACHE_NAME = 'autocut-v3.4.97';
+const CACHE_NAME = 'autocut-v3.4.98';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
