@@ -35,6 +35,9 @@ Các dữ liệu này là cơ sở để tính toán Tốc độ mài (Fc), Khe 
 | **30** | P1 | 28 | 6 | 4 | High | 60 | 200Hz | 0.1075 | (Cấp 6, Cắt Cối) Nhập ban đầu O1=0.115, O2=0.022. Cối nhỏ 0.015. Giảm O1 về 0.1075. |
 | | P2 | 16 | 5 | 2 | Low | 40 | 150Hz | 0.022 | (Remain) Tốc độ đạt kịch trần 360 mm²/p |
 
+| **85** | P1 | 70 | 8 | 5 | High | 61 | 150Hz | 0.1025 | (SCM440 2 Pass) Chạy 100% Web App Tab 2 (O1=0.095, O2=0.030, L=65.6mm). Sau P1 đo: 19.94 - 19.95mm (chừa ~0.0275mm/bên). Sau P2 hoàn thiện: 20.015mm (to hơn 0.015mm). Offset chuẩn: O1=0.1025mm, O2=0.030mm. |
+| | P2 | 20 | 6 | 3 | High | 36 | 100Hz | 0.030 | Tốc độ P2: 240 mm²/p (10p24s). Ampe: 3.6-3.7A (P1) | 0.5-1.0A (P2). |
+
 ### 2.2. Nhóm Dữ liệu Custom (Tự do - Chuẩn tuyệt đối kích thước)
 | H | Pass | Ton | Toff | IP | Wire | Volt | VF | Max Speed (Hz) | Offset | Phân tích quy luật |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |

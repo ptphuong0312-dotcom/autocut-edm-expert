@@ -1631,9 +1631,9 @@ function initApp() {
                         "enteredOffsetP2": 0.03,
                         "recommendedOffsetP1": 0.1025,
                         "recommendedOffsetP2": 0.03,
-                        "actualDimension": "Cối to hơn lập trình 0.015mm"
+                        "actualDimension": "Sau P1: 19.94-19.95mm | Sau P2: to hơn 0.015mm (20.015mm)"
                 },
-                "notes": "H=85mm SCM440 cắt theo chế độ chuẩn Web App Tab 2. Tổng thời gian 58p24s cho L=65.6mm. Ampe 3.6-3.7A khớp chuẩn Rule 12. Cối to hơn 0.015mm -> Hiệu chỉnh Offset P1 chuẩn: 0.1025mm (Khe hở δ1 = 0.0125mm)."
+                "notes": "H=85mm SCM440 cắt 2 Pass theo chuẩn Web App Tab 2. Sau Pass 1 đo đạt 19.94-19.95mm (chừa đúng 0.0275mm lượng dư mỗi bên). Sau Pass 2 đạt 20.015mm (to hơn 0.015mm do Pass 2 ăn 0.035mm/bên). Offset P1 chuẩn hiệu chỉnh: 0.1025mm, Offset P2: 0.030mm."
         }
 ];
 
