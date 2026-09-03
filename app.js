@@ -1585,6 +1585,56 @@ function initApp() {
                 },
                 "notes": "H=140mm Phôi dày SCM420. P1(Ton=120, IP=5, High, VF=55, O1=0.098) + P2(Ton=25, IP=2, Low, VF=25, O2=0.030) -> Kích thước đã chuẩn."
         }
+,
+        {
+                "id": "2P-10",
+                "name": "SCM440 | H=85mm | 2 Lần (Kiểm chứng Web App Tab 2)",
+                "materialName": "SCM440 (28-32HRC)",
+                "thickness": 85,
+                "cutLength": "65,6mm",
+                "passCount": 2,
+                "multiPassDetails": [
+                        {
+                                "pass": "Pass 1",
+                                "ti": 70,
+                                "Po": 8,
+                                "IP": 5,
+                                "wire": 1,
+                                "voltage": "High",
+                                "vf": 61,
+                                "maxSpeed": "150Hz",
+                                "offset": 0.095,
+                                "time": "48p",
+                                "ampe": "3,6A - 3,7A",
+                                "speed": "55 - 65 mm²/p"
+                        },
+                        {
+                                "pass": "Pass 2",
+                                "ti": 20,
+                                "Po": 6,
+                                "IP": 3,
+                                "wire": 2,
+                                "voltage": "High",
+                                "vf": 36,
+                                "maxSpeed": "100Hz",
+                                "offset": 0.03,
+                                "time": "10p24'",
+                                "ampe": "0,5A - 1,0A",
+                                "speed": "240 mm²/p"
+                        }
+                ],
+                "measured": {
+                        "totalTimeStr": "58p24' (P1: 48p, P2: 10p24')",
+                        "ammeterA": "3.6 - 3.7A (P1) | 0.5 - 1.0A (P2)",
+                        "measuredSpeed": "55 - 65 mm²/p (P1) | 240 mm²/p (P2)",
+                        "enteredOffsetP1": 0.095,
+                        "enteredOffsetP2": 0.03,
+                        "recommendedOffsetP1": 0.1025,
+                        "recommendedOffsetP2": 0.03,
+                        "actualDimension": "Cối to hơn lập trình 0.015mm"
+                },
+                "notes": "H=85mm SCM440 cắt theo chế độ chuẩn Web App Tab 2. Tổng thời gian 58p24s cho L=65.6mm. Ampe 3.6-3.7A khớp chuẩn Rule 12. Cối to hơn 0.015mm -> Hiệu chỉnh Offset P1 chuẩn: 0.1025mm (Khe hở δ1 = 0.0125mm)."
+        }
 ];
 
     const WORKSHOP_CALIBRATION_MODEL = {
