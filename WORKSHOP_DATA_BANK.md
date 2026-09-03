@@ -138,3 +138,6 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 | | | | | **P2** | 25 | 7 | 2 | 2 | Low | 25 | 100Hz | **0,030** | -- | -- | -- | -- | | | | |
 | **2P-10** | 2 Lần | SCM440 (28-32HRC)| 85 | **P1** | 70 | 8 | 5 | 1 | High | 61 | 150Hz | **0,095** | 48p | 65,6mm | 3,6A-3,7A | 55-65 mm²/p | Sau P1 đo: 19.94 - 19.95mm (chừa 0.0275mm/bên) | +0.0075 mm | **0.1025 mm**| **0.030 mm** |
 | | | | | **P2** | 20 | 6 | 3 | 2 | High | 36 | 100Hz | **0,030** | 10p24' | 65,6mm | 0,5A-1,0A | 240 mm²/p | Sau P2: cối to hơn lập trình 0.015 (20.015mm) | (Đo khép kín) | (Khe hở δ1=0.0125) | (P2 ăn 0.035mm/bên) |
+
+> ⚠️ **QUY TẮC NÚI LỬA (GHI NHỚ ĐẶC BIỆT TỪ USER):** Pass 2 ăn 0.035mm là do phạt gọt các chóp đỉnh nhọn rỗng xốp của miệng núi lửa ($Rz_1 pprox 28\mu m$) do Pass 1 để lại + khe hở $\delta_2 pprox 7\mu m$. Chế độ điện Pass 2 ($	ext{Ton}=20, 	ext{IP}=3$) KHÔNG THỂ tự cào được 0.035mm trên bề mặt thép phẳng đặc (trên thép phẳng đặc chỉ cào được ~0.010mm). Tuyệt đối không được nhầm lẫn khi phân tích cắt nhiều Pass!
+

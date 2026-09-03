@@ -42,3 +42,23 @@ Khi người dùng yêu cầu cắt $ Pass (Ví dụ: Cắt 2 Pass):
     *   $\text{Offset}_1 = R_{\text{dây}} (0.09) + \text{True Spark Gap}_1 + \text{Remain}_2$
     *   $\text{Remain}_2 \ge R_{z1}$ (đảm bảo đủ cào sạch đỉnh nhô cũ).
     *   $\text{Offset}_2$ thực tế đưa đỉnh nhô của Pass 2 trùng khít đường biên bản vẽ.
+
+---
+
+## 5. 🚨 CẢNH BÁO CHỐNG NHẦM LẪN VỀ NĂNG LỰC CÀO CỦA PASS TINH (ANTI-CONFUSION LAW)
+*Được người dùng chỉ đạo khắc ghi từ thực nghiệm bài cắt H=85mm SCM440 (STT 2P-10).*
+
+1. **SỰ THẬT VẬT LÝ VỀ CON SỐ 0.035mm CỦA PASS 2:**
+   - Trong bài cắt $H=85	ext{mm}$, Pass 2 với chế độ điện $	ext{Ton}=20\mu s, 	ext{Po}=6, 	ext{IP}=3$ đã làm kích thước thành cối mở rộng $0.035	ext{mm}$ (từ $19.945	ext{mm}$ lên $20.015	ext{mm}$).
+   - **CẢNH BÁO:** AI KHÔNG ĐƯỢC NHẦM LẪN RẰNG BỘ ĐIỆN PASS 2 CÓ THỂ TỰ CÀO ĐƯỢC $0.035	ext{mm}$ THÉP ĐẶC!
+   - Nếu đưa chế độ điện $	ext{Ton}=20, 	ext{IP}=3$ này vào cắt một phôi thép đã mài phẳng nhẵn lì, năng lực phóng điện thực tế của nó chỉ vươn được **$\delta pprox 0.008 - 0.012	ext{mm}$**. Nếu ép dây ăn sâu $0.035	ext{mm}$ vào thép phẳng đặc, máy sẽ đoản mạch và đứt dây ngay lập tức.
+
+2. **VÌ SAO PASS 2 LẠI LƯỚT ĐƯỢC 0.035mm VỚI TỐC ĐỘ 240 mm²/p?**
+   - Bề mặt phôi sau Pass 1 ($	ext{Ton}=70, 	ext{IP}=5$) là một **rừng chóp nhọn miệng núi lửa rỗng xốp** ($Rz_1 pprox 25 - 28\mu m$).
+   - Thước Panme đo $19.94 - 19.95	ext{mm}$ là do mỏ kẹp chỉ chạm vào chóp các đỉnh nhọn này.
+   - Nhờ **Hiệu ứng mũi nhọn (Tip Effect)**, tia lửa Pass 2 chỉ cần năng lượng nhỏ đã dễ dàng đánh bay các chóp đỉnh mỏng manh này về đáy hố rỗ, cộng thêm khe hở phóng điện nhỏ ($pprox 7\mu m$).
+   - Tổng lượng hụt kích thước trên Panme: $Rz_1 (28\mu m) + \delta_2 (7\mu m) = \mathbf{0.035	ext{mm}}$.
+
+3. **QUY TẮC PHÂN TÍCH NHIỀU PASS TRONG TƯƠNG LAI:**
+   - Trong mọi thuật toán nội suy 2, 3, 4, 5, 6 Pass: Lượng chừa phôi (Remain) của Pass $n$ luôn phục vụ việc **hớt sạch chiều cao đỉnh nhám $R_{z(n-1)}$** của Pass trước đó.
+   - Tuyệt đối không bao giờ lấy số đo Panme giảm được ở Pass tinh để suy diễn sai lệch thành năng lực cào phôi thép đặc của chế độ điện đó!
