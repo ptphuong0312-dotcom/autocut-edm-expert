@@ -1687,6 +1687,58 @@ function initApp() {
                         "equivalent1PassOffset": 0.1175,
                         "notes": "H=165mm SCM440 phôi siêu dày. LƯỢNG CÀO THÉP ĐẶC PASS 1: δ1 = 0.050 - 0.0225 = 0.0275mm (Bào mòn cực mạnh 27.5 micron). Quy đổi Offset 1-Pass chuẩn tương đương: O_1P = 0.090 + 0.0275 = 0.1175mm (dùng tinh chỉnh công thức 1-Pass). Phát hiện bước ngoặt: VF=70 tăng độ nhạy dò dây giúp máy đi chậm rãi, chống đâm sầm vào phôi. P2 hụt tầm vươn do O2 đặt lùi quá xa. Hiệu chỉnh 2 Pass chuẩn: P1=0.0875mm, P2=0.020mm."
         }
+,
+        {
+                "id": "2P-12",
+                "name": "SCM440 | H=165mm | 2 Lần (Mẫu 2: O1=0.100, O2=0.015)",
+                "materialName": "SCM440 (28-32HRC)",
+                "thickness": 165,
+                "cutLength": "43,6mm",
+                "passCount": 2,
+                "multiPassDetails": [
+                        {
+                                "pass": "Pass 1",
+                                "ti": 135,
+                                "Po": 11,
+                                "IP": 6,
+                                "wire": 1,
+                                "voltage": "High",
+                                "vf": 70,
+                                "maxSpeed": "60Hz",
+                                "offset": 0.100,
+                                "time": "1h17'",
+                                "ampe": "2,8A - 3,0A",
+                                "speed": "15 - 35 mm²/p"
+                        },
+                        {
+                                "pass": "Pass 2",
+                                "ti": 40,
+                                "Po": 7,
+                                "IP": 3,
+                                "wire": 2,
+                                "voltage": "High",
+                                "vf": 36,
+                                "maxSpeed": "80Hz",
+                                "offset": 0.015,
+                                "time": "9p",
+                                "ampe": "0,5A (3/4 đường) | 1,0A-1,5A (1/4 đường)",
+                                "speed": "190 mm²/p"
+                        }
+                ],
+                "measured": {
+                        "totalTimeStr": "1h26' (P1: 1h17', P2: 9p)",
+                        "ammeterA": "2.8-3.0A (P1) | 0.5A ~ 1.0-1.5A (P2)",
+                        "measuredSpeed": "15-35 mm²/p (P1) | 190 mm²/p (P2)",
+                        "enteredOffsetP1": 0.100,
+                        "enteredOffsetP2": 0.015,
+                        "recommendedOffsetP1": 0.1075,
+                        "recommendedOffsetP2": 0.015,
+                        "delta1Solid": 0.0225,
+                        "equivalent1PassOffset": 0.1125,
+                        "actualDimension": "Sau P1: 23.99-24.00mm | Sau P2: 24.01-24.02mm (to hơn lập trình 0.015mm)"
+                },
+                "notes": "H=165mm SCM440 mẫu 2. P1 cào thép đặc δ1=0.0225mm (gần khớp 24.00mm). P2 tăng Ton=40 và ép O2=0.015mm giúp tia lửa cắn sâu vào vách, cối to hơn 0.015mm. Đúc kết vàng về kim Ampe P2: 3/4 đường kim chỉ 0.5A (đỉnh núi lửa thấp), 1/4 đường vọt lên 1-1.5A (đỉnh núi lửa cao còn nhiều lượng dư). Offset 2 Pass chuẩn: P1=0.1075mm, P2=0.015mm."
+        }
 ];
 
     const WORKSHOP_CALIBRATION_MODEL = {

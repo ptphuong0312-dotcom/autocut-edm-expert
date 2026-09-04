@@ -62,3 +62,9 @@ Khi người dùng yêu cầu cắt $ Pass (Ví dụ: Cắt 2 Pass):
 3. **QUY TẮC PHÂN TÍCH NHIỀU PASS TRONG TƯƠNG LAI:**
    - Trong mọi thuật toán nội suy 2, 3, 4, 5, 6 Pass: Lượng chừa phôi (Remain) của Pass $n$ luôn phục vụ việc **hớt sạch chiều cao đỉnh nhám $R_{z(n-1)}$** của Pass trước đó.
    - Tuyệt đối không bao giờ lấy số đo Panme giảm được ở Pass tinh để suy diễn sai lệch thành năng lực cào phôi thép đặc của chế độ điện đó!
+
+4. **HIỆN TƯỢNG KIM AMPE DAO ĐỘNG Ở PASS TINH THEO ĐỘ CAO ĐỈNH NÚI LỬA:**
+   - *Thực nghiệm bài cắt H=165mm mẫu 2 (STT 2P-12):* Khi chạy Pass 2 ($	ext{Ton}=40, 	ext{Po}=7, 	ext{IP}=3$), kim Ampe phân hóa rõ rệt 2 trạng thái:
+     - **3/4 quãng đường kim đứng ở 0.5A:** Dây lướt qua vùng có các đỉnh núi lửa thấp, lượng dư kim loại cần hớt rất mỏng $\implies$ máy ăn nhẹ, dòng phóng thấp và ổn định.
+     - **1/4 quãng đường kim dao động liên tục 1.0 - 1.5A:** Dây cắt qua vùng có các chùm đỉnh núi lửa nhô cao (vùng thoát phoi khó ở Pass 1 để lại gờ nhám thô) $\implies$ mật độ tia lửa bộc phát dày đặc, tải điện tăng vọt, kim Ampe nhảy lên $1.0 - 1.5	ext{A}$.
+   - **Kết luận:** Sự dao động của đồng hồ Ampe ở Pass tinh là thước đo phản chiếu trực tiếp sự không đồng đều của chiều cao đỉnh nhám $Rz_1$ từ Pass 1 để lại!

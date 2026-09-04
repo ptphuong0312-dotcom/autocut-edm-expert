@@ -144,6 +144,9 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 
 > ⚠️ **QUY TẮC NÚI LỬA (GHI NHỚ ĐẶC BIỆT TỪ USER):** Pass 2 ăn 0.035mm là do phạt gọt các chóp đỉnh nhọn rỗng xốp của miệng núi lửa ($Rz_1 pprox 28\mu m$) do Pass 1 để lại + khe hở $\delta_2 pprox 7\mu m$. Chế độ điện Pass 2 ($	ext{Ton}=20, 	ext{IP}=3$) KHÔNG THỂ tự cào được 0.035mm trên bề mặt thép phẳng đặc (trên thép phẳng đặc chỉ cào được ~0.010mm). Tuyệt đối không được nhầm lẫn khi phân tích cắt nhiều Pass!
 
+| **2P-12** | 2 Lần | SCM440 (28-32HRC)| 165 | **P1** | 135 | 11 | 6 | 1 | High | 70 | 60Hz | **0,100** | 1h17' | 43,6mm | 2,8A-3,0A | 15-35 mm²/p | Sau P1: 23.99 - 24.00mm (chừa ~2.5μm/bên) | +0.0075 mm | **0.1075 mm**| **0.015 mm** |
+| | | | | **P2** | 40 | 7 | 3 | 2 | High | 36 | 80Hz | **0,015** | 9p | 43,6mm | 0,5A - 1A-1,5A | 190 mm²/p | Sau P2: 24.01 - 24.02mm (cối to hơn lập trình 0.015mm) | (Đo kiểm 2 Pass) | (Khe hở δ1=0.0225) | (Ampe đổi theo đỉnh núi lửa) |
+
 > 💡 **TÍNH TOÁN NĂNG LỰC BÀO MÒN PASS 1 VÀ HIỆU CHUẨN 1 PASS TỪ BÀI CẮT 2P-11 (H=165mm):**
 > * Mép dây Pass 1 cách bản vẽ: $0.110 + 0.030 - 0.090 = 0.050	ext{mm}$.
 > * Vách phôi đo được sau Pass 1 cách bản vẽ: $0.045 / 2 = 0.0225	ext{mm}$.
@@ -153,3 +156,12 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 > * **Quy đổi Offset CẮT 1 PASS CHUẨN cho bộ điện $	ext{Ton}=135, 	ext{Po}=11, 	ext{IP}=6, 	ext{VF}=70$ tại $H=165	ext{mm}$:**
 >   $$\mathbf{	ext{Offset 1-Pass Chuẩn}} = R_{	ext{dây}} + \delta_1 = 0.090 + 0.0275 = \mathbf{0.1175	ext{ mm}}$$
 >   *(Dữ liệu này được lưu trữ vĩnh viễn để hiệu chỉnh công thức cắt 1 Pass cho phôi cực dày).*
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & ĐỒNG HỒ AMPE BÀI CẮT 2P-12 (H=165mm, MẪU 2):**
+> * **Pass 1:** $O_1=0.100, O_2=0.015 \implies$ Mép dây P1 cách bản vẽ $0.025	ext{mm}$. Sau P1 đo đạt $23.99-24.00	ext{mm}$ $\implies$ vách chỉ còn cách bản vẽ $0.0025	ext{mm}$.
+> * **Lượng cào thép đặc của Pass 1:** $\delta_1 = 0.025 - 0.0025 = \mathbf{0.0225	ext{ mm}}$ ($22.5\mu m$). Offset 1 Pass tương đương: $\mathbf{0.1125	ext{ mm}}$.
+> * **Pass 2:** Nâng Ton lên 40, hạ $O_2$ về $0.015	ext{mm} \implies$ Mép dây Pass 2 cách vách phôi Pass 1 là $12.5\mu m$, tia lửa Pass 2 đã ăn sâu vào vách, đưa kích thước lên $24.015	ext{mm}$ (to hơn lập trình $0.015	ext{mm}$).
+> * **Hiện tượng Ampe Pass 2 (Đúc kết từ User):** 
+>   - 3/4 quãng đường kim chỉ $0.5	ext{A}$: Cắt qua vùng đỉnh núi lửa thấp (lượng dư ít, phoi mỏng).
+>   - 1/4 quãng đường kim vọt lên $1.0 - 1.5	ext{A}$ dao động liên tục: Cắt qua vùng đỉnh núi lửa nhô cao (lượng dư nhiều, mật độ phóng điện dày đặc).
+>   - 👉 Chứng minh độ nhám rỗng xốp $Rz_1$ không đồng đều trên toàn bộ chu vi cắt phôi dày.
