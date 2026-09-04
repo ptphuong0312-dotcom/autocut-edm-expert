@@ -2,6 +2,15 @@
 
 ## 🚨 MANDATORY CHECK BEFORE ANY ACTION (NGUYÊN TẮC TRONG NGUYÊN TẮC)
 Before modifying ANY file or executing any logic, you MUST adhere to the following:
+
+### 🛡️ 3 CÂU HỎI TRỌNG TÀI BẮT BUỘC TỰ VẤN TRƯỚC KHI VIẾT BẤT KỲ DÒNG CODE NÀO:
+1. **Giải pháp của bạn là CÔNG THỨC TOÁN - VẬT LÝ LIÊN TỤC $\delta = f(H, \text{Ton}, \text{IP}, \text{Volt})$ hay là BẢNG TRA / CHIA KHOẢNG `if-else` THEO $H$ ĐỂ GÁN BÙ DAO?**
+   👉 **BẮT BUỘC PHẢI LÀ CÔNG THỨC TOÁN - VẬT LÝ LIÊN TỤC.** Mọi hành vi dùng `if (H <= ...) offset = ...` hoặc `anchorOffsetTarget` đều là VI PHẠM PHÁP LUẬT NGHIÊM TRỌNG, BỊ CẤM TUYỆT ĐỐI!
+2. **Dữ liệu thực nghiệm của người dùng dùng để làm gì?**
+   👉 **CHỈ DÙNG ĐỂ TỐI ƯU HÓA HỆ SỐ CỦA CÔNG THỨC** $(C_0, K_{\text{elec}}, K_{\text{slag}}, K_{\text{vibr}}, K_{rz})$ hoặc nạp vào công thức để so sánh sai số đầu ra. TUYỆT ĐỐI KHÔNG biến dữ liệu người dùng thành mốc chia khoảng trong bảng tra!
+3. **Bù dao Pass 2 ($O_2$) tính bằng gì?**
+   👉 Bắt buộc theo Quy tắc Núi Lửa: $O_2 = R_{z1} + \delta_2$. Tuyệt đối không nhầm lẫn là Pass 2 cào được phôi phẳng đặc.
+
 0. **READ ALL RULES AND SKILLS FIRST:**
    - You MUST deeply review all knowledge in `.agents/rules/` and `.agents/skills/` to ensure your proposed solution aligns with the established physics logic and project architecture before writing a single line of code.
 1. **IMMUTABILITY OF STANDARD FORMULAS & PARAMETERS:**
@@ -43,11 +52,14 @@ Before modifying ANY file or executing any logic, you MUST adhere to the followi
     - **QUY LUẬT BẬC THANG AMPE 7 CẤP ĐỘ ĐỀU NHỊP (TAB 2):** Toàn bộ chế độ cắt Tab 2 được chuẩn hóa thành 7 cấp độ đối xứng quanh Cấp 4 (Tiêu chuẩn), mỗi nấc tăng/giảm đều đặn $\Delta I \approx 0.5 - 0.7\text{A}$ trên kim ampe. Cấp 1-3 chuyên cắt mịn ($Ra \le 1.2 - 2.2\mu m$), Cấp 4 chuẩn xưởng, Cấp 5-7 tăng tốc bứt phá năng suất.).
 14. **MULTI-PASS VOLCANO PEAK VS SOLID EROSION ANTI-CONFUSION PRINCIPLE (NGUYÊN TẮC CHỐNG NHẦM LẪN NĂNG LỰC CÀO PASS TINH):**
     - **CẢNH BÁO TỐI THƯỢNG:** AI TUYỆT ĐỐI KHÔNG ĐƯỢC NHẦM LẪN rằng chế độ điện của Pass tinh (Pass 2, Pass 3... với Ton nhỏ, IP nhỏ) có thể tự thân bóc tách được $0.030 - 0.035\text{mm}$ trên bề mặt thép phẳng đặc. Khả năng cào thực chất của nó trên phôi phẳng chỉ là $\delta pprox 0.008 - 0.012\text{mm}$.
-    - Lượng $0.035\text{mm}$ bóc đi trong Pass 2 (như thực tế phôi $H=85\text{mm}$) là do Pass 2 đã **phạt gọt các chóp đỉnh nhọn rỗng xốp của miệng núi lửa ($Rz_1$) do Pass 1 để lại** (vốn là phần nổi duy nhất mà thước Panme chạm tới), cộng với khe hở phóng điện nhỏ của Pass 2 ($pprox 5 - 7\mu m$).
+    - Lượng $0.035\text{mm}$ bóc đi trong Pass 2 (như thực tế phôi $H=85\text{mm}$) là do Pass 2 đã **phạt gọt các chóp đỉnh nhọn rỗng xốp của miệng núi lửa ($Rz_1$) do Pass 1 để lại** (vốn là phần nổi duy nhất mà thước Panme chạm tới), cộng với khe hở phóng điện nhỏ của Pass 2 ($ pprox 5 - 7\mu m$).
     - Khi phân tích và xây dựng chế độ cắt nhiều Pass (2 đến 6 Pass): Lượng chừa phôi $O_n$ luôn là tổ hợp: $O_n = R_{z(n-1)} + \delta_n$. Tuyệt đối không được lấy tổng lượng bóc tách đo được sau Pass tinh gán ghép thành năng lực cào phôi thép đặc (Xem `.agents/rules/03-SPARK_GAP_CAPABILITY.md`).
 15. **MANDATORY PASS-1 SOLID EROSION (&delta;1) CAPTURE FOR 1-PASS CALIBRATION:**
     - **CHỈ THỊ CÔNG NGHỆ BẮT BUỘC:** Mỗi khi người dùng cung cấp dữ liệu cắt nhiều Pass có số đo trung gian sau Pass 1, AI **BẮT BUỘC PHẢI TÍNH TOÁN VÀ LƯU LẠI CHÍNH XÁC LƯỢNG BÀO MÒN THÉP ĐẶC CỦA PASS 1 ($\delta_1$)**:
       $$\delta_1 = \text{Khoảng cách mép dây Pass 1} - \text{Khoảng cách vách đo Panme Pass 1}$$
     - Thông số $\delta_1$ này là thước đo chuẩn xác về năng lực cào phôi thép đặc của chế độ điện phá thô ($\text{Ton}_1, \text{Po}_1, \text{IP}_1, \text{Volt}_1, H$).
-    - AI **BẮT BUỘC PHẢI LƯU THÔNG SỐ NÀY VÀ QUY ĐỔI THÀNH OFFSET 1 PASS TƯƠNG ĐƯƠNG ($\text{Offset}_{\text{1P}} = 0.090 + \delta_1$)** vào Data Bank để dùng làm căn cứ thực nghiệm tinh chỉnh thuật toán tính toán cắt 1 Pass chuẩn xác tuyệt đối (Xem `.agents/rules/11-SOP_NEW_EMPIRICAL_DATA_INTEGRATION.md`).
-
+    - AI **BẮT BUỘC PHẢI LƯU THÔNG SỐ NÀY VÀ QUY ĐỔI THÀNH OFFSET 1 PASS TƯƠNG ĐƯƠNG ($\text{Offset}_{\text{1P}} = 0.090 + \delta_1$)** vào Data Bank để dùng làm căn cứ thực nghiệm tinh chỉnh thuật toán tính toán cắt 1 Pass chuẩn xác tuyệt đối (Xem .agents/rules/11-SOP_NEW_EMPIRICAL_DATA_INTEGRATION.md).
+16. **STRICT BAN ON STATIC LOOKUP TABLES & PIECEWISE IF-ELSE ANCHORS (ĐIỀU LUẬT BẤT KHẢ XÂM PHẠM: CẤM BẢNG TRA TĨNH VÀ NỘI SUY MẢNH IF-ELSE ĐỂ GÁN OFFSET/GAP):**
+    - **Mệnh lệnh cốt lõi:** Mọi tính toán bù dao Offset ($O_1, O_2$) và lượng cào phôi $\delta$ trong Tab 2 **BẮT BUỘC PHẢI VẬN HÀNH BẰNG PHƯƠNG TRÌNH TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC LIÊN TỤC** $\delta = f(H, \text{Ton}, \text{IP}, \text{Volt})$ theo mô hình bộc phá xung đơn, màng điện môi Volt Low, áp lực nén xỉ lòng rãnh sâu $K_{\text{slag}}$ và rung võng cơ học dây Moly $K_{\text{vibr}}$.
+    - **Cấm tuyệt đối:** TUYỆT ĐỐI CẤM tạo các biến `anchorOffsetTarget` hay chuỗi rẽ nhánh `if (H <= ...) ... else if ...` để gán bù dao Offset hoặc khe hở.
+    - **Bản chất dữ liệu xưởng:** Dữ liệu thực nghiệm người dùng cung cấp (Data Bank) chỉ là tập mẫu huấn luyện/hiệu chuẩn (Benchmark Ground Truth). Bất kỳ khi nào có dữ liệu mới, AI BẮT BUỘC phải dùng phương pháp tối ưu hóa/hồi quy để tinh chỉnh các hệ số vật lý $(C_0, K_{\text{elec}}, K_{\text{slag}}, K_{\text{vibr}}, K_{rz})$, đảm bảo phần mềm luôn tính toán liên tục cho mọi giá trị độ dày $H \in [5, 300\text{mm}]$ và mọi cấp độ chiến lược, tuyệt đối không chắp vá chia khoảng.
