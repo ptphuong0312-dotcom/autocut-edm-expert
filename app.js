@@ -1797,8 +1797,11 @@ function initApp() {
                     baseTon = Math.round(50 + (H - 60) * (82 - 50) / (100 - 60));
                 } else if (H <= 140) {
                     baseTon = Math.round(82 + (H - 100) * (120 - 82) / (140 - 100));
+                } else if (H <= 165) {
+                    // Phôi siêu dày: Nâng dần Ton lên 135μs theo mốc thực nghiệm H=165 (STT 2P-11, 2P-12)
+                    baseTon = Math.round(120 + (H - 140) * (135 - 120) / (165 - 140));
                 } else {
-                    baseTon = 120; // H > 140: Kịch trần công suất xung cho dây 0.18mm
+                    baseTon = 135; // H > 165: Xung bộc phá cực mạnh 135μs để thổi phoi trong khe sâu
                 }
             } else {
                 // SCM420 (HB < 200) - Thép mềm, dễ dính phoi màng nước
@@ -1830,12 +1833,16 @@ function initApp() {
             } else if (H <= 100) {
                 baseIP = 5;
                 basePo = isHard ? 8 : 9;
-            } else if (H <= 160) {
+            } else if (H <= 140) {
                 baseIP = 5;
                 basePo = 8;
+            } else if (H <= 165) {
+                baseIP = 6;
+                // Phôi siêu dày: Nâng dần Po lên 11 (nghỉ sâu 1485μs) giúp xối sạch 100% xỉ, triệt tiêu giật cục
+                basePo = Math.round(8 + (H - 140) * (11 - 8) / (165 - 140));
             } else {
                 baseIP = 6;
-                basePo = 8;
+                basePo = 11; // H > 165: Bắt buộc Po=11 để máy cắt êm ru, mượt mà và mát dây (STT 2P-11, 2P-12)
             }
 
             // 1.4. VF: SCM440 chịu bám sát tốt (VF cao hơn +5); SCM420 giảm VF để chống ngắn mạch / dính phoi
@@ -1866,18 +1873,27 @@ function initApp() {
             const delta_slag = - k_slag * (H / 100.0);
             const delta_vibr = k_vibr * Math.pow(H / 100.0, 2) * (baseIP / 5.0);
 
-            // Bù hiệu chuẩn điểm neo xưởng (Calibration Anchor Field)
+            // Bù hiệu chuẩn điểm neo xưởng (Calibration Anchor Field - Khóa chết bởi các mốc thực nghiệm)
             let anchorOffsetTarget;
             if (H <= 15) {
                 anchorOffsetTarget = 0.105;
             } else if (H <= 40) {
-                anchorOffsetTarget = 0.098;
+                anchorOffsetTarget = 0.098; // Điểm neo H=40
+            } else if (H <= 62) {
+                // Điểm neo STT 2P-06 (H=62, SCM440: O1 = 0.092)
+                anchorOffsetTarget = 0.098 + (H - 40) * (0.092 - 0.098) / (62 - 40);
+            } else if (H <= 85) {
+                // Điểm neo STT 2P-10 (H=85, SCM440: O1 chuẩn = 0.1025)
+                anchorOffsetTarget = 0.092 + (H - 62) * (0.1025 - 0.092) / (85 - 62);
             } else if (H <= 140) {
-                anchorOffsetTarget = 0.095;
-            } else if (H <= 160) {
-                anchorOffsetTarget = 0.095 + (H - 140) * (0.110 - 0.095) / (160 - 140);
+                // Điểm neo STT 2P-09 (H=140, SCM420: O1 = 0.098)
+                anchorOffsetTarget = 0.1025 + (H - 85) * (0.098 - 0.1025) / (140 - 85);
+            } else if (H <= 165) {
+                // Điểm neo STT 2P-12 (H=165, SCM440: O1 chuẩn = 0.1075 khi O2=0.015)
+                anchorOffsetTarget = 0.098 + (H - 140) * (0.1075 - 0.098) / (165 - 140);
             } else {
-                anchorOffsetTarget = 0.110 + (H - 160) * (0.115 - 0.110) / (300 - 160);
+                // Điểm neo STT 13 & 14 (H=300, SCM440: O1 chuẩn 1-Pass = 0.115)
+                anchorOffsetTarget = 0.1075 + (H - 165) * (0.115 - 0.1075) / (300 - 165);
             }
             baseGap = anchorOffsetTarget - 0.090;
         }
@@ -1949,30 +1965,40 @@ function initApp() {
         if (Volt === 'Low' && baseVolt === 'High') gap -= 0.004;
         if (Volt === 'High' && baseVolt === 'Low') gap += 0.004;
 
-        // Dynamic Calculation of Pass 2 Electrical Params & Physical Offset (Rule 03, 04, 10)
-        let p2_ton = isHard ? (H <= 20 ? 12 : (H <= 60 ? 16 : (H <= 120 ? 20 : 24)))
-                            : (H <= 20 ? 10 : (H <= 60 ? 14 : (H <= 120 ? 18 : 22)));
-        let p2_po = isHard ? (H <= 40 ? 5 : 6) : (H <= 40 ? 6 : 7);
+        // Dynamic Calculation of Pass 2 Electrical Params & Physical Offset (Hiệu chuẩn từ STT 2P-10, 2P-11, 2P-12)
+        let p2_ton;
+        if (isHard) {
+            if (H <= 20) p2_ton = 12;
+            else if (H <= 60) p2_ton = 16;
+            else if (H <= 120) p2_ton = 20;
+            else if (H <= 140) p2_ton = 24;
+            else if (H <= 165) p2_ton = Math.round(24 + (H - 140) * (40 - 24) / (165 - 140)); // Nâng lên 40μs để tia lửa không bị hụt tầm vươn
+            else p2_ton = 40;
+        } else {
+            if (H <= 20) p2_ton = 10;
+            else if (H <= 60) p2_ton = 14;
+            else if (H <= 120) p2_ton = 18;
+            else if (H <= 140) p2_ton = 22;
+            else p2_ton = 36;
+        }
+
+        let p2_po = isHard ? (H <= 40 ? 5 : (H <= 120 ? 6 : 7)) : (H <= 40 ? 6 : 7);
         let p2_ip = H <= 60 ? 2 : 3;
         let p2_volt = H <= 40 ? 'Low' : 'High';
         let p2_vf = isHard ? (H <= 60 ? 40 : 36) : (H <= 60 ? 36 : 32);
-        let p2_hz = H <= 40 ? 150 : (H <= 120 ? 120 : 100);
+        let p2_hz = H <= 40 ? 150 : (H <= 120 ? 120 : (H <= 150 ? 100 : 80));
 
         if (state.wsStrategyLevel === 1) { p2_ton = Math.max(2, p2_ton - 2); p2_ip = Math.max(1, p2_ip - 1); }
         else if (state.wsStrategyLevel === 5) { p2_ton += 4; }
 
-        // Physical Crater Depth of Pass 1 (Rz1) derived from pulse energy:
-        const u_ratio_p1 = Volt === 'High' ? 1.0 : 0.815;
-        const Rz_p1 = 0.0012 * Math.sqrt(Ton * IP) * u_ratio_p1;
-        
-        // Spark gap capability of Pass 2 (delta_2):
-        const u_ratio_p2 = p2_volt === 'High' ? 1.0 : (22.0 / 27.0);
-        const delta_2_calc = -0.002087 + 0.000904 * Math.sqrt(p2_ton * p2_ip) * u_ratio_p2 + (p2_volt === 'Low' ? 0.010556 : 0) - 0.011814 * (H / 100.0);
-        
-        // Dynamic Offset 2 (Remain required to completely clear Pass 1 roughness):
-        let calculated_O2 = Math.max(0.018, Math.min(0.035, Rz_p1 + Math.max(0.006, delta_2_calc)));
-        // Calibrate with workshop empirical golden anchor (0.022mm at H=30, 63):
-        if (H <= 70) calculated_O2 = 0.022; else calculated_O2 = 0.030;
+        // Bù dao Pass 2 (O2 - Remain):
+        // H <= 70mm: O2 = 0.022mm (Chuẩn mốc 2P-02, 2P-03)
+        // 70 < H <= 140mm: O2 = 0.030mm (Chuẩn mốc 2P-09, 2P-10)
+        // H > 140mm: O2 = 0.015mm (Chuẩn mốc 2P-12: để O2=0.015 mép dây mới bám sát vách, không bị chạy lướt gió)
+        let calculated_O2;
+        if (H <= 70) calculated_O2 = 0.022;
+        else if (H <= 140) calculated_O2 = 0.030;
+        else calculated_O2 = 0.015;
 
         for (let i = 0; i < passes; i++) {
             let row = { passName: `Pass ${i + 1}`, badgeClass: i === 0 ? 'badge-primary' : 'badge-secondary' };
@@ -2040,11 +2066,22 @@ function initApp() {
                 row.VF = p2_vf;
                 row.Wire = '2';
                 row.offsetText = calculated_O2.toFixed(3);
-                row.speedArea = '--';
-                row.feedRate = '100-150Hz';
-                row.Ra = '~ 1.8 - 2.0';
+                
+                // Tốc độ thực Pass 2 (Hiệu chuẩn từ 2P-03, 2P-10, 2P-12)
+                let p2SpeedArea = H <= 40 ? 360 : (H <= 140 ? 240 : 190);
+                row.speedArea = `≈ ${p2SpeedArea}`;
+                row.feedRate = (p2SpeedArea / H).toFixed(2);
+                row.Ra = passes === 2 ? (isHard ? '1.0 - 1.4' : '1.2 - 1.6') : '~ 1.8 - 2.0';
                 row.hz = p2_hz;
-                row.ampe = '< 0.1';
+
+                // Ampe Pass 2: Phản chiếu quy luật đỉnh núi lửa thực tế xưởng
+                if (p2_volt === 'Low') {
+                    row.ampe = '< 0.2';
+                } else if (H > 140) {
+                    row.ampe = '0.5 - 1.5'; // 0.5A vùng đỉnh thấp, 1.0-1.5A vùng đỉnh nhô cao (STT 2P-12)
+                } else {
+                    row.ampe = '0.5 - 1.0'; // Chuẩn phôi vừa (STT 2P-10)
+                }
             }
             wsRows.push(row);
         }
