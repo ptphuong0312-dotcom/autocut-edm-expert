@@ -2184,3 +2184,198 @@ body {
         margin-bottom: 2px !important;
     }
 }
+
+/* WORKSHOP BENCHMARK LIBRARY (6 SUB-TABS 1P - 6P) */
+.ws-lib-wrapper {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-top: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.ws-lib-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ws-lib-title-row h4 {
+    margin: 0;
+    color: var(--accent-cyan);
+    font-size: 14.5px;
+    font-family: var(--font-heading);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ws-lib-tabs-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.ws-lib-tab-btn {
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ws-lib-tab-btn:hover {
+    border-color: var(--accent-cyan);
+    color: #fff;
+    background: rgba(0, 240, 255, 0.08);
+}
+
+.ws-lib-tab-btn.active {
+    background: rgba(0, 240, 255, 0.15);
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
+    font-weight: 700;
+}
+
+.ws-lib-tab-count {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 10px;
+}
+
+.ws-lib-tab-btn.active .ws-lib-tab-count {
+    background: var(--accent-cyan);
+    color: #0b1329;
+    font-weight: 800;
+}
+
+.ws-lib-table-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    background: #0f172a;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ws-lib-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.ws-lib-data-table th, 
+.ws-lib-data-table td {
+    border: 1px solid #334155;
+    padding: 8px 10px;
+}
+
+.ws-lib-data-table thead th {
+    background: #1e293b;
+    color: #f1f5f9;
+    font-weight: 700;
+    font-size: 11.5px;
+    text-transform: none;
+    letter-spacing: 0.2px;
+}
+
+.ws-lib-data-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.ws-lib-data-table tbody tr:hover {
+    background: rgba(0, 240, 255, 0.08);
+}
+
+.ws-lib-data-table td.col-pass {
+    font-weight: 700;
+    color: #94a3b8;
+}
+
+.ws-lib-data-table td.col-mat {
+    text-align: left;
+    font-weight: 600;
+    color: #cbd5e1;
+}
+
+.ws-lib-data-table td.col-h {
+    font-weight: 800;
+    color: var(--accent-cyan);
+    font-size: 12.5px;
+}
+
+.ws-lib-data-table td.col-offset {
+    font-weight: 800;
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.1);
+    font-size: 13px;
+}
+
+.ws-lib-data-table td.col-speed {
+    color: #38bdf8;
+    font-weight: 600;
+}
+
+.ws-lib-data-table td.col-ampe {
+    color: #f59e0b;
+    font-weight: 600;
+}
+
+.ws-lib-data-table td.col-volt-h {
+    color: #f43f5e;
+    font-weight: 700;
+}
+
+.ws-lib-data-table td.col-volt-l {
+    color: #38bdf8;
+    font-weight: 700;
+}
+
+.ws-lib-empty-state {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-secondary);
+    background: #0f172a;
+    border: 1px dashed #334155;
+    border-radius: 6px;
+    font-family: var(--font-body);
+}
+
+.ws-lib-empty-state i {
+    font-size: 32px;
+    color: var(--accent-cyan);
+    margin-bottom: 12px;
+    display: block;
+}
+
+.ws-lib-status-banner {
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    color: #f59e0b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+}

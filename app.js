@@ -3169,121 +3169,177 @@ function initApp() {
         }
     });
 
-            // Render danh sách Thư viện Thực nghiệm Xưởng
+            // =========================================================================
+            // RENDER THƯ VIỆN THỰC NGHIỆM XƯỞNG (6 SUB-TABS: 1 PASS ĐẾN 6 PASS)
+            // Chuẩn hóa theo mẫu bảng ảnh người dùng, sắp xếp H từ mỏng đến dày,
+            // Offset tính toán chuẩn và Tốc độ tính toán.
+            // =========================================================================
+            const WS_LIB_BENCHMARK_DATA = {
+                1: [
+                    { passLabel: "1 Lần", material: "SCM440 (28-32HRC)", H: 12, Ton: 20, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 50, maxSpeed: "200Hz", offset: "0,105", time: "--", length: "--", ampe: "1,3A - 1,5A", calcSpeed: "95 mm²/phút" },
+                    { passLabel: "1 Lần", material: "SCM440 (28-32HRC)", H: 30, Ton: 32, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "200Hz", offset: "0,098", time: "8p40'", length: "30mm", ampe: "4,45A - 4,5A", calcSpeed: "104 mm²/phút" },
+                    { passLabel: "1 Lần", material: "SCM440 (28-32HRC)", H: 40, Ton: 36, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,098", time: "9p36'", length: "30mm", ampe: "4,35A - 4,4A", calcSpeed: "125 mm²/phút" },
+                    { passLabel: "1 Lần", material: "SCM420 (HB<200)", H: 45, Ton: 50, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "150Hz", offset: "0,105", time: "--", length: "--", ampe: "2,2A - 2,5A", calcSpeed: "90 mm²/phút" },
+                    { passLabel: "1 Lần", material: "SCM420 (HB<200)", H: 63, Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", time: "14p20'", length: "27mm", ampe: "4,1A - 4,2A", calcSpeed: "119 mm²/phút" },
+                    { passLabel: "1 Lần", material: "SCM420 (HB<200)", H: 63, Ton: 24, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 43, maxSpeed: "150Hz", offset: "0,081", time: "21p", length: "20mm", ampe: "4A", calcSpeed: "60 mm²/phút" },
+                    { passLabel: "1 Lần", material: "SCM440 (28-32HRC)", H: 68, Ton: 70, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "100Hz", offset: "0,097", time: "--", length: "--", ampe: "2,4A - 2,6A", calcSpeed: "85 mm²/phút" },
+                    { passLabel: "1 Lần", material: "SCM420 (HB<200)", H: 140, Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", time: "--", length: "--", ampe: "3,5A - 3,8A", calcSpeed: "55 mm²/phút" },
+                    { passLabel: "1 Lần", material: "SCM420 (HB<200)", H: 140, Ton: 100, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 60, maxSpeed: "100Hz", offset: "0,102", time: "36p", length: "28,4mm", ampe: "3,7A - 3,8A", calcSpeed: "110 mm²/phút" },
+                    { passLabel: "1 Lần", material: "SCM420 (HB<200)", H: 140, Ton: 52, Toff: 8, IP: 6, Wire: 1, Volt: "H", VF: 50, maxSpeed: "100Hz", offset: "--", time: "--", length: "--", ampe: "--", calcSpeed: "Không cắt được" },
+                    { passLabel: "1 Lần", material: "SCM420 (HB<200)", H: 140, Ton: 80, Toff: 8, IP: 6, Wire: 1, Volt: "H", VF: 50, maxSpeed: "100Hz", offset: "--", time: "--", length: "--", ampe: "--", calcSpeed: "Không cắt được" },
+                    { passLabel: "1 Lần", material: "SCM420 (HB<200)", H: 160, Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,110", time: "--", length: "--", ampe: "3,5A - 3,8A", calcSpeed: "50 mm²/phút" },
+                    { passLabel: "1 Lần (GĐ 1)", material: "SCM440 (28-32HRC)", H: 300, Ton: 80, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 50, maxSpeed: "50Hz", offset: "0,115", time: "1h29p", length: "31,3mm", ampe: "3,8A - 3,9A", calcSpeed: "106 mm²/phút" },
+                    { passLabel: "1 Lần (GĐ 2)", material: "SCM440 (28-32HRC)", H: 300, Ton: 120, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "50Hz", offset: "0,115", time: "3h", length: "76,1mm", ampe: "3,7A - 3,9A", calcSpeed: "127 mm²/phút" }
+                ],
+                2: [
+                    { passLabel: "2 Lần (P1)", material: "SCM440 (28-32HRC)", H: 12, Ton: 20, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 50, maxSpeed: "150Hz", offset: "0,098", time: "--", length: "--", ampe: "1,3A - 1,5A", calcSpeed: "95 mm²/phút" },
+                    { passLabel: "2 Lần (P2)", material: "SCM440 (28-32HRC)", H: 12, Ton: 12, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 20, maxSpeed: "130Hz", offset: "0,040", time: "--", length: "--", ampe: "< 0,2A", calcSpeed: "240 mm²/phút" },
+                    { passLabel: "2 Lần (P1)", material: "SCM420 (HB<200)", H: 30, Ton: 28, Toff: 6, IP: 4, Wire: 1, Volt: "H", VF: 60, maxSpeed: "200Hz", offset: "0,1075", time: "3h08p", length: "644mm", ampe: "4,1A", calcSpeed: "103 mm²/phút" },
+                    { passLabel: "2 Lần (P2)", material: "SCM420 (HB<200)", H: 30, Ton: 16, Toff: 5, IP: 2, Wire: 2, Volt: "L", VF: 40, maxSpeed: "150Hz", offset: "0,022", time: "1h12p", length: "644mm", ampe: "0,1 - 0,2A", calcSpeed: "268 mm²/phút" },
+                    { passLabel: "2 Lần (P1)", material: "SCM440 (28-32HRC)", H: 32, Ton: 30, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "200Hz", offset: "0,091", time: "--", length: "--", ampe: "2,0A - 2,2A", calcSpeed: "90 mm²/phút" },
+                    { passLabel: "2 Lần (P2)", material: "SCM440 (28-32HRC)", H: 32, Ton: 5, Toff: 15, IP: 1, Wire: 1, Volt: "L", VF: 10, maxSpeed: "130Hz", offset: "0,030", time: "--", length: "--", ampe: "< 0,2A", calcSpeed: "240 mm²/phút" },
+                    { passLabel: "2 Lần (P1)", material: "SCM440 (28-32HRC)", H: 62, Ton: 70, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 50, maxSpeed: "150Hz", offset: "0,092", time: "--", length: "--", ampe: "3,5A - 3,8A", calcSpeed: "85 mm²/phút" },
+                    { passLabel: "2 Lần (P2)", material: "SCM440 (28-32HRC)", H: 62, Ton: 15, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 20, maxSpeed: "100Hz", offset: "0,030", time: "--", length: "--", ampe: "< 0,2A", calcSpeed: "240 mm²/phút" },
+                    { passLabel: "2 Lần (P1)", material: "SCM420 (HB<200)", H: 63, Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,093", time: "16p26'", length: "30mm", ampe: "4,2A", calcSpeed: "115 mm²/phút" },
+                    { passLabel: "2 Lần (P2)", material: "SCM420 (HB<200)", H: 63, Ton: 20, Toff: 5, IP: 3, Wire: 2, Volt: "H", VF: 40, maxSpeed: "100Hz", offset: "0,024", time: "5p20'", length: "30mm", ampe: "0,1 - 0,2A", calcSpeed: "354 mm²/phút" },
+                    { passLabel: "2 Lần (P1)", material: "SCM440 (28-32HRC)", H: 85, Ton: 70, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 61, maxSpeed: "150Hz", offset: "0,1025", time: "48p", length: "65,6mm", ampe: "3,6A - 3,7A", calcSpeed: "116 mm²/phút" },
+                    { passLabel: "2 Lần (P2)", material: "SCM440 (28-32HRC)", H: 85, Ton: 20, Toff: 6, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "100Hz", offset: "0,030", time: "10p24'", length: "65,6mm", ampe: "0,5A - 1,0A", calcSpeed: "536 mm²/phút" },
+                    { passLabel: "2 Lần (P1)", material: "SCM420 (HB<200)", H: 140, Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "60Hz", offset: "0,098", time: "--", length: "--", ampe: "3,5A - 3,8A", calcSpeed: "55 mm²/phút" },
+                    { passLabel: "2 Lần (P2)", material: "SCM420 (HB<200)", H: 140, Ton: 25, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 25, maxSpeed: "100Hz", offset: "0,030", time: "--", length: "--", ampe: "< 0,2A", calcSpeed: "240 mm²/phút" },
+                    { passLabel: "2 Lần (P1)", material: "SCM440 (28-32HRC)", H: 165, Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,0875", time: "1h17'", length: "43,6mm", ampe: "2,8A - 3,0A", calcSpeed: "93 mm²/phút" },
+                    { passLabel: "2 Lần (P2)", material: "SCM440 (28-32HRC)", H: 165, Ton: 24, Toff: 6, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "80Hz", offset: "0,020", time: "9p", length: "43,6mm", ampe: "1,0A - 1,5A", calcSpeed: "799 mm²/phút" },
+                    { passLabel: "2 Lần (P1)", material: "SCM440 (28-32HRC)", H: 165, Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,1075", time: "1h17'", length: "43,6mm", ampe: "2,8A - 3,0A", calcSpeed: "93 mm²/phút" },
+                    { passLabel: "2 Lần (P2)", material: "SCM440 (28-32HRC)", H: 165, Ton: 40, Toff: 7, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "80Hz", offset: "0,015", time: "9p", length: "43,6mm", ampe: "0,5A - 1,5A", calcSpeed: "799 mm²/phút" }
+                ],
+                3: [],
+                4: [],
+                5: [
+                    { passLabel: "5 Lần (P1)", material: "SCM440 (28-32HRC)", H: 12, Ton: 20, Toff: 5, IP: 3, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,108", time: "--", length: "--", ampe: "2,0A - 2,2A", calcSpeed: "120 mm²/phút" },
+                    { passLabel: "5 Lần (P2)", material: "SCM440 (28-32HRC)", H: 12, Ton: 14, Toff: 5, IP: 2, Wire: 2, Volt: "L", VF: 42, maxSpeed: "150Hz", offset: "0,018", time: "--", length: "--", ampe: "0,3A - 0,5A", calcSpeed: "280 mm²/phút" },
+                    { passLabel: "5 Lần (P3)", material: "SCM440 (28-32HRC)", H: 12, Ton: 6, Toff: 8, IP: 1, Wire: 2, Volt: "L", VF: 35, maxSpeed: "120Hz", offset: "0,009", time: "--", length: "--", ampe: "0,1A - 0,2A", calcSpeed: "350 mm²/phút" },
+                    { passLabel: "5 Lần (P4)", material: "SCM440 (28-32HRC)", H: 12, Ton: 2, Toff: 12, IP: 1, Wire: 3, Volt: "L", VF: 25, maxSpeed: "100Hz", offset: "0,004", time: "--", length: "--", ampe: "< 0,1A", calcSpeed: "380 mm²/phút" },
+                    { passLabel: "5 Lần (P5)", material: "SCM440 (28-32HRC)", H: 12, Ton: 1, Toff: 16, IP: 1, Wire: 3, Volt: "L", VF: 20, maxSpeed: "80Hz", offset: "0,002", time: "--", length: "--", ampe: "~ 0,05A", calcSpeed: "400 mm²/phút" }
+                ],
+                6: []
+            };
+
+            let wsLibCurrentTab = 1;
+
+            function renderWsLibSubTab(tabPass) {
+                wsLibCurrentTab = tabPass;
+                const libBodyContainer = document.getElementById('ws-lib-subtab-content');
+                if (!libBodyContainer) return;
+
+                // Update tab buttons active class
+                const tabBtns = document.querySelectorAll('.ws-lib-tab-btn');
+                tabBtns.forEach(btn => {
+                    const p = parseInt(btn.dataset.tabPass, 10);
+                    if (p === tabPass) btn.classList.add('active');
+                    else btn.classList.remove('active');
+                });
+
+                const data = WS_LIB_BENCHMARK_DATA[tabPass] || [];
+                if (data.length === 0) {
+                    libBodyContainer.innerHTML = `
+                        <div class="ws-lib-empty-state">
+                            <i class="fa fa-clipboard-list"></i>
+                            <h4 style="margin: 0 0 8px 0; color: #f1f5f9; font-size: 15px;">Chưa có dữ liệu thực nghiệm xưởng cho chế độ ${tabPass} Pass</h4>
+                            <p style="font-size: 12px; color: #94a3b8; max-width: 500px; margin: 0 auto;">Khi bạn thực hiện bài cắt mới tại xưởng và cung cấp kết quả đo kiểm, dữ liệu sẽ được chuẩn hóa và tự động cập nhật ngay vào bảng này.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let bannerHtml = '';
+                if (tabPass === 5) {
+                    bannerHtml = `
+                        <div class="ws-lib-status-banner">
+                            <i class="fa fa-spinner fa-spin"></i>
+                            <span><strong>Chế độ 5 Pass đang chạy thực nghiệm tại xưởng (H=12mm):</strong> Đang chờ cập nhật kết quả đo kiểm Panme kích thước và độ bóng Ra thực tế ngày mai.</span>
+                        </div>
+                    `;
+                }
+
+                const tableRows = data.map(row => `
+                    <tr>
+                        <td class="col-pass">${row.passLabel}</td>
+                        <td class="col-mat">${row.material}</td>
+                        <td class="col-h">${row.H}</td>
+                        <td>${row.Ton}</td>
+                        <td>${row.Toff}</td>
+                        <td>${row.IP}</td>
+                        <td>${row.Wire}</td>
+                        <td class="${row.Volt === 'H' || row.Volt === 'High' ? 'col-volt-h' : 'col-volt-l'}">${row.Volt}</td>
+                        <td>${row.VF}</td>
+                        <td><strong>${row.maxSpeed}</strong></td>
+                        <td class="col-offset">${row.offset}</td>
+                        <td>${row.time}</td>
+                        <td>${row.length}</td>
+                        <td class="col-ampe">${row.ampe}</td>
+                        <td class="col-speed">${row.calcSpeed}</td>
+                    </tr>
+                `).join('');
+
+                libBodyContainer.innerHTML = `
+                    ${bannerHtml}
+                    <div class="ws-lib-table-container">
+                        <table class="ws-lib-data-table">
+                            <thead>
+                                <tr>
+                                    <th>Số lần cắt</th>
+                                    <th>Vật Liệu</th>
+                                    <th>H</th>
+                                    <th>Ton</th>
+                                    <th>Toff</th>
+                                    <th>IP</th>
+                                    <th>Wire</th>
+                                    <th>Volt</th>
+                                    <th>VF</th>
+                                    <th>Max Speed</th>
+                                    <th>Offset</th>
+                                    <th>thời gian</th>
+                                    <th>chiều dài cắt</th>
+                                    <th>Đồng hồ Ampe</th>
+                                    <th>tốc độ tính toán</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${tableRows}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
             const workshopLibContainer = document.getElementById('ws-workshop-library-container');
             if (workshopLibContainer) {
                 workshopLibContainer.innerHTML = `
                     <div class="workshop-lib-header" id="ws-lib-toggle-btn" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 10px 15px; border-radius: 6px; border-left: 4px solid var(--accent);">
-                        <h4 style="margin: 0; color: var(--accent); font-size: 1.1em; display: flex; align-items: center; gap: 8px;"><i class="fa fa-book"></i> THƯ VIỆN THÔNG SỐ CẮT THỰC TẾ XƯỞNG</h4>
+                        <h4 style="margin: 0; color: var(--accent); font-size: 1.1em; display: flex; align-items: center; gap: 8px;"><i class="fa fa-book"></i> THƯ VIỆN THÔNG SỐ CẮT THỰC TẾ XƯỞNG (BENCHMARK GROUND TRUTH)</h4>
                         <div style="display: flex; gap: 10px; align-items: center;">
-                            <span class="lib-offline-badge">⬇️</span>
-                            <i id="ws-lib-toggle-icon" class="fa fa-chevron-down" style="color: var(--accent); transition: transform 0.3s;"></i>
+                            <span class="lib-offline-badge">6 Chế Độ Cắt</span>
+                            <i id="ws-lib-toggle-icon" class="fa fa-chevron-down" style="color: var(--accent); transition: transform 0.3s; transform: rotate(180deg);"></i>
                         </div>
                     </div>
-                    <div id="ws-lib-content" class="workshop-lib-list" style="display: none; margin-top: 15px;">
-                        ${WORKSHOP_EMPIRICAL_LIBRARY.map(item => `
-                            <div class="workshop-lib-card ${item.passCount > 1 ? 'lib-card-multipass' : ''}">
-                                <div class="lib-card-top">
-                                    <span class="lib-card-id">${item.id}</span>
-                                    <strong class="lib-card-title">${item.name}</strong>
-                                    <span class="lib-card-date">${item.date}</span>
-                                </div>
-                                ${item.multiPassDetails ? `
-                                    <div class="lib-table-wrapper">
-                                        <table class="lib-mini-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Pass</th>
-                                                    <th>Ton</th>
-                                                    <th>Toff</th>
-                                                    <th>IP</th>
-                                                    <th>Wire</th>
-                                                    <th>V</th>
-                                                    <th>VF</th>
-                                                    <th>Max Speed</th>
-                                                    <th>Offset</th>
-                                                    <th>Ampe trên máy</th>
-                                                    <th>Thời gian cắt</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                ${item.multiPassDetails.map(p => `
-                                                    <tr>
-                                                        <td><strong>${p.pass}</strong></td>
-                                                        <td>${p.ti}</td>
-                                                        <td>${p.Po}</td>
-                                                        <td>${p.IP}</td>
-                                                        <td>${p.wire}</td>
-                                                        <td>${p.volt}</td>
-                                                        <td>${p.vf}</td>
-                                                        <td><strong>${p.maxSpeed}</strong></td>
-                                                        <td style="color:#c084fc;font-weight:700;">${p.offset}</td>
-                                                        <td style="color:#38bdf8;"><strong>${p.ampe}</strong></td>
-                                                        <td style="color:#34d399;font-weight:700;">${p.time}</td>
-                                                    </tr>
-                                                `).join('')}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="lib-card-grid">
-                                        <div class="lib-metric-box highlight-metric">
-                                            <span class="lib-lbl">Tổng thời gian ${item.passCount || 1} Pass</span>
-                                            <span class="lib-val">⏱️ ${item.measured.totalTimeStr || '--'}</span>
-                                        </div>
-                                        <div class="lib-metric-box highlight-metric">
-                                            <span class="lib-lbl">Đo kiểm kích thước</span>
-                                            <span class="lib-val" style="color:#fb7185;">⚠️ ${item.measured.actualDimension || 'Kích thước chuẩn'}</span>
-                                        </div>
-                                        ${item.measured.recommendedOffsetP1 ? `
-                                        <div class="lib-metric-box highlight-metric">
-                                            <span class="lib-lbl">Hiệu chỉnh Offset Pass 1</span>
-                                            <span class="lib-val" style="color:#4ade80;">✅ ${item.measured.recommendedOffsetP1}</span>
-                                        </div>` : ''}
-                                        ${item.measured.recommendedMaxSpeed ? `
-                                        <div class="lib-metric-box">
-                                            <span class="lib-lbl">Khuyến nghị Max Speed</span>
-                                            <span class="lib-val">${item.measured.recommendedMaxSpeed}</span>
-                                        </div>` : ''}
-                                    </div>
-                                ` : `
-                                    <div class="lib-card-grid">
-                                        <div class="lib-metric-box">
-                                            <span class="lib-lbl">Cài đặt máy</span>
-                                            <span class="lib-val">Ton=${item.params.ti}, Po=${item.params.Po}, IP=${item.params.IP}, V=${item.params.Voltage}, VF=${item.params.VF}</span>
-                                        </div>
-                                        <div class="lib-metric-box">
-                                            <span class="lib-lbl">Vật liệu &amp; Kích thước</span>
-                                            <span class="lib-val">${item.materialName || item.material} | H=${item.thickness}mm | L=${item.cutLength}mm</span>
-                                        </div>
-                                        <div class="lib-metric-box highlight-metric">
-                                            <span class="lib-lbl">Đồng hồ Ampe</span>
-                                            <span class="lib-val">⚡ ${item.measured.ammeterA || '--'}</span>
-                                        </div>
-                                        <div class="lib-metric-box highlight-metric">
-                                            <span class="lib-lbl">Tốc độ &amp; Năng suất</span>
-                                            <span class="lib-val">${item.measured.fcAvg ? `Fc lý thuyết: <strong>${item.measured.fcAvg} mm²/p</strong> (Tức thời: ${item.measured.fcInstantRange})` : (item.measured.measuredSpeed ? `Tốc độ thực: ${item.measured.measuredSpeed} mm²/phút` : 'Chưa đo tốc độ (Test Offset & Dung sai)')}</span>
-                                        </div>
-                                        <div class="lib-metric-box highlight-metric">
-                                            <span class="lib-lbl">Thời gian / Dung sai</span>
-                                            <span class="lib-val">${item.measured.totalTimeStr ? `⏱️ ${item.measured.totalTimeStr}` : `Dung sai: ${item.measured.tolerance}`}</span>
-                                        </div>
-                                        <div class="lib-metric-box">
-                                            <span class="lib-lbl">Offset nhập test</span>
-                                            <span class="lib-val" style="color:#94a3b8;">${item.measured.enteredOffset !== null && item.measured.enteredOffset !== undefined ? item.measured.enteredOffset + ' mm' : '--'}</span>
-                                        </div>
-                                        <div class="lib-metric-box highlight-metric" style="border: 1px solid #10b981; background: rgba(16,185,129,0.08);">
-                                            <span class="lib-lbl" style="color:#34d399; font-weight:700;">📐 OFFSET CHUẨN HIỆU CHỈNH</span>
-                                            <span class="lib-val" style="color:#4ade80; font-size: 1.1em; font-weight:800;">${item.measured.standardOffset !== null && item.measured.standardOffset !== undefined ? item.measured.standardOffset + ' mm' : 'Chưa đạt'} ${item.measured.sparkGap ? `<span style="font-size:0.8em; color:#a7f3d0; font-weight:500;">(δ = ${item.measured.sparkGap}mm)</span>` : ''}</span>
-                                        </div>
-                                    </div>
-                                `}
-                                <p class="lib-notes">📝 <strong>Ghi chú &amp; Đánh giá thực tế:</strong> ${item.notes}</p>
-                            </div>
-                        `).join('')}
+                    <div id="ws-lib-content" style="margin-top: 15px;">
+                        <div class="ws-lib-tabs-nav">
+                            <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">14 bài</span></button>
+                            <button class="ws-lib-tab-btn" data-tab-pass="2">2 Pass <span class="ws-lib-tab-count">9 bài</span></button>
+                            <button class="ws-lib-tab-btn" data-tab-pass="3">3 Pass <span class="ws-lib-tab-count">0</span></button>
+                            <button class="ws-lib-tab-btn" data-tab-pass="4">4 Pass <span class="ws-lib-tab-count">0</span></button>
+                            <button class="ws-lib-tab-btn" data-tab-pass="5">5 Pass <span class="ws-lib-tab-count">Đang test</span></button>
+                            <button class="ws-lib-tab-btn" data-tab-pass="6">6 Pass <span class="ws-lib-tab-count">0</span></button>
+                        </div>
+                        <div id="ws-lib-subtab-content">
+                            <!-- Injected by JavaScript -->
+                        </div>
                     </div>
                 `;
-                
-                // Add toggle logic
+
+                // Initial render of sub-tab 1
+                renderWsLibSubTab(1);
+
+                // Add toggle collapse logic
                 const toggleBtn = document.getElementById('ws-lib-toggle-btn');
                 const libContent = document.getElementById('ws-lib-content');
                 const libIcon = document.getElementById('ws-lib-toggle-icon');
@@ -3298,6 +3354,15 @@ function initApp() {
                         }
                     });
                 }
+
+                // Add sub-tab click events
+                const tabBtns = document.querySelectorAll('.ws-lib-tab-btn');
+                tabBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const passNum = parseInt(btn.dataset.tabPass, 10);
+                        renderWsLibSubTab(passNum);
+                    });
+                });
             }
 
     // INITIAL RENDER
