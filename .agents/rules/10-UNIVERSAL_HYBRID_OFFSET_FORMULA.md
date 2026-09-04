@@ -81,3 +81,14 @@ $$O_1 = R_{\text{dây}} (0.090) + \delta_1 + O_2$$
 - $K_{\text{slag}} = 0.02300$: Hệ số suy giảm khe hở do nén xỉ trong lòng rãnh sâu phôi dày.
 - $K_{\text{vibr}} = 0.00390$: Hệ số mở rộng kerf do rung uốn cơ học dây Moly $\Phi 0.18$ trong rãnh sâu $H > 140\text{mm}$.
 - $K_{rz} = 0.00120$: Hệ số tính độ sâu nhấp nhô hố rỗ miệng núi lửa $Rz_1$.
+
+
+---
+
+## 🧭 CHỈ THỊ KIẾN TRÚC PHÂN VÙNG VẬN HÀNH KÉP (DUAL-REGIME DIRECTIVE TỪ USER):
+Theo yêu cầu trực tiếp từ người dùng:
+1. **Phân vùng 1 ($H \le 170\text{mm}$):** Vận hành 100% bằng **Hệ phương trình Toán - Vật lý Nhiệt động học EDM liên tục** $\delta = f(H, \text{Ton}, \text{IP}, \text{Volt})$ với 6 hằng số hiệu chuẩn $(C_0, K_{\text{elec}}, \delta_{\text{Low}}, K_{\text{slag}}, K_{\text{vibr}}, K_{rz})$.
+2. **Phân vùng 2 ($H > 170\text{mm}$):** Tạm thời vận hành bằng **Phương pháp Thống kê Hội tụ Thực nghiệm Xưởng** dựa trên 2 mốc phôi siêu dày thực tế của xưởng:
+   - Mốc $H=165\text{mm}$ (STT 2P-12): $\text{Ton}=135, \text{Po}=11, \text{IP}=6, \text{VF}=70 \implies O_1=0.1075\text{mm}$ (khi $O_2=0.015\text{mm}$), tương đương 1 Pass $O_1 \approx 0.1125 - 0.1150\text{mm}$.
+   - Mốc $H=300\text{mm}$ (STT 13 & 14): $\text{IP}=6, \text{Po}=11-12, \text{VF}=70-72 \implies O_1=\mathbf{0.1150\text{mm}}$ (khớp 100% số đo thực tế xưởng).
+   - Đảm bảo thông số cắt và Offset cùng biến thiên nhịp nhàng, không để thông số cắt phẳng lì trong khi Offset bị trôi dạt.
