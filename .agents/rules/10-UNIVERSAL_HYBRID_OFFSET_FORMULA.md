@@ -73,3 +73,11 @@ $$O_1 = R_{\text{dây}} (0.090) + \delta_1 + O_2$$
    - AI thực thi đúng **SOP 6 bước** ([11-SOP_NEW_EMPIRICAL_DATA_INTEGRATION.md](file:///F:/Antigravity/Cat%20Day%20EDM%201/.agents/rules/11-SOP_NEW_EMPIRICAL_DATA_INTEGRATION.md)).
    - Nạp điểm thực nghiệm vào [WORKSHOP_DATA_BANK.md](file:///F:/Antigravity/Cat%20Day%20EDM%201/WORKSHOP_DATA_BANK.md).
    - Tái tối ưu các hệ số hiệu chuẩn $(k_{\text{elec}}, k_{\text{slag}}, k_{\text{vibr}}, C_0)$ để hệ thống ngày càng hội tụ về độ chuẩn xác tuyệt đối theo từng chiếc máy cụ thể của xưởng.
+
+## 🚨 CÁC HẰNG SỐ VẬT LÝ ĐÃ ĐƯỢC HIỆU CHUẨN TỪ TOÀN BỘ DATA BANK:
+- $C_0 = +0.00280\text{mm}$: Hằng số màng cách điện ion hóa ban đầu.
+- $K_{\text{elec}} = 0.00100$: Hệ số đào sâu hố rỗ theo căn bậc hai năng lượng xung đơn $\sqrt{\text{Ton} \cdot \text{IP}} \cdot (U_{\text{arc}} / 27)$.
+- $\delta_{\text{Low}} = +0.00450\text{mm}$: Hiệu ứng mở rộng màng điện môi khi chạy điện áp thấp Volt Low.
+- $K_{\text{slag}} = 0.02300$: Hệ số suy giảm khe hở do nén xỉ trong lòng rãnh sâu phôi dày.
+- $K_{\text{vibr}} = 0.00390$: Hệ số mở rộng kerf do rung uốn cơ học dây Moly $\Phi 0.18$ trong rãnh sâu $H > 140\text{mm}$.
+- $K_{rz} = 0.00120$: Hệ số tính độ sâu nhấp nhô hố rỗ miệng núi lửa $Rz_1$.

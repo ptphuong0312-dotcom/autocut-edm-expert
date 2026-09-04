@@ -1860,42 +1860,23 @@ function initApp() {
                 baseVF = Math.min(72, Math.round(70 + (H - 160) * 2 / 40));
             }
 
-            // 1.5. CÔNG THỨC LAI TẠO TÍNH KHE HỞ TIA LỬA δ VÀ LƯỢNG CÀO PHÔI (Rule 10)
-            const k_elec = 0.000904;
-            const k_volt = 0.010556;
-            const k_slag = 0.011814;
-            const k_vibr = 0.003778;
-            const c0 = -0.002087;
+            // 1.5. HỆ THỐNG CÔNG THỨC TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC EDM TOÀN NĂNG (RULE 10)
+            // Hiệu chuẩn tinh chỉnh từ toàn bộ Ngân hàng Dữ liệu Thực nghiệm Xưởng
+            const C0 = 0.00280;          // Hằng số màng cách điện ion hóa ban đầu
+            const K_ELEC = 0.00100;      // Hệ số đào sâu hố rỗ theo căn bậc hai năng lượng xung đơn
+            const DELTA_LOW = 0.00450;   // Hiệu ứng màng điện môi khi chạy điện áp thấp Volt Low
+            const K_SLAG = 0.02300;      // Hệ số suy giảm khe hở do nén xỉ trong rãnh sâu
+            const K_VIBR = 0.00390;      // Hệ số mở rộng kerf do rung uốn cơ học dây Moly
+            const K_RZ = 0.00120;        // Hệ số chiều sâu hố rỗ nhấp nhô phá thô Pass 1
 
-            const u_ratio = baseVolt === 'High' ? 1.0 : (22.0 / 27.0);
-            const delta_elec = k_elec * Math.sqrt(baseTon * baseIP) * u_ratio;
-            const delta_v = baseVolt === 'Low' ? k_volt : 0.0;
-            const delta_slag = - k_slag * (H / 100.0);
-            const delta_vibr = k_vibr * Math.pow(H / 100.0, 2) * (baseIP / 5.0);
-
-            // Bù hiệu chuẩn điểm neo xưởng (Calibration Anchor Field - Khóa chết bởi các mốc thực nghiệm)
-            let anchorOffsetTarget;
-            if (H <= 15) {
-                anchorOffsetTarget = 0.105;
-            } else if (H <= 40) {
-                anchorOffsetTarget = 0.098; // Điểm neo H=40
-            } else if (H <= 62) {
-                // Điểm neo STT 2P-06 (H=62, SCM440: O1 = 0.092)
-                anchorOffsetTarget = 0.098 + (H - 40) * (0.092 - 0.098) / (62 - 40);
-            } else if (H <= 85) {
-                // Điểm neo STT 2P-10 (H=85, SCM440: O1 chuẩn = 0.1025)
-                anchorOffsetTarget = 0.092 + (H - 62) * (0.1025 - 0.092) / (85 - 62);
-            } else if (H <= 140) {
-                // Điểm neo STT 2P-09 (H=140, SCM420: O1 = 0.098)
-                anchorOffsetTarget = 0.1025 + (H - 85) * (0.098 - 0.1025) / (140 - 85);
-            } else if (H <= 165) {
-                // Điểm neo STT 2P-12 (H=165, SCM440: O1 chuẩn = 0.1075 khi O2=0.015)
-                anchorOffsetTarget = 0.098 + (H - 140) * (0.1075 - 0.098) / (165 - 140);
-            } else {
-                // Điểm neo STT 13 & 14 (H=300, SCM440: O1 chuẩn 1-Pass = 0.115)
-                anchorOffsetTarget = 0.1075 + (H - 165) * (0.115 - 0.1075) / (300 - 165);
-            }
-            baseGap = anchorOffsetTarget - 0.090;
+            // Tính toán lượng cào phôi cơ sở (baseGap) theo đúng công thức vật lý:
+            const u_ratio_base = baseVolt === 'High' ? 1.0 : (22.0 / 27.0);
+            const d_elec_base = K_ELEC * Math.sqrt(baseTon * baseIP) * u_ratio_base;
+            const d_low_base = baseVolt === 'Low' ? DELTA_LOW : 0.0;
+            const ip_fac_base = Math.max(1.0, baseIP / 4.0);
+            const d_slag_base = - K_SLAG * (H / 100.0) / ip_fac_base;
+            const d_vibr_base = K_VIBR * Math.pow(H / 100.0, 2) * (baseIP / 5.0);
+            baseGap = C0 + d_elec_base + d_low_base + d_slag_base + d_vibr_base;
         }
 
         // Apply Tab 2 7-level Strategy strictly adhering to Regular Ammeter Stepping (ΔI = 0.5 - 0.7A)
@@ -1958,14 +1939,22 @@ function initApp() {
             VF = Math.min(90, baseVF + 15);
         }
 
-        // Recalculate gap dynamically based on modified IP and Ton (7 Levels Universal Hybrid Engine)
-        const stratGapMods = {1: -0.009, 2: -0.006, 3: -0.003, 4: 0.0, 5: +0.003, 6: +0.006, 7: +0.010};
-        const stratGapMod = stratGapMods[lvl] || 0.0;
-        let gap = baseGap + stratGapMod;
-        if (Volt === 'Low' && baseVolt === 'High') gap -= 0.004;
-        if (Volt === 'High' && baseVolt === 'Low') gap += 0.004;
+        // CÔNG THỨC TOÁN HỌC ĐỘNG TÍNH LƯỢNG CÀO PHÔI THỰC TẾ PASS 1 (GAP1 / DELTA1)
+        // Tự động biến thiên theo đúng chế độ điện thực tế (Ton, IP, Volt, H)
+        let gap;
+        if (isAlu || isCopper) {
+            gap = baseGap + (lvl - 4) * 0.002;
+        } else {
+            const u_ratio_actual = Volt === 'High' ? 1.0 : (22.0 / 27.0);
+            const d_elec_actual = K_ELEC * Math.sqrt(Ton * IP) * u_ratio_actual;
+            const d_low_actual = Volt === 'Low' ? DELTA_LOW : 0.0;
+            const ip_fac_actual = Math.max(1.0, IP / 4.0);
+            const d_slag_actual = - K_SLAG * (H / 100.0) / ip_fac_actual;
+            const d_vibr_actual = K_VIBR * Math.pow(H / 100.0, 2) * (IP / 5.0);
+            gap = C0 + d_elec_actual + d_low_actual + d_slag_actual + d_vibr_actual;
+        }
 
-        // Dynamic Calculation of Pass 2 Electrical Params & Physical Offset (Hiệu chuẩn từ STT 2P-10, 2P-11, 2P-12)
+        // Dynamic Calculation of Pass 2 Electrical Params & Physical Offset (Rule 03, 04, 10)
         let p2_ton;
         if (isHard) {
             if (H <= 20) p2_ton = 12;
@@ -1991,16 +1980,27 @@ function initApp() {
         if (state.wsStrategyLevel === 1) { p2_ton = Math.max(2, p2_ton - 2); p2_ip = Math.max(1, p2_ip - 1); }
         else if (state.wsStrategyLevel === 5) { p2_ton += 4; }
 
-        // Bù dao Pass 2 (O2 - Remain):
-        // H <= 70mm: O2 = 0.022mm (Chuẩn mốc 2P-02, 2P-03)
-        // 70 < H <= 140mm: O2 = 0.030mm (Chuẩn mốc 2P-09, 2P-10)
-        // H > 140mm: O2 = 0.015mm (Chuẩn mốc 2P-12: để O2=0.015 mép dây mới bám sát vách, không bị chạy lướt gió)
+        // CÔNG THỨC TOÁN HỌC BÙ DAO PASS 2 (O2 - REMAIN / LƯỢNG CHỪA PHÔI):
+        // O2 = Rz1 (Chiều sâu hố rỗ cần hớt sạch) + delta_2 (Cự ly phóng điện Pass 2)
         let calculated_O2;
-        if (H <= 70) calculated_O2 = 0.022;
-        else if (H <= 140) calculated_O2 = 0.030;
-        else calculated_O2 = 0.015;
+        if (isAlu || isCopper) {
+            calculated_O2 = 0.025;
+        } else {
+            const u_ratio_actual = Volt === 'High' ? 1.0 : (22.0 / 27.0);
+            const Rz_p1 = K_RZ * Math.sqrt(Ton * IP) * u_ratio_actual;
+            const u_ratio_p2 = p2_volt === 'High' ? 1.0 : (22.0 / 27.0);
+            const d_elec_p2 = K_ELEC * Math.sqrt(p2_ton * p2_ip) * u_ratio_p2;
+            const d_low_p2 = p2_volt === 'Low' ? DELTA_LOW : 0.0;
+            const delta_2_calc = C0 + d_elec_p2 + d_low_p2 - K_SLAG * (H / 100.0) / (p2_ip / 4.0);
 
-        for (let i = 0; i < passes; i++) {
+            calculated_O2 = Rz_p1 + Math.max(0.005, Math.min(0.015, delta_2_calc));
+            if (H > 140) {
+                // Phôi siêu dày H > 140mm: Khống chế cự ly mép dây 15 - 18μm để tia lửa bám sát vách, chống trượt gió trong rãnh xỉ sâu (STT 2P-12)
+                calculated_O2 = Math.min(calculated_O2, 0.015 + 0.005 * Math.max(0.0, 1.0 - (H - 140) / 160.0));
+            }
+        }
+
+                for (let i = 0; i < passes; i++) {
             let row = { passName: `Pass ${i + 1}`, badgeClass: i === 0 ? 'badge-primary' : 'badge-secondary' };
             if (i === 0) {
                 // Multi-pass kinematics (Rule 03 & Rule 04 & Rule 10):
