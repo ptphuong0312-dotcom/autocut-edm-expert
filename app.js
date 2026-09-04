@@ -2034,9 +2034,12 @@ function initApp() {
                 let speedArea = Math.round(mrr_vol / B);
                 let feedRate = (speedArea / H).toFixed(2);
 
-                // Hz ML (Rule 02)
-                const hClamped = Math.max(12, Math.min(140, H));
-                row.hz = Math.round(150 - (hClamped - 12) * ((150 - 60) / (140 - 12)));
+                // Tần số giới hạn Hz Pass 1: Nội suy chuẩn từ 150Hz (H=12) -> 60Hz (H=165) -> 50Hz (H=300)
+                if (H <= 140) {
+                    row.hz = Math.round(150 - (Math.max(12, H) - 12) * ((150 - 60) / (140 - 12)));
+                } else {
+                    row.hz = Math.round(60 - (Math.min(300, H) - 140) * ((60 - 50) / (300 - 140)));
+                }
 
                 // Ammeter mapping (Factory formula matching with U_arc factor)
                 row.ampe = (i_peak * duty * 2.2857 * (u_arc / 27)).toFixed(1);
