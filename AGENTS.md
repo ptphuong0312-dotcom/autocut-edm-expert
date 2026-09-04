@@ -26,9 +26,11 @@ Before modifying ANY file or executing any logic, you MUST adhere to the followi
 5. **CONTINUOUS EMPIRICAL CALIBRATION (VÒNG LẶP HỌC MÁY THỰC NGHIỆM):**
    - The user will routinely provide actual cutting results (e.g., actual dimensions, cutting time, surface finish) from their workshop.
    - The agent MUST actively use these empirical data points to recalibrate the offset, speed, and other outputs in the Workshop Calibration Model (Tab 2) to ensure the software converges on perfect accuracy for the user's specific machine conditions.
-6. **STRICT IMMUTABILITY OF WORKSHOP RAW DATA BANK:**
+6. **STRICT IMMUTABILITY OF WORKSHOP RAW DATA BANK & DUAL STORAGE DISCIPLINE:**
    - Dữ liệu thô trong `WORKSHOP_DATA_BANK.md` và `.agents/rules/09-WORKSHOP_RAW_DATA_BANK_AND_REVERSE_INTERPOLATION.md` là tài sản thiêng liêng lưu trữ số liệu thực nghiệm gốc.
    - AI TUYỆT ĐỐI KHÔNG ĐƯỢC TỰ Ý SỬA ĐỔI nếu chưa có lệnh của người dùng. AI chỉ được ĐỌC để tính toán.
+   - **NGUYÊN TẮC TINH GỌN UI VS BẢO TOÀN TRỌN VẸN FILE .MD:** Chỉ ở các bảng giao diện Web App (UI) thì dữ liệu mới được tinh gọn (bỏ cột số lần cắt, bỏ kích thước sau cắt, vật liệu ghi dòng 1, hiển thị Offset chuẩn và Fc tính toán). Còn trong các file tài liệu Markdown (`WORKSHOP_DATA_BANK.md`), BẮT BUỘC phải ghi chép ĐẦY ĐỦ NHẤT CÓ THỂ (kích thước đo sau cắt, offset nhập test, sai lệch mỗi bên, thời gian, ampe, vết núi lửa, hiện tượng rãnh cắt...) để vĩnh viễn không bị quên bất kỳ chi tiết thực nghiệm nào!
+   - **BẢN CHẤT CÁC CỘT TRONG BẢNG:** Trong bảng thư viện UI, DUY NHẤT cột $F_c$ là số liệu tính toán bằng công thức lý thuyết; còn thông số Offset Chuẩn được xác lập chuẩn xác từ KẾT QUẢ CẮT THỰC VÀ HỆ SỐ OFFSET NHẬP THỰC KHI CẮT ($\text{Offset Chuẩn} = \text{Offset Nhập Test} \pm \Delta/2$), tuyệt đối không phải số ước lượng tùy tiện.
 7. **UNIVERSAL MULTIVARIABLE HYBRID OFFSET ENGINE:**
    - AI KHÔNG ĐƯỢC CỐ ĐỊNH $\delta$ THEO $H$.
    - AI phải kết hợp Năng lượng xung đơn $E_p$, điện áp hồ quang $U_{arc}$ của Hãng với các điểm neo thực nghiệm cào phôi $\delta(H, \text{Ton}, \text{IP}, \text{Volt})$ của Xưởng (Xem `.agents/rules/10-UNIVERSAL_HYBRID_OFFSET_FORMULA.md`) để tính toán chính xác hệ số bù dao Offset cho bất kỳ độ dày $H$ và bất kỳ chế độ điện nào.
