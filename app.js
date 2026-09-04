@@ -3171,66 +3171,86 @@ function initApp() {
 
             // =========================================================================
             // RENDER THƯ VIỆN THỰC NGHIỆM XƯỞNG (6 SUB-TABS: 1 PASS ĐẾN 6 PASS)
-            // Chuẩn hóa: Bỏ cột 'Số lần cắt', tiêu đề tốc độ là 'Fc',
-            // Phân biệt các lần cắt (chiều dày H) bằng 2 màu nền luân phiên,
-            // Cố định dòng tiêu đề sticky không bị trôi khi cuộn,
-            // Cột Vật liệu chỉ ghi ở dòng 1 đối với Pass 1 của các chế độ nhiều pass.
+            // Chuẩn hóa:
+            // 1. Tên vật liệu rút gọn: SCM420 -> HB<200, SCM440 -> 30HRC
+            // 2. Loại bỏ các trường hợp không cắt được (lưu trữ đầy đủ ở WORKSHOP_DATA_BANK.md)
+            // 3. Cột H & Vật liệu chỉ ghi ở dòng Pass 1, H được đánh dấu bằng .h-badge
+            // 4. Tự động sắp xếp trật tự theo chiều dày H tăng dần (Ascending Sort Engine)
+            // 5. Cố định thead sticky không trôi khi cuộn, phân biệt mẻ cắt bằng 2 màu nền
             // =========================================================================
-            const WS_LIB_BENCHMARK_DATA = {
+            const WS_LIB_BENCHMARK_JOBS = {
                 1: [
-                    { jobIndex: 0, material: "SCM440 (28-32HRC)", H: 12, Ton: 20, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 50, maxSpeed: "200Hz", offset: "0,105", time: "--", length: "--", ampe: "1,3A - 1,5A", calcSpeed: "95 mm²/phút" },
-                    { jobIndex: 1, material: "SCM440 (28-32HRC)", H: 30, Ton: 32, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "200Hz", offset: "0,098", time: "8p40'", length: "30mm", ampe: "4,45A - 4,5A", calcSpeed: "104 mm²/phút" },
-                    { jobIndex: 2, material: "SCM440 (28-32HRC)", H: 40, Ton: 36, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,098", time: "9p36'", length: "30mm", ampe: "4,35A - 4,4A", calcSpeed: "125 mm²/phút" },
-                    { jobIndex: 3, material: "SCM420 (HB<200)", H: 45, Ton: 50, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "150Hz", offset: "0,105", time: "--", length: "--", ampe: "2,2A - 2,5A", calcSpeed: "90 mm²/phút" },
-                    { jobIndex: 4, material: "SCM420 (HB<200)", H: 63, Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", time: "14p20'", length: "27mm", ampe: "4,1A - 4,2A", calcSpeed: "119 mm²/phút" },
-                    { jobIndex: 5, material: "SCM420 (HB<200)", H: 63, Ton: 24, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 43, maxSpeed: "150Hz", offset: "0,081", time: "21p", length: "20mm", ampe: "4A", calcSpeed: "60 mm²/phút" },
-                    { jobIndex: 6, material: "SCM440 (28-32HRC)", H: 68, Ton: 70, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "100Hz", offset: "0,097", time: "--", length: "--", ampe: "2,4A - 2,6A", calcSpeed: "85 mm²/phút" },
-                    { jobIndex: 7, material: "SCM420 (HB<200)", H: 140, Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", time: "--", length: "--", ampe: "3,5A - 3,8A", calcSpeed: "55 mm²/phút" },
-                    { jobIndex: 8, material: "SCM420 (HB<200)", H: 140, Ton: 100, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 60, maxSpeed: "100Hz", offset: "0,102", time: "36p", length: "28,4mm", ampe: "3,7A - 3,8A", calcSpeed: "110 mm²/phút" },
-                    { jobIndex: 9, material: "SCM420 (HB<200)", H: 140, Ton: 52, Toff: 8, IP: 6, Wire: 1, Volt: "H", VF: 50, maxSpeed: "100Hz", offset: "--", time: "--", length: "--", ampe: "--", calcSpeed: "Không cắt được" },
-                    { jobIndex: 10, material: "SCM420 (HB<200)", H: 140, Ton: 80, Toff: 8, IP: 6, Wire: 1, Volt: "H", VF: 50, maxSpeed: "100Hz", offset: "--", time: "--", length: "--", ampe: "--", calcSpeed: "Không cắt được" },
-                    { jobIndex: 11, material: "SCM420 (HB<200)", H: 160, Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,110", time: "--", length: "--", ampe: "3,5A - 3,8A", calcSpeed: "50 mm²/phút" },
-                    { jobIndex: 12, material: "SCM440 (28-32HRC)", H: 300, Ton: 80, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 50, maxSpeed: "50Hz", offset: "0,115", time: "1h29p", length: "31,3mm", ampe: "3,8A - 3,9A", calcSpeed: "106 mm²/phút" },
-                    { jobIndex: 13, material: "SCM440 (28-32HRC)", H: 300, Ton: 120, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "50Hz", offset: "0,115", time: "3h", length: "76,1mm", ampe: "3,7A - 3,9A", calcSpeed: "127 mm²/phút" }
+                    { H: 12, material: "30HRC", passes: [{ Ton: 20, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 50, maxSpeed: "200Hz", offset: "0,105", time: "--", length: "--", ampe: "1,3A - 1,5A", calcSpeed: "95 mm²/phút" }] },
+                    { H: 30, material: "30HRC", passes: [{ Ton: 32, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "200Hz", offset: "0,098", time: "8p40'", length: "30mm", ampe: "4,45A - 4,5A", calcSpeed: "104 mm²/phút" }] },
+                    { H: 40, material: "30HRC", passes: [{ Ton: 36, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,098", time: "9p36'", length: "30mm", ampe: "4,35A - 4,4A", calcSpeed: "125 mm²/phút" }] },
+                    { H: 45, material: "HB<200", passes: [{ Ton: 50, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "150Hz", offset: "0,105", time: "--", length: "--", ampe: "2,2A - 2,5A", calcSpeed: "90 mm²/phút" }] },
+                    { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", time: "14p20'", length: "27mm", ampe: "4,1A - 4,2A", calcSpeed: "119 mm²/phút" }] },
+                    { H: 63, material: "HB<200", passes: [{ Ton: 24, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 43, maxSpeed: "150Hz", offset: "0,081", time: "21p", length: "20mm", ampe: "4A", calcSpeed: "60 mm²/phút" }] },
+                    { H: 68, material: "30HRC", passes: [{ Ton: 70, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "100Hz", offset: "0,097", time: "--", length: "--", ampe: "2,4A - 2,6A", calcSpeed: "85 mm²/phút" }] },
+                    { H: 140, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", time: "--", length: "--", ampe: "3,5A - 3,8A", calcSpeed: "55 mm²/phút" }] },
+                    { H: 140, material: "HB<200", passes: [{ Ton: 100, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 60, maxSpeed: "100Hz", offset: "0,102", time: "36p", length: "28,4mm", ampe: "3,7A - 3,8A", calcSpeed: "110 mm²/phút" }] },
+                    { H: 160, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,110", time: "--", length: "--", ampe: "3,5A - 3,8A", calcSpeed: "50 mm²/phút" }] },
+                    { H: 300, material: "30HRC", passes: [{ Ton: 80, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 50, maxSpeed: "50Hz", offset: "0,115", time: "1h29p", length: "31,3mm", ampe: "3,8A - 3,9A", calcSpeed: "106 mm²/phút" }] },
+                    { H: 300, material: "30HRC", passes: [{ Ton: 120, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "50Hz", offset: "0,115", time: "3h", length: "76,1mm", ampe: "3,7A - 3,9A", calcSpeed: "127 mm²/phút" }] }
                 ],
                 2: [
-                    // Job 0: H=12
-                    { jobIndex: 0, material: "SCM440 (28-32HRC)", H: 12, Ton: 20, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 50, maxSpeed: "150Hz", offset: "0,098", time: "--", length: "--", ampe: "1,3A - 1,5A", calcSpeed: "95 mm²/phút" },
-                    { jobIndex: 0, material: "", H: 12, Ton: 12, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 20, maxSpeed: "130Hz", offset: "0,040", time: "--", length: "--", ampe: "< 0,2A", calcSpeed: "240 mm²/phút" },
-                    // Job 1: H=30
-                    { jobIndex: 1, material: "SCM420 (HB<200)", H: 30, Ton: 28, Toff: 6, IP: 4, Wire: 1, Volt: "H", VF: 60, maxSpeed: "200Hz", offset: "0,1075", time: "3h08p", length: "644mm", ampe: "4,1A", calcSpeed: "103 mm²/phút" },
-                    { jobIndex: 1, material: "", H: 30, Ton: 16, Toff: 5, IP: 2, Wire: 2, Volt: "L", VF: 40, maxSpeed: "150Hz", offset: "0,022", time: "1h12p", length: "644mm", ampe: "0,1 - 0,2A", calcSpeed: "268 mm²/phút" },
-                    // Job 2: H=32
-                    { jobIndex: 2, material: "SCM440 (28-32HRC)", H: 32, Ton: 30, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "200Hz", offset: "0,091", time: "--", length: "--", ampe: "2,0A - 2,2A", calcSpeed: "90 mm²/phút" },
-                    { jobIndex: 2, material: "", H: 32, Ton: 5, Toff: 15, IP: 1, Wire: 1, Volt: "L", VF: 10, maxSpeed: "130Hz", offset: "0,030", time: "--", length: "--", ampe: "< 0,2A", calcSpeed: "240 mm²/phút" },
-                    // Job 3: H=62
-                    { jobIndex: 3, material: "SCM440 (28-32HRC)", H: 62, Ton: 70, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 50, maxSpeed: "150Hz", offset: "0,092", time: "--", length: "--", ampe: "3,5A - 3,8A", calcSpeed: "85 mm²/phút" },
-                    { jobIndex: 3, material: "", H: 62, Ton: 15, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 20, maxSpeed: "100Hz", offset: "0,030", time: "--", length: "--", ampe: "< 0,2A", calcSpeed: "240 mm²/phút" },
-                    // Job 4: H=63
-                    { jobIndex: 4, material: "SCM420 (HB<200)", H: 63, Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,093", time: "16p26'", length: "30mm", ampe: "4,2A", calcSpeed: "115 mm²/phút" },
-                    { jobIndex: 4, material: "", H: 63, Ton: 20, Toff: 5, IP: 3, Wire: 2, Volt: "H", VF: 40, maxSpeed: "100Hz", offset: "0,024", time: "5p20'", length: "30mm", ampe: "0,1 - 0,2A", calcSpeed: "354 mm²/phút" },
-                    // Job 5: H=85
-                    { jobIndex: 5, material: "SCM440 (28-32HRC)", H: 85, Ton: 70, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 61, maxSpeed: "150Hz", offset: "0,1025", time: "48p", length: "65,6mm", ampe: "3,6A - 3,7A", calcSpeed: "116 mm²/phút" },
-                    { jobIndex: 5, material: "", H: 85, Ton: 20, Toff: 6, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "100Hz", offset: "0,030", time: "10p24'", length: "65,6mm", ampe: "0,5A - 1,0A", calcSpeed: "536 mm²/phút" },
-                    // Job 6: H=140
-                    { jobIndex: 6, material: "SCM420 (HB<200)", H: 140, Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "60Hz", offset: "0,098", time: "--", length: "--", ampe: "3,5A - 3,8A", calcSpeed: "55 mm²/phút" },
-                    { jobIndex: 6, material: "", H: 140, Ton: 25, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 25, maxSpeed: "100Hz", offset: "0,030", time: "--", length: "--", ampe: "< 0,2A", calcSpeed: "240 mm²/phút" },
-                    // Job 7: H=165 (VF=70)
-                    { jobIndex: 7, material: "SCM440 (28-32HRC)", H: 165, Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,0875", time: "1h17'", length: "43,6mm", ampe: "2,8A - 3,0A", calcSpeed: "93 mm²/phút" },
-                    { jobIndex: 7, material: "", H: 165, Ton: 24, Toff: 6, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "80Hz", offset: "0,020", time: "9p", length: "43,6mm", ampe: "1,0A - 1,5A", calcSpeed: "799 mm²/phút" },
-                    // Job 8: H=165 (Mẫu 2)
-                    { jobIndex: 8, material: "SCM440 (28-32HRC)", H: 165, Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,1075", time: "1h17'", length: "43,6mm", ampe: "2,8A - 3,0A", calcSpeed: "93 mm²/phút" },
-                    { jobIndex: 8, material: "", H: 165, Ton: 40, Toff: 7, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "80Hz", offset: "0,015", time: "9p", length: "43,6mm", ampe: "0,5A - 1,5A", calcSpeed: "799 mm²/phút" }
+                    // H=12
+                    { H: 12, material: "30HRC", passes: [
+                        { Ton: 20, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 50, maxSpeed: "150Hz", offset: "0,098", time: "--", length: "--", ampe: "1,3A - 1,5A", calcSpeed: "95 mm²/phút" },
+                        { Ton: 12, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 20, maxSpeed: "130Hz", offset: "0,040", time: "--", length: "--", ampe: "< 0,2A", calcSpeed: "240 mm²/phút" }
+                    ]},
+                    // H=30
+                    { H: 30, material: "HB<200", passes: [
+                        { Ton: 28, Toff: 6, IP: 4, Wire: 1, Volt: "H", VF: 60, maxSpeed: "200Hz", offset: "0,1075", time: "3h08p", length: "644mm", ampe: "4,1A", calcSpeed: "103 mm²/phút" },
+                        { Ton: 16, Toff: 5, IP: 2, Wire: 2, Volt: "L", VF: 40, maxSpeed: "150Hz", offset: "0,022", time: "1h12p", length: "644mm", ampe: "0,1 - 0,2A", calcSpeed: "268 mm²/phút" }
+                    ]},
+                    // H=32
+                    { H: 32, material: "30HRC", passes: [
+                        { Ton: 30, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "200Hz", offset: "0,091", time: "--", length: "--", ampe: "2,0A - 2,2A", calcSpeed: "90 mm²/phút" },
+                        { Ton: 5, Toff: 15, IP: 1, Wire: 1, Volt: "L", VF: 10, maxSpeed: "130Hz", offset: "0,030", time: "--", length: "--", ampe: "< 0,2A", calcSpeed: "240 mm²/phút" }
+                    ]},
+                    // H=62
+                    { H: 62, material: "30HRC", passes: [
+                        { Ton: 70, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 50, maxSpeed: "150Hz", offset: "0,092", time: "--", length: "--", ampe: "3,5A - 3,8A", calcSpeed: "85 mm²/phút" },
+                        { Ton: 15, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 20, maxSpeed: "100Hz", offset: "0,030", time: "--", length: "--", ampe: "< 0,2A", calcSpeed: "240 mm²/phút" }
+                    ]},
+                    // H=63
+                    { H: 63, material: "HB<200", passes: [
+                        { Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,093", time: "16p26'", length: "30mm", ampe: "4,2A", calcSpeed: "115 mm²/phút" },
+                        { Ton: 20, Toff: 5, IP: 3, Wire: 2, Volt: "H", VF: 40, maxSpeed: "100Hz", offset: "0,024", time: "5p20'", length: "30mm", ampe: "0,1 - 0,2A", calcSpeed: "354 mm²/phút" }
+                    ]},
+                    // H=85
+                    { H: 85, material: "30HRC", passes: [
+                        { Ton: 70, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 61, maxSpeed: "150Hz", offset: "0,1025", time: "48p", length: "65,6mm", ampe: "3,6A - 3,7A", calcSpeed: "116 mm²/phút" },
+                        { Ton: 20, Toff: 6, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "100Hz", offset: "0,030", time: "10p24'", length: "65,6mm", ampe: "0,5A - 1,0A", calcSpeed: "536 mm²/phút" }
+                    ]},
+                    // H=140
+                    { H: 140, material: "HB<200", passes: [
+                        { Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "60Hz", offset: "0,098", time: "--", length: "--", ampe: "3,5A - 3,8A", calcSpeed: "55 mm²/phút" },
+                        { Ton: 25, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 25, maxSpeed: "100Hz", offset: "0,030", time: "--", length: "--", ampe: "< 0,2A", calcSpeed: "240 mm²/phút" }
+                    ]},
+                    // H=165 (VF=70)
+                    { H: 165, material: "30HRC", passes: [
+                        { Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,0875", time: "1h17'", length: "43,6mm", ampe: "2,8A - 3,0A", calcSpeed: "93 mm²/phút" },
+                        { Ton: 24, Toff: 6, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "80Hz", offset: "0,020", time: "9p", length: "43,6mm", ampe: "1,0A - 1,5A", calcSpeed: "799 mm²/phút" }
+                    ]},
+                    // H=165 (Mẫu 2)
+                    { H: 165, material: "30HRC", passes: [
+                        { Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,1075", time: "1h17'", length: "43,6mm", ampe: "2,8A - 3,0A", calcSpeed: "93 mm²/phút" },
+                        { Ton: 40, Toff: 7, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "80Hz", offset: "0,015", time: "9p", length: "43,6mm", ampe: "0,5A - 1,5A", calcSpeed: "799 mm²/phút" }
+                    ]}
                 ],
                 3: [],
                 4: [],
                 5: [
-                    // Job 0: H=12
-                    { jobIndex: 0, material: "SCM440 (28-32HRC)", H: 12, Ton: 20, Toff: 5, IP: 3, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,108", time: "--", length: "--", ampe: "2,0A - 2,2A", calcSpeed: "120 mm²/phút" },
-                    { jobIndex: 0, material: "", H: 12, Ton: 14, Toff: 5, IP: 2, Wire: 2, Volt: "L", VF: 42, maxSpeed: "150Hz", offset: "0,018", time: "--", length: "--", ampe: "0,3A - 0,5A", calcSpeed: "280 mm²/phút" },
-                    { jobIndex: 0, material: "", H: 12, Ton: 6, Toff: 8, IP: 1, Wire: 2, Volt: "L", VF: 35, maxSpeed: "120Hz", offset: "0,009", time: "--", length: "--", ampe: "0,1A - 0,2A", calcSpeed: "350 mm²/phút" },
-                    { jobIndex: 0, material: "", H: 12, Ton: 2, Toff: 12, IP: 1, Wire: 3, Volt: "L", VF: 25, maxSpeed: "100Hz", offset: "0,004", time: "--", length: "--", ampe: "< 0,1A", calcSpeed: "380 mm²/phút" },
-                    { jobIndex: 0, material: "", H: 12, Ton: 1, Toff: 16, IP: 1, Wire: 3, Volt: "L", VF: 20, maxSpeed: "80Hz", offset: "0,002", time: "--", length: "--", ampe: "~ 0,05A", calcSpeed: "400 mm²/phút" }
+                    // H=12
+                    { H: 12, material: "30HRC", passes: [
+                        { Ton: 20, Toff: 5, IP: 3, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,108", time: "--", length: "--", ampe: "2,0A - 2,2A", calcSpeed: "120 mm²/phút" },
+                        { Ton: 14, Toff: 5, IP: 2, Wire: 2, Volt: "L", VF: 42, maxSpeed: "150Hz", offset: "0,018", time: "--", length: "--", ampe: "0,3A - 0,5A", calcSpeed: "280 mm²/phút" },
+                        { Ton: 6, Toff: 8, IP: 1, Wire: 2, Volt: "L", VF: 35, maxSpeed: "120Hz", offset: "0,009", time: "--", length: "--", ampe: "0,1A - 0,2A", calcSpeed: "350 mm²/phút" },
+                        { Ton: 2, Toff: 12, IP: 1, Wire: 3, Volt: "L", VF: 25, maxSpeed: "100Hz", offset: "0,004", time: "--", length: "--", ampe: "< 0,1A", calcSpeed: "380 mm²/phút" },
+                        { Ton: 1, Toff: 16, IP: 1, Wire: 3, Volt: "L", VF: 20, maxSpeed: "80Hz", offset: "0,002", time: "--", length: "--", ampe: "~ 0,05A", calcSpeed: "400 mm²/phút" }
+                    ]}
                 ],
                 6: []
             };
@@ -3250,13 +3270,20 @@ function initApp() {
                     else btn.classList.remove('active');
                 });
 
-                const data = WS_LIB_BENCHMARK_DATA[tabPass] || [];
-                if (data.length === 0) {
+                const rawJobs = WS_LIB_BENCHMARK_JOBS[tabPass] || [];
+                
+                // 1. Tự động loại bỏ các bài cắt không thực hiện được (Không cắt được)
+                const validJobs = rawJobs.filter(job => !job.passes.some(p => p.calcSpeed === "Không cắt được"));
+
+                // 2. Tự động sắp xếp tuần tự theo chiều dày H tăng dần (Ascending Sort)
+                const sortedJobs = [...validJobs].sort((a, b) => a.H - b.H);
+
+                if (sortedJobs.length === 0) {
                     libBodyContainer.innerHTML = `
                         <div class="ws-lib-empty-state">
                             <i class="fa fa-clipboard-list"></i>
                             <h4 style="margin: 0 0 8px 0; color: #f1f5f9; font-size: 15px;">Chưa có dữ liệu thực nghiệm xưởng cho chế độ ${tabPass} Pass</h4>
-                            <p style="font-size: 12px; color: #94a3b8; max-width: 500px; margin: 0 auto;">Khi bạn thực hiện bài cắt mới tại xưởng và cung cấp kết quả đo kiểm, dữ liệu sẽ được chuẩn hóa và tự động cập nhật ngay vào bảng này.</p>
+                            <p style="font-size: 12px; color: #94a3b8; max-width: 500px; margin: 0 auto;">Khi bạn thực hiện bài cắt mới tại xưởng và cung cấp kết quả đo kiểm, dữ liệu sẽ được chuẩn hóa và tự động sắp xếp ngay vào bảng này.</p>
                         </div>
                     `;
                     return;
@@ -3272,24 +3299,35 @@ function initApp() {
                     `;
                 }
 
-                const tableRows = data.map(row => `
-                    <tr class="job-${row.jobIndex % 2 === 0 ? 'even' : 'odd'}">
-                        <td class="col-mat">${row.material}</td>
-                        <td class="col-h">${row.H}</td>
-                        <td>${row.Ton}</td>
-                        <td>${row.Toff}</td>
-                        <td>${row.IP}</td>
-                        <td>${row.Wire}</td>
-                        <td class="${row.Volt === 'H' || row.Volt === 'High' ? 'col-volt-h' : 'col-volt-l'}">${row.Volt}</td>
-                        <td>${row.VF}</td>
-                        <td><strong>${row.maxSpeed}</strong></td>
-                        <td class="col-offset">${row.offset}</td>
-                        <td>${row.time}</td>
-                        <td>${row.length}</td>
-                        <td class="col-ampe">${row.ampe}</td>
-                        <td class="col-speed">${row.calcSpeed}</td>
-                    </tr>
-                `).join('');
+                // Render rows with alternating zebra striping per job, H badge on Pass 1 only
+                let tableRowsHtml = '';
+                sortedJobs.forEach((job, jobIdx) => {
+                    const jobClass = jobIdx % 2 === 0 ? 'job-even' : 'job-odd';
+                    job.passes.forEach((p, passIdx) => {
+                        const matLabel = passIdx === 0 ? job.material : '';
+                        const hLabel = passIdx === 0 ? `<span class="h-badge">${job.H}</span>` : '';
+                        const voltClass = p.Volt === 'H' || p.Volt === 'High' ? 'col-volt-h' : 'col-volt-l';
+
+                        tableRowsHtml += `
+                            <tr class="${jobClass}">
+                                <td class="col-mat">${matLabel}</td>
+                                <td class="col-h">${hLabel}</td>
+                                <td>${p.Ton}</td>
+                                <td>${p.Toff}</td>
+                                <td>${p.IP}</td>
+                                <td>${p.Wire}</td>
+                                <td class="${voltClass}">${p.Volt}</td>
+                                <td>${p.VF}</td>
+                                <td><strong>${p.maxSpeed}</strong></td>
+                                <td class="col-offset">${p.offset}</td>
+                                <td>${p.time}</td>
+                                <td>${p.length}</td>
+                                <td class="col-ampe">${p.ampe}</td>
+                                <td class="col-speed">${p.calcSpeed}</td>
+                            </tr>
+                        `;
+                    });
+                });
 
                 libBodyContainer.innerHTML = `
                     ${bannerHtml}
@@ -3314,7 +3352,7 @@ function initApp() {
                                 </tr>
                             </thead>
                             <tbody>
-                                ${tableRows}
+                                ${tableRowsHtml}
                             </tbody>
                         </table>
                     </div>
@@ -3333,7 +3371,7 @@ function initApp() {
                     </div>
                     <div id="ws-lib-content" style="margin-top: 15px;">
                         <div class="ws-lib-tabs-nav">
-                            <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">14 bài</span></button>
+                            <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">12 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="2">2 Pass <span class="ws-lib-tab-count">9 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="3">3 Pass <span class="ws-lib-tab-count">0</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="4">4 Pass <span class="ws-lib-tab-count">0</span></button>
@@ -3374,6 +3412,7 @@ function initApp() {
                     });
                 });
             }
+
     // INITIAL RENDER
     updateStrategyDisplay(state.strategyLevel);
         updateWsStrategyDisplay(state.wsStrategyLevel);

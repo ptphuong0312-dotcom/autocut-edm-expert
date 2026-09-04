@@ -2324,6 +2324,18 @@ body {
     color: #cbd5e1;
 }
 
+.h-badge {
+    display: inline-block;
+    background: rgba(0, 240, 255, 0.15);
+    color: var(--accent-cyan);
+    border: 1px solid rgba(0, 240, 255, 0.45);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-weight: 800;
+    font-size: 12px;
+    box-shadow: 0 0 6px rgba(0, 240, 255, 0.2);
+}
+
 .ws-lib-data-table td.col-h {
     font-weight: 800;
     color: var(--accent-cyan);
