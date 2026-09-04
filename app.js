@@ -1761,6 +1761,15 @@ function initApp() {
         const isHard = state.material === 'SCM440';
         const wsRows = [];
 
+        // 1.5. HỆ THỐNG CÔNG THỨC TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC EDM TOÀN NĂNG (RULE 10)
+        // Hiệu chuẩn tinh chỉnh từ toàn bộ Ngân hàng Dữ liệu Thực nghiệm Xưởng
+        const C0 = 0.00280;          // Hằng số màng cách điện ion hóa ban đầu
+        const K_ELEC = 0.00100;      // Hệ số đào sâu hố rỗ theo căn bậc hai năng lượng xung đơn
+        const DELTA_LOW = 0.00450;   // Hiệu ứng màng điện môi khi chạy điện áp thấp Volt Low
+        const K_SLAG = 0.02300;      // Hệ số suy giảm khe hở do nén xỉ trong rãnh sâu
+        const K_VIBR = 0.00390;      // Hệ số mở rộng kerf do rung uốn cơ học dây Moly
+        const K_RZ = 0.00120;        // Hệ số chiều sâu hố rỗ nhấp nhô phá thô Pass 1
+
         // 1. Hệ thống Quy luật Vật lý Biến đổi Mượt mà & 4 Dải Ampe Tiêu Chuẩn (Rule 12)
         let baseTon, basePo, baseIP, baseVF, baseGap, baseVolt;
 
@@ -1859,15 +1868,6 @@ function initApp() {
                 // Phôi cực dày H > 160mm: Bắt buộc VF = 70-72 để servo không đâm sầm vào phôi
                 baseVF = Math.min(72, Math.round(70 + (H - 160) * 2 / 40));
             }
-
-            // 1.5. HỆ THỐNG CÔNG THỨC TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC EDM TOÀN NĂNG (RULE 10)
-            // Hiệu chuẩn tinh chỉnh từ toàn bộ Ngân hàng Dữ liệu Thực nghiệm Xưởng
-            const C0 = 0.00280;          // Hằng số màng cách điện ion hóa ban đầu
-            const K_ELEC = 0.00100;      // Hệ số đào sâu hố rỗ theo căn bậc hai năng lượng xung đơn
-            const DELTA_LOW = 0.00450;   // Hiệu ứng màng điện môi khi chạy điện áp thấp Volt Low
-            const K_SLAG = 0.02300;      // Hệ số suy giảm khe hở do nén xỉ trong rãnh sâu
-            const K_VIBR = 0.00390;      // Hệ số mở rộng kerf do rung uốn cơ học dây Moly
-            const K_RZ = 0.00120;        // Hệ số chiều sâu hố rỗ nhấp nhô phá thô Pass 1
 
             // Tính toán lượng cào phôi cơ sở (baseGap) theo đúng công thức vật lý:
             const u_ratio_base = baseVolt === 'High' ? 1.0 : (22.0 / 27.0);
