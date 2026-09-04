@@ -1793,90 +1793,75 @@ function initApp() {
             // 1.1. Điện áp Volt: Ngưỡng chuyển tiếp logic mượt mà
             baseVolt = H <= 15 ? 'Low' : 'High';
 
-            // 1.2. Ton: SCM440 bóc phoi giòn tốt hơn -> Ton khỏe hơn; SCM420 thép dẻo dễ dính phoi -> Ton dịu hơn
-            if (isHard) {
-                // SCM440 (28-32 HRC) - Thép tôi cứng / tiền tôi
+            if (H <= 170) {
+                // =========================================================================
+                // PHÂN VÙNG 1 (H <= 170mm): CÔNG THỨC TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC EDM TOÀN NĂNG (RULE 10)
+                // =========================================================================
+                // 1.2. Ton:
+                if (isHard) {
+                    if (H <= 15) baseTon = Math.round(16 + (H - 5) * (20 - 16) / (15 - 5));
+                    else if (H <= 30) baseTon = Math.round(20 + (H - 15) * (32 - 20) / (30 - 15));
+                    else if (H <= 60) baseTon = Math.round(32 + (H - 30) * (50 - 32) / (60 - 30));
+                    else if (H <= 100) baseTon = Math.round(50 + (H - 60) * (82 - 50) / (100 - 60));
+                    else if (H <= 140) baseTon = Math.round(82 + (H - 100) * (120 - 82) / (140 - 100));
+                    else if (H <= 165) baseTon = Math.round(120 + (H - 140) * (135 - 120) / (165 - 140));
+                    else baseTon = 135;
+                } else {
+                    if (H <= 15) baseTon = Math.round(14 + (H - 5) * (18 - 14) / (15 - 5));
+                    else if (H <= 30) baseTon = Math.round(18 + (H - 15) * (28 - 18) / (30 - 15));
+                    else if (H <= 60) baseTon = Math.round(28 + (H - 30) * (44 - 28) / (60 - 30));
+                    else if (H <= 100) baseTon = Math.round(44 + (H - 60) * (72 - 44) / (100 - 60));
+                    else if (H <= 140) baseTon = Math.round(72 + (H - 100) * (110 - 72) / (140 - 100));
+                    else baseTon = 120;
+                }
+
+                // 1.3. IP & Po:
                 if (H <= 15) {
-                    baseTon = Math.round(16 + (H - 5) * (20 - 16) / (15 - 5));
+                    baseIP = 2; basePo = isHard ? 5 : 6;
                 } else if (H <= 30) {
-                    baseTon = Math.round(20 + (H - 15) * (32 - 20) / (30 - 15));
+                    baseIP = 3; basePo = isHard ? 6 : 7;
                 } else if (H <= 60) {
-                    baseTon = Math.round(32 + (H - 30) * (50 - 32) / (60 - 30));
+                    baseIP = 4; basePo = isHard ? 7 : 8;
                 } else if (H <= 100) {
-                    baseTon = Math.round(50 + (H - 60) * (82 - 50) / (100 - 60));
+                    baseIP = 5; basePo = isHard ? 8 : 9;
                 } else if (H <= 140) {
-                    baseTon = Math.round(82 + (H - 100) * (120 - 82) / (140 - 100));
+                    baseIP = 5; basePo = 8;
                 } else if (H <= 165) {
-                    // Phôi siêu dày: Nâng dần Ton lên 135μs theo mốc thực nghiệm H=165 (STT 2P-11, 2P-12)
-                    baseTon = Math.round(120 + (H - 140) * (135 - 120) / (165 - 140));
+                    baseIP = 6; basePo = Math.round(8 + (H - 140) * (11 - 8) / (165 - 140));
                 } else {
-                    baseTon = 135; // H > 165: Xung bộc phá cực mạnh 135μs để thổi phoi trong khe sâu
+                    baseIP = 6; basePo = 11;
                 }
-            } else {
-                // SCM420 (HB < 200) - Thép mềm, dễ dính phoi màng nước
-                if (H <= 15) {
-                    baseTon = Math.round(14 + (H - 5) * (18 - 14) / (15 - 5));
-                } else if (H <= 30) {
-                    baseTon = Math.round(18 + (H - 15) * (28 - 18) / (30 - 15));
-                } else if (H <= 60) {
-                    baseTon = Math.round(28 + (H - 30) * (44 - 28) / (60 - 30));
-                } else if (H <= 100) {
-                    baseTon = Math.round(44 + (H - 60) * (72 - 44) / (100 - 60));
-                } else if (H <= 140) {
-                    baseTon = Math.round(72 + (H - 100) * (110 - 72) / (140 - 100));
-                } else {
-                    baseTon = 110;
-                }
-            }
 
-            // 1.3. IP & Po: SCM420 tăng thời gian nghỉ xung Po để rửa sạch xỉ dẻo, SCM440 tối ưu Po tăng năng suất
-            if (H <= 15) {
-                baseIP = 2;
-                basePo = isHard ? 5 : 6;
-            } else if (H <= 30) {
-                baseIP = 3;
-                basePo = isHard ? 6 : 7;
-            } else if (H <= 60) {
-                baseIP = 4;
-                basePo = isHard ? 7 : 8;
-            } else if (H <= 100) {
-                baseIP = 5;
-                basePo = isHard ? 8 : 9;
-            } else if (H <= 140) {
-                baseIP = 5;
-                basePo = 8;
-            } else if (H <= 165) {
-                baseIP = 6;
-                // Phôi siêu dày: Nâng dần Po lên 11 (nghỉ sâu 1485μs) giúp xối sạch 100% xỉ, triệt tiêu giật cục
-                basePo = Math.round(8 + (H - 140) * (11 - 8) / (165 - 140));
-            } else {
-                baseIP = 6;
-                basePo = 11; // H > 165: Bắt buộc Po=11 để máy cắt êm ru, mượt mà và mát dây (STT 2P-11, 2P-12)
-            }
+                // 1.4. VF:
+                const vfMax = isHard ? 65 : 60;
+                const vfMin = isHard ? 55 : 50;
+                if (H <= 40) baseVF = vfMax;
+                else if (H <= 100) baseVF = Math.round(vfMax - (H - 40) * (vfMax - vfMin) / (100 - 40));
+                else if (H <= 160) baseVF = Math.round(vfMin + (H - 100) * (70 - vfMin) / (160 - 100));
+                else baseVF = 70;
 
-            // 1.4. VF: SCM440 chịu bám sát tốt (VF cao hơn +5); SCM420 giảm VF để chống ngắn mạch / dính phoi
-            const vfMax = isHard ? 65 : 60;
-            const vfMin = isHard ? 55 : 50;
-            if (H <= 40) {
-                baseVF = vfMax;
-            } else if (H <= 100) {
-                baseVF = Math.round(vfMax - (H - 40) * (vfMax - vfMin) / (100 - 40));
-            } else if (H <= 160) {
-                // Phôi dày: Nâng dần VF lên 65-70 để tăng độ nhạy dò dây, hãm servo chạy cẩn trọng
-                baseVF = Math.round(vfMin + (H - 100) * (70 - vfMin) / (160 - 100));
-            } else {
-                // Phôi cực dày H > 160mm: Bắt buộc VF = 70-72 để servo không đâm sầm vào phôi
-                baseVF = Math.min(72, Math.round(70 + (H - 160) * 2 / 40));
-            }
+                // Tính toán lượng cào phôi cơ sở (baseGap) theo đúng công thức vật lý:
+                const u_ratio_base = baseVolt === 'High' ? 1.0 : (22.0 / 27.0);
+                const d_elec_base = K_ELEC * Math.sqrt(baseTon * baseIP) * u_ratio_base;
+                const d_low_base = baseVolt === 'Low' ? DELTA_LOW : 0.0;
+                const ip_fac_base = Math.max(1.0, baseIP / 4.0);
+                const d_slag_base = - K_SLAG * (H / 100.0) / ip_fac_base;
+                const d_vibr_base = K_VIBR * Math.pow(H / 100.0, 2) * (baseIP / 5.0);
+                baseGap = C0 + d_elec_base + d_low_base + d_slag_base + d_vibr_base;
 
-            // Tính toán lượng cào phôi cơ sở (baseGap) theo đúng công thức vật lý:
-            const u_ratio_base = baseVolt === 'High' ? 1.0 : (22.0 / 27.0);
-            const d_elec_base = K_ELEC * Math.sqrt(baseTon * baseIP) * u_ratio_base;
-            const d_low_base = baseVolt === 'Low' ? DELTA_LOW : 0.0;
-            const ip_fac_base = Math.max(1.0, baseIP / 4.0);
-            const d_slag_base = - K_SLAG * (H / 100.0) / ip_fac_base;
-            const d_vibr_base = K_VIBR * Math.pow(H / 100.0, 2) * (baseIP / 5.0);
-            baseGap = C0 + d_elec_base + d_low_base + d_slag_base + d_vibr_base;
+            } else {
+                // =========================================================================
+                // PHÂN VÙNG 2 (H > 170mm): PHƯƠNG PHÁP THỐNG KÊ HỘI TỤ THỰC NGHIỆM XƯỞNG
+                // Dựa trên số liệu cắt thực tế của người dùng: H=165 (STT 2P-12) -> H=300 (STT 13 & 14)
+                // =========================================================================
+                baseTon = isHard ? 135 : 120;
+                baseIP = 6; // Sò kịch trần an toàn chống đứt dây Moly
+                basePo = Math.round(11 + (H - 170) * (12 - 11) / (300 - 170)); // Po nới nhẹ 11 -> 12 để xối sạch xỉ lòng rãnh sâu
+                baseVF = Math.min(72, Math.round(70 + (H - 170) * (72 - 70) / (300 - 170))); // VF 70 -> 72
+
+                // Bù dao thực nghiệm hội tụ: từ 0.0187mm (tại H=170) lên 0.0250mm (tại H=300: O1 chuẩn xưởng = 0.115mm)
+                baseGap = 0.0187 + (H - 170) * (0.0250 - 0.0187) / (300 - 170);
+            }
         }
 
         // Apply Tab 2 7-level Strategy strictly adhering to Regular Ammeter Stepping (ΔI = 0.5 - 0.7A)
@@ -1939,12 +1924,12 @@ function initApp() {
             VF = Math.min(90, baseVF + 15);
         }
 
-        // CÔNG THỨC TOÁN HỌC ĐỘNG TÍNH LƯỢNG CÀO PHÔI THỰC TẾ PASS 1 (GAP1 / DELTA1)
-        // Tự động biến thiên theo đúng chế độ điện thực tế (Ton, IP, Volt, H)
+        // TÍNH TOÁN LƯỢNG CÀO PHÔI THỰC TẾ PASS 1 (GAP1 / DELTA1)
         let gap;
         if (isAlu || isCopper) {
             gap = baseGap + (lvl - 4) * 0.002;
-        } else {
+        } else if (H <= 170) {
+            // REGIME 1: H <= 170mm (CÔNG THỨC TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC LIÊN TỤC)
             const u_ratio_actual = Volt === 'High' ? 1.0 : (22.0 / 27.0);
             const d_elec_actual = K_ELEC * Math.sqrt(Ton * IP) * u_ratio_actual;
             const d_low_actual = Volt === 'Low' ? DELTA_LOW : 0.0;
@@ -1952,6 +1937,10 @@ function initApp() {
             const d_slag_actual = - K_SLAG * (H / 100.0) / ip_fac_actual;
             const d_vibr_actual = K_VIBR * Math.pow(H / 100.0, 2) * (IP / 5.0);
             gap = C0 + d_elec_actual + d_low_actual + d_slag_actual + d_vibr_actual;
+        } else {
+            // REGIME 2: H > 170mm (THỐNG KÊ HỘI TỤ THỰC NGHIỆM XƯỞNG)
+            const stratGapMods = {1: -0.009, 2: -0.006, 3: -0.003, 4: 0.0, 5: +0.003, 6: +0.006, 7: +0.010};
+            gap = baseGap + (stratGapMods[lvl] || 0.0);
         }
 
         // Dynamic Calculation of Pass 2 Electrical Params & Physical Offset (Rule 03, 04, 10)
@@ -1980,12 +1969,12 @@ function initApp() {
         if (state.wsStrategyLevel === 1) { p2_ton = Math.max(2, p2_ton - 2); p2_ip = Math.max(1, p2_ip - 1); }
         else if (state.wsStrategyLevel === 5) { p2_ton += 4; }
 
-        // CÔNG THỨC TOÁN HỌC BÙ DAO PASS 2 (O2 - REMAIN / LƯỢNG CHỪA PHÔI):
-        // O2 = Rz1 (Chiều sâu hố rỗ cần hớt sạch) + delta_2 (Cự ly phóng điện Pass 2)
+        // BÙ DAO PASS 2 (O2 - REMAIN / LƯỢNG CHỪA PHÔI):
         let calculated_O2;
         if (isAlu || isCopper) {
             calculated_O2 = 0.025;
-        } else {
+        } else if (H <= 170) {
+            // REGIME 1: H <= 170mm (CÔNG THỨC VẬT LÝ NÚI LỬA O2 = Rz1 + delta_2)
             const u_ratio_actual = Volt === 'High' ? 1.0 : (22.0 / 27.0);
             const Rz_p1 = K_RZ * Math.sqrt(Ton * IP) * u_ratio_actual;
             const u_ratio_p2 = p2_volt === 'High' ? 1.0 : (22.0 / 27.0);
@@ -1998,6 +1987,9 @@ function initApp() {
                 // Phôi siêu dày H > 140mm: Khống chế cự ly mép dây 15 - 18μm để tia lửa bám sát vách, chống trượt gió trong rãnh xỉ sâu (STT 2P-12)
                 calculated_O2 = Math.min(calculated_O2, 0.015 + 0.005 * Math.max(0.0, 1.0 - (H - 140) / 160.0));
             }
+        } else {
+            // REGIME 2: H > 170mm (THỐNG KÊ HỘI TỤ THỰC NGHIỆM: Khóa chặt O2 = 0.015mm theo mốc Mẫu 2 H=165 STT 2P-12)
+            calculated_O2 = 0.015;
         }
 
                 for (let i = 0; i < passes; i++) {
