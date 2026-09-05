@@ -3313,9 +3313,13 @@ function initApp() {
                     { H: 45, material: "HB<200", passes: [{ Ton: 50, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "150Hz", offset: "0,105", actualOffset: "0,105", calcOffset: "0,0974", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,2A - 2,5A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "52 mm²/p" }] },
                     { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0976", length: "27mm", actualTime: "14p20'", calcTime: "14p24'", actualAmpe: "4,1A - 4,2A", calcAmpe: "4.0A", actualSpeed: "75-85 mm²/p", calcSpeedH40: "75 mm²/p" }] },
                                         { H: 68, material: "30HRC", passes: [{ Ton: 70, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "100Hz", offset: "0,097", actualOffset: "0,097", calcOffset: "0,0945", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,4A - 2,6A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "43 mm²/p" }] },
+                    // H=85 (Quy đổi từ Pass 1 bài cắt 2P-10 có đo kiểm vách P1)
+                    { H: 85, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 70, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 61, maxSpeed: "150Hz", offset: "0,1025", actualOffset: "0,1025", calcOffset: "0,0987", length: "65,6mm", actualTime: "48p", calcTime: "47p43'", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.6A", actualSpeed: "55-65 mm²/p", calcSpeedH40: "55 mm²/p" }] },
                     { H: 140, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0992", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "34 mm²/p" }] },
                     { H: 140, material: "HB<200", passes: [{ Ton: 100, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 60, maxSpeed: "100Hz", offset: "0,102", actualOffset: "0,102", calcOffset: "0,105", length: "28,4mm", actualTime: "36p", calcTime: "35p30'", actualAmpe: "3,7A - 3,8A", calcAmpe: "3.8A", actualSpeed: "30-40 mm²/p", calcSpeedH40: "32 mm²/p" }] },
                     { H: 160, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,110", actualOffset: "0,110", calcOffset: "0,0978", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "29 mm²/p" }] },
+                    // H=165 (Quy đổi từ Pass 1 bài cắt 2P-12 có đo kiểm vách P1)
+                    { H: 165, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,1125", actualOffset: "0,1125", calcOffset: "0,1087", length: "43,6mm", actualTime: "1h17'", calcTime: "1h16p", actualAmpe: "2,8A - 3,0A", calcAmpe: "3.2A", actualSpeed: "15-35 mm²/p", calcSpeedH40: "23 mm²/p" }] },
                                         { H: 300, material: "30HRC", passes: [{ Ton: 120, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "50Hz", offset: "0,115", actualOffset: "0,115", calcOffset: "0,115", length: "76,1mm", actualTime: "3h", calcTime: "2h59p", actualAmpe: "3,7A - 3,9A", calcAmpe: "3.8A", actualSpeed: "12-20 mm²/p", calcSpeedH40: "17 mm²/p" }] }
                 ],
                 2: [
@@ -3414,6 +3418,16 @@ function initApp() {
                     return;
                 }
 
+                let subtabNoteHtml = '';
+                if (tabPass === 1) {
+                    subtabNoteHtml = `
+                        <div style="margin-bottom: 10px; font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                            <span style="display: inline-flex; align-items: center; gap: 5px;"><span class="h-badge">H</span> Mẫu cắt 1 Pass chuẩn</span>
+                            <span style="display: inline-flex; align-items: center; gap: 5px;"><span class="h-badge h-badge-multipass">H</span> Mẫu quy đổi từ Pass 1 (Cắt 2 Pass có đo kiểm kích thước sau P1)</span>
+                        </div>
+                    `;
+                }
+
                 let bannerHtml = '';
                 if (tabPass === 5) {
                     bannerHtml = `
@@ -3430,7 +3444,9 @@ function initApp() {
                     const jobClass = jobIdx % 2 === 0 ? 'job-even' : 'job-odd';
                     job.passes.forEach((p, passIdx) => {
                         const matLabel = passIdx === 0 ? job.material : '';
-                        const hLabel = passIdx === 0 ? `<span class="h-badge">${job.H}</span>` : '';
+                        const hBadgeClass = job.fromMultiPass ? 'h-badge h-badge-multipass' : 'h-badge';
+                        const hTitle = job.fromMultiPass ? ' title="Quy đổi từ Pass 1 (Cắt 2 Pass có đo kiểm vách sau P1)"' : '';
+                        const hLabel = passIdx === 0 ? `<span class="${hBadgeClass}"${hTitle}>${job.H}</span>` : '';
                         const voltClass = p.Volt === 'H' || p.Volt === 'High' ? 'col-volt-h' : 'col-volt-l';
 
                         tableRowsHtml += `
@@ -3460,6 +3476,7 @@ function initApp() {
 
                 libBodyContainer.innerHTML = `
                     ${bannerHtml}
+                    ${subtabNoteHtml}
                     <div class="ws-lib-table-container">
                         <table class="ws-lib-data-table">
                             <thead>
@@ -3504,7 +3521,7 @@ function initApp() {
                     </div>
                     <div id="ws-lib-content" style="margin-top: 15px;">
                         <div class="ws-lib-tabs-nav">
-                            <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">10 bài</span></button>
+                            <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">12 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="2">2 Pass <span class="ws-lib-tab-count">9 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="3">3 Pass <span class="ws-lib-tab-count">0</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="4">4 Pass <span class="ws-lib-tab-count">0</span></button>

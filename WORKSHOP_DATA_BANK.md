@@ -196,6 +196,17 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 
 ---
 
+
+### BẢNG QUY ĐỔI PASS 1 (TỪ MULTI-PASS) THÀNH 1 PASS TƯƠNG ĐƯƠNG TRÊN THƯ VIỆN TAB 2:
+*Theo chỉ thị công nghệ (Rule 15 trong AGENTS.md), các bài cắt nhiều Pass có đo đạc kích thước phôi trung gian ngay sau khi kết thúc Pass 1 được quy đổi thành bài cắt 1 Pass tương đương với lượng cào thép đặc $\delta_1$, hiển thị trên bảng 1 Pass với ký hiệu $H$ màu vàng (H-badge Amber):*
+
+| Nguồn 2-Pass | Vật Liệu | H (mm) | Chế độ điện Pass 1 | Kích thước đo sau Pass 1 | Lượng cào thép đặc δ1 | Offset 1P quy đổi tương đương | Thời gian thực | Ampe thực | Tốc độ thực |
+|:---:|:---|:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|
+| **2P-10** | SCM440 (30HRC) | **85** | Ton=70, Po=8, IP=5, Volt=H, VF=61, 150Hz | Sau P1: 19.94-19.95mm (chừa 0.0275mm/bên) | **0.0125 mm** | **0.1025 mm** | 48p (L=65.6mm) | 3,6A - 3,7A | 55 - 65 mm²/p |
+| **2P-12** | SCM440 (30HRC) | **165**| Ton=135, Po=11, IP=6, Volt=H, VF=70, 60Hz | Sau P1: 23.99-24.00mm (chừa ~2.5μm/bên) | **0.0225 mm** | **0.1125 mm** | 1h17' (L=43.6mm) | 2,8A - 3,0A | 15 - 35 mm²/p |
+
+---
+
 ## C. VÙNG DỮ LIỆU THỬ NGHIỆM THAM KHẢO & RÚT KINH NGHIỆM (KHÔNG DÙNG TRONG TÍNH TOÁN / HIỆU CHUẨN)
 *Vùng lưu trữ các bài cắt thử nghiệm công nghệ, các trường hợp hụt tia lửa, trượt gió hoặc chưa hoàn thiện để làm tài liệu tham khảo và rút kinh nghiệm thực chiến xưởng (tuyệt đối không dùng để hiệu chuẩn thuật toán hay nạp vào thư viện tính toán).*
 
