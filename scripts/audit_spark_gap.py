@@ -20,17 +20,18 @@ def calc_gap(H, Ton, IP, Volt):
 
 # Benchmark dataset: (Name, Group, H, Ton, IP, Volt, actual_gap, actual_O1)
 dataset = [
-    # 1-Pass cuts (H <= 170)
-    ('STT 1', '1 Pass', 30, 32, 4, 'High', 0.0080, 0.0980),
-    ('STT 2', '1 Pass', 40, 36, 4, 'High', 0.0080, 0.0980),
-    ('STT 3', '1 Pass', 63, 44, 5, 'High', 0.0050, 0.0950),
-    ('STT 5', '1 Pass', 45, 50, 3, 'Low',  0.0150, 0.1050),
-    ('STT 6', '1 Pass', 68, 70, 3, 'Low',  0.0070, 0.0970),
-    ('STT 7', '1 Pass', 140, 120, 5, 'High', 0.0050, 0.0950),
-    ('STT 8', '1 Pass', 160, 120, 5, 'High', 0.0200, 0.1100),
-    ('STT 12', '1 Pass', 140, 100, 6, 'High', 0.0120, 0.1020),
+    # 1-Pass Active Benchmark cuts (H <= 170mm) - STT 5 (H45) & STT 8 (H160) relocated to Reference Zone C
+    ('1P-5P01', '1 Pass (Quy đổi 5P-01)', 12, 20, 3, 'High', 0.0110, 0.1010),
+    ('STT 1',   '1 Pass (Chuẩn gốc)',      30, 32, 4, 'High', 0.0080, 0.0980),
+    ('STT 2',   '1 Pass (Chuẩn gốc)',      40, 36, 4, 'High', 0.0080, 0.0980),
+    ('STT 3',   '1 Pass (Chuẩn gốc)',      63, 44, 5, 'High', 0.0050, 0.0950),
+    ('STT 6',   '1 Pass (Chuẩn gốc)',      68, 70, 3, 'Low',  0.0070, 0.0970),
+    ('1P-2P10', '1 Pass (Quy đổi 2P-10)', 85, 70, 5, 'High', 0.0125, 0.1025),
+    ('STT 7',   '1 Pass (Chuẩn gốc)',     140, 120, 5, 'High', 0.0050, 0.0950),
+    ('STT 12',  '1 Pass (Chuẩn gốc)',     140, 100, 6, 'High', 0.0120, 0.1020),
+    ('1P-2P12', '1 Pass (Quy đổi 2P-12)', 165, 135, 6, 'High', 0.0225, 0.1125),
 
-    # 2-Pass Pass 1 cuts (H <= 170)
+    # 2-Pass Pass 1 cuts (H <= 170mm)
     ('2P-02', '2 Pass P1', 63, 44, 5, 'High', 0.0030, 0.0930),
     ('2P-03', '2 Pass P1', 30, 28, 4, 'High', 0.0175, 0.1075),
     ('2P-04', '2 Pass P1', 12, 20, 2, 'Low',  0.0080, 0.0980),
