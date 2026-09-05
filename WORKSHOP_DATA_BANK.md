@@ -32,7 +32,7 @@ Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên
 | **6** | 1 Lần | SCM440 (28-32HRC) | 68 | 70 | 7 | 3 | 1 | Low | 50 | 100Hz | **0,097** | -- | -- | -- | -- | cắt lấy chày : kích thước offset chuẩn luôn |
 | **7** | 1 Lần | SCM420 (HB<200) | 140 | 120 | 8 | 5 | 1 | High | 55 | 50Hz | **0,095** | -- | -- | -- | -- | cắt lấy chày : kích thước offset chuẩn luôn |
 | **8** | 1 Lần | SCM420 (HB<200) | 160 | 120 | 8 | 5 | 1 | High | 55 | 50Hz | **0,110** | -- | -- | -- | -- | cắt lấy chày : kích thước offset chuẩn luôn |
-| **9** | 1 Lần | SCM420 (HB<200) | 63 | 24 | 7 | 4 | 1 | High | 43 | 150Hz | **0,116** | 21p | -- | 4A | 55 - 65 | cắt lấy chày : kích thước to hơn lập trình 0,07 |
+| **9** ⛔ *(Đã chuyển sang Vùng C)* | 1 Lần | SCM420 (HB<200) | 63 | 24 | 7 | 4 | 1 | High | 43 | 150Hz | **0,116** | 21p | -- | 4A | 55 - 65 | cắt lấy chày : kích thước to hơn lập trình 0,07 *(Chuyển sang Vùng tham khảo C)* |
 | **10** | 1 Lần | SCM420 (HB<200) | 140 | 52 | 8 | 6 | 1 | High | 50 | 100Hz | **0,120** | -- | -- | -- | không cắt được | cắt lấy chày : (không cắt được) |
 | **11** | 1 Lần | SCM420 (HB<200) | 140 | 80 | 8 | 6 | 1 | High | 50 | 100Hz | **0,120** | -- | -- | -- | không cắt được | cắt lấy chày : (không cắt được) |
 | **12** | 1 Lần | SCM420 (HB<200) | 140 | 100 | 9 | 6 | 1 | High | 60 | 100Hz | **0,120** | 36p | 28,4mm | 3,7A - 3,8A | 30 - 40 | cắt lấy chày : kích thước to hơn lập trình 0,036 |
@@ -77,7 +77,7 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 | **6** | **H = 68mm** | Ton=70, Po=7, IP=3, Volt=Low, VF=50 | 0.097 | Chuẩn luôn | 0.000 | **0.097 mm** | **0.007 mm** | Phôi dày 68mm kéo hẹp tia lửa Low $\rightarrow \delta=0.007\text{mm}$ |
 | **7** | **H = 140mm**| Ton=120, Po=8, IP=5, Volt=High, VF=55 | 0.095 | Chuẩn luôn | 0.000 | **0.095 mm** | **0.005 mm** | Phôi siêu dày H=140mm tia lửa hẹp $\rightarrow \delta=0.005\text{mm}$ |
 | **8** | **H = 160mm**| Ton=120, Po=8, IP=5, Volt=High, VF=55 | 0.110 | Chuẩn luôn | 0.000 | **0.110 mm** | **0.020 mm** | Phôi cực dày rung dây cơ học làm nở kerf $\rightarrow \delta=0.020\text{mm}$ |
-| **9** | **H = 63mm** | Ton=24, Po=7, IP=4, Volt=High, VF=43 | 0.116 | Chày to hơn 0.070 | -0.035 | **0.081 mm** | **-0.009 mm** | Ton=24 quá yếu cho Volt High $\rightarrow$ Dây kéo lê dính phôi (bất thường) |
+| **9** ⛔ | **H = 63mm** | Ton=24, Po=7, IP=4, Volt=High, VF=43 | 0.116 | Chày to hơn 0.070 | -0.035 | **0.081 mm** | **-0.009 mm** | Ton=24 quá yếu cho Volt High $\rightarrow$ Dây kéo lê dính phôi (bất thường, đã đưa sang Vùng tham khảo C) |
 | **10**| **H = 140mm**| Ton=52, Po=8, IP=6, Volt=High, VF=50 | 0.120 | Không cắt được | -- | -- | -- | Không đủ năng lượng mồi hồ quang |
 | **11**| **H = 140mm**| Ton=80, Po=8, IP=6, Volt=High, VF=50 | 0.120 | Không cắt được | -- | -- | -- | Chưa đủ năng lượng mồi hồ quang |
 | **12**| **H = 140mm**| Ton=100, Po=9, IP=6, Volt=High, VF=60 | 0.120 | Chày to hơn 0.036 | -0.018 | **0.102 mm** | **0.012 mm** | Ton=100, IP=6 kích dòng mạnh $\rightarrow \delta=0.012\text{mm}$ |
@@ -209,3 +209,14 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 > 1. **Nguyên nhân trượt gió:** Khi cắt phôi dày $H=165\text{mm}$, nếu để lượng chừa Pass 2 quá dày ($O_2=0.030\text{mm}$) kết hợp năng lượng xung yếu ($\text{Ton}=24$), tia lửa Pass 2 hoàn toàn bị hụt tầm vươn, không thể bóc tách được phôi $\implies$ Kích thước sau Pass 2 không hề thay đổi so với Pass 1.
 > 2. **Giải pháp thành công (Mẫu 2 STT 2P-12):** Nâng $\text{Ton}$ Pass 2 lên **$40\mu s$** và ép $O_2$ về **$0.015\text{mm}$** $\implies$ tia lửa cắn sâu vào chân vách, đạt kích thước $24.015\text{mm}$ thành công 100%.
 > 3. **Lý do tách khỏi tính toán:** Vì Pass 2 của Mẫu 1 không ăn phôi nên số liệu không đại diện cho động lực học 2 Pass hoàn chỉnh. Do đó tách riêng vào vùng này để lưu trữ kinh nghiệm thực chiến.
+
+### Bài cắt Tham khảo STT 9 (H=63mm SCM420 1 Lần - Chế độ xung yếu, dây tì dính phôi):
+| STT | Số lần | Vật Liệu | H (mm) | Ton (μs) | Toff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập thực tế | Thời gian | Chiều dài L | Đồng hồ Ampe | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset chuẩn hiệu chỉnh | Lượng cào phôi δ | Hiện tượng & Rút kinh nghiệm |
+|:---:|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---:|:---:|:---:|:---|
+| **STT 9** *(Tham khảo)* | 1 Lần | SCM420 (HB<200) | 63 | 24 | 7 | 4 | 1 | High | 43 | 150Hz | **0,116** | 21p | -- | 4A | 55 - 65 mm²/p | cắt lấy chày : kích thước to hơn lập trình 0,07 | -0.035 mm | **0.081 mm** | **-0.009 mm** | Ton=24 quá non cho phôi H=63mm Volt High; dây tì đè kéo lê gây khe hở âm |
+
+> 💡 **BÀI HỌC KINH NGHIỆM ĐẮT GIÁ TỪ MẪU STT 9:**
+> 1. **Nguyên nhân khe hở âm ($\delta = -0.009\text{mm}$):** Với chiều dày $H=63\text{mm}$, điện áp High mà cài đặt $\text{Ton}=24\mu s, \text{IP}=4$ là chế độ xung quá yếu so với khe hở cần thiết. Năng lượng xung đơn không đủ áp lực bùng nổ để thổi phoi thoát ra khỏi rãnh sâu $63\text{mm}$, dẫn đến đoản mạch vi mô cục bộ triền miên. Dây Moly bị tì đè kéo lê trên vách phôi (hiện tượng dính/chập dây), làm phôi cắt ra bị phình to hơn lập trình đến $0.07\text{mm}$.
+> 2. **Chế độ chuẩn thay thế thành công (STT 3):** Khi nâng lên $\text{Ton}=44\mu s, \text{IP}=5, \text{VF}=55$ (STT 3), xung đủ lực tống phoi, cắt cực kỳ êm, đạt $\delta = +0.005\text{mm}$ (Offset chuẩn $0.095\text{mm}$) và tốc độ tăng lên $75-85\text{ mm}^2/\text{p}$.
+> 3. **Lý do loại khỏi Thư viện Tab 2 và dữ liệu tính toán:** Do khe hở phóng điện bị âm giả tạo ($\delta = -0.009\text{mm}$) do dây kéo lê cơ học chứ không phải bản chất phóng điện tia lửa tự nhiên. Mẫu này hoàn toàn bị loại khỏi Thư viện thực nghiệm Tab 2 và mọi mô hình toán học / thuật toán hiệu chuẩn, chỉ lưu giữ tại Vùng tham khảo này để cảnh báo thợ vận hành tránh dùng xung quá non cho phôi dày trung bình.
+
