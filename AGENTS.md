@@ -76,4 +76,12 @@ Before modifying ANY file or executing any logic, you MUST adhere to the followi
     - Khi người dùng yêu cầu "đọc lại toàn bộ quy tắc", AI **BẮT BUỘC PHẢI ĐỌC SÂU VÀ THẤU SUỐT TOÀN DIỆN** bản chất vật lý, cơ chế động học, các mốc thực nghiệm và các chỉ thị kiến trúc đã ban hành.
     - AI **TUYỆT ĐỐI KHÔNG ĐƯỢC ĐỌC LƯỚT (SCAN TỪ KHÓA NÔNG CẠN)**, không được bỏ qua các quy định đã ghim trong `AGENTS.md` và `.agents/rules/`.
     - AI **TUYỆT ĐỐI KHÔNG ĐƯỢC ĐƯA RA CÁC LỜI BIỆN BẠCH, LÝ DO LÝ TRẤU** như "do phiên làm việc mới", "do ngữ cảnh dài", "do tôi sơ suất". Mọi quy tắc trong `AGENTS.md` là HIẾN PHÁP TỐI CAO và PHẢI NẰM LÒNG VĨNH VIỄN trong mọi hành động.
+19. **AUTOMATED OFFSET VERIFICATION PROTOCOL (LỆNH KÍCH HOẠT NHANH: "HÃY KIỂM ĐỊNH LẠI THÔNG SỐ OFFSET"):**
+    - Bất kỳ khi nào người dùng đưa ra khẩu lệnh: **`"hãy kiểm định lại thông số offset"`** (hoặc các biến thể tương đương: `"kiểm định lại offset"`, `"kiểm tra lại lượng cào phôi"`), AI **BẮT BUỘC PHẢI TỰ ĐỘNG THỰC THI NGAY LẬP TỨC QUY TRÌNH KIỂM ĐỊNH TOÀN BỘ CƠ SỞ DỮ LIỆU THỰC NGHIỆM** mà không cần người dùng phải giải thích hay trình bày dài dòng:
+      1. Tự động chạy script kiểm toán `python scripts/audit_spark_gap.py` hoặc trích xuất toàn bộ các bài cắt thực nghiệm hợp lệ (đủ thông số điện và kích thước đo sau cắt) từ `WORKSHOP_DATA_BANK.md` gồm các bài 1 Pass và Pass 1 của multi-pass ($H \le 170\text{mm}$).
+      2. Nạp chính xác bộ thông số thực tế $(H, \text{Ton}, \text{IP}, \text{Volt})$ của từng bài vào công thức toán - vật lý nhiệt động học liên tục $\delta = C_0 + d_{\text{elec}} + d_{\text{low}} + d_{\text{slag}} + d_{\text{vibr}}$ để tính $\delta_{\text{tính}}$ và $O_{\text{tính}}$.
+      3. Xuất **Bảng đối chiếu toàn diện (Audit Table)**: Tên bài cắt, Nhóm, $H$, Ton, IP, Volt, $\delta_{\text{thực}}$, $\delta_{\text{tính}}$, Sai lệch $\Delta (\mu m)$, Offset chuẩn.
+      4. Báo cáo các chỉ số thống kê chất lượng mô hình: MAE (Sai số trung bình tuyệt đối), RMSE (Sai số hiệu dụng), Sai số cực đại và phân bổ theo từng dải chiều dày.
+      5. Đánh giá tính ổn định của 5 hệ số vật lý $(C_0, K_{\text{elec}}, \delta_{\text{low}}, K_{\text{slag}}, K_{\text{vibr}})$ và đưa ra kết luận rõ ràng có cần tinh chỉnh thêm hay giữ nguyên mô hình tối ưu.
+
 
