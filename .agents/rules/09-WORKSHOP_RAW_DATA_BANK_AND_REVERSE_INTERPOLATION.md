@@ -41,6 +41,17 @@ Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên
 
 ---
 
+### BẢNG DỮ LIỆU 1 PASS QUY ĐỔI TỪ PASS 1 CẮT NHIỀU PASS (RULE 15):
+*(Các bài cắt nhiều Pass có đo đạc kích thước phôi trung gian ngay sau khi hoàn thành Pass 1 được quy đổi thành dữ liệu 1 Pass tương đương với lượng cào thép đặc $\delta_1$, phục vụ đối chứng trên Thư viện 1 Pass)*
+
+| STT Quy Đổi | Nguồn Gốc | Số lần cắt | Vật Liệu | H (mm) | Ton (μs) | Toff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập P1 (mm) | Thời gian cắt | Chiều dài L (mm) | Đồng hồ Ampe (A) | Tốc độ thực (mm²/p) | Kích thước đo sau Pass 1 | Lượng cào phôi thép đặc δ1 | Offset 1P Quy Đổi Chuẩn |
+|:---:|:---:|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---:|:---:|
+| **1P-5P01** | **5P-01** | 1 Pass (Quy đổi) | SCM440 (28-32HRC) | **12** | 20 | 5 | 3 | 1 | High | 65 | 150Hz | **0,108** | 19p50' | 128mm | 4A | 275 - 285 | Sau P1 đo: 54.08mm (chày chừa 0.040mm/bên) | **0.0110 mm** | **0.1010 mm** |
+| **1P-2P10** | **2P-10** | 1 Pass (Quy đổi) | SCM440 (28-32HRC) | **85** | 70 | 8 | 5 | 1 | High | 61 | 150Hz | **0,095** | 48p | 65,6mm | 3,6A - 3,7A | 55 - 65 | Sau P1 đo: 19.94 - 19.95mm (cối chừa 0.0275mm/bên) | **0.0125 mm** | **0.1025 mm** |
+| **1P-2P12** | **2P-12** | 1 Pass (Quy đổi) | SCM440 (28-32HRC) | **165**| 135 | 11 | 6 | 1 | High | 70 | 60Hz | **0,100** | 1h17' | 43,6mm | 2,8A - 3,0A | 15 - 35 | Sau P1 đo: 23.99 - 24.00mm (cối chừa 2.5μm/bên) | **0.0225 mm** | **0.1125 mm** |
+
+---
+
 ## PHẦN 2: NGUYÊN LÝ PHÂN TÍCH NGƯỢC (REVERSE EROSION ANALYSIS)
 
 ### 1. Bản chất hình học và vật lý của bù dao (Offset)
@@ -83,6 +94,15 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 | **12**| **H = 140mm**| Ton=100, Po=9, IP=6, Volt=High, VF=60 | 0.120 | Chày to hơn 0.036 | -0.018 | **0.102 mm** | **0.012 mm** | Ton=100, IP=6 kích dòng mạnh $\rightarrow \delta=0.012\text{mm}$ |
 | **13** ⛔| **H = 300mm**| Ton=80, Po=9, IP=6, Volt=High, VF=50 | 0.120 | Cối lớn hơn 0.010 | -0.005 | **0.115 mm** | **0.025 mm** | GĐ 1 phá thô siêu dày H=300mm $\rightarrow \delta=0.025\text{mm}$ *(Đã đưa sang Vùng tham khảo C)* |
 | **14**| **H = 300mm**| Ton=120, Po=9, IP=6, Volt=High, VF=65 | 0.120 | Cối lớn hơn 0.010 | -0.005 | **0.115 mm** | **0.025 mm** | GĐ 2 phá thô siêu dày H=300mm $\rightarrow \delta=0.025\text{mm}$ |
+
+---
+
+### LƯỢNG CÀO PHÔI THÉP ĐẶC δ1 QUY ĐỔI TỪ CẮT NHIỀU PASS (RULE 15):
+| STT Quy Đổi | Chiều dày H | Chế độ điện thực tế | Offset Nhập P1 | Kích thước đo sau Pass 1 | Hiệu chỉnh | **Offset 1P Chuẩn** | **Lượng cào phôi δ1** | Kết luận đặc tính vật lý |
+|:---:|:---:|:---|:---:|:---|:---:|:---|:---:|:---|
+| **1P-5P01** | **H = 12mm** | Ton=20, Po=5, IP=3, Volt=High, VF=65 | 0.108 | Chày chừa 0.040mm/bên | (Khép kín) | **0.1010 mm** | **0.0110 mm** | Phôi mỏng H=12, Volt High, IP=3 cào thép đặc $\delta_1=0.011\text{mm}$ |
+| **1P-2P10** | **H = 85mm** | Ton=70, Po=8, IP=5, Volt=High, VF=61 | 0.095 | Cối chừa 0.0275mm/bên | (Khép kín) | **0.1025 mm** | **0.0125 mm** | Phôi trung H=85, Volt High, IP=5 cào thép đặc $\delta_1=0.0125\text{mm}$ |
+| **1P-2P12** | **H = 165mm**| Ton=135, Po=11, IP=6, Volt=High, VF=70| 0.100 | Cối chừa 2.5μm/bên | (Khép kín) | **0.1125 mm** | **0.0225 mm** | Phôi dày H=165, Volt High, IP=6 cào thép đặc $\delta_1=0.0225\text{mm}$ |
 
 ---
 
@@ -200,10 +220,11 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 ### BẢNG QUY ĐỔI PASS 1 (TỪ MULTI-PASS) THÀNH 1 PASS TƯƠNG ĐƯƠNG TRÊN THƯ VIỆN TAB 2:
 *Theo chỉ thị công nghệ (Rule 15 trong AGENTS.md), các bài cắt nhiều Pass có đo đạc kích thước phôi trung gian ngay sau khi kết thúc Pass 1 được quy đổi thành bài cắt 1 Pass tương đương với lượng cào thép đặc $\delta_1$, hiển thị trên bảng 1 Pass với ký hiệu $H$ màu vàng (H-badge Amber):*
 
-| Nguồn 2-Pass | Vật Liệu | H (mm) | Chế độ điện Pass 1 | Kích thước đo sau Pass 1 | Lượng cào thép đặc δ1 | Offset 1P quy đổi tương đương | Thời gian thực | Ampe thực | Tốc độ thực |
+| Nguồn Multi-Pass | Vật Liệu | H (mm) | Chế độ điện Pass 1 | Kích thước đo sau Pass 1 | Lượng cào thép đặc δ1 | Offset 1P quy đổi tương đương | Thời gian thực | Ampe thực | Tốc độ thực |
 |:---:|:---|:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|
-| **2P-10** | SCM440 (30HRC) | **85** | Ton=70, Po=8, IP=5, Volt=H, VF=61, 150Hz | Sau P1: 19.94-19.95mm (chừa 0.0275mm/bên) | **0.0125 mm** | **0.1025 mm** | 48p (L=65.6mm) | 3,6A - 3,7A | 55 - 65 mm²/p |
-| **2P-12** | SCM440 (30HRC) | **165**| Ton=135, Po=11, IP=6, Volt=H, VF=70, 60Hz | Sau P1: 23.99-24.00mm (chừa ~2.5μm/bên) | **0.0225 mm** | **0.1125 mm** | 1h17' (L=43.6mm) | 2,8A - 3,0A | 15 - 35 mm²/p |
+| **5P-01** | SCM440 (30HRC) | **12** | Ton=20, Po=5, IP=3, Volt=H, VF=65, 150Hz | Sau P1: 54.08mm (chày chừa 0.040mm/bên) | **0.0110 mm** | **0.1010 mm** | 19p50' (L=128mm) | 4A | 275 - 285 mm²/p |
+| **2P-10** | SCM440 (30HRC) | **85** | Ton=70, Po=8, IP=5, Volt=H, VF=61, 150Hz | Sau P1: 19.94-19.95mm (cối chừa 0.0275mm/bên) | **0.0125 mm** | **0.1025 mm** | 48p (L=65.6mm) | 3,6A - 3,7A | 55 - 65 mm²/p |
+| **2P-12** | SCM440 (30HRC) | **165**| Ton=135, Po=11, IP=6, Volt=H, VF=70, 60Hz | Sau P1: 23.99-24.00mm (cối chừa 2.5μm/bên) | **0.0225 mm** | **0.1125 mm** | 1h17' (L=43.6mm) | 2,8A - 3,0A | 15 - 35 mm²/p |
 
 ---
 
