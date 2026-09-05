@@ -69,7 +69,7 @@ Before modifying ANY file or executing any logic, you MUST adhere to the followi
     - **Phân vùng 1 ($H \le 170\text{mm}$):** Vận hành 100% bằng **Hệ phương trình Toán - Vật lý Nhiệt động học EDM liên tục** $\delta = f(H, \text{Ton}, \text{IP}, \text{Volt})$ với 6 hằng số hiệu chuẩn $(C_0, K_{\text{elec}}, \delta_{\text{Low}}, K_{\text{slag}}, K_{\text{vibr}}, K_{rz})$. Tuyệt đối không chia mảnh `if-else`.
     - **Phân vùng 2 ($H > 170\text{mm}$):** Tạm thời vận hành bằng **Phương pháp Thống kê Hội tụ Thực nghiệm Xưởng** giữa 2 mốc thực tế đo tại xưởng:
       + Điểm bắt đầu $H=165 \sim 170\text{mm}$ (SCM440, STT 2P-12): $\text{Ton}=135, \text{Po}=11, \text{IP}=6, \text{VF}=70 \implies O_1=0.1087\text{mm}$.
-      + Điểm kết thúc $H=300\text{mm}$ (SCM440, STT 13 & 14): $\text{Ton}=135, \text{Po}=12, \text{IP}=6, \text{VF}=72 \implies \mathbf{O_1 = 0.1150\text{mm}}$ (khớp 100% số đo thực tế xưởng).
+      + Điểm kết thúc $H=300\text{mm}$ (SCM440, STT 14 - GĐ 2 hoàn chỉnh): $\text{Ton}=135, \text{Po}=12, \text{IP}=6, \text{VF}=72 \implies \mathbf{O_1 = 0.1150\text{mm}}$ (khớp 100% số đo thực tế xưởng).
       + Bù dao Pass 2 ($O_2$) cho phôi siêu dày khóa chặt tại **$0.015\text{mm}$** để tia lửa Pass 2 luôn bám sát chân vách $12.5 - 15\mu m$, không bị trượt gió.
       + Thông số cắt thở nhẹ và biến thiên nhịp nhàng cùng Offset ($\text{Po}: 11 \rightarrow 12, \text{VF}: 70 \rightarrow 72, \text{Hz}: 60 \rightarrow 50$), tuyệt đối không để thông số phẳng lì trong khi Offset trôi dạt vô căn cứ (Xem `.agents/rules/16-DUAL_REGIME_OPERATIONAL_BOUNDARY.md`).
 18. **ZERO-EXCUSE DEEP RETENTION & ANTI-AMNESIA DISCIPLINE (KỶ LUẬT BẢO TOÀN TRÍ NHỚ TUYỆT ĐỐI - CẤM ĐỌC LƯỚT / LẤY CỚ QUÊN):**

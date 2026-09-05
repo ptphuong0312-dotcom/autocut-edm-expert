@@ -36,7 +36,7 @@ Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên
 | **10** | 1 Lần | SCM420 (HB<200) | 140 | 52 | 8 | 6 | 1 | High | 50 | 100Hz | **0,120** | -- | -- | -- | không cắt được | cắt lấy chày : (không cắt được) |
 | **11** | 1 Lần | SCM420 (HB<200) | 140 | 80 | 8 | 6 | 1 | High | 50 | 100Hz | **0,120** | -- | -- | -- | không cắt được | cắt lấy chày : (không cắt được) |
 | **12** | 1 Lần | SCM420 (HB<200) | 140 | 100 | 9 | 6 | 1 | High | 60 | 100Hz | **0,120** | 36p | 28,4mm | 3,7A - 3,8A | 30 - 40 | cắt lấy chày : kích thước to hơn lập trình 0,036 |
-| **13** | 1 Lần | SCM440 (28-32HRC) | 300 | 80 | 9 | 6 | 1 | High | 50 | 50Hz | **0,120** | 1h29p | 31,3mm | 3,8A - 3,9A | 12 - 20 | GĐ 1 : cắt lấy cối : kích thước lớn hơn lập trình 0,01 |
+| **13** ⛔ *(Đã chuyển sang Vùng C)* | 1 Lần | SCM440 (28-32HRC) | 300 | 80 | 9 | 6 | 1 | High | 50 | 50Hz | **0,120** | 1h29p | 31,3mm | 3,8A - 3,9A | 12 - 20 | GĐ 1 : cắt lấy cối : kích thước lớn hơn lập trình 0,01 *(Chuyển sang Vùng tham khảo C)* |
 | **14** | 1 Lần | SCM440 (28-32HRC) | 300 | 120 | 9 | 6 | 1 | High | 65 | 50Hz | **0,120** | 3h | 76,1mm | 3,7A - 3,9A | 12 - 20 | GĐ 2 : cắt lấy cối : kích thước lớn hơn lập trình 0,01 |
 
 ---
@@ -81,7 +81,7 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 | **10**| **H = 140mm**| Ton=52, Po=8, IP=6, Volt=High, VF=50 | 0.120 | Không cắt được | -- | -- | -- | Không đủ năng lượng mồi hồ quang |
 | **11**| **H = 140mm**| Ton=80, Po=8, IP=6, Volt=High, VF=50 | 0.120 | Không cắt được | -- | -- | -- | Chưa đủ năng lượng mồi hồ quang |
 | **12**| **H = 140mm**| Ton=100, Po=9, IP=6, Volt=High, VF=60 | 0.120 | Chày to hơn 0.036 | -0.018 | **0.102 mm** | **0.012 mm** | Ton=100, IP=6 kích dòng mạnh $\rightarrow \delta=0.012\text{mm}$ |
-| **13**| **H = 300mm**| Ton=80, Po=9, IP=6, Volt=High, VF=50 | 0.120 | Cối lớn hơn 0.010 | -0.005 | **0.115 mm** | **0.025 mm** | GĐ 1 phá thô siêu dày H=300mm $\rightarrow \delta=0.025\text{mm}$ |
+| **13** ⛔| **H = 300mm**| Ton=80, Po=9, IP=6, Volt=High, VF=50 | 0.120 | Cối lớn hơn 0.010 | -0.005 | **0.115 mm** | **0.025 mm** | GĐ 1 phá thô siêu dày H=300mm $\rightarrow \delta=0.025\text{mm}$ *(Đã đưa sang Vùng tham khảo C)* |
 | **14**| **H = 300mm**| Ton=120, Po=9, IP=6, Volt=High, VF=65 | 0.120 | Cối lớn hơn 0.010 | -0.005 | **0.115 mm** | **0.025 mm** | GĐ 2 phá thô siêu dày H=300mm $\rightarrow \delta=0.025\text{mm}$ |
 
 ---
@@ -219,4 +219,14 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 > 1. **Nguyên nhân khe hở âm ($\delta = -0.009\text{mm}$):** Với chiều dày $H=63\text{mm}$, điện áp High mà cài đặt $\text{Ton}=24\mu s, \text{IP}=4$ là chế độ xung quá yếu so với khe hở cần thiết. Năng lượng xung đơn không đủ áp lực bùng nổ để thổi phoi thoát ra khỏi rãnh sâu $63\text{mm}$, dẫn đến đoản mạch vi mô cục bộ triền miên. Dây Moly bị tì đè kéo lê trên vách phôi (hiện tượng dính/chập dây), làm phôi cắt ra bị phình to hơn lập trình đến $0.07\text{mm}$.
 > 2. **Chế độ chuẩn thay thế thành công (STT 3):** Khi nâng lên $\text{Ton}=44\mu s, \text{IP}=5, \text{VF}=55$ (STT 3), xung đủ lực tống phoi, cắt cực kỳ êm, đạt $\delta = +0.005\text{mm}$ (Offset chuẩn $0.095\text{mm}$) và tốc độ tăng lên $75-85\text{ mm}^2/\text{p}$.
 > 3. **Lý do loại khỏi Thư viện Tab 2 và dữ liệu tính toán:** Do khe hở phóng điện bị âm giả tạo ($\delta = -0.009\text{mm}$) do dây kéo lê cơ học chứ không phải bản chất phóng điện tia lửa tự nhiên. Mẫu này hoàn toàn bị loại khỏi Thư viện thực nghiệm Tab 2 và mọi mô hình toán học / thuật toán hiệu chuẩn, chỉ lưu giữ tại Vùng tham khảo này để cảnh báo thợ vận hành tránh dùng xung quá non cho phôi dày trung bình.
+
+### Bài cắt Tham khảo STT 13 (H=300mm SCM440 1 Lần - Giai đoạn 1 chạy rà đầu phôi):
+| STT | Số lần | Vật Liệu | H (mm) | Ton (μs) | Toff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập thực tế | Thời gian | Chiều dài L | Đồng hồ Ampe | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset chuẩn hiệu chỉnh | Lượng cào phôi δ | Hiện tượng & Rút kinh nghiệm |
+|:---:|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---:|:---:|:---:|:---|
+| **STT 13** *(Tham khảo)* | 1 Lần | SCM440 (28-32HRC) | 300 | 80 | 9 | 6 | 1 | High | 50 | 50Hz | **0,120** | 1h29p | 31,3mm | 3,8A - 3,9A | 12 - 20 mm²/p | GĐ 1 : cắt lấy cối : kích thước lớn hơn lập trình 0,01 | -0.005 mm | **0.115 mm** | **0.025 mm** | Giai đoạn 1 chạy rà đầu phôi 31.3mm; sau đó xưởng tối ưu nâng lên Ton=120 VF=65 (STT 14) |
+
+> 💡 **BÀI HỌC KINH NGHIỆM ĐẮT GIÁ TỪ MẪU STT 13 (GIAI ĐOẠN 1):**
+> 1. **Bản chất công nghệ:** Khi cắt phôi siêu dày $H=300\text{mm}$, ở $31.3\text{mm}$ đầu tiên (Giai đoạn 1), xưởng đã thử nghiệm chế độ dò đường với $\text{Ton}=80\mu s, \text{Po}=9, \text{IP}=6, \text{VF}=50$. Dù đã đạt kích thước đo chuẩn (Offset chuẩn $0.115\text{mm}$), nhưng khi đi sâu vào lòng phôi, trở lực thủy lực lớn làm tăng nguy cơ ngắn mạch và đứt dây.
+> 2. **Chế độ chuẩn hoàn chỉnh (STT 14 - Giai đoạn 2):** Xưởng đã nâng năng lượng xung lên $\text{Ton}=120\mu s$ và tăng điện áp bám $\text{VF}=65$, giúp máy cắt trơn tru ổn định liên tục $3\text{h}$ cho toàn bộ chiều dài $76.1\text{mm}$ còn lại mà không gặp bất kỳ sự cố nào.
+> 3. **Lý do tách khỏi Thư viện Tab 2:** Để tránh trùng lặp 2 dòng cùng chiều dày $H=300\text{mm}$ gây phân vân cho người vận hành, Thư viện Tab 2 chỉ giữ lại duy nhất 1 bài chuẩn công nghệ hoàn chỉnh nhất là **STT 14** ($\text{Ton}=120, \text{VF}=65$). STT 13 được chuyển sang Vùng tham khảo này để làm tư liệu kinh nghiệm hữu ích về giai đoạn tiếp cận phôi ban đầu.
 

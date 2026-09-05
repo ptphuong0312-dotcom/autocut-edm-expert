@@ -1238,33 +1238,6 @@ function initApp() {
                 "notes": "Nhập test 0.120mm -> Chày to hơn 0.036mm. OFFSET CHUẨN HIỆU CHỈNH = 0.120 - 0.018 = 0.102mm (Khe hở δ = 0.012mm)."
         },
         {
-                "id": "STT 13",
-                "name": "SCM440 (28-32HRC) | H=300mm | Giai đoạn 1",
-                "materialName": "SCM440 (28-32HRC)",
-                "thickness": 300,
-                "cutLength": "31,3mm",
-                "passCount": 1,
-                "params": {
-                        "ti": 80,
-                        "Po": 9,
-                        "IP": 6,
-                        "wire": 1,
-                        "Voltage": "High",
-                        "VF": 50,
-                        "maxSpeed": "50Hz"
-                },
-                "measured": {
-                        "totalTimeStr": "1h29p",
-                        "ammeterA": "3,8A - 3,9A",
-                        "measuredSpeed": "12 - 20",
-                        "enteredOffset": 0.12,
-                        "standardOffset": 0.115,
-                        "sparkGap": "0.025",
-                        "tolerance": "Cối lớn hơn lập trình 0.010mm"
-                },
-                "notes": "GĐ 1: Cắt cối lỗ lớn hơn lập trình 0.010mm. OFFSET CHUẨN HIỆU CHỈNH = 0.120 - 0.005 = 0.115mm (Khe hở δ = 0.025mm)."
-        },
-        {
                 "id": "STT 14",
                 "name": "SCM440 (28-32HRC) | H=300mm | Giai đoạn 2",
                 "materialName": "SCM440 (28-32HRC)",
@@ -1995,7 +1968,7 @@ function initApp() {
             } else {
                 // =========================================================================
                 // PHÂN VÙNG 2 (H > 170mm): PHƯƠNG PHÁP THỐNG KÊ HỘI TỤ THỰC NGHIỆM XƯỞNG
-                // Dựa trên số liệu cắt thực tế của người dùng: H=165 (STT 2P-12) -> H=300 (STT 13 & 14)
+                // Dựa trên số liệu cắt thực tế của người dùng: H=165 (STT 2P-12) -> H=300 (STT 14 - GĐ 2 hoàn chỉnh; STT 13 thuộc Vùng tham khảo C)
                 // =========================================================================
                 baseTon = isHard ? 135 : 120;
                 baseIP = 6; // Sò kịch trần an toàn chống đứt dây Moly
@@ -3343,8 +3316,7 @@ function initApp() {
                     { H: 140, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0992", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "34 mm²/p" }] },
                     { H: 140, material: "HB<200", passes: [{ Ton: 100, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 60, maxSpeed: "100Hz", offset: "0,102", actualOffset: "0,102", calcOffset: "0,105", length: "28,4mm", actualTime: "36p", calcTime: "35p30'", actualAmpe: "3,7A - 3,8A", calcAmpe: "3.8A", actualSpeed: "30-40 mm²/p", calcSpeedH40: "32 mm²/p" }] },
                     { H: 160, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,110", actualOffset: "0,110", calcOffset: "0,0978", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "29 mm²/p" }] },
-                    { H: 300, material: "30HRC", passes: [{ Ton: 80, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 50, maxSpeed: "50Hz", offset: "0,115", actualOffset: "0,115", calcOffset: "0,115", length: "31,3mm", actualTime: "1h29p", calcTime: "1h29p", actualAmpe: "3,8A - 3,9A", calcAmpe: "3.8A", actualSpeed: "12-20 mm²/p", calcSpeedH40: "14 mm²/p" }] },
-                    { H: 300, material: "30HRC", passes: [{ Ton: 120, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "50Hz", offset: "0,115", actualOffset: "0,115", calcOffset: "0,115", length: "76,1mm", actualTime: "3h", calcTime: "2h59p", actualAmpe: "3,7A - 3,9A", calcAmpe: "3.8A", actualSpeed: "12-20 mm²/p", calcSpeedH40: "17 mm²/p" }] }
+                                        { H: 300, material: "30HRC", passes: [{ Ton: 120, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "50Hz", offset: "0,115", actualOffset: "0,115", calcOffset: "0,115", length: "76,1mm", actualTime: "3h", calcTime: "2h59p", actualAmpe: "3,7A - 3,9A", calcAmpe: "3.8A", actualSpeed: "12-20 mm²/p", calcSpeedH40: "17 mm²/p" }] }
                 ],
                 2: [
                     // H=12
@@ -3532,7 +3504,7 @@ function initApp() {
                     </div>
                     <div id="ws-lib-content" style="margin-top: 15px;">
                         <div class="ws-lib-tabs-nav">
-                            <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">11 bài</span></button>
+                            <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">10 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="2">2 Pass <span class="ws-lib-tab-count">9 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="3">3 Pass <span class="ws-lib-tab-count">0</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="4">4 Pass <span class="ws-lib-tab-count">0</span></button>
