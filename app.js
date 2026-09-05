@@ -1741,6 +1741,55 @@ function initApp() {
         }
 ,
         {
+                "id": "2P-13",
+                "name": "SCM440 | H=60mm | 2 Lần (Kiểm chứng Thực tế Xưởng)",
+                "materialName": "SCM440 (28-32HRC)",
+                "thickness": 60,
+                "cutLength": "68mm",
+                "passCount": 2,
+                "multiPassDetails": [
+                        {
+                                "pass": "Pass 1",
+                                "ti": 50,
+                                "Po": 7,
+                                "IP": 4,
+                                "wire": 1,
+                                "voltage": "High",
+                                "vf": 62,
+                                "maxSpeed": "150Hz",
+                                "offset": 0.094,
+                                "time": "40p20'",
+                                "ampe": "3,5A - 3,6A",
+                                "speed": "65 - 75 mm²/p"
+                        },
+                        {
+                                "pass": "Pass 2",
+                                "ti": 16,
+                                "Po": 6,
+                                "IP": 2,
+                                "wire": 2,
+                                "voltage": "High",
+                                "vf": 40,
+                                "maxSpeed": "100Hz",
+                                "offset": 0.022,
+                                "time": "12p",
+                                "ampe": "0,5A - 0,6A",
+                                "speed": "240 mm²/p"
+                        }
+                ],
+                "measured": {
+                        "totalTimeStr": "52p20' (P1: 40p20', P2: 12p)",
+                        "ammeterA": "3.5 - 3.6A (P1) | 0.5 - 0.6A (P2)",
+                        "measuredSpeed": "65 - 75 mm²/p (P1) | 240 mm²/p (P2)",
+                        "enteredOffsetP1": 0.094,
+                        "enteredOffsetP2": 0.022,
+                        "recommendedOffsetP1": 0.089,
+                        "recommendedOffsetP2": 0.022,
+                        "actualDimension": "Cắt lấy chày: lớn hơn lập trình 0.010mm (chày to hơn 5μm/bên)"
+                },
+                "notes": "H=60mm SCM440 cắt 2 Pass kiểm chứng xưởng. Kích thước chày lớn hơn lập trình 0.010mm (chỉ lệch 5μm/bên). Offset P1 chuẩn: 0.089mm, Offset P2 chuẩn: 0.022mm. Khớp tuyệt đối với công thức lý thuyết: O1_calc = 0.0943mm (thực tế nhập 0.094), O2_calc = 0.022mm (thực tế nhập 0.022). Ampe P1 ăn 3.5-3.6A, P2 ăn 0.5-0.6A."
+        },
+        {
                 "id": "5P-01",
                 "name": "SCM440 | H=12mm | 5 Lần (Cắt Chày Kiểm Chứng Thực Tế)",
                 "materialName": "SCM440 (28-32HRC)",
@@ -3303,6 +3352,11 @@ function initApp() {
                         { Ton: 30, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "200Hz", offset: "0,091", time: "--", length: "--", ampe: "2,0A - 2,2A", calcSpeed: "90 mm²/phút" },
                         { Ton: 5, Toff: 15, IP: 1, Wire: 1, Volt: "L", VF: 10, maxSpeed: "130Hz", offset: "0,030", time: "--", length: "--", ampe: "< 0,2A", calcSpeed: "240 mm²/phút" }
                     ]},
+                                        // H=60
+                    { H: 60, material: "30HRC", passes: [
+                        { Ton: 50, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 62, maxSpeed: "150Hz", offset: "0,089", time: "40p20'", length: "68mm", ampe: "3,5A - 3,6A", calcSpeed: "85 mm²/phút" },
+                        { Ton: 16, Toff: 6, IP: 2, Wire: 2, Volt: "H", VF: 40, maxSpeed: "100Hz", offset: "0,022", time: "12p", length: "68mm", ampe: "0,5A - 0,6A", calcSpeed: "320 mm²/phút" }
+                    ]},
                     // H=62
                     { H: 62, material: "30HRC", passes: [
                         { Ton: 70, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 50, maxSpeed: "150Hz", offset: "0,092", time: "--", length: "--", ampe: "3,5A - 3,8A", calcSpeed: "85 mm²/phút" },
@@ -3466,7 +3520,7 @@ function initApp() {
                     <div id="ws-lib-content" style="margin-top: 15px;">
                         <div class="ws-lib-tabs-nav">
                             <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">12 bài</span></button>
-                            <button class="ws-lib-tab-btn" data-tab-pass="2">2 Pass <span class="ws-lib-tab-count">9 bài</span></button>
+                            <button class="ws-lib-tab-btn" data-tab-pass="2">2 Pass <span class="ws-lib-tab-count">10 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="3">3 Pass <span class="ws-lib-tab-count">0</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="4">4 Pass <span class="ws-lib-tab-count">0</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="5">5 Pass <span class="ws-lib-tab-count">1 bài</span></button>
