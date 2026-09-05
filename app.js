@@ -1739,7 +1739,101 @@ function initApp() {
                 },
                 "notes": "H=165mm SCM440 mẫu 2. P1 cào thép đặc δ1=0.0225mm (gần khớp 24.00mm). P2 tăng Ton=40 và ép O2=0.015mm giúp tia lửa cắn sâu vào vách, cối to hơn 0.015mm. Đúc kết vàng về kim Ampe P2: 3/4 đường kim chỉ 0.5A (đỉnh núi lửa thấp), 1/4 đường vọt lên 1-1.5A (đỉnh núi lửa cao còn nhiều lượng dư). Offset 2 Pass chuẩn: P1=0.1075mm, P2=0.015mm."
         }
-];
+,
+        {
+                "id": "5P-01",
+                "name": "SCM440 | H=12mm | 5 Lần (Cắt Chày Kiểm Chứng Thực Tế)",
+                "materialName": "SCM440 (28-32HRC)",
+                "thickness": 12,
+                "cutLength": "128mm",
+                "passCount": 5,
+                "multiPassDetails": [
+                        {
+                                "pass": "Pass 1",
+                                "ti": 20,
+                                "Po": 5,
+                                "IP": 3,
+                                "wire": 1,
+                                "voltage": "High",
+                                "vf": 65,
+                                "maxSpeed": "150Hz",
+                                "offset": 0.108,
+                                "time": "19p50'",
+                                "ampe": "4A",
+                                "speed": "275-285 mm²/p"
+                        },
+                        {
+                                "pass": "Pass 2",
+                                "ti": 14,
+                                "Po": 5,
+                                "IP": 2,
+                                "wire": 2,
+                                "voltage": "Low",
+                                "vf": 42,
+                                "maxSpeed": "140Hz",
+                                "offset": 0.018,
+                                "time": "16p",
+                                "ampe": "0,3A - 0,5A",
+                                "speed": "232-340 mm²/p"
+                        },
+                        {
+                                "pass": "Pass 3",
+                                "ti": 6,
+                                "Po": 8,
+                                "IP": 1,
+                                "wire": 3,
+                                "voltage": "Low",
+                                "vf": 35,
+                                "maxSpeed": "120Hz",
+                                "offset": 0.009,
+                                "time": "--",
+                                "ampe": "< 0,2A",
+                                "speed": "--"
+                        },
+                        {
+                                "pass": "Pass 4",
+                                "ti": 2,
+                                "Po": 12,
+                                "IP": 1,
+                                "wire": 3,
+                                "voltage": "Low",
+                                "vf": 25,
+                                "maxSpeed": "100Hz",
+                                "offset": 0.004,
+                                "time": "--",
+                                "ampe": "< 0,1A",
+                                "speed": "--"
+                        },
+                        {
+                                "pass": "Pass 5",
+                                "ti": 1,
+                                "Po": 16,
+                                "IP": 1,
+                                "wire": 3,
+                                "voltage": "Low",
+                                "vf": 20,
+                                "maxSpeed": "80Hz",
+                                "offset": 0.002,
+                                "time": "--",
+                                "ampe": "~ 0,05A",
+                                "speed": "--"
+                        }
+                ],
+                "measured": {
+                        "totalTimeStr": "1h45p (Tổng 5 Pass)",
+                        "ammeterA": "4A (P1) | 0.3-0.5A (P2) | <0.2A (P3) | <0.1A (P4) | ~0.05A (P5)",
+                        "measuredSpeed": "275-285 (P1) | 232-340 (P2)",
+                        "enteredOffsetP1": 0.108,
+                        "enteredOffsetP2": 0.018,
+                        "recommendedOffsetP1": 0.093,
+                        "recommendedOffsetP2": 0.018,
+                        "delta1Solid": 0.011,
+                        "equivalent1PassOffset": 0.101,
+                        "actualDimension": "Sau P1: 54.08mm (chừa 0.040mm/bên) | Sau P2: 54.045mm (gọt 0.0175mm/bên) | Sau P5: 54.030mm (to hơn lập trình 0.030mm)"
+                },
+                "notes": "H=12mm SCM440 cắt 5 Pass chày chu vi 128mm, tổng thời gian 1h45p. P1(Ton=20,Po=5,IP=3,High,VF=65) cào thép đặc δ1=0.011mm (Offset 1 Pass tương đương 0.101mm). P2(Ton=14,Po=5,IP=2,Low,VF=42) gọt đỉnh núi lửa 17.5μm/bên, Ampe 0.3-0.5A. P3-P5 gọt siêu mịn 7.5μm/bên. Kết thúc đo 54.030mm (chày to hơn lập trình 0.030mm -> dư 0.015mm/bên). Offset P1 chuẩn hiệu chỉnh: 0.093mm."
+        }
+    ];
 
     const WORKSHOP_CALIBRATION_MODEL = {
         kAmpe: 2.2857,               // Hệ số dòng Ampe thực tế xưởng (~4.0A với IP=5, Po=7)
@@ -3243,13 +3337,13 @@ function initApp() {
                 3: [],
                 4: [],
                 5: [
-                    // H=12
+                    // H=12 (SCM440, Cắt lấy chày)
                     { H: 12, material: "30HRC", passes: [
-                        { Ton: 20, Toff: 5, IP: 3, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,108", time: "--", length: "--", ampe: "2,0A - 2,2A", calcSpeed: "120 mm²/phút" },
-                        { Ton: 14, Toff: 5, IP: 2, Wire: 2, Volt: "L", VF: 42, maxSpeed: "150Hz", offset: "0,018", time: "--", length: "--", ampe: "0,3A - 0,5A", calcSpeed: "280 mm²/phút" },
-                        { Ton: 6, Toff: 8, IP: 1, Wire: 2, Volt: "L", VF: 35, maxSpeed: "120Hz", offset: "0,009", time: "--", length: "--", ampe: "0,1A - 0,2A", calcSpeed: "350 mm²/phút" },
-                        { Ton: 2, Toff: 12, IP: 1, Wire: 3, Volt: "L", VF: 25, maxSpeed: "100Hz", offset: "0,004", time: "--", length: "--", ampe: "< 0,1A", calcSpeed: "380 mm²/phút" },
-                        { Ton: 1, Toff: 16, IP: 1, Wire: 3, Volt: "L", VF: 20, maxSpeed: "80Hz", offset: "0,002", time: "--", length: "--", ampe: "~ 0,05A", calcSpeed: "400 mm²/phút" }
+                        { Ton: 20, Toff: 5, IP: 3, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,093", time: "19p50'", length: "128mm", ampe: "4A", calcSpeed: "120 mm²/phút" },
+                        { Ton: 14, Toff: 5, IP: 2, Wire: 2, Volt: "L", VF: 42, maxSpeed: "140Hz", offset: "0,018", time: "16p", length: "128mm", ampe: "0,3A - 0,5A", calcSpeed: "280 mm²/phút" },
+                        { Ton: 6, Toff: 8, IP: 1, Wire: 3, Volt: "L", VF: 35, maxSpeed: "120Hz", offset: "0,009", time: "--", length: "128mm", ampe: "< 0,2A", calcSpeed: "350 mm²/phút" },
+                        { Ton: 2, Toff: 12, IP: 1, Wire: 3, Volt: "L", VF: 25, maxSpeed: "100Hz", offset: "0,004", time: "--", length: "128mm", ampe: "< 0,1A", calcSpeed: "380 mm²/phút" },
+                        { Ton: 1, Toff: 16, IP: 1, Wire: 3, Volt: "L", VF: 20, maxSpeed: "80Hz", offset: "0,002", time: "--", length: "128mm", ampe: "~ 0,05A", calcSpeed: "400 mm²/phút" }
                     ]}
                 ],
                 6: []
@@ -3292,9 +3386,9 @@ function initApp() {
                 let bannerHtml = '';
                 if (tabPass === 5) {
                     bannerHtml = `
-                        <div class="ws-lib-status-banner">
-                            <i class="fa fa-spinner fa-spin"></i>
-                            <span><strong>Chế độ 5 Pass đang chạy thực nghiệm tại xưởng (H=12mm):</strong> Đang chờ cập nhật kết quả đo kiểm Panme kích thước và độ bóng Ra thực tế ngày mai.</span>
+                        <div class="ws-lib-status-banner" style="background: rgba(34, 197, 94, 0.12); border-color: rgba(34, 197, 94, 0.35); color: #4ade80;">
+                            <i class="fa fa-check-circle"></i>
+                            <span><strong>Đã hoàn thành kiểm chứng thực nghiệm 5 Pass tại xưởng (H=12mm, SCM440):</strong> Cắt chày chu vi 128mm, tổng thời gian 1h45p. Đo Panme: P1=54,08mm &rarr; P2=54,045mm &rarr; P5=54,030mm (to hơn lập trình 0,030mm). Offset Pass 1 chuẩn hiệu chỉnh: <strong>0,093mm</strong>.</span>
                         </div>
                     `;
                 }
@@ -3375,7 +3469,7 @@ function initApp() {
                             <button class="ws-lib-tab-btn" data-tab-pass="2">2 Pass <span class="ws-lib-tab-count">9 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="3">3 Pass <span class="ws-lib-tab-count">0</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="4">4 Pass <span class="ws-lib-tab-count">0</span></button>
-                            <button class="ws-lib-tab-btn" data-tab-pass="5">5 Pass <span class="ws-lib-tab-count">Đang test</span></button>
+                            <button class="ws-lib-tab-btn" data-tab-pass="5">5 Pass <span class="ws-lib-tab-count">1 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="6">6 Pass <span class="ws-lib-tab-count">0</span></button>
                         </div>
                         <div id="ws-lib-subtab-content">

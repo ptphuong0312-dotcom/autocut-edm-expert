@@ -165,3 +165,33 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 >   - 3/4 quãng đường kim chỉ $0.5	ext{A}$: Cắt qua vùng đỉnh núi lửa thấp (lượng dư ít, phoi mỏng).
 >   - 1/4 quãng đường kim vọt lên $1.0 - 1.5	ext{A}$ dao động liên tục: Cắt qua vùng đỉnh núi lửa nhô cao (lượng dư nhiều, mật độ phóng điện dày đặc).
 >   - 👉 Chứng minh độ nhám rỗng xốp $Rz_1$ không đồng đều trên toàn bộ chu vi cắt phôi dày.
+
+---
+
+## PHẦN 3: BẢNG DỮ LIỆU THÔ CẮT 5 PASS THỰC TẾ (5-PASS RAW DATA BANK)
+
+| STT 5P | Số lần | Vật Liệu | H | Bước | Ton | Toff | IP | Wire | Volt | VF | Max Speed | Offset Nhập | Thời gian | Chiều dài L | Ampe đo | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Lượng bóc tách mỗi bên | Offset P1 Chuẩn |
+|:---:|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---:|:---:|
+| **5P-01** | 5 Lần | SCM440 (28-32HRC) | 12 | **P1** | 20 | 5 | 3 | 1 | High | 65 | 150Hz | **0,108** | 19p50' | 128mm | 4A | 275-285 mm²/p | Sau P1 đo: 54.08mm (chừa 0.040mm/bên) | +40.0 μm (chừa dư) | **0.093 mm** |
+| | | | | **P2** | 14 | 5 | 2 | 2 | Low | 42 | 140Hz | **0,018** | 16p | 128mm | 0,3-0,5A | 232-340 mm²/p | Sau P2 đo: 54.045mm (gọt bớt 0.0175mm/bên) | -17.5 μm (Pass 2 ăn) | **0.018 mm** |
+| | | | | **P3** | 6 | 8 | 1 | 3 | Low | 35 | 120Hz | **0,009** | -- | 128mm | < 0,2A | -- | San phẳng chỏm sóng siêu vi | -2.5 μm | **0.009 mm** |
+| | | | | **P4** | 2 | 12 | 1 | 3 | Low | 25 | 100Hz | **0,004** | -- | 128mm | < 0,1A | -- | Đánh bóng bán tinh | -2.5 μm | **0.004 mm** |
+| | | | | **P5** | 1 | 16 | 1 | 3 | Low | 20 | 80Hz | **0,002** | -- | 128mm | ~ 0,05A | -- | Sau P5 đo: 54.03mm (to hơn lập trình 0.030mm) | -2.5 μm | **0.002 mm** |
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM 5 PASS (H=12mm, SCM440):**
+> * **Kích thước danh nghĩa lập trình:** $W_0 = 54.000\text{ mm}$ (cắt lấy chày).
+> * **Sau Pass 1:** Đo đạt $54.080\text{ mm} \implies$ Chày to hơn chuẩn $0.080\text{mm}$, lượng phôi chừa lại mỗi bên vách là $40\mu m$.
+> * **Năng lực cào thép đặc của Pass 1 ($\delta_1$):**
+>   - Tổng bù dao tâm dây Pass 1: $O_{\text{tổng}} = 0.108 + 0.018 + 0.009 + 0.004 + 0.002 = 0.141\text{ mm}$.
+>   - Mép trong dây Moly cách biên dạng danh nghĩa: $0.141 - 0.090 = 0.051\text{ mm}$.
+>   - Vách chày thực tế cách biên dạng danh nghĩa: $0.040\text{ mm}$.
+>   - 👉 **Lượng cào phôi thép đặc thực tế của Pass 1:** $\delta_1 = 0.051 - 0.040 = \mathbf{0.011\text{ mm}} = 11\mu m$.
+>   - Offset 1 Pass tương đương: $R_{\text{dây}} + \delta_1 = 0.090 + 0.011 = \mathbf{0.101\text{ mm}}$.
+> * **Sau Pass 2:** Đo đạt $54.045\text{ mm} \implies$ Kích thước ngót đi $0.035\text{mm}$, tức Pass 2 bóc tách chính xác $\mathbf{17.5\mu m/\text{bên}}$.
+>   - Khớp 100% với Quy tắc Núi Lửa: $O_2 = 0.018\text{mm}$ đưa dây áp sát vách nhám $Rz_1$, gọt đỉnh than rỗng xốp với dòng ampe nhẹ $0.3 - 0.5\text{A}$.
+> * **Sau Pass 3, 4, 5:** Đo cuối cùng $54.030\text{ mm} \implies$ Ngót thêm $0.015\text{mm}$, tức cả 3 pass tinh bóc tách $\mathbf{7.5\mu m/\text{bên}}$ (trung bình $2.5\mu m/\text{pass}$).
+> * **Hiệu chỉnh Offset Chuẩn:**
+>   - Kích thước chày to hơn lập trình $0.030\text{mm} \implies \Delta/2 = 0.015\text{mm}$.
+>   - Để chày về đúng kích thước chuẩn $54.000\text{mm}$, Offset Pass 1 chuẩn là:
+>     $$\mathbf{\text{Offset}_{1\_\text{chuẩn}}} = 0.108 - 0.015 = \mathbf{0.093\text{ mm}}$$
+> * **Tổng thời gian cắt 5 Pass:** $1\text{h}45\text{p}$ cho chu vi cắt $L = 128\text{mm}$.
