@@ -1,6 +1,6 @@
 {
-  "version": "3.5.22",
-  "buildTimestamp": 1788631660551,
+  "version": "3.5.23",
+  "buildTimestamp": 1788632974987,
   "releaseDate": "2026-09-06",
-  "description": "Relocate H45 (STT 5) and H160 (STT 8) to Reference Zone C in Markdown files; recalculate 1-Pass errors on 9 active benchmark jobs"
+  "description": "Implement 3-Pass, 4-Pass, 5-Pass calculation for Tab 2 (Workshop Calibration); remove Copper and Aluminum completely from Tab 2; Tab 1 left 100% untouched"
 }

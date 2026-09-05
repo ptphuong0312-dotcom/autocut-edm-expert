@@ -68,7 +68,9 @@ function initApp() {
     // STATE (Mặc định SCM420, 1 Pass, Chiến lược Cấp 6, H=40mm)
     const state = {
         material: 'SCM420',
+        wsMaterial: 'SCM420',
         passCount: 1,
+        wsPassCount: 1,
         strategyLevel: 6,
         wsStrategyLevel: 4,
         thickness: 40,
@@ -172,11 +174,21 @@ function initApp() {
     // 2. LÝ THUYẾT ĐỒNG BỘ 2 CHIỀU (SYNC STATE TO UI)
     // ==========================================
     function syncAllInputsUI() {
-        // Material
-        const updateMat = (cards) => {
-            cards.forEach(c => {
+        // Material (Tab 1 vs Tab 2 độc lập tuyệt đối)
+        materialCards.forEach(c => {
+            const radio = c.querySelector('input[type="radio"]');
+            if (radio.value === state.material) {
+                c.classList.add('active');
+                radio.checked = true;
+            } else {
+                c.classList.remove('active');
+                radio.checked = false;
+            }
+        });
+        if (wsMaterialCards) {
+            wsMaterialCards.forEach(c => {
                 const radio = c.querySelector('input[type="radio"]');
-                if (radio.value === state.material) {
+                if (radio.value === (state.wsMaterial || 'SCM420')) {
                     c.classList.add('active');
                     radio.checked = true;
                 } else {
@@ -184,22 +196,25 @@ function initApp() {
                     radio.checked = false;
                 }
             });
-        };
-        updateMat(materialCards);
-        if (wsMaterialCards) updateMat(wsMaterialCards);
+        }
 
-        // Pass
-        const updatePass = (btns) => {
-            btns.forEach(b => {
-                if (parseInt(b.dataset.pass, 10) === state.passCount) {
+        // Pass (Tab 1 vs Tab 2 độc lập tuyệt đối)
+        passButtons.forEach(b => {
+            if (parseInt(b.dataset.pass, 10) === state.passCount) {
+                b.classList.add('active');
+            } else {
+                b.classList.remove('active');
+            }
+        });
+        if (wsPassButtons) {
+            wsPassButtons.forEach(b => {
+                if (parseInt(b.dataset.pass, 10) === (state.wsPassCount || 1)) {
                     b.classList.add('active');
                 } else {
                     b.classList.remove('active');
                 }
             });
-        };
-        updatePass(passButtons);
-        if (wsPassButtons) updatePass(wsPassButtons);
+        }
 
         // Strategy
         if (strategySlider) strategySlider.value = state.strategyLevel;
@@ -223,30 +238,38 @@ function initApp() {
     // 2. FORM EVENT LISTENERS
     // ==========================================
 
-    function bindMaterialEvents(cards) {
+    function bindMaterialEvents(cards, isWs = false) {
         cards.forEach(card => {
             card.addEventListener('click', () => {
                 const radio = card.querySelector('input[type="radio"]');
-                state.material = radio.value;
+                if (isWs) {
+                    state.wsMaterial = radio.value;
+                } else {
+                    state.material = radio.value;
+                }
                 syncAllInputsUI();
                 render();
             });
         });
     }
-    bindMaterialEvents(materialCards);
-    if (wsMaterialCards) bindMaterialEvents(wsMaterialCards);
+    bindMaterialEvents(materialCards, false);
+    if (wsMaterialCards) bindMaterialEvents(wsMaterialCards, true);
 
-    function bindPassEvents(btns) {
+    function bindPassEvents(btns, isWs = false) {
         btns.forEach(btn => {
             btn.addEventListener('click', () => {
-                state.passCount = parseInt(btn.dataset.pass, 10);
+                if (isWs) {
+                    state.wsPassCount = parseInt(btn.dataset.pass, 10);
+                } else {
+                    state.passCount = parseInt(btn.dataset.pass, 10);
+                }
                 syncAllInputsUI();
                 render();
             });
         });
     }
-    bindPassEvents(passButtons);
-    if (wsPassButtons) bindPassEvents(wsPassButtons);
+    bindPassEvents(passButtons, false);
+    if (wsPassButtons) bindPassEvents(wsPassButtons, true);
 
     function bindStrategyEvents(slider) {
         if (!slider) return;
@@ -1843,11 +1866,9 @@ function initApp() {
     // HỆ THỐNG LAI TẠO DỮ LIỆU & NHÂN QUẢ BÙ DAO (RULE 06, 07, 08)
     function generateWorkshopRows(state) {
         const H = state.thickness;
-        const passes = state.passCount;
+        const passes = state.wsPassCount || 1;
         const strat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[4];
-        const isAlu = state.material === 'ALUMINUM';
-        const isCopper = state.material === 'COPPER';
-        const isHard = state.material === 'SCM440';
+        const isHard = (state.wsMaterial || state.material) === 'SCM440';
         const wsRows = [];
 
         // 1.5. HỆ THỐNG CÔNG THỨC TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC EDM TOÀN NĂNG (RULE 10)
@@ -1860,97 +1881,67 @@ function initApp() {
         const K_RZ = 0.00120;        // Hệ số chiều sâu hố rỗ nhấp nhô phá thô Pass 1
 
         // 1. Hệ thống Quy luật Vật lý Biến đổi Mượt mà & 4 Dải Ampe Tiêu Chuẩn (Rule 12)
+        // Áp dụng cho Thép xưởng: SCM440 (28-32 HRC) vs SCM420 (HB < 200)
         let baseTon, basePo, baseIP, baseVF, baseGap, baseVolt;
+        baseVolt = H <= 15 ? 'Low' : 'High';
 
-        if (isAlu) {
-            if (H <= 15) baseTon = 18; else if (H <= 30) baseTon = 22; else if (H <= 60) baseTon = 26; else if (H <= 100) baseTon = 32; else if (H <= 160) baseTon = 38; else if (H <= 250) baseTon = 44; else if (H <= 350) baseTon = 50; else baseTon = 56;
-            basePo = H <= 40 ? 7 : (H <= 120 ? 8 : 10);
-            baseIP = H <= 30 ? 3 : (H <= 100 ? 4 : 5);
-            baseVolt = 'High';
-            baseVF = H <= 40 ? 65 : 60;
-            baseGap = 0.010;
-        } else if (isCopper) {
-            if (H <= 15) baseTon = 26; else if (H <= 30) baseTon = 30; else if (H <= 60) baseTon = 36; else if (H <= 100) baseTon = 44; else if (H <= 160) baseTon = 52; else if (H <= 250) baseTon = 60; else if (H <= 350) baseTon = 64; else baseTon = 68;
-            basePo = H <= 40 ? 5 : (H <= 120 ? 6 : 8);
-            baseIP = H <= 30 ? 3 : (H <= 100 ? 5 : 6);
-            baseVolt = 'High';
-            baseVF = H <= 40 ? 60 : 55;
-            baseGap = 0.012;
-        } else {
-            // THÉP SCM440 (28-32 HRC) VS SCM420 (HB < 200) - PHÂN ĐỊNH RÕ RÀNG THEO CƠ LÝ TÍNH VẬT LIỆU
-            
-            // 1.1. Điện áp Volt: Ngưỡng chuyển tiếp logic mượt mà
-            baseVolt = H <= 15 ? 'Low' : 'High';
-
-            if (H <= 170) {
-                // =========================================================================
-                // PHÂN VÙNG 1 (H <= 170mm): CÔNG THỨC TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC EDM TOÀN NĂNG (RULE 10)
-                // =========================================================================
-                // 1.2. Ton:
-                if (isHard) {
-                    if (H <= 15) baseTon = Math.round(16 + (H - 5) * (20 - 16) / (15 - 5));
-                    else if (H <= 30) baseTon = Math.round(20 + (H - 15) * (32 - 20) / (30 - 15));
-                    else if (H <= 60) baseTon = Math.round(32 + (H - 30) * (50 - 32) / (60 - 30));
-                    else if (H <= 100) baseTon = Math.round(50 + (H - 60) * (82 - 50) / (100 - 60));
-                    else if (H <= 140) baseTon = Math.round(82 + (H - 100) * (120 - 82) / (140 - 100));
-                    else if (H <= 165) baseTon = Math.round(120 + (H - 140) * (135 - 120) / (165 - 140));
-                    else baseTon = 135;
-                } else {
-                    if (H <= 15) baseTon = Math.round(14 + (H - 5) * (18 - 14) / (15 - 5));
-                    else if (H <= 30) baseTon = Math.round(18 + (H - 15) * (28 - 18) / (30 - 15));
-                    else if (H <= 60) baseTon = Math.round(28 + (H - 30) * (44 - 28) / (60 - 30));
-                    else if (H <= 100) baseTon = Math.round(44 + (H - 60) * (72 - 44) / (100 - 60));
-                    else if (H <= 140) baseTon = Math.round(72 + (H - 100) * (110 - 72) / (140 - 100));
-                    else baseTon = 120;
-                }
-
-                // 1.3. IP & Po:
-                if (H <= 15) {
-                    baseIP = 2; basePo = isHard ? 5 : 6;
-                } else if (H <= 30) {
-                    baseIP = 3; basePo = isHard ? 6 : 7;
-                } else if (H <= 60) {
-                    baseIP = 4; basePo = isHard ? 7 : 8;
-                } else if (H <= 100) {
-                    baseIP = 5; basePo = isHard ? 8 : 9;
-                } else if (H <= 140) {
-                    baseIP = 5; basePo = 8;
-                } else if (H <= 165) {
-                    baseIP = 6; basePo = Math.round(8 + (H - 140) * (11 - 8) / (165 - 140));
-                } else {
-                    baseIP = 6; basePo = 11;
-                }
-
-                // 1.4. VF:
-                const vfMax = isHard ? 65 : 60;
-                const vfMin = isHard ? 55 : 50;
-                if (H <= 40) baseVF = vfMax;
-                else if (H <= 100) baseVF = Math.round(vfMax - (H - 40) * (vfMax - vfMin) / (100 - 40));
-                else if (H <= 160) baseVF = Math.round(vfMin + (H - 100) * (70 - vfMin) / (160 - 100));
-                else baseVF = 70;
-
-                // Tính toán lượng cào phôi cơ sở (baseGap) theo đúng công thức vật lý:
-                const u_ratio_base = baseVolt === 'High' ? 1.0 : (22.0 / 27.0);
-                const d_elec_base = K_ELEC * Math.sqrt(baseTon * baseIP) * u_ratio_base;
-                const d_low_base = baseVolt === 'Low' ? DELTA_LOW : 0.0;
-                const ip_fac_base = Math.max(1.0, baseIP / 4.0);
-                const d_slag_base = - K_SLAG * (H / 100.0) / ip_fac_base;
-                const d_vibr_base = K_VIBR * Math.pow(H / 100.0, 2) * (baseIP / 5.0);
-                baseGap = C0 + d_elec_base + d_low_base + d_slag_base + d_vibr_base;
-
+        if (H <= 170) {
+            // PHÂN VÙNG 1 (H <= 170mm): CÔNG THỨC TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC EDM TOÀN NĂNG (RULE 10)
+            if (isHard) {
+                if (H <= 15) baseTon = Math.round(16 + (H - 5) * (20 - 16) / (15 - 5));
+                else if (H <= 30) baseTon = Math.round(20 + (H - 15) * (32 - 20) / (30 - 15));
+                else if (H <= 60) baseTon = Math.round(32 + (H - 30) * (50 - 32) / (60 - 30));
+                else if (H <= 100) baseTon = Math.round(50 + (H - 60) * (82 - 50) / (100 - 60));
+                else if (H <= 140) baseTon = Math.round(82 + (H - 100) * (120 - 82) / (140 - 100));
+                else if (H <= 165) baseTon = Math.round(120 + (H - 140) * (135 - 120) / (165 - 140));
+                else baseTon = 135;
             } else {
-                // =========================================================================
-                // PHÂN VÙNG 2 (H > 170mm): PHƯƠNG PHÁP THỐNG KÊ HỘI TỤ THỰC NGHIỆM XƯỞNG
-                // Dựa trên số liệu cắt thực tế của người dùng: H=165 (STT 2P-12) -> H=300 (STT 14 - GĐ 2 hoàn chỉnh; STT 13 thuộc Vùng tham khảo C)
-                // =========================================================================
-                baseTon = isHard ? 135 : 120;
-                baseIP = 6; // Sò kịch trần an toàn chống đứt dây Moly
-                basePo = Math.round(11 + (H - 170) * (12 - 11) / (300 - 170)); // Po nới nhẹ 11 -> 12 để xối sạch xỉ lòng rãnh sâu
-                baseVF = Math.min(72, Math.round(70 + (H - 170) * (72 - 70) / (300 - 170))); // VF 70 -> 72
-
-                // Bù dao thực nghiệm hội tụ: từ 0.0187mm (tại H=170) lên 0.0250mm (tại H=300: O1 chuẩn xưởng = 0.115mm)
-                baseGap = 0.0187 + (H - 170) * (0.0250 - 0.0187) / (300 - 170);
+                if (H <= 15) baseTon = Math.round(14 + (H - 5) * (18 - 14) / (15 - 5));
+                else if (H <= 30) baseTon = Math.round(18 + (H - 15) * (28 - 18) / (30 - 15));
+                else if (H <= 60) baseTon = Math.round(28 + (H - 30) * (44 - 28) / (60 - 30));
+                else if (H <= 100) baseTon = Math.round(44 + (H - 60) * (72 - 44) / (100 - 60));
+                else if (H <= 140) baseTon = Math.round(72 + (H - 100) * (110 - 72) / (140 - 100));
+                else baseTon = 120;
             }
+
+            if (H <= 15) {
+                baseIP = 2; basePo = isHard ? 5 : 6;
+            } else if (H <= 30) {
+                baseIP = 4; basePo = 5;
+            } else if (H <= 60) {
+                baseIP = 4; basePo = 6;
+            } else if (H <= 100) {
+                baseIP = 5; basePo = isHard ? 7 : 8;
+            } else if (H <= 140) {
+                baseIP = 5; basePo = 8;
+            } else if (H <= 165) {
+                baseIP = 6; basePo = 11;
+            } else {
+                baseIP = 6; basePo = 11;
+            }
+
+            const vfMax = isHard ? 65 : 60;
+            const vfMin = isHard ? 55 : 50;
+            if (H <= 40) baseVF = vfMax;
+            else if (H <= 100) baseVF = Math.round(vfMax - (H - 40) * (vfMax - vfMin) / (100 - 40));
+            else if (H <= 160) baseVF = Math.round(vfMin + (H - 100) * (70 - vfMin) / (160 - 100));
+            else baseVF = 70;
+
+            const u_ratio_base = baseVolt === 'High' ? 1.0 : (22.0 / 27.0);
+            const d_elec_base = K_ELEC * Math.sqrt(baseTon * baseIP) * u_ratio_base;
+            const d_low_base = baseVolt === 'Low' ? DELTA_LOW : 0.0;
+            const ip_fac_base = Math.max(1.0, baseIP / 4.0);
+            const d_slag_base = - K_SLAG * (H / 100.0) / ip_fac_base;
+            const d_vibr_base = K_VIBR * Math.pow(H / 100.0, 2) * (baseIP / 5.0);
+            baseGap = C0 + d_elec_base + d_low_base + d_slag_base + d_vibr_base;
+
+        } else {
+            // PHÂN VÙNG 2 (H > 170mm): PHƯƠNG PHÁP THỐNG KÊ HỘI TỤ THỰC NGHIỆM XƯỞNG
+            baseTon = isHard ? 135 : 120;
+            baseIP = 6;
+            basePo = Math.round(11 + (H - 170) * (12 - 11) / (300 - 170));
+            baseVF = Math.min(72, Math.round(70 + (H - 170) * (72 - 70) / (300 - 170)));
+            baseGap = 0.0187 + (H - 170) * (0.0250 - 0.0187) / (300 - 170);
         }
 
         // Apply Tab 2 7-level Strategy strictly adhering to Regular Ammeter Stepping (ΔI = 0.5 - 0.7A)
@@ -1958,67 +1949,30 @@ function initApp() {
         const lvl = state.wsStrategyLevel || 4;
 
         if (lvl === 4) {
-            // CẤP 4: TIÊU CHUẨN (CHUẨN XƯỞNG RULE 12 - 2.7A TẠI H30)
-            Ton = baseTon;
-            Po = basePo;
-            IP = baseIP;
-            Volt = baseVolt;
-            VF = baseVF;
+            Ton = baseTon; Po = basePo; IP = baseIP; Volt = baseVolt; VF = baseVF;
         } else if (lvl === 3) {
-            // CẤP 3: BỀ MẶT MỊN (GIẢM 0.5 - 0.7A -> 2.0 - 2.2A TẠI H30)
-            Ton = Math.max(8, baseTon - 6);
-            Po = basePo + 2;
-            IP = baseIP;
-            Volt = baseVolt;
-            VF = Math.max(25, baseVF - 5);
+            Ton = Math.max(8, baseTon - 6); Po = basePo + 2; IP = baseIP; Volt = baseVolt; VF = Math.max(25, baseVF - 5);
         } else if (lvl === 2) {
-            // CẤP 2: SIÊU MỊN (GIẢM 1.0 - 1.3A -> 1.3 - 1.5A TẠI H30)
-            Ton = Math.max(8, baseTon - 12);
-            IP = Math.max(1, baseIP - 1);
-            Po = basePo + 1;
-            Volt = H <= 40 ? 'Low' : baseVolt;
-            VF = Math.max(25, baseVF - 10);
+            Ton = Math.max(8, baseTon - 12); IP = Math.max(1, baseIP - 1); Po = basePo + 1; Volt = H <= 40 ? 'Low' : baseVolt; VF = Math.max(25, baseVF - 10);
         } else if (lvl === 1) {
-            // CẤP 1: CỰC HẠN SIÊU MỊN (GIẢM 1.6 - 1.9A -> 0.7 - 0.9A TẠI H30)
-            Ton = Math.max(6, baseTon - 18);
-            IP = H <= 30 ? 1 : (H <= 120 ? 2 : 3);
-            Po = basePo + (IP > 1 ? 2 : 0);
-            Volt = 'Low';
-            VF = Math.max(25, baseVF - 15);
+            Ton = Math.max(6, baseTon - 18); IP = Math.max(1, baseIP - 2); Po = basePo + 3; Volt = 'Low'; VF = Math.max(20, baseVF - 15);
         } else if (lvl === 5) {
-            // CẤP 5: NĂNG SUẤT (TĂNG 0.5 - 0.7A -> 3.2 - 3.4A TẠI H30)
-            Ton = baseTon + 6;
-            Po = Math.max(3, basePo - 1);
-            IP = baseIP;
-            Volt = 'High';
-            VF = Math.min(85, baseVF + 5);
+            Ton = baseTon + 6; Po = Math.max(3, basePo - 1); IP = baseIP; Volt = baseVolt; VF = Math.min(85, baseVF + 5);
         } else if (lvl === 6) {
-            // CẤP 6: NĂNG SUẤT CAO (TĂNG 1.0 - 1.3A -> 3.8 - 4.0A TẠI H30)
-            Ton = baseTon + 14;
-            Po = Math.max(3, basePo - 2);
-            IP = baseIP;
-            Volt = 'High';
-            VF = Math.min(88, baseVF + 10);
+            Ton = baseTon + 14; Po = Math.max(3, basePo - 2); IP = baseIP; Volt = 'High'; VF = Math.min(88, baseVF + 10);
         } else {
-            // CẤP 7: SIÊU NĂNG SUẤT PHÁ THÔ (TĂNG 1.6 - 1.9A -> 4.3 - 4.6A TẠI H30)
             Ton = baseTon + 22;
             if (H <= 60 && baseIP <= 4) {
-                IP = baseIP + 1;
-                Po = Math.max(3, basePo - 1);
+                IP = baseIP + 1; Po = Math.max(3, basePo - 1);
             } else {
-                IP = baseIP;
-                Po = Math.max(3, basePo - 3);
+                IP = baseIP; Po = Math.max(3, basePo - 3);
             }
-            Volt = 'High';
-            VF = Math.min(90, baseVF + 15);
+            Volt = 'High'; VF = Math.min(90, baseVF + 15);
         }
 
         // TÍNH TOÁN LƯỢNG CÀO PHÔI THỰC TẾ PASS 1 (GAP1 / DELTA1)
         let gap;
-        if (isAlu || isCopper) {
-            gap = baseGap + (lvl - 4) * 0.002;
-        } else if (H <= 170) {
-            // REGIME 1: H <= 170mm (CÔNG THỨC TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC LIÊN TỤC)
+        if (H <= 170) {
             const u_ratio_actual = Volt === 'High' ? 1.0 : (22.0 / 27.0);
             const d_elec_actual = K_ELEC * Math.sqrt(Ton * IP) * u_ratio_actual;
             const d_low_actual = Volt === 'Low' ? DELTA_LOW : 0.0;
@@ -2027,7 +1981,6 @@ function initApp() {
             const d_vibr_actual = K_VIBR * Math.pow(H / 100.0, 2) * (IP / 5.0);
             gap = C0 + d_elec_actual + d_low_actual + d_slag_actual + d_vibr_actual;
         } else {
-            // REGIME 2: H > 170mm (THỐNG KÊ HỘI TỤ THỰC NGHIỆM XƯỞNG)
             const stratGapMods = {1: -0.009, 2: -0.006, 3: -0.003, 4: 0.0, 5: +0.003, 6: +0.006, 7: +0.010};
             gap = baseGap + (stratGapMods[lvl] || 0.0);
         }
@@ -2039,7 +1992,7 @@ function initApp() {
             else if (H <= 60) p2_ton = 16;
             else if (H <= 120) p2_ton = 20;
             else if (H <= 140) p2_ton = 24;
-            else if (H <= 165) p2_ton = Math.round(24 + (H - 140) * (40 - 24) / (165 - 140)); // Nâng lên 40μs để tia lửa không bị hụt tầm vươn
+            else if (H <= 165) p2_ton = Math.round(24 + (H - 140) * (40 - 24) / (165 - 140));
             else p2_ton = 40;
         } else {
             if (H <= 20) p2_ton = 10;
@@ -2060,44 +2013,37 @@ function initApp() {
 
         // BÙ DAO PASS 2 (O2 - REMAIN / LƯỢNG CHỪA PHÔI):
         let calculated_O2;
-        if (isAlu || isCopper) {
-            calculated_O2 = 0.025;
-        } else if (H <= 170) {
-            // REGIME 1: H <= 170mm (CÔNG THỨC VẬT LÝ NÚI LỬA O2 = Rz1 + delta_2)
-            const u_ratio_actual = Volt === 'High' ? 1.0 : (22.0 / 27.0);
-            const Rz_p1 = K_RZ * Math.sqrt(Ton * IP) * u_ratio_actual;
-            const u_ratio_p2 = p2_volt === 'High' ? 1.0 : (22.0 / 27.0);
-            const d_elec_p2 = K_ELEC * Math.sqrt(p2_ton * p2_ip) * u_ratio_p2;
-            const d_low_p2 = p2_volt === 'Low' ? DELTA_LOW : 0.0;
-            const delta_2_calc = C0 + d_elec_p2 + d_low_p2 - K_SLAG * (H / 100.0) / (p2_ip / 4.0);
+        if (passes === 2) {
+            if (H <= 170) {
+                const u_ratio_actual = Volt === 'High' ? 1.0 : (22.0 / 27.0);
+                const Rz_p1 = K_RZ * Math.sqrt(Ton * IP) * u_ratio_actual;
+                const u_ratio_p2 = p2_volt === 'High' ? 1.0 : (22.0 / 27.0);
+                const d_elec_p2 = K_ELEC * Math.sqrt(p2_ton * p2_ip) * u_ratio_p2;
+                const d_low_p2 = p2_volt === 'Low' ? DELTA_LOW : 0.0;
+                const delta_2_calc = C0 + d_elec_p2 + d_low_p2 - K_SLAG * (H / 100.0) / (p2_ip / 4.0);
 
-            calculated_O2 = Rz_p1 + Math.max(0.005, Math.min(0.015, delta_2_calc));
-            if (H > 140) {
-                // Phôi siêu dày H > 140mm: Khống chế cự ly mép dây 15 - 18μm để tia lửa bám sát vách, chống trượt gió trong rãnh xỉ sâu (STT 2P-12)
-                calculated_O2 = Math.min(calculated_O2, 0.015 + 0.005 * Math.max(0.0, 1.0 - (H - 140) / 160.0));
+                calculated_O2 = Rz_p1 + Math.max(0.005, Math.min(0.015, delta_2_calc));
+                if (H > 140) {
+                    calculated_O2 = Math.min(calculated_O2, 0.015 + 0.005 * Math.max(0.0, 1.0 - (H - 140) / 160.0));
+                }
+            } else {
+                calculated_O2 = 0.015;
             }
         } else {
-            // REGIME 2: H > 170mm (THỐNG KÊ HỘI TỤ THỰC NGHIỆM: Khóa chặt O2 = 0.015mm theo mốc Mẫu 2 H=165 STT 2P-12)
-            calculated_O2 = 0.015;
+            // Khi cắt >= 3 Pass: Pass 2 là bước đệm phạt phẳng gờ nhám thô của Pass 1
+            calculated_O2 = H <= 40 ? 0.018 : (H <= 100 ? 0.020 : 0.022);
+            if (H > 140) calculated_O2 = Math.min(calculated_O2, 0.018);
         }
 
-                for (let i = 0; i < passes; i++) {
+        // GENERATE ROWS FOR MULTI-PASS (1 TO 5 PASSES)
+        for (let i = 0; i < passes; i++) {
             let row = { passName: `Pass ${i + 1}`, badgeClass: i === 0 ? 'badge-primary' : 'badge-secondary' };
             if (i === 0) {
-                // Multi-pass kinematics (Rule 03 & Rule 04 & Rule 10):
-                // For 1 Pass: Offset = R_wire + gap (0.090 + gap)
-                // For 2 Pass: Offset = R_wire + gap + Remain_2 (0.090 + gap + O2)
-                // AutoCut Kinematics:
-                // O1 = R_wire (0.090) + gap1 (Lượng cào phôi của Pass 1)
-                // O2 = gap2 (Lượng cào phôi của Pass 2)
-                // AutoCut tự động cộng Path1 = O1 + O2 khi chạy máy
                 let O1 = 0.090 + gap;
-                
                 let toff = Ton * Po;
                 let true_cycle = Ton + toff;
                 let duty = Ton / true_cycle;
                 
-                // Fc from factory formula
                 let eta_eff = (isHard ? 0.88 : 0.80) * Math.pow(Math.max(1, Ton) / 50, 0.40);
                 if (Ton > 80) eta_eff = Math.min(0.95, eta_eff);
                 if (H > 100) eta_eff *= Math.max(0.72, 1.0 - (H - 100) * 0.0012);
@@ -2106,25 +2052,19 @@ function initApp() {
                 const i_peak = IP * 2.8;
                 const power_watts = u_arc * i_peak * duty;
                 
-                let Cm = 0.012;
-                if (isCopper) Cm = 0.015;
-                if (isAlu) Cm = 0.028;
-                
+                let Cm = 0.012; // Thép chuẩn xưởng SCM420/440
                 const mrr_vol = 60 * Cm * power_watts * eta_eff;
                 const B = 0.23;
                 let speedArea = Math.round(mrr_vol / B);
                 let feedRate = (speedArea / H).toFixed(2);
 
-                // Tần số giới hạn Hz Pass 1: Nội suy chuẩn từ 150Hz (H=12) -> 60Hz (H=165) -> 50Hz (H=300)
                 if (H <= 140) {
                     row.hz = Math.round(150 - (Math.max(12, H) - 12) * ((150 - 60) / (140 - 12)));
                 } else {
                     row.hz = Math.round(60 - (Math.min(300, H) - 140) * ((60 - 50) / (300 - 140)));
                 }
 
-                // Ammeter mapping (Factory formula matching with U_arc factor)
                 row.ampe = (i_peak * duty * 2.2857 * (u_arc / 27)).toFixed(1);
-
                 row.ti = Ton;
                 row.Po = Po;
                 row.IP = IP;
@@ -2136,15 +2076,15 @@ function initApp() {
                 row.speedArea = speedArea;
                 row.speedAreaH40 = speedAreaH40;
                 row.feedRate = feedRate;
-                row.Ra = passes === 1 ? (strat.RaStr || '~ 2.8') : (isHard ? '1.0 - 1.4' : '1.2 - 1.6');
+                row.Ra = passes === 1 ? (strat.RaStr || '~ 2.8') : (isHard ? '1.8 - 2.2' : '2.0 - 2.5');
                 
-                // Expose internal properties for calculateWorkshopEDM
                 row._gap = gap;
                 row._duty = duty;
                 row._power_watts = power_watts;
                 row._eta_eff = eta_eff;
 
-            } else {
+            } else if (i === 1) {
+                // PASS 2: BÁN TINH 1 (SỬA CÔN & PHẠT CHÓP ĐỈNH NÚI LỬA)
                 row.ti = p2_ton;
                 row.Po = p2_po;
                 row.IP = p2_ip;
@@ -2153,24 +2093,101 @@ function initApp() {
                 row.Wire = '2';
                 row.offsetText = calculated_O2.toFixed(3);
                 
-                // Tốc độ thực Pass 2 (Hiệu chuẩn từ 2P-03, 2P-10, 2P-12)
                 let p2SpeedArea = H <= 40 ? 360 : (H <= 140 ? 240 : 190);
                 let p2FeedRate = (p2SpeedArea / H).toFixed(2);
                 let p2SpeedAreaH40 = Math.round(parseFloat(p2FeedRate) * 40);
                 row.speedArea = `≈ ${p2SpeedArea}`;
                 row.speedAreaH40 = `≈ ${p2SpeedAreaH40}`;
                 row.feedRate = p2FeedRate;
-                row.Ra = passes === 2 ? (isHard ? '1.0 - 1.4' : '1.2 - 1.6') : '~ 1.8 - 2.0';
+                row.Ra = passes === 2 ? (isHard ? '1.4 - 1.8' : '1.6 - 2.0') : '~ 1.8 - 2.0';
                 row.hz = p2_hz;
 
-                // Ampe Pass 2: Phản chiếu quy luật đỉnh núi lửa thực tế xưởng
                 if (p2_volt === 'Low') {
                     row.ampe = '< 0.2';
                 } else if (H > 140) {
-                    row.ampe = '0.5 - 1.5'; // 0.5A vùng đỉnh thấp, 1.0-1.5A vùng đỉnh nhô cao (STT 2P-12)
+                    row.ampe = '0.5 - 1.5';
                 } else {
-                    row.ampe = '0.5 - 1.0'; // Chuẩn phôi vừa (STT 2P-10)
+                    row.ampe = '0.5 - 1.0';
                 }
+
+            } else if (i === 2) {
+                // PASS 3: CẮT TINH 1 / BÁN TINH 2 (SAN PHẲNG VI SÓNG)
+                let p3_ton = H <= 40 ? 6 : (H <= 120 ? 8 : 10);
+                let p3_po = isHard ? (H <= 60 ? 8 : 10) : (H <= 60 ? 10 : 12);
+                let p3_ip = H <= 80 ? 1 : 2;
+                let p3_vf = isHard ? 35 : 30;
+                let p3_hz = H <= 60 ? 120 : 100;
+                let p3_O = H <= 20 ? 0.009 : (H <= 80 ? 0.010 : 0.012);
+                
+                let p3SpeedArea = H <= 40 ? 320 : (H <= 140 ? 260 : 220);
+                let p3FeedRate = (p3SpeedArea / H).toFixed(2);
+                let p3SpeedAreaH40 = Math.round(parseFloat(p3FeedRate) * 40);
+
+                row.ti = p3_ton;
+                row.Po = p3_po;
+                row.IP = p3_ip;
+                row.Voltage = 'Low';
+                row.VF = p3_vf;
+                row.Wire = '3';
+                row.offsetText = p3_O.toFixed(3);
+                row.speedArea = `≈ ${p3SpeedArea}`;
+                row.speedAreaH40 = `≈ ${p3SpeedAreaH40}`;
+                row.feedRate = p3FeedRate;
+                row.Ra = passes === 3 ? (isHard ? '1.0 - 1.2' : '1.2 - 1.4') : '~ 1.0 - 1.2';
+                row.hz = p3_hz;
+                row.ampe = '< 0.2';
+
+            } else if (i === 3) {
+                // PASS 4: SIÊU TINH (SUPER FINISH - XÓA BIẾN TRẮNG)
+                let p4_ton = H <= 60 ? 2 : 3;
+                let p4_po = isHard ? 12 : 15;
+                let p4_vf = isHard ? 25 : 22;
+                let p4_hz = H <= 60 ? 100 : 80;
+                let p4_O = H <= 40 ? 0.004 : 0.005;
+
+                let p4SpeedArea = H <= 40 ? 280 : 200;
+                let p4FeedRate = (p4SpeedArea / H).toFixed(2);
+                let p4SpeedAreaH40 = Math.round(parseFloat(p4FeedRate) * 40);
+
+                row.ti = p4_ton;
+                row.Po = p4_po;
+                row.IP = 1;
+                row.Voltage = 'Low';
+                row.VF = p4_vf;
+                row.Wire = '3';
+                row.offsetText = p4_O.toFixed(3);
+                row.speedArea = `≈ ${p4SpeedArea}`;
+                row.speedAreaH40 = `≈ ${p4SpeedAreaH40}`;
+                row.feedRate = p4FeedRate;
+                row.Ra = passes === 4 ? (isHard ? '0.6 - 0.8' : '0.8 - 1.0') : '~ 0.6 - 0.8';
+                row.hz = p4_hz;
+                row.ampe = '< 0.1';
+
+            } else if (i === 4) {
+                // PASS 5: ĐÁNH BÓNG GƯƠNG (MIRROR POLISH)
+                let p5_ton = H <= 80 ? 1 : 2;
+                let p5_po = isHard ? 16 : 20;
+                let p5_vf = isHard ? 20 : 18;
+                let p5_hz = H <= 80 ? 80 : 60;
+                let p5_O = H <= 60 ? 0.002 : 0.003;
+
+                let p5SpeedArea = H <= 40 ? 220 : 160;
+                let p5FeedRate = (p5SpeedArea / H).toFixed(2);
+                let p5SpeedAreaH40 = Math.round(parseFloat(p5FeedRate) * 40);
+
+                row.ti = p5_ton;
+                row.Po = p5_po;
+                row.IP = 1;
+                row.Voltage = 'Low';
+                row.VF = p5_vf;
+                row.Wire = '3';
+                row.offsetText = p5_O.toFixed(3);
+                row.speedArea = `≈ ${p5SpeedArea}`;
+                row.speedAreaH40 = `≈ ${p5SpeedAreaH40}`;
+                row.feedRate = p5FeedRate;
+                row.Ra = isHard ? '≤ 0.4 - 0.6' : '≤ 0.5 - 0.7';
+                row.hz = p5_hz;
+                row.ampe = '~ 0.05';
             }
             wsRows.push(row);
         }
@@ -2184,8 +2201,6 @@ function initApp() {
         
         const L = state.cutLength || 100;
         const H = state.thickness;
-        const isAlu = state.material === 'ALUMINUM';
-        const isCopper = state.material === 'COPPER';
 
         const ti_w = p1.ti;
         const Po_w = p1.Po;
@@ -2214,16 +2229,13 @@ function initApp() {
         const i_tb_std = (i_peak_w * p1._duty * 0.75).toFixed(1);
 
         // 4. Năng suất bóc phôi Fc, Tốc độ tiến bàn Ft
-        const feedRate_num = parseFloat(p1.feedRate);
         const feedRate_w = p1.feedRate;
         const speedArea_w = p1.speedArea;
         
-        let Cm = 0.012;
-        if (isCopper) Cm = 0.015;
-        if (isAlu) Cm = 0.028;
-        
+        let Cm = 0.012; // Thép xưởng SCM420/440
         const B = 0.23;
         const mrr_vol_w = (60 * Cm * p1._power_watts * p1._eta_eff).toFixed(2);
+        
         let total_ws_time_min = 0;
         wsRows.forEach(r => {
             const f = parseFloat(r.feedRate);
@@ -2231,22 +2243,40 @@ function initApp() {
                 total_ws_time_min += L / f;
             }
         });
-        const time_min_w = total_ws_time_min;
 
-        // 5. Khe hở phóng điện và Lượng bù dao Offset
-        const sparkGap_w = gap_w.toFixed(3);
-        const offset_w = parseFloat(p1.offsetText).toFixed(3);
-        const ra_w = p1.Ra !== '--' ? p1.Ra : (state.material === 'SCM440' ? '2.4 - 2.8' : '2.8 - 3.2');
+        // 5. Độ nhám bề mặt Ra & Bù dao Offset
+        const lastRow = wsRows[wsRows.length - 1];
+        const Ra_w = lastRow.Ra;
+        const offset_w = p1.offsetText;
+        const kerfB_w = (0.180 + 2 * gap_w).toFixed(3);
 
         return {
-            ti: ti_w, Po: Po_w, IP: IP_w, Voltage: Volt_w, VF: VF_w, Wire: Wire_w,
-            toff: toff_w, cycle: cycle_w, cycle_ms: cycle_ms_w,
-            freq_hz: freq_hz_w, freq_khz: freq_khz_w, duty_factor: duty_factor_w,
-            we_mj: we_mj_w, we_score: we_score_w, power_watts: power_watts_w,
-            speedArea: speedArea_w, feedRate: feedRate_w, sparkGap: sparkGap_w,
-            offset: offset_w, time_min: time_min_w, Ra: ra_w,
-            i_tb_high, i_tb_std, mrr_vol: mrr_vol_w, kerfB: B,
-            ammeterDisplay: `≈ ${i_tb_high} A (Khớp theo điện gốc)`
+            ti: ti_w,
+            Po: Po_w,
+            toff: toff_w,
+            IP: IP_w,
+            Voltage: Volt_w,
+            VF: VF_w,
+            Wire: Wire_w,
+            cycle: cycle_w,
+            cycle_ms: cycle_ms_w,
+            freq_hz: freq_hz_w,
+            freq_khz: freq_khz_w,
+            duty_factor: duty_factor_w,
+            u_arc: u_arc_w,
+            i_peak: i_peak_w,
+            we_mj: we_mj_w,
+            we_score: we_score_w,
+            power_watts: power_watts_w,
+            i_tb_std,
+            i_tb_high,
+            speedArea: speedArea_w,
+            feedRate: feedRate_w,
+            time_min: total_ws_time_min,
+            Ra: Ra_w,
+            sparkGap: gap_w.toFixed(4),
+            offset: offset_w,
+            kerfB: kerfB_w
         };
     }
 
@@ -2966,7 +2996,15 @@ function initApp() {
             configSummary.textContent = `${matLabel} | H = ${state.thickness} mm | ${passLabel} | Chiến lược: ${strat.name}`;
         }
         if (typeof wsConfigSummary !== 'undefined' && wsConfigSummary) {
-            wsConfigSummary.textContent = `Hiệu chuẩn theo máy thực tế xưởng | ${matLabel} | H = ${state.thickness} mm | ${passLabel} | Chiến lược: ${strat.name}`;
+            const wsMatNames = {
+                'SCM420': 'Thép SCM420 (Thép mềm HB < 200)',
+                'SCM440': 'Thép tôi SCM440 (Thép cứng 28-32 HRC)'
+            };
+            const wsMatLabel = wsMatNames[state.wsMaterial] || wsMatNames['SCM420'];
+            const wsPassNum = state.wsPassCount || 1;
+            const wsPassLabel = wsPassNum === 1 ? '1 Pass' : `${wsPassNum} Pass (Multi-Cut)`;
+            const wsStrat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[4];
+            wsConfigSummary.textContent = `Hiệu chuẩn theo máy thực tế xưởng | ${wsMatLabel} | H = ${state.thickness} mm | ${wsPassLabel} | Chế độ: ${wsStrat.name}`;
         }
 
         // Compute parameters
@@ -3042,15 +3080,12 @@ function initApp() {
                 wsNotices.push("🔥 <strong>Siêu năng suất Phá thô (Cấp 7/7):</strong> Dòng kim Ampe tăng ~1.8A (đạt 4.3 - 4.6A tại H30). Rút ngắn Po tối đa và ép VF cực đại. <em>Yêu cầu:</em> Áp lực nước xối cực mạnh để làm mát liên tục.");
             }
 
-            // Material specific notices
-            if (state.material === 'SCM420') {
+            // Material specific notices (Chỉ thép xưởng: SCM420 & SCM440)
+            const curWsMat = state.wsMaterial || 'SCM420';
+            if (curWsMat === 'SCM420') {
                 wsNotices.push("🛡️ <strong>Thép mềm SCM420 (HB &lt; 200):</strong> Phoi dẻo dễ dính bám. Hệ thống đã tự động tăng Po thêm 1 nấc và giảm VF để giữ khoảng cách phóng điện an toàn, chống đoản mạch.");
-            } else if (state.material === 'SCM440') {
+            } else if (curWsMat === 'SCM440') {
                 wsNotices.push("💎 <strong>Thép tôi cứng SCM440 (28-32 HRC):</strong> Thoát xỉ giòn rất trơn tru. Hệ thống tăng Ton và VF giúp nâng cao tốc độ cắt và bề mặt phẳng sáng bóng.");
-            } else if (state.material === 'ALUMINUM') {
-                wsNotices.push("⚙️ <strong>Nhôm (Al 6061/7075):</strong> Tốc độ bóc phoi cực nhanh. Cần dùng dung dịch dầu cắt dây loãng hơn và tăng xối rửa để xỉ nhôm không bết dính vào puly dẫn dây.");
-            } else if (state.material === 'COPPER') {
-                wsNotices.push("⚡ <strong>Đồng đỏ / Đồng thau:</strong> Tản nhiệt rất nhanh. Cần áp lực xung điện bám tải ổn định để duy trì kênh hồ quang không bị tắt giữa chừng.");
             }
 
             // Ultra thick notice
@@ -3058,9 +3093,16 @@ function initApp() {
                 wsNotices.push("📏 <strong>Phôi siêu dày (H &gt; 160mm):</strong> Đã kích hoạt 6 sò công suất (IP=6 kịch trần). Năng suất cắt được điều khiển tối ưu thông qua biến thiên chu kỳ nghỉ Po và điện áp theo dõi VF.");
             }
 
-            // Multi-pass notice
-            if (state.passCount === 2) {
-                wsNotices.push("🎯 <strong>Quy trình 2 Pass chuẩn xác:</strong> Pass 1 phá thô xẻ rãnh chừa lượng phôi $O_2 = 0.022\text{mm}$; Pass 2 vi xung siêu mịn lướt sạch gờ nhám, đưa kích thước về chuẩn tuyệt đối.");
+            // Multi-pass notice (1 to 5 Pass)
+            const curWsPass = state.wsPassCount || 1;
+            if (curWsPass === 2) {
+                wsNotices.push("🎯 <strong>Quy trình 2 Pass chuẩn xác:</strong> Pass 1 phá thô chừa phôi $O_2$; Pass 2 vi xung siêu mịn lướt phạt sạch đỉnh núi lửa $Rz_1$, $Ra \le 1.4 - 1.8\mu m$.");
+            } else if (curWsPass === 3) {
+                wsNotices.push("🎯 <strong>Quy trình 3 Pass tinh xảo:</strong> Pass 1 phá thô; Pass 2 bán tinh sửa côn và phẳng gờ thô; Pass 3 cắt tinh vi xung Volt Low đạt độ bóng cao $Ra \le 1.0 - 1.2\mu m$.");
+            } else if (curWsPass === 4) {
+                wsNotices.push("💎 <strong>Quy trình 4 Pass siêu tinh:</strong> 2 Pass bán tinh triệt tiêu hoàn toàn vi sóng kết hợp Pass 4 vi xung nano xóa sạch lớp biến trắng nhiệt, $Ra \le 0.6 - 0.8\mu m$.");
+            } else if (curWsPass === 5) {
+                wsNotices.push("✨ <strong>Quy trình 5 Pass bóng gương (Chuẩn xưởng 5P-01):</strong> Tuân thủ từng nấc xung thực nghiệm $1\mu s$ (Pass 5), dòng phóng $<0.05\text{A}$, bề mặt bóng gương quang học $Ra \le 0.4 - 0.6\mu m$.");
             }
 
             wsNoticeList.innerHTML = wsNotices.map(n => `<li>${n}</li>`).join('');
