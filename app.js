@@ -1783,11 +1783,11 @@ function initApp() {
                         "measuredSpeed": "65 - 75 mm²/p (P1) | 240 mm²/p (P2)",
                         "enteredOffsetP1": 0.094,
                         "enteredOffsetP2": 0.022,
-                        "recommendedOffsetP1": 0.089,
+                        "recommendedOffsetP1": 0.099,
                         "recommendedOffsetP2": 0.022,
-                        "actualDimension": "Cắt lấy chày: lớn hơn lập trình 0.010mm (chày to hơn 5μm/bên)"
+                        "actualDimension": "Cắt lấy cối: kích thước lớn hơn lập trình 0.010mm (lỗ cối rộng hơn 5μm/bên)"
                 },
-                "notes": "H=60mm SCM440 cắt 2 Pass kiểm chứng xưởng. Kích thước chày lớn hơn lập trình 0.010mm (chỉ lệch 5μm/bên). Offset P1 chuẩn: 0.089mm, Offset P2 chuẩn: 0.022mm. Khớp tuyệt đối với công thức lý thuyết: O1_calc = 0.0943mm (thực tế nhập 0.094), O2_calc = 0.022mm (thực tế nhập 0.022). Ampe P1 ăn 3.5-3.6A, P2 ăn 0.5-0.6A."
+                "notes": "H=60mm SCM440 cắt 2 Pass kiểm chứng xưởng. Kích thước chày lớn hơn lập trình 0.010mm (chỉ lệch 5μm/bên). Offset P1 chuẩn: 0.099mm, Offset P2 chuẩn: 0.022mm. Khớp tuyệt đối với công thức lý thuyết: O1_calc = 0.0943mm (thực tế nhập 0.094), O2_calc = 0.022mm (thực tế nhập 0.022). Ampe P1 ăn 3.5-3.6A, P2 ăn 0.5-0.6A."
         },
         {
                 "id": "5P-01",
@@ -3354,7 +3354,7 @@ function initApp() {
                     ]},
                                         // H=60
                     { H: 60, material: "30HRC", passes: [
-                        { Ton: 50, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 62, maxSpeed: "150Hz", offset: "0,089", time: "40p20'", length: "68mm", ampe: "3,5A - 3,6A", calcSpeed: "85 mm²/phút" },
+                        { Ton: 50, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 62, maxSpeed: "150Hz", offset: "0,099", time: "40p20'", length: "68mm", ampe: "3,5A - 3,6A", calcSpeed: "85 mm²/phút" },
                         { Ton: 16, Toff: 6, IP: 2, Wire: 2, Volt: "H", VF: 40, maxSpeed: "100Hz", offset: "0,022", time: "12p", length: "68mm", ampe: "0,5A - 0,6A", calcSpeed: "320 mm²/phút" }
                     ]},
                     // H=62

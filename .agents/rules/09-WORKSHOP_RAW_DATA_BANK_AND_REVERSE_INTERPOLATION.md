@@ -166,17 +166,15 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 >   - 1/4 quãng đường kim vọt lên $1.0 - 1.5	ext{A}$ dao động liên tục: Cắt qua vùng đỉnh núi lửa nhô cao (lượng dư nhiều, mật độ phóng điện dày đặc).
 >   - 👉 Chứng minh độ nhám rỗng xốp $Rz_1$ không đồng đều trên toàn bộ chu vi cắt phôi dày.
 
-| **2P-13** | 2 Lần | SCM440 (28-32HRC)| 60 | **P1** | 50 | 7 | 4 | 1 | High | 62 | 150Hz | **0,094** | 40p20' | 68mm | 3,5A-3,6A | 65-75 mm²/p | Cắt lấy chày: kích thước lớn hơn lập trình 0.010mm | -0.0050 mm | **0.0890 mm**| **0.022 mm** |
-| | | | | **P2** | 16 | 6 | 2 | 2 | High | 40 | 100Hz | **0,022** | 12p | 68mm | 0,5A-0,6A | 240 mm²/p | (Chày to hơn 0.01mm -> dư 5μm/bên) | (P1 tính 0.0943 khớp 0.094) | (O2 tính 0.022 khớp 0.022) | (Hội tụ tuyệt đối) |
+| **2P-13** | 2 Lần | SCM440 (28-32HRC)| 60 | **P1** | 50 | 7 | 4 | 1 | High | 62 | 150Hz | **0,094** | 40p20' | 68mm | 3,5A-3,6A | 65-75 mm²/p | Cắt lấy cối: kích thước lớn hơn lập trình 0.010mm | +0.0050 mm | **0.0990 mm**| **0.022 mm** |
+| | | | | **P2** | 16 | 6 | 2 | 2 | High | 40 | 100Hz | **0,022** | 12p | 68mm | 0,5A-0,6A | 240 mm²/p | (Lỗ cối lớn hơn 0.01mm -> ăn lẹm 5μm/bên) | (Cần tăng bù dao P1 lên 0.099) | (O2 tính 0.022 khớp 0.022) | (Chuẩn xác hình học) |
 
-> 💡 **PHÂN TÍCH ĐỘNG HỌC & ĐỐI CHIẾU LÝ THUYẾT BÀI CẮT 2P-13 (H=60mm, SCM440):**
-> * **Kích thước đo sau cắt:** Chày lớn hơn lập trình $0.010\text{ mm} \implies$ Độ dư mỗi bên vách: $\Delta/2 = +0.005\text{ mm}$ ($5.0\mu m$).
-> * **Bù dao Pass 1 Chuẩn:** $\text{Offset}_{1\_\text{chuẩn}} = 0.094 - 0.005 = \mathbf{0.089\text{ mm}}$.
-> * **Bù dao Pass 2 Chuẩn:** Giữ nguyên $\mathbf{0.022\text{ mm}}$.
-> * **Đối chiếu ngoạn mục với Công thức Toán - Vật lý (Rule 10):**
->   - Công thức tính bù dao lý thuyết Pass 1: $O_{1\_\text{calc}} = \mathbf{0.0943\text{ mm}}$ $\rightarrow$ **Trùng khớp gần như tuyệt đối** với Offset nhập thực tế $0.094\text{mm}$ (lệch $0.26\mu m$).
->   - Công thức tính bù dao lý thuyết Pass 2 (Quy tắc Núi Lửa $R_{z1} + \delta_2$): $O_{2\_\text{calc}} = 0.0170 + 0.0050 = \mathbf{0.0220\text{ mm}}$ $\rightarrow$ **Khớp chính xác 100%** với Offset nhập thực tế $0.022\text{mm}$!
->   - Đồng hồ Ampe: Pass 1 ăn $3.5\text{A} - 3.6\text{A}$ (chuẩn theo Quy luật 4 dải Ampe Rule 12 cho $H=60\text{mm}$), Pass 2 ăn êm ru $0.5\text{A} - 0.6\text{A}$.
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & ĐỐI CHIẾU LÝ THUYẾT BÀI CẮT 2P-13 (H=60mm, SCM440 - CẮT LẤY CỐI):**
+> * **Kích thước đo sau cắt:** Lỗ cối lớn hơn lập trình $0.010\text{ mm} \implies$ Vách lỗ bị ăn lẹm mỗi bên: $\Delta/2 = +0.005\text{ mm}$ ($5.0\mu m$).
+> * **Bù dao Pass 1 Chuẩn khi cắt cối:** Để lỗ cối co nhỏ lại về đúng kích thước danh nghĩa, dây Moly cần lùi sâu vào trong lòng lỗ (cách xa thành vách hơn), do đó Offset Pass 1 phải **TĂNG THÊM $0.005\text{mm}$**:
+>   $$\mathbf{\text{Offset}_{1\_\text{chuẩn}}} = 0.094 + 0.005 = \mathbf{0.099\text{ mm}}$$
+> * **Bù dao Pass 2 Chuẩn:** Giữ nguyên $\mathbf{0.022\text{ mm}}$ (Pass 2 ăn rất êm $0.5 - 0.6\text{A}$, phạt đỉnh núi lửa $17\mu m + 5\mu m$ hoàn hảo).
+> * **Đồng hồ Ampe:** Pass 1 ăn $3.5\text{A} - 3.6\text{A}$ (chuẩn theo Quy luật 4 dải Ampe Rule 12 cho $H=60\text{mm}$), Pass 2 ăn êm ru $0.5\text{A} - 0.6\text{A}$.
 
 ---
 
