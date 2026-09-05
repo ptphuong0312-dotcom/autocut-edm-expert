@@ -1020,33 +1020,6 @@ function initApp() {
                 "notes": "Nhập test 0.118mm -> Cắt lấy chày: To hơn lập trình 0.046mm (bù mỗi bên 0.023mm). OFFSET CHUẨN HIỆU CHỈNH = 0.118 - 0.023 = 0.095mm (Khe hở δ = 0.005mm)."
         },
         {
-                "id": "STT 4",
-                "name": "SCM440 (28-32HRC) | H=12mm | 1 Lần (Chuẩn Vàng)",
-                "materialName": "SCM440 (28-32HRC)",
-                "thickness": 12,
-                "cutLength": "",
-                "passCount": 1,
-                "params": {
-                        "ti": 20,
-                        "Po": 7,
-                        "IP": 2,
-                        "wire": 2,
-                        "Voltage": "Low",
-                        "VF": 50,
-                        "maxSpeed": "200Hz"
-                },
-                "measured": {
-                        "totalTimeStr": "",
-                        "ammeterA": "",
-                        "measuredSpeed": null,
-                        "enteredOffset": 0.105,
-                        "standardOffset": 0.105,
-                        "sparkGap": "0.015",
-                        "tolerance": "Chuẩn tuyệt đối"
-                },
-                "notes": "Nhập test 0.105mm -> Cắt lấy chày: Kích thước offset chuẩn luôn! OFFSET CHUẨN = 0.105mm (Khe hở δ = 0.015mm)."
-        },
-        {
                 "id": "STT 5",
                 "name": "SCM420 (HB<200) | H=45mm | 1 Lần (Chuẩn Vàng)",
                 "materialName": "SCM420 (HB<200)",
@@ -3307,8 +3280,7 @@ function initApp() {
             // =========================================================================
                         const WS_LIB_BENCHMARK_JOBS = {
                 1: [
-                    { H: 12, material: "30HRC", passes: [{ Ton: 20, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 50, maxSpeed: "200Hz", offset: "0,105", actualOffset: "0,105", calcOffset: "0,0997", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "1,3A - 1,5A", calcAmpe: "1.3A", actualSpeed: "--", calcSpeedH40: "97 mm²/p" }] },
-                    // H=12 (Quy đổi từ Pass 1 bài cắt 5P-01 có đo kiểm vách P1)
+                                        // H=12 (Quy đổi từ Pass 1 bài cắt 5P-01 có đo kiểm vách P1)
                     { H: 12, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 20, Toff: 5, IP: 3, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,101", actualOffset: "0,101", calcOffset: "0,0978", length: "128mm", actualTime: "19p50'", calcTime: "19p50'", actualAmpe: "4A", calcAmpe: "3.2A", actualSpeed: "275-285 mm²/p", calcSpeedH40: "258 mm²/p" }] },
                     { H: 30, material: "30HRC", passes: [{ Ton: 32, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "200Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0975", length: "30mm", actualTime: "8p40'", calcTime: "8p42'", actualAmpe: "4,45A - 4,5A", calcAmpe: "4.3A", actualSpeed: "165-175 mm²/p", calcSpeedH40: "138 mm²/p" }] },
                     { H: 40, material: "30HRC", passes: [{ Ton: 36, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0961", length: "30mm", actualTime: "9p36'", calcTime: "9p36'", actualAmpe: "4,35A - 4,4A", calcAmpe: "4.3A", actualSpeed: "130-140 mm²/p", calcSpeedH40: "125 mm²/p" }] },
@@ -3523,7 +3495,7 @@ function initApp() {
                     </div>
                     <div id="ws-lib-content" style="margin-top: 15px;">
                         <div class="ws-lib-tabs-nav">
-                            <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">13 bài</span></button>
+                            <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">12 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="2">2 Pass <span class="ws-lib-tab-count">9 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="3">3 Pass <span class="ws-lib-tab-count">0</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="4">4 Pass <span class="ws-lib-tab-count">0</span></button>

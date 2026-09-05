@@ -27,7 +27,7 @@ Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên
 | **1** | 1 Lần | SCM440 (28-32HRC) | 30 | 32 | 5 | 4 | 1 | High | 65 | 200Hz | **0,115** | 8p40' | 30mm | 4,45A - 4,5A | 165 - 175 | cắt lấy chày : kích thước to hơn lập trình 0,034 |
 | **2** | 1 Lần | SCM440 (28-32HRC) | 40 | 36 | 5 | 4 | 1 | High | 65 | 180Hz | **0,115** | 9p36' | 30mm | 4,35A - 4,4A | 130 - 140 | cắt lấy chày : kích thước to hơn lập trình 0,034 |
 | **3** | 1 Lần | SCM420 (HB<200) | 63 | 44 | 7 | 5 | 1 | High | 55 | 150Hz | **0,118** | 14p20' | 27mm | 4,1A - 4,2A | 75 - 85 | cắt lấy chày : kích thước to hơn lập trình 0,046 |
-| **4** | 1 Lần | SCM440 (28-32HRC) | 12 | 20 | 7 | 2 | 2 | Low | 50 | 200Hz | **0,105** | -- | -- | -- | -- | cắt lấy chày : kích thước offset chuẩn luôn |
+| **4** ⛔ *(Đã chuyển sang Vùng C)* | 1 Lần | SCM440 (28-32HRC) | 12 | 20 | 7 | 2 | 2 | Low | 50 | 200Hz | **0,105** | -- | -- | -- | -- | cắt lấy chày : kích thước offset chuẩn luôn *(Chuyển sang Vùng tham khảo C)* |
 | **5** | 1 Lần | SCM420 (HB<200) | 45 | 50 | 7 | 3 | 1 | Low | 50 | 150Hz | **0,105** | -- | -- | -- | -- | cắt lấy chày : kích thước offset chuẩn luôn |
 | **6** | 1 Lần | SCM440 (28-32HRC) | 68 | 70 | 7 | 3 | 1 | Low | 50 | 100Hz | **0,097** | -- | -- | -- | -- | cắt lấy chày : kích thước offset chuẩn luôn |
 | **7** | 1 Lần | SCM420 (HB<200) | 140 | 120 | 8 | 5 | 1 | High | 55 | 50Hz | **0,095** | -- | -- | -- | -- | cắt lấy chày : kích thước offset chuẩn luôn |
@@ -83,7 +83,7 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 | **1** | **H = 30mm** | Ton=32, Po=5, IP=4, Volt=High, VF=65 | 0.115 | Chày to hơn 0.034 | -0.017 | **0.098 mm** | **0.008 mm** | Điện áp High, IP=4 cào sâu $\delta=0.008\text{mm}$ |
 | **2** | **H = 40mm** | Ton=36, Po=5, IP=4, Volt=High, VF=65 | 0.115 | Chày to hơn 0.034 | -0.017 | **0.098 mm** | **0.008 mm** | H tăng lên 40mm với cùng IP=4 giữ nguyên $\delta=0.008\text{mm}$ |
 | **3** | **H = 63mm** | Ton=44, Po=7, IP=5, Volt=High, VF=55 | 0.118 | Chày to hơn 0.046 | -0.023 | **0.095 mm** | **0.005 mm** | Phôi dày làm suy hao dòng hồ quang $\rightarrow \delta=0.005\text{mm}$ |
-| **4** | **H = 12mm** | Ton=20, Po=7, IP=2, Volt=Low, VF=50 | 0.105 | Chuẩn luôn | 0.000 | **0.105 mm** | **0.015 mm** | Điện áp Low, phôi mỏng thoát phoi cực tốt $\rightarrow \delta=0.015\text{mm}$ |
+| **4** ⛔ | **H = 12mm** | Ton=20, Po=7, IP=2, Volt=Low, VF=50 | 0.105 | Chuẩn luôn | 0.000 | **0.105 mm** | **0.015 mm** | Điện áp Low, ước lượng ban đầu (Đã chuyển sang Vùng tham khảo C) |
 | **5** | **H = 45mm** | Ton=50, Po=7, IP=3, Volt=Low, VF=50 | 0.105 | Chuẩn luôn | 0.000 | **0.105 mm** | **0.015 mm** | Điện áp Low duy trì ổn định khe hở $\delta=0.015\text{mm}$ |
 | **6** | **H = 68mm** | Ton=70, Po=7, IP=3, Volt=Low, VF=50 | 0.097 | Chuẩn luôn | 0.000 | **0.097 mm** | **0.007 mm** | Phôi dày 68mm kéo hẹp tia lửa Low $\rightarrow \delta=0.007\text{mm}$ |
 | **7** | **H = 140mm**| Ton=120, Po=8, IP=5, Volt=High, VF=55 | 0.095 | Chuẩn luôn | 0.000 | **0.095 mm** | **0.005 mm** | Phôi siêu dày H=140mm tia lửa hẹp $\rightarrow \delta=0.005\text{mm}$ |
@@ -261,4 +261,14 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 > 1. **Bản chất công nghệ:** Khi cắt phôi siêu dày $H=300\text{mm}$, ở $31.3\text{mm}$ đầu tiên (Giai đoạn 1), xưởng đã thử nghiệm chế độ dò đường với $\text{Ton}=80\mu s, \text{Po}=9, \text{IP}=6, \text{VF}=50$. Dù đã đạt kích thước đo chuẩn (Offset chuẩn $0.115\text{mm}$), nhưng khi đi sâu vào lòng phôi, trở lực thủy lực lớn làm tăng nguy cơ ngắn mạch và đứt dây.
 > 2. **Chế độ chuẩn hoàn chỉnh (STT 14 - Giai đoạn 2):** Xưởng đã nâng năng lượng xung lên $\text{Ton}=120\mu s$ và tăng điện áp bám $\text{VF}=65$, giúp máy cắt trơn tru ổn định liên tục $3\text{h}$ cho toàn bộ chiều dài $76.1\text{mm}$ còn lại mà không gặp bất kỳ sự cố nào.
 > 3. **Lý do tách khỏi Thư viện Tab 2:** Để tránh trùng lặp 2 dòng cùng chiều dày $H=300\text{mm}$ gây phân vân cho người vận hành, Thư viện Tab 2 chỉ giữ lại duy nhất 1 bài chuẩn công nghệ hoàn chỉnh nhất là **STT 14** ($\text{Ton}=120, \text{VF}=65$). STT 13 được chuyển sang Vùng tham khảo này để làm tư liệu kinh nghiệm hữu ích về giai đoạn tiếp cận phôi ban đầu.
+
+### Bài cắt Tham khảo STT 4 (H=12mm SCM440 1 Lần - Dữ liệu ước lượng định tính ban đầu, thiếu thông số thời gian & Ampe):
+| STT | Số lần | Vật Liệu | H (mm) | Ton (μs) | Toff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập thực tế | Thời gian | Chiều dài L | Đồng hồ Ampe | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset chuẩn hiệu chỉnh | Lượng cào phôi δ | Hiện tượng & Rút kinh nghiệm |
+|:---:|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---:|:---:|:---:|:---|
+| **STT 4** *(Tham khảo)* | 1 Lần | SCM440 (28-32HRC) | 12 | 20 | 7 | 2 | 2 | Low | 50 | 200Hz | **0,105** | -- | -- | -- | -- | cắt lấy chày : kích thước offset chuẩn luôn | 0.000 mm | **0.105 mm** | **0.015 mm** | Dữ liệu định tính ước lượng ban đầu, thiếu thông số đo kiểm chi tiết |
+
+> 💡 **BÀI HỌC KINH NGHIỆM & LÝ DO CHUYỂN SANG VÙNG THAM KHẢO TỪ MẪU STT 4:**
+> 1. **Bản chất dữ liệu:** Mẫu STT 4 là mốc thử nghiệm ban đầu của xưởng ở điện áp Low ($\text{IP}=2, \text{VF}=50, \text{Offset}=0.105\text{mm}$). Mặc dù ghi nhận kích thước đạt chuẩn, nhưng mẫu này hoàn toàn không có các thông số động học đo kiểm then chốt (chiều dài cắt $L$, thời gian cắt thực tế, dòng Ampe và tốc độ thực tế).
+> 2. **Dữ liệu chuẩn thay thế toàn diện (Mẫu 1P-5P01):** Bài cắt thực nghiệm khép kín **5P-01 Pass 1** ($H=12\text{mm}$, SCM440, $\text{Ton}=20, \text{Po}=5, \text{IP}=3, \text{Volt}=\text{High}, \text{VF}=65$) đã được đo đạc bằng Panme chính xác đến từng micromet: chu vi cắt $L=128\text{mm}$, thời gian $19\text{p}50'$, Ampe $4\text{A}$, tốc độ thực $275-285\text{ mm}^2/\text{p}$, lượng cào thép đặc thực tế $\delta_1 = 0.0110\text{mm} \implies \text{Offset 1P} = 0.1010\text{mm}$.
+> 3. **Lý do loại khỏi Thư viện Tab 2 và dữ liệu tính toán:** Để chuẩn hóa chất lượng Thư viện thực nghiệm chỉ lưu giữ các bài cắt có số đo kiểm chứng khép kín và đáng tin cậy nhất, mẫu STT 4 được tách khỏi dữ liệu tính toán và chuyển sang Vùng tham khảo này để lưu trữ lịch sử vận hành xưởng.
 
