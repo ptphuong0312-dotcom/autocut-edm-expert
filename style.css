@@ -2342,6 +2342,20 @@ body {
     font-size: 12.5px;
 }
 
+.ws-lib-data-table td.col-offset-act {
+    font-weight: 800;
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.12);
+    font-size: 13px;
+}
+
+.ws-lib-data-table td.col-offset-calc {
+    font-weight: 700;
+    color: #2dd4bf;
+    background: rgba(45, 212, 191, 0.08);
+    font-size: 12.5px;
+}
+
 .ws-lib-data-table td.col-offset {
     font-weight: 800;
     color: #4ade80;

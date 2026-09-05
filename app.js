@@ -3334,69 +3334,69 @@ function initApp() {
             // =========================================================================
                         const WS_LIB_BENCHMARK_JOBS = {
                 1: [
-                    { H: 12, material: "30HRC", passes: [{ Ton: 20, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 50, maxSpeed: "200Hz", offset: "0,105", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "1,3A - 1,5A", calcAmpe: "1.3A", actualSpeed: "--", calcSpeedH40: "97 mm²/p" }] },
-                    { H: 30, material: "30HRC", passes: [{ Ton: 32, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "200Hz", offset: "0,098", length: "30mm", actualTime: "8p40'", calcTime: "8p42'", actualAmpe: "4,45A - 4,5A", calcAmpe: "4.3A", actualSpeed: "165-175 mm²/p", calcSpeedH40: "138 mm²/p" }] },
-                    { H: 40, material: "30HRC", passes: [{ Ton: 36, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,098", length: "30mm", actualTime: "9p36'", calcTime: "9p36'", actualAmpe: "4,35A - 4,4A", calcAmpe: "4.3A", actualSpeed: "130-140 mm²/p", calcSpeedH40: "125 mm²/p" }] },
-                    { H: 45, material: "HB<200", passes: [{ Ton: 50, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "150Hz", offset: "0,105", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,2A - 2,5A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "52 mm²/p" }] },
-                    { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", length: "27mm", actualTime: "14p20'", calcTime: "14p24'", actualAmpe: "4,1A - 4,2A", calcAmpe: "4.0A", actualSpeed: "75-85 mm²/p", calcSpeedH40: "75 mm²/p" }] },
-                    { H: 63, material: "HB<200", passes: [{ Ton: 24, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 43, maxSpeed: "150Hz", offset: "0,081", length: "20mm", actualTime: "21p", calcTime: "21p03'", actualAmpe: "4A", calcAmpe: "3.2A", actualSpeed: "55-65 mm²/p", calcSpeedH40: "38 mm²/p" }] },
-                    { H: 68, material: "30HRC", passes: [{ Ton: 70, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "100Hz", offset: "0,097", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,4A - 2,6A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "43 mm²/p" }] },
-                    { H: 140, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "34 mm²/p" }] },
-                    { H: 140, material: "HB<200", passes: [{ Ton: 100, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 60, maxSpeed: "100Hz", offset: "0,102", length: "28,4mm", actualTime: "36p", calcTime: "35p30'", actualAmpe: "3,7A - 3,8A", calcAmpe: "3.8A", actualSpeed: "30-40 mm²/p", calcSpeedH40: "32 mm²/p" }] },
-                    { H: 160, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,110", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "29 mm²/p" }] },
-                    { H: 300, material: "30HRC", passes: [{ Ton: 80, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 50, maxSpeed: "50Hz", offset: "0,115", length: "31,3mm", actualTime: "1h29p", calcTime: "1h29p", actualAmpe: "3,8A - 3,9A", calcAmpe: "3.8A", actualSpeed: "12-20 mm²/p", calcSpeedH40: "14 mm²/p" }] },
-                    { H: 300, material: "30HRC", passes: [{ Ton: 120, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "50Hz", offset: "0,115", length: "76,1mm", actualTime: "3h", calcTime: "2h59p", actualAmpe: "3,7A - 3,9A", calcAmpe: "3.8A", actualSpeed: "12-20 mm²/p", calcSpeedH40: "17 mm²/p" }] }
+                    { H: 12, material: "30HRC", passes: [{ Ton: 20, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 50, maxSpeed: "200Hz", offset: "0,105", actualOffset: "0,105", calcOffset: "0,0997", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "1,3A - 1,5A", calcAmpe: "1.3A", actualSpeed: "--", calcSpeedH40: "97 mm²/p" }] },
+                    { H: 30, material: "30HRC", passes: [{ Ton: 32, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "200Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0975", length: "30mm", actualTime: "8p40'", calcTime: "8p42'", actualAmpe: "4,45A - 4,5A", calcAmpe: "4.3A", actualSpeed: "165-175 mm²/p", calcSpeedH40: "138 mm²/p" }] },
+                    { H: 40, material: "30HRC", passes: [{ Ton: 36, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0961", length: "30mm", actualTime: "9p36'", calcTime: "9p36'", actualAmpe: "4,35A - 4,4A", calcAmpe: "4.3A", actualSpeed: "130-140 mm²/p", calcSpeedH40: "125 mm²/p" }] },
+                    { H: 45, material: "HB<200", passes: [{ Ton: 50, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "150Hz", offset: "0,105", actualOffset: "0,105", calcOffset: "0,0974", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,2A - 2,5A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "52 mm²/p" }] },
+                    { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0976", length: "27mm", actualTime: "14p20'", calcTime: "14p24'", actualAmpe: "4,1A - 4,2A", calcAmpe: "4.0A", actualSpeed: "75-85 mm²/p", calcSpeedH40: "75 mm²/p" }] },
+                    { H: 63, material: "HB<200", passes: [{ Ton: 24, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 43, maxSpeed: "150Hz", offset: "0,081", actualOffset: "0,081", calcOffset: "0,0893", length: "20mm", actualTime: "21p", calcTime: "21p03'", actualAmpe: "4A", calcAmpe: "3.2A", actualSpeed: "55-65 mm²/p", calcSpeedH40: "38 mm²/p" }] },
+                    { H: 68, material: "30HRC", passes: [{ Ton: 70, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "100Hz", offset: "0,097", actualOffset: "0,097", calcOffset: "0,0945", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,4A - 2,6A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "43 mm²/p" }] },
+                    { H: 140, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0992", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "34 mm²/p" }] },
+                    { H: 140, material: "HB<200", passes: [{ Ton: 100, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 60, maxSpeed: "100Hz", offset: "0,102", actualOffset: "0,102", calcOffset: "0,105", length: "28,4mm", actualTime: "36p", calcTime: "35p30'", actualAmpe: "3,7A - 3,8A", calcAmpe: "3.8A", actualSpeed: "30-40 mm²/p", calcSpeedH40: "32 mm²/p" }] },
+                    { H: 160, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,110", actualOffset: "0,110", calcOffset: "0,0978", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "29 mm²/p" }] },
+                    { H: 300, material: "30HRC", passes: [{ Ton: 80, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 50, maxSpeed: "50Hz", offset: "0,115", actualOffset: "0,115", calcOffset: "0,115", length: "31,3mm", actualTime: "1h29p", calcTime: "1h29p", actualAmpe: "3,8A - 3,9A", calcAmpe: "3.8A", actualSpeed: "12-20 mm²/p", calcSpeedH40: "14 mm²/p" }] },
+                    { H: 300, material: "30HRC", passes: [{ Ton: 120, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "50Hz", offset: "0,115", actualOffset: "0,115", calcOffset: "0,115", length: "76,1mm", actualTime: "3h", calcTime: "2h59p", actualAmpe: "3,7A - 3,9A", calcAmpe: "3.8A", actualSpeed: "12-20 mm²/p", calcSpeedH40: "17 mm²/p" }] }
                 ],
                 2: [
                     // H=12
                     { H: 12, material: "30HRC", passes: [
-                        { Ton: 20, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 50, maxSpeed: "150Hz", offset: "0,098", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "1,3A - 1,5A", calcAmpe: "1.3A", actualSpeed: "--", calcSpeedH40: "97 mm²/p" },
-                        { Ton: 12, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 20, maxSpeed: "130Hz", offset: "0,040", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "< 0,2A", calcAmpe: "< 0.2A", actualSpeed: "--", calcSpeedH40: "312 mm²/p" }
+                        { Ton: 20, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 50, maxSpeed: "150Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0997", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "1,3A - 1,5A", calcAmpe: "1.3A", actualSpeed: "--", calcSpeedH40: "97 mm²/p" },
+                        { Ton: 12, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 20, maxSpeed: "130Hz", offset: "0,040", actualOffset: "0,040", calcOffset: "0,012", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "< 0,2A", calcAmpe: "< 0.2A", actualSpeed: "--", calcSpeedH40: "312 mm²/p" }
                     ]},
                     // H=30
                     { H: 30, material: "HB<200", passes: [
-                        { Ton: 28, Toff: 6, IP: 4, Wire: 1, Volt: "H", VF: 60, maxSpeed: "200Hz", offset: "0,1075", length: "644mm", actualTime: "3h08p", calcTime: "3h08p", actualAmpe: "4,1A", calcAmpe: "3.7A", actualSpeed: "140-150 mm²/p", calcSpeedH40: "137 mm²/p" },
-                        { Ton: 16, Toff: 5, IP: 2, Wire: 2, Volt: "L", VF: 40, maxSpeed: "150Hz", offset: "0,022", length: "644mm", actualTime: "1h12p", calcTime: "1h12p", actualAmpe: "0,1 - 0,2A", calcAmpe: "< 0.2A", actualSpeed: "360 mm²/p", calcSpeedH40: "360 mm²/p" }
+                        { Ton: 28, Toff: 6, IP: 4, Wire: 1, Volt: "H", VF: 60, maxSpeed: "200Hz", offset: "0,1075", actualOffset: "0,1075", calcOffset: "0,0968", length: "644mm", actualTime: "3h08p", calcTime: "3h08p", actualAmpe: "4,1A", calcAmpe: "3.7A", actualSpeed: "140-150 mm²/p", calcSpeedH40: "137 mm²/p" },
+                        { Ton: 16, Toff: 5, IP: 2, Wire: 2, Volt: "L", VF: 40, maxSpeed: "150Hz", offset: "0,022", actualOffset: "0,022", calcOffset: "0,0177", length: "644mm", actualTime: "1h12p", calcTime: "1h12p", actualAmpe: "0,1 - 0,2A", calcAmpe: "< 0.2A", actualSpeed: "360 mm²/p", calcSpeedH40: "360 mm²/p" }
                     ]},
                     // H=32
                     { H: 32, material: "30HRC", passes: [
-                        { Ton: 30, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "200Hz", offset: "0,091", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,0A - 2,2A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "90 mm²/p" },
-                        { Ton: 5, Toff: 15, IP: 1, Wire: 1, Volt: "L", VF: 10, maxSpeed: "130Hz", offset: "0,030", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "< 0,2A", calcAmpe: "< 0.2A", actualSpeed: "--", calcSpeedH40: "312 mm²/p" }
+                        { Ton: 30, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "200Hz", offset: "0,091", actualOffset: "0,091", calcOffset: "0,0979", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,0A - 2,2A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "90 mm²/p" },
+                        { Ton: 5, Toff: 15, IP: 1, Wire: 1, Volt: "L", VF: 10, maxSpeed: "130Hz", offset: "0,030", actualOffset: "0,030", calcOffset: "0,0143", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "< 0,2A", calcAmpe: "< 0.2A", actualSpeed: "--", calcSpeedH40: "312 mm²/p" }
                     ]},
                     // H=60
                     { H: 60, material: "30HRC", passes: [
-                        { Ton: 50, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 62, maxSpeed: "150Hz", offset: "0,099", length: "68mm", actualTime: "40p20'", calcTime: "40p36'", actualAmpe: "3,5A - 3,6A", calcAmpe: "3.2A", actualSpeed: "65-75 mm²/p", calcSpeedH40: "67 mm²/p" },
-                        { Ton: 16, Toff: 6, IP: 2, Wire: 2, Volt: "H", VF: 40, maxSpeed: "100Hz", offset: "0,022", length: "68mm", actualTime: "12p", calcTime: "11p20'", actualAmpe: "0,5A - 0,6A", calcAmpe: "0.5 - 1.0A", actualSpeed: "240 mm²/p", calcSpeedH40: "240 mm²/p" }
+                        { Ton: 50, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 62, maxSpeed: "150Hz", offset: "0,099", actualOffset: "0,099", calcOffset: "0,0943", length: "68mm", actualTime: "40p20'", calcTime: "40p36'", actualAmpe: "3,5A - 3,6A", calcAmpe: "3.2A", actualSpeed: "65-75 mm²/p", calcSpeedH40: "67 mm²/p" },
+                        { Ton: 16, Toff: 6, IP: 2, Wire: 2, Volt: "H", VF: 40, maxSpeed: "100Hz", offset: "0,022", actualOffset: "0,022", calcOffset: "0,022", length: "68mm", actualTime: "12p", calcTime: "11p20'", actualAmpe: "0,5A - 0,6A", calcAmpe: "0.5 - 1.0A", actualSpeed: "240 mm²/p", calcSpeedH40: "240 mm²/p" }
                     ]},
                     // H=62
                     { H: 62, material: "30HRC", passes: [
-                        { Ton: 70, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 50, maxSpeed: "150Hz", offset: "0,092", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.2A", actualSpeed: "--", calcSpeedH40: "85 mm²/p" },
-                        { Ton: 15, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 20, maxSpeed: "100Hz", offset: "0,030", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "< 0,2A", calcAmpe: "< 0.2A", actualSpeed: "--", calcSpeedH40: "240 mm²/p" }
+                        { Ton: 70, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 50, maxSpeed: "150Hz", offset: "0,092", actualOffset: "0,092", calcOffset: "0,0965", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.2A", actualSpeed: "--", calcSpeedH40: "85 mm²/p" },
+                        { Ton: 15, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 20, maxSpeed: "100Hz", offset: "0,030", actualOffset: "0,030", calcOffset: "0,0251", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "< 0,2A", calcAmpe: "< 0.2A", actualSpeed: "--", calcSpeedH40: "240 mm²/p" }
                     ]},
                     // H=63
                     { H: 63, material: "HB<200", passes: [
-                        { Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,093", length: "30mm", actualTime: "16p26'", calcTime: "16p26'", actualAmpe: "4,2A", calcAmpe: "4.0A", actualSpeed: "75-85 mm²/p", calcSpeedH40: "73 mm²/p" },
-                        { Ton: 20, Toff: 5, IP: 3, Wire: 2, Volt: "H", VF: 40, maxSpeed: "100Hz", offset: "0,024", length: "30mm", actualTime: "5p20'", calcTime: "5p", actualAmpe: "0,1 - 0,2A", calcAmpe: "0.5 - 1.0A", actualSpeed: "240 mm²/p", calcSpeedH40: "240 mm²/p" }
+                        { Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,093", actualOffset: "0,093", calcOffset: "0,0976", length: "30mm", actualTime: "16p26'", calcTime: "16p26'", actualAmpe: "4,2A", calcAmpe: "4.0A", actualSpeed: "75-85 mm²/p", calcSpeedH40: "73 mm²/p" },
+                        { Ton: 20, Toff: 5, IP: 3, Wire: 2, Volt: "H", VF: 40, maxSpeed: "100Hz", offset: "0,024", actualOffset: "0,024", calcOffset: "0,0228", length: "30mm", actualTime: "5p20'", calcTime: "5p", actualAmpe: "0,1 - 0,2A", calcAmpe: "0.5 - 1.0A", actualSpeed: "240 mm²/p", calcSpeedH40: "240 mm²/p" }
                     ]},
                     // H=85
                     { H: 85, material: "30HRC", passes: [
-                        { Ton: 70, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 61, maxSpeed: "150Hz", offset: "0,1025", length: "65,6mm", actualTime: "48p", calcTime: "47p43'", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.6A", actualSpeed: "55-65 mm²/p", calcSpeedH40: "55 mm²/p" },
-                        { Ton: 20, Toff: 6, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "100Hz", offset: "0,030", length: "65,6mm", actualTime: "10p24'", calcTime: "10p56'", actualAmpe: "0,5A - 1,0A", calcAmpe: "0.5 - 1.0A", actualSpeed: "240 mm²/p", calcSpeedH40: "240 mm²/p" }
+                        { Ton: 70, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 61, maxSpeed: "150Hz", offset: "0,1025", actualOffset: "0,1025", calcOffset: "0,0987", length: "65,6mm", actualTime: "48p", calcTime: "47p43'", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.6A", actualSpeed: "55-65 mm²/p", calcSpeedH40: "55 mm²/p" },
+                        { Ton: 20, Toff: 6, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "100Hz", offset: "0,030", actualOffset: "0,030", calcOffset: "0,0274", length: "65,6mm", actualTime: "10p24'", calcTime: "10p56'", actualAmpe: "0,5A - 1,0A", calcAmpe: "0.5 - 1.0A", actualSpeed: "240 mm²/p", calcSpeedH40: "240 mm²/p" }
                     ]},
                     // H=140
                     { H: 140, material: "HB<200", passes: [
-                        { Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "60Hz", offset: "0,098", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "34 mm²/p" },
-                        { Ton: 25, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 25, maxSpeed: "100Hz", offset: "0,030", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "< 0,2A", calcAmpe: "< 0.2A", actualSpeed: "--", calcSpeedH40: "240 mm²/p" }
+                        { Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "60Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0992", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "34 mm²/p" },
+                        { Ton: 25, Toff: 7, IP: 2, Wire: 2, Volt: "L", VF: 25, maxSpeed: "100Hz", offset: "0,030", actualOffset: "0,030", calcOffset: "0,0344", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "< 0,2A", calcAmpe: "< 0.2A", actualSpeed: "--", calcSpeedH40: "240 mm²/p" }
                     ]},
                     // H=165 (STT 2P-12)
                     { H: 165, material: "30HRC", passes: [
-                        { Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,0875", length: "43,6mm", actualTime: "1h17'", calcTime: "1h16p", actualAmpe: "2,8A - 3,0A", calcAmpe: "3.2A", actualSpeed: "15-35 mm²/p", calcSpeedH40: "23 mm²/p" },
-                        { Ton: 24, Toff: 6, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "80Hz", offset: "0,020", length: "43,6mm", actualTime: "9p", calcTime: "9p05'", actualAmpe: "1,0A - 1,5A", calcAmpe: "0.5 - 1.5A", actualSpeed: "190 mm²/p", calcSpeedH40: "192 mm²/p" }
+                        { Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,0875", actualOffset: "0,0875", calcOffset: "0,1087", length: "43,6mm", actualTime: "1h17'", calcTime: "1h16p", actualAmpe: "2,8A - 3,0A", calcAmpe: "3.2A", actualSpeed: "15-35 mm²/p", calcSpeedH40: "23 mm²/p" },
+                        { Ton: 24, Toff: 6, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "80Hz", offset: "0,020", actualOffset: "0,020", calcOffset: "0,0192", length: "43,6mm", actualTime: "9p", calcTime: "9p05'", actualAmpe: "1,0A - 1,5A", calcAmpe: "0.5 - 1.5A", actualSpeed: "190 mm²/p", calcSpeedH40: "192 mm²/p" }
                     ]},
                     // H=165 (STT 2P-13)
                     { H: 165, material: "30HRC", passes: [
-                        { Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,1075", length: "43,6mm", actualTime: "1h17'", calcTime: "1h16p", actualAmpe: "2,8A - 3,0A", calcAmpe: "3.2A", actualSpeed: "15-35 mm²/p", calcSpeedH40: "23 mm²/p" },
-                        { Ton: 40, Toff: 7, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "80Hz", offset: "0,015", length: "43,6mm", actualTime: "9p", calcTime: "9p05'", actualAmpe: "0,5A - 1,5A", calcAmpe: "0.5 - 1.5A", actualSpeed: "190 mm²/p", calcSpeedH40: "192 mm²/p" }
+                        { Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,1075", actualOffset: "0,1075", calcOffset: "0,1087", length: "43,6mm", actualTime: "1h17'", calcTime: "1h16p", actualAmpe: "2,8A - 3,0A", calcAmpe: "3.2A", actualSpeed: "15-35 mm²/p", calcSpeedH40: "23 mm²/p" },
+                        { Ton: 40, Toff: 7, IP: 3, Wire: 2, Volt: "H", VF: 36, maxSpeed: "80Hz", offset: "0,015", actualOffset: "0,015", calcOffset: "0,0192", length: "43,6mm", actualTime: "9p", calcTime: "9p05'", actualAmpe: "0,5A - 1,5A", calcAmpe: "0.5 - 1.5A", actualSpeed: "190 mm²/p", calcSpeedH40: "192 mm²/p" }
                     ]}
                 ],
                 3: [],
@@ -3404,11 +3404,11 @@ function initApp() {
                 5: [
                     // H=12 (SCM440, Cắt lấy chày)
                     { H: 12, material: "30HRC", passes: [
-                        { Ton: 20, Toff: 5, IP: 3, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,093", length: "128mm", actualTime: "19p50'", calcTime: "19p50'", actualAmpe: "4A", calcAmpe: "3.2A", actualSpeed: "275-285 mm²/p", calcSpeedH40: "258 mm²/p" },
-                        { Ton: 14, Toff: 5, IP: 2, Wire: 2, Volt: "L", VF: 42, maxSpeed: "140Hz", offset: "0,018", length: "128mm", actualTime: "16p", calcTime: "15p14'", actualAmpe: "0,3A - 0,5A", calcAmpe: "< 0.2A", actualSpeed: "232-340 mm²/p", calcSpeedH40: "336 mm²/p" },
-                        { Ton: 6, Toff: 8, IP: 1, Wire: 3, Volt: "L", VF: 35, maxSpeed: "120Hz", offset: "0,009", length: "128mm", actualTime: "--", calcTime: "17p47'", actualAmpe: "< 0,2A", calcAmpe: "< 0.2A", actualSpeed: "--", calcSpeedH40: "288 mm²/p" },
-                        { Ton: 2, Toff: 12, IP: 1, Wire: 3, Volt: "L", VF: 25, maxSpeed: "100Hz", offset: "0,004", length: "128mm", actualTime: "--", calcTime: "21p20'", actualAmpe: "< 0,1A", calcAmpe: "< 0.1A", actualSpeed: "--", calcSpeedH40: "240 mm²/p" },
-                        { Ton: 1, Toff: 16, IP: 1, Wire: 3, Volt: "L", VF: 20, maxSpeed: "80Hz", offset: "0,002", length: "128mm", actualTime: "--", calcTime: "26p40'", actualAmpe: "~ 0,05A", calcAmpe: "~ 0.05A", actualSpeed: "--", calcSpeedH40: "192 mm²/p" }
+                        { Ton: 20, Toff: 5, IP: 3, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,093", actualOffset: "0,093", calcOffset: "0,0978", length: "128mm", actualTime: "19p50'", calcTime: "19p50'", actualAmpe: "4A", calcAmpe: "3.2A", actualSpeed: "275-285 mm²/p", calcSpeedH40: "258 mm²/p" },
+                        { Ton: 14, Toff: 5, IP: 2, Wire: 2, Volt: "L", VF: 42, maxSpeed: "140Hz", offset: "0,018", actualOffset: "0,018", calcOffset: "0,0154", length: "128mm", actualTime: "16p", calcTime: "15p14'", actualAmpe: "0,3A - 0,5A", calcAmpe: "< 0.2A", actualSpeed: "232-340 mm²/p", calcSpeedH40: "336 mm²/p" },
+                        { Ton: 6, Toff: 8, IP: 1, Wire: 3, Volt: "L", VF: 35, maxSpeed: "120Hz", offset: "0,009", actualOffset: "0,009", calcOffset: "0,009", length: "128mm", actualTime: "--", calcTime: "17p47'", actualAmpe: "< 0,2A", calcAmpe: "< 0.2A", actualSpeed: "--", calcSpeedH40: "288 mm²/p" },
+                        { Ton: 2, Toff: 12, IP: 1, Wire: 3, Volt: "L", VF: 25, maxSpeed: "100Hz", offset: "0,004", actualOffset: "0,004", calcOffset: "0,004", length: "128mm", actualTime: "--", calcTime: "21p20'", actualAmpe: "< 0,1A", calcAmpe: "< 0.1A", actualSpeed: "--", calcSpeedH40: "240 mm²/p" },
+                        { Ton: 1, Toff: 16, IP: 1, Wire: 3, Volt: "L", VF: 20, maxSpeed: "80Hz", offset: "0,002", actualOffset: "0,002", calcOffset: "0,002", length: "128mm", actualTime: "--", calcTime: "26p40'", actualAmpe: "~ 0,05A", calcAmpe: "~ 0.05A", actualSpeed: "--", calcSpeedH40: "192 mm²/p" }
                     ]}
                 ],
                 6: []
@@ -3478,7 +3478,8 @@ function initApp() {
                                 <td class="${voltClass}">${p.Volt}</td>
                                 <td>${p.VF}</td>
                                 <td><strong>${p.maxSpeed}</strong></td>
-                                <td class="col-offset">${p.offset}</td>
+                                <td class="col-offset-act">${p.actualOffset || p.offset}</td>
+                                <td class="col-offset-calc">${p.calcOffset || '--'}</td>
                                 <td>${p.length}</td>
                                 <td class="col-time-act">${p.actualTime || p.time || '--'}</td>
                                 <td class="col-time-calc" style="color: #38bdf8; font-weight: 600;">${p.calcTime || '--'}</td>
@@ -3506,7 +3507,8 @@ function initApp() {
                                     <th>Volt</th>
                                     <th>VF</th>
                                     <th>Max Speed</th>
-                                    <th>Offset</th>
+                                    <th>Offset thực tế</th>
+                                    <th>Offset tính toán</th>
                                     <th>chiều dài cắt</th>
                                     <th>thời gian thực</th>
                                     <th>thời gian tính</th>
