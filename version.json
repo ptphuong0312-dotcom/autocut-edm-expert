@@ -1,6 +1,6 @@
 {
-  "version": "3.5.23",
-  "buildTimestamp": 1788632974987,
+  "version": "3.5.24",
+  "buildTimestamp": 1788662484145,
   "releaseDate": "2026-09-06",
-  "description": "Implement 3-Pass, 4-Pass, 5-Pass calculation for Tab 2 (Workshop Calibration); remove Copper and Aluminum completely from Tab 2; Tab 1 left 100% untouched"
+  "description": "Standardize Hz and Fc(H40) display formula for Tab 2 multi-pass (Pass 2-5): Fc m\u00e1y = Hz * 2.4; feedRate = Hz * 0.060; Fc th\u1ef1c = feedRate * H; 100Hz rigorously maps to 240 mm2/min"
 }

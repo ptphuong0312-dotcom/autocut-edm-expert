@@ -2006,7 +2006,11 @@ function initApp() {
         let p2_ip = H <= 60 ? 2 : 3;
         let p2_volt = H <= 40 ? 'Low' : 'High';
         let p2_vf = isHard ? (H <= 60 ? 40 : 36) : (H <= 60 ? 36 : 32);
-        let p2_hz = H <= 40 ? 150 : (H <= 120 ? 120 : (H <= 150 ? 100 : 80));
+        let p2_hz;
+        if (H <= 40) p2_hz = 150;
+        else if (H <= 140) p2_hz = 100;
+        else if (H <= 170) p2_hz = 80;
+        else p2_hz = 60;
 
         if (state.wsStrategyLevel === 1) { p2_ton = Math.max(2, p2_ton - 2); p2_ip = Math.max(1, p2_ip - 1); }
         else if (state.wsStrategyLevel === 5) { p2_ton += 4; }
@@ -2093,11 +2097,13 @@ function initApp() {
                 row.Wire = '2';
                 row.offsetText = calculated_O2.toFixed(3);
                 
-                let p2SpeedArea = H <= 40 ? 360 : (H <= 140 ? 240 : 190);
-                let p2FeedRate = (p2SpeedArea / H).toFixed(2);
-                let p2SpeedAreaH40 = Math.round(parseFloat(p2FeedRate) * 40);
-                row.speedArea = `≈ ${p2SpeedArea}`;
-                row.speedAreaH40 = `≈ ${p2SpeedAreaH40}`;
+                // Chuẩn hóa Tần số giới hạn và Hiển thị theo Máy Xưởng (Rule 02: Fc máy = Hz * 2.4)
+                let p2SpeedAreaH40 = Math.round(p2_hz * 2.4);
+                let p2FeedRate = (p2_hz * 0.060).toFixed(2);
+                let p2SpeedArea = Math.round(parseFloat(p2FeedRate) * H);
+
+                row.speedArea = p2SpeedArea;
+                row.speedAreaH40 = p2SpeedAreaH40;
                 row.feedRate = p2FeedRate;
                 row.Ra = passes === 2 ? (isHard ? '1.4 - 1.8' : '1.6 - 2.0') : '~ 1.8 - 2.0';
                 row.hz = p2_hz;
@@ -2116,12 +2122,12 @@ function initApp() {
                 let p3_po = isHard ? (H <= 60 ? 8 : 10) : (H <= 60 ? 10 : 12);
                 let p3_ip = H <= 80 ? 1 : 2;
                 let p3_vf = isHard ? 35 : 30;
-                let p3_hz = H <= 60 ? 120 : 100;
                 let p3_O = H <= 20 ? 0.009 : (H <= 80 ? 0.010 : 0.012);
                 
-                let p3SpeedArea = H <= 40 ? 320 : (H <= 140 ? 260 : 220);
-                let p3FeedRate = (p3SpeedArea / H).toFixed(2);
-                let p3SpeedAreaH40 = Math.round(parseFloat(p3FeedRate) * 40);
+                let p3_hz = H <= 40 ? 120 : (H <= 120 ? 100 : 80);
+                let p3SpeedAreaH40 = Math.round(p3_hz * 2.4);
+                let p3FeedRate = (p3_hz * 0.060).toFixed(2);
+                let p3SpeedArea = Math.round(parseFloat(p3FeedRate) * H);
 
                 row.ti = p3_ton;
                 row.Po = p3_po;
@@ -2130,8 +2136,8 @@ function initApp() {
                 row.VF = p3_vf;
                 row.Wire = '3';
                 row.offsetText = p3_O.toFixed(3);
-                row.speedArea = `≈ ${p3SpeedArea}`;
-                row.speedAreaH40 = `≈ ${p3SpeedAreaH40}`;
+                row.speedArea = p3SpeedArea;
+                row.speedAreaH40 = p3SpeedAreaH40;
                 row.feedRate = p3FeedRate;
                 row.Ra = passes === 3 ? (isHard ? '1.0 - 1.2' : '1.2 - 1.4') : '~ 1.0 - 1.2';
                 row.hz = p3_hz;
@@ -2142,12 +2148,12 @@ function initApp() {
                 let p4_ton = H <= 60 ? 2 : 3;
                 let p4_po = isHard ? 12 : 15;
                 let p4_vf = isHard ? 25 : 22;
-                let p4_hz = H <= 60 ? 100 : 80;
                 let p4_O = H <= 40 ? 0.004 : 0.005;
 
-                let p4SpeedArea = H <= 40 ? 280 : 200;
-                let p4FeedRate = (p4SpeedArea / H).toFixed(2);
-                let p4SpeedAreaH40 = Math.round(parseFloat(p4FeedRate) * 40);
+                let p4_hz = H <= 60 ? 100 : 80;
+                let p4SpeedAreaH40 = Math.round(p4_hz * 2.4);
+                let p4FeedRate = (p4_hz * 0.060).toFixed(2);
+                let p4SpeedArea = Math.round(parseFloat(p4FeedRate) * H);
 
                 row.ti = p4_ton;
                 row.Po = p4_po;
@@ -2156,8 +2162,8 @@ function initApp() {
                 row.VF = p4_vf;
                 row.Wire = '3';
                 row.offsetText = p4_O.toFixed(3);
-                row.speedArea = `≈ ${p4SpeedArea}`;
-                row.speedAreaH40 = `≈ ${p4SpeedAreaH40}`;
+                row.speedArea = p4SpeedArea;
+                row.speedAreaH40 = p4SpeedAreaH40;
                 row.feedRate = p4FeedRate;
                 row.Ra = passes === 4 ? (isHard ? '0.6 - 0.8' : '0.8 - 1.0') : '~ 0.6 - 0.8';
                 row.hz = p4_hz;
@@ -2168,12 +2174,12 @@ function initApp() {
                 let p5_ton = H <= 80 ? 1 : 2;
                 let p5_po = isHard ? 16 : 20;
                 let p5_vf = isHard ? 20 : 18;
-                let p5_hz = H <= 80 ? 80 : 60;
                 let p5_O = H <= 60 ? 0.002 : 0.003;
 
-                let p5SpeedArea = H <= 40 ? 220 : 160;
-                let p5FeedRate = (p5SpeedArea / H).toFixed(2);
-                let p5SpeedAreaH40 = Math.round(parseFloat(p5FeedRate) * 40);
+                let p5_hz = H <= 80 ? 80 : 60;
+                let p5SpeedAreaH40 = Math.round(p5_hz * 2.4);
+                let p5FeedRate = (p5_hz * 0.060).toFixed(2);
+                let p5SpeedArea = Math.round(parseFloat(p5FeedRate) * H);
 
                 row.ti = p5_ton;
                 row.Po = p5_po;
@@ -2182,8 +2188,8 @@ function initApp() {
                 row.VF = p5_vf;
                 row.Wire = '3';
                 row.offsetText = p5_O.toFixed(3);
-                row.speedArea = `≈ ${p5SpeedArea}`;
-                row.speedAreaH40 = `≈ ${p5SpeedAreaH40}`;
+                row.speedArea = p5SpeedArea;
+                row.speedAreaH40 = p5SpeedAreaH40;
                 row.feedRate = p5FeedRate;
                 row.Ra = isHard ? '≤ 0.4 - 0.6' : '≤ 0.5 - 0.7';
                 row.hz = p5_hz;
