@@ -1,6 +1,6 @@
 {
-  "version": "3.5.24",
-  "buildTimestamp": 1788662484145,
+  "version": "3.5.25",
+  "buildTimestamp": 1788665471842,
   "releaseDate": "2026-09-06",
-  "description": "Standardize Hz and Fc(H40) display formula for Tab 2 multi-pass (Pass 2-5): Fc m\u00e1y = Hz * 2.4; feedRate = Hz * 0.060; Fc th\u1ef1c = feedRate * H; 100Hz rigorously maps to 240 mm2/min"
+  "description": "Implement stepping Hz limit rules: final finish pass 80-100Hz (H<=170) and 60-80Hz (H>170); preceding passes step +15Hz (5P), +20Hz (4P), +25Hz (3P); Pass 1 safe range 150-200Hz for unrestricted roughing"
 }

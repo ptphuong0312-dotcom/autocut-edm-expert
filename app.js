@@ -2006,11 +2006,7 @@ function initApp() {
         let p2_ip = H <= 60 ? 2 : 3;
         let p2_volt = H <= 40 ? 'Low' : 'High';
         let p2_vf = isHard ? (H <= 60 ? 40 : 36) : (H <= 60 ? 36 : 32);
-        let p2_hz;
-        if (H <= 40) p2_hz = 150;
-        else if (H <= 140) p2_hz = 100;
-        else if (H <= 170) p2_hz = 80;
-        else p2_hz = 60;
+
 
         if (state.wsStrategyLevel === 1) { p2_ton = Math.max(2, p2_ton - 2); p2_ip = Math.max(1, p2_ip - 1); }
         else if (state.wsStrategyLevel === 5) { p2_ton += 4; }
@@ -2039,6 +2035,47 @@ function initApp() {
             if (H > 140) calculated_O2 = Math.min(calculated_O2, 0.018);
         }
 
+        // TÍNH TOÁN DÃY GIỚI HẠN TẦN SỐ (HZ) THEO NGUYÊN TẮC CÔNG NGHỆ XƯỞNG
+        // 1. Pass 1 (Cắt phá): 150 - 200 Hz (H <= 170) để luôn lớn hơn tốc độ cắt, không kìm hãm công suất phóng điện
+        let p1_hz;
+        if (H <= 40) {
+            p1_hz = 200;
+        } else if (H <= 170) {
+            p1_hz = Math.round(200 - (H - 40) * (200 - 150) / (170 - 40));
+        } else {
+            p1_hz = Math.round(150 - (Math.min(300, H) - 170) * (150 - 50) / (300 - 170));
+        }
+
+        // 2. Pass tinh cuối cùng:
+        // H <= 170: 80 - 100 Hz (H=5 -> 100, H=170 -> 80)
+        // H > 170: 60 - 80 Hz (H=170 -> 80, H=300 -> 60)
+        let final_hz;
+        if (H <= 170) {
+            let raw_final = 100 - (Math.max(5, H) - 5) * (100 - 80) / (170 - 5);
+            final_hz = Math.round(raw_final / 5.0) * 5;
+        } else {
+            let raw_final = 80 - (Math.min(300, H) - 170) * (80 - 60) / (300 - 170);
+            final_hz = Math.round(raw_final / 5.0) * 5;
+        }
+
+        // 3. Bước nhảy delta_hz ngược từ pass cuối cùng về trước:
+        // 5 Pass: từng 15 Hz (Ví dụ H20: 100 -> 115 -> 130 -> 145)
+        // 4 Pass: từng 20 Hz (Ví dụ H20: 100 -> 120 -> 140)
+        // 3 Pass: từng 25 Hz (Ví dụ H20: 100 -> 125)
+        // 2 Pass: Pass 2 = final_hz (Ví dụ H20: 100, H85: 90, H165: 80)
+        const stepDeltaMap = { 5: 15, 4: 20, 3: 25, 2: 0 };
+        const stepDelta = stepDeltaMap[passes] || 0;
+
+        const multiPassHzList = new Array(passes);
+        multiPassHzList[0] = p1_hz;
+        if (passes > 1) {
+            multiPassHzList[passes - 1] = final_hz;
+            for (let p = passes - 2; p >= 1; p--) {
+                const stepsFromFinal = (passes - 1) - p;
+                multiPassHzList[p] = final_hz + stepsFromFinal * stepDelta;
+            }
+        }
+
         // GENERATE ROWS FOR MULTI-PASS (1 TO 5 PASSES)
         for (let i = 0; i < passes; i++) {
             let row = { passName: `Pass ${i + 1}`, badgeClass: i === 0 ? 'badge-primary' : 'badge-secondary' };
@@ -2062,11 +2099,7 @@ function initApp() {
                 let speedArea = Math.round(mrr_vol / B);
                 let feedRate = (speedArea / H).toFixed(2);
 
-                if (H <= 140) {
-                    row.hz = Math.round(150 - (Math.max(12, H) - 12) * ((150 - 60) / (140 - 12)));
-                } else {
-                    row.hz = Math.round(60 - (Math.min(300, H) - 140) * ((60 - 50) / (300 - 140)));
-                }
+                row.hz = multiPassHzList[0];
 
                 row.ampe = (i_peak * duty * 2.2857 * (u_arc / 27)).toFixed(1);
                 row.ti = Ton;
@@ -2098,6 +2131,7 @@ function initApp() {
                 row.offsetText = calculated_O2.toFixed(3);
                 
                 // Chuẩn hóa Tần số giới hạn và Hiển thị theo Máy Xưởng (Rule 02: Fc máy = Hz * 2.4)
+                let p2_hz = multiPassHzList[1];
                 let p2SpeedAreaH40 = Math.round(p2_hz * 2.4);
                 let p2FeedRate = (p2_hz * 0.060).toFixed(2);
                 let p2SpeedArea = Math.round(parseFloat(p2FeedRate) * H);
@@ -2124,7 +2158,7 @@ function initApp() {
                 let p3_vf = isHard ? 35 : 30;
                 let p3_O = H <= 20 ? 0.009 : (H <= 80 ? 0.010 : 0.012);
                 
-                let p3_hz = H <= 40 ? 120 : (H <= 120 ? 100 : 80);
+                let p3_hz = multiPassHzList[2];
                 let p3SpeedAreaH40 = Math.round(p3_hz * 2.4);
                 let p3FeedRate = (p3_hz * 0.060).toFixed(2);
                 let p3SpeedArea = Math.round(parseFloat(p3FeedRate) * H);
@@ -2150,7 +2184,7 @@ function initApp() {
                 let p4_vf = isHard ? 25 : 22;
                 let p4_O = H <= 40 ? 0.004 : 0.005;
 
-                let p4_hz = H <= 60 ? 100 : 80;
+                let p4_hz = multiPassHzList[3];
                 let p4SpeedAreaH40 = Math.round(p4_hz * 2.4);
                 let p4FeedRate = (p4_hz * 0.060).toFixed(2);
                 let p4SpeedArea = Math.round(parseFloat(p4FeedRate) * H);
@@ -2176,7 +2210,7 @@ function initApp() {
                 let p5_vf = isHard ? 20 : 18;
                 let p5_O = H <= 60 ? 0.002 : 0.003;
 
-                let p5_hz = H <= 80 ? 80 : 60;
+                let p5_hz = multiPassHzList[4];
                 let p5SpeedAreaH40 = Math.round(p5_hz * 2.4);
                 let p5FeedRate = (p5_hz * 0.060).toFixed(2);
                 let p5SpeedArea = Math.round(parseFloat(p5FeedRate) * H);
