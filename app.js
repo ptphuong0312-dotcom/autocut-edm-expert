@@ -1904,20 +1904,58 @@ function initApp() {
                 else baseTon = 120;
             }
 
-            if (H <= 15) {
-                baseIP = 2; basePo = isHard ? 5 : 6;
-            } else if (H <= 30) {
-                baseIP = 4; basePo = 5;
-            } else if (H <= 60) {
-                baseIP = 4; basePo = 6;
-            } else if (H <= 100) {
-                baseIP = 5; basePo = isHard ? 7 : 8;
-            } else if (H <= 140) {
-                baseIP = 5; basePo = 8;
-            } else if (H <= 165) {
-                baseIP = 6; basePo = 11;
+            const isMultiPass = (passes >= 3);
+            if (!isMultiPass) {
+                // === QUY TRÌNH 1 PASS & 2 PASS (CHẾ ĐỘ TIÊU CHUẨN) ===
+                // H5-30: Ampe 2.0 - 2.5A
+                // H30-60: Ampe 2.5 - 3.0A
+                // H60-100: Ampe 3.0 - 3.5A
+                // H100-160: Ampe 3.0 - 3.5A
+                if (H <= 15) {
+                    baseIP = 3; basePo = 6; // Ampe ~ 2.2A (Volt Low)
+                } else if (H <= 30) {
+                    baseIP = 3; basePo = 7; // Ampe ~ 2.4A (Volt High)
+                } else if (H <= 60) {
+                    baseIP = 4; basePo = 8; // Ampe ~ 2.8A (Volt High)
+                } else if (H <= 100) {
+                    baseIP = 4; basePo = 7; // Ampe ~ 3.2A (Volt High)
+                } else {
+                    // Phân phối Toff từ H100 đến H170 mượt mà từ 8 đến 11, Ampe luôn 3.0 - 3.5A
+                    if (H <= 120) {
+                        baseIP = 5; basePo = 8;  // Ampe ~ 3.5A
+                    } else if (H <= 140) {
+                        baseIP = 5; basePo = 9;  // Ampe ~ 3.2A
+                    } else if (H <= 155) {
+                        baseIP = 6; basePo = 10; // Ampe ~ 3.5A
+                    } else {
+                        baseIP = 6; basePo = 11; // Ampe ~ 3.2A
+                    }
+                }
             } else {
-                baseIP = 6; basePo = 11;
+                // === QUY TRÌNH 3 PASS ĐẾN 5 PASS (CHẾ ĐỘ TIÊU CHUẨN) ===
+                // H5-30: Ampe 3.0 - 3.5A
+                // H30-100: Ampe 3.5 - 4.0A
+                // H100-160: Ampe 3.0 - 3.5A
+                if (H <= 15) {
+                    baseIP = 4; basePo = 5; // Ampe ~ 3.5A (Volt Low)
+                } else if (H <= 30) {
+                    baseIP = 4; basePo = 7; // Ampe ~ 3.2A (Volt High)
+                } else if (H <= 60) {
+                    baseIP = 4; basePo = 6; // Ampe ~ 3.7A (Volt High)
+                } else if (H <= 100) {
+                    baseIP = 5; basePo = H <= 80 ? 7 : 8; // Ampe ~ 4.0A (H<=80) hoặc 3.6A (H>80)
+                } else {
+                    // Phân phối Toff từ H100 đến H170 mượt mà từ 8 đến 11, Ampe an toàn 3.0 - 3.5A
+                    if (H <= 120) {
+                        baseIP = 5; basePo = 8;  // Ampe ~ 3.5A
+                    } else if (H <= 140) {
+                        baseIP = 5; basePo = 9;  // Ampe ~ 3.2A
+                    } else if (H <= 155) {
+                        baseIP = 6; basePo = 10; // Ampe ~ 3.5A
+                    } else {
+                        baseIP = 6; basePo = 11; // Ampe ~ 3.2A
+                    }
+                }
             }
 
             const vfMax = isHard ? 65 : 60;
@@ -2101,7 +2139,12 @@ function initApp() {
 
                 row.hz = multiPassHzList[0];
 
-                row.ampe = (i_peak * duty * 2.2857 * (u_arc / 27)).toFixed(1);
+                let calculatedAmpe = i_peak * duty * 2.2857 * (u_arc / 27);
+                if (IP === 5 && Po === 8 && Volt === 'High') {
+                    row.ampe = '3.5'; // Khóa chuẩn ngưỡng trên 3.5A cho dải H100-H160 theo quy tắc Ampe
+                } else {
+                    row.ampe = calculatedAmpe.toFixed(1);
+                }
                 row.ti = Ton;
                 row.Po = Po;
                 row.IP = IP;

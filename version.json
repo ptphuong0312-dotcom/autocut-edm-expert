@@ -1,6 +1,6 @@
 {
-  "version": "3.5.25",
-  "buildTimestamp": 1788665471842,
-  "releaseDate": "2026-09-06",
-  "description": "Implement stepping Hz limit rules: final finish pass 80-100Hz (H<=170) and 60-80Hz (H>170); preceding passes step +15Hz (5P), +20Hz (4P), +25Hz (3P); Pass 1 safe range 150-200Hz for unrestricted roughing"
+  "version": "3.5.26",
+  "buildTimestamp": 1788756186470,
+  "releaseDate": "2026-09-07",
+  "description": "Standardize Pass 1 electrical parameters for 1-2 Pass (H5-30: 2.0-2.5A, H30-60: 2.5-3.0A, H60-160: 3.0-3.5A) and 3-5 Pass (H5-30: 3.0-3.5A, H30-100: 3.5-4.0A, H100-160: 3.0-3.5A); Smooth Toff progression from H100 to H170 (Po 8 -> 9 -> 10 -> 11)"
 }
