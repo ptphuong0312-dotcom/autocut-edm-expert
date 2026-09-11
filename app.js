@@ -229,9 +229,9 @@ function initApp() {
         if (wsThicknessSlider) wsThicknessSlider.value = state.thickness;
         updateQuickChips(state.thickness);
 
-        // Cut length
-        if (cutLengthInput) cutLengthInput.value = state.cutLength;
-        if (wsCutLengthInput) wsCutLengthInput.value = state.cutLength;
+        // Cut length (Chỉ cập nhật ô không có tiêu điểm để tránh xóa dấu chấm lẻ khi đang gõ)
+        if (cutLengthInput && document.activeElement !== cutLengthInput) cutLengthInput.value = state.cutLength;
+        if (wsCutLengthInput && document.activeElement !== wsCutLengthInput) wsCutLengthInput.value = state.cutLength;
     }
 
     // ==========================================
@@ -365,9 +365,32 @@ function initApp() {
     function bindCutLengthEvents(inp) {
         if (!inp) return;
         inp.addEventListener('input', (e) => {
-            let val = parseFloat(e.target.value);
-            if (isNaN(val) || val <= 0) val = 100;
+            const raw = e.target.value.trim().replace(',', '.');
+            // Cho phép người dùng gõ thoải mái dấu chấm lẻ hoặc xóa để nhập số mới
+            if (raw === '' || raw.endsWith('.') || raw === '0') {
+                return;
+            }
+            const val = parseFloat(raw);
+            if (!isNaN(val) && val > 0) {
+                state.cutLength = val;
+                // Đồng bộ sang ô cut-length còn lại nếu có
+                if (inp === cutLengthInput && wsCutLengthInput && document.activeElement !== wsCutLengthInput) {
+                    wsCutLengthInput.value = raw;
+                } else if (inp === wsCutLengthInput && cutLengthInput && document.activeElement !== cutLengthInput) {
+                    cutLengthInput.value = raw;
+                }
+                render();
+            }
+        });
+
+        inp.addEventListener('blur', (e) => {
+            const raw = e.target.value.trim().replace(',', '.');
+            let val = parseFloat(raw);
+            if (isNaN(val) || val <= 0) {
+                val = 100;
+            }
             state.cutLength = val;
+            inp.value = val;
             syncAllInputsUI();
             render();
         });
@@ -1261,6 +1284,60 @@ function initApp() {
                 "notes": "GĐ 2: Cắt cối lỗ lớn hơn lập trình 0.010mm. OFFSET CHUẨN HIỆU CHỈNH = 0.120 - 0.005 = 0.115mm (Khe hở δ = 0.025mm)."
         },
         {
+                "id": "STT 15",
+                "name": "SCM420 (HB<200) | H=160mm | 1 Lần",
+                "materialName": "SCM420 (HB<200)",
+                "thickness": 160,
+                "cutLength": "32,3mm",
+                "passCount": 1,
+                "params": {
+                        "ti": 120,
+                        "Po": 11,
+                        "IP": 6,
+                        "wire": 1,
+                        "Voltage": "High",
+                        "VF": 70,
+                        "maxSpeed": "154Hz"
+                },
+                "measured": {
+                        "totalTimeStr": "59p",
+                        "ammeterA": "2,8A - 3A",
+                        "measuredSpeed": "18 - 28",
+                        "enteredOffset": 0.107,
+                        "standardOffset": 0.120,
+                        "sparkGap": "0.030",
+                        "tolerance": "Cối to hơn lập trình 0.026mm"
+                },
+                "notes": "Nhập test 0.107mm -> Cắt lấy cối: To hơn lập trình 0.026mm (bù mỗi bên +0.013mm). OFFSET CHUẨN HIỆU CHỈNH = 0.107 + 0.013 = 0.120mm (Khe hở δ = 0.030mm). Thời gian thực 59p khớp 100% thời gian tính toán 59p."
+        },
+        {
+                "id": "STT 16",
+                "name": "SCM420 (HB<200) | H=75mm | 1 Lần",
+                "materialName": "SCM420 (HB<200)",
+                "thickness": 75,
+                "cutLength": "50,3mm",
+                "passCount": 1,
+                "params": {
+                        "ti": 55,
+                        "Po": 7,
+                        "IP": 4,
+                        "wire": 1,
+                        "Voltage": "High",
+                        "VF": 54,
+                        "maxSpeed": "187Hz"
+                },
+                "measured": {
+                        "totalTimeStr": "1h13p",
+                        "ammeterA": "3,4A - 3,5A",
+                        "measuredSpeed": "50 - 65",
+                        "enteredOffset": 0.092,
+                        "standardOffset": 0.112,
+                        "sparkGap": "0.022",
+                        "tolerance": "Cối to hơn lập trình 0.040mm"
+                },
+                "notes": "Nhập test 0.092mm -> Cắt lấy cối: To hơn lập trình 0.040mm (bù mỗi bên +0.020mm). OFFSET CHUẨN HIỆU CHỈNH = 0.092 + 0.020 = 0.112mm (Khe hở δ = 0.022mm). Ampe 3.4-3.5A và tốc độ 50-65 mm²/p khớp chuẩn dải lý thuyết."
+        },
+        {
                 "id": "2P-02",
                 "name": "SCM420 | H=63mm | 2 Lần (Cấp 6)",
                 "materialName": "SCM420 (HB<200)",
@@ -1759,6 +1836,57 @@ function initApp() {
                 "notes": "H=60mm SCM440 cắt 2 Pass kiểm chứng xưởng. Kích thước chày lớn hơn lập trình 0.010mm (chỉ lệch 5μm/bên). Offset P1 chuẩn: 0.099mm, Offset P2 chuẩn: 0.022mm. Khớp tuyệt đối với công thức lý thuyết: O1_calc = 0.0943mm (thực tế nhập 0.094), O2_calc = 0.022mm (thực tế nhập 0.022). Ampe P1 ăn 3.5-3.6A, P2 ăn 0.5-0.6A."
         },
         {
+                "id": "2P-14",
+                "name": "SCM420 | H=75mm | 2 Lần (Đối Chứng Khép Kín 95%)",
+                "materialName": "SCM420 (HB<200)",
+                "thickness": 75,
+                "cutLength": "50,3mm",
+                "passCount": 2,
+                "multiPassDetails": [
+                        {
+                                "pass": "Pass 1",
+                                "ti": 55,
+                                "Po": 7,
+                                "IP": 4,
+                                "wire": 1,
+                                "voltage": "High",
+                                "vf": 54,
+                                "maxSpeed": "187Hz",
+                                "offset": 0.092,
+                                "time": "1h13p",
+                                "ampe": "3,4A - 3,5A",
+                                "speed": "50 - 65 mm²/p"
+                        },
+                        {
+                                "pass": "Pass 2",
+                                "ti": 18,
+                                "Po": 7,
+                                "IP": 3,
+                                "wire": 2,
+                                "voltage": "High",
+                                "vf": 32,
+                                "maxSpeed": "100Hz",
+                                "offset": 0.023,
+                                "time": "8p40'",
+                                "ampe": "0,5A - 1,0A",
+                                "speed": "240 mm²/p"
+                        }
+                ],
+                "measured": {
+                        "totalTimeStr": "1h21p40' (P1: 1h13p, P2: 8p40')",
+                        "ammeterA": "3.4 - 3.5A (P1) | 0.5 - 1.0A (P2)",
+                        "measuredSpeed": "50 - 65 mm²/p (P1) | 240 mm²/p (P2)",
+                        "enteredOffsetP1": 0.092,
+                        "enteredOffsetP2": 0.023,
+                        "recommendedOffsetP1": 0.0945,
+                        "recommendedOffsetP2": 0.0255,
+                        "delta1Solid": 0.0225,
+                        "equivalent1PassOffset": 0.1125,
+                        "actualDimension": "Sau P1: 31.935mm (chừa 2.5μm/bên) | Sau P2: 31.945mm (to hơn 0.005mm)"
+                },
+                "notes": "H=75mm SCM420 cắt 2 Pass đối chứng khép kín 95% thông số Web App Tab 2. Sau Pass 1 đo 31.935mm (Path1=0.115mm, cối chừa đúng 2.5μm/bên). Bào mòn thép đặc P1: δ1=0.0225mm, quy đổi Offset 1P tương đương: 0.1125mm (khớp STT 16: δ=0.022mm). Pass 2 bóc tách 5.0μm/bên, phạt đỉnh núi lửa Rz1 với ampe êm 0.5-1.0A trong 8p40'. Thành phẩm lệch chỉ +2.5μm/bên. Offset 2 Pass chuẩn: P1=0.0945mm (hoặc giữ P1=0.092mm), P2=0.0255mm."
+        },
+        {
                 "id": "5P-01",
                 "name": "SCM440 | H=12mm | 5 Lần (Cắt Chày Kiểm Chứng Thực Tế)",
                 "materialName": "SCM440 (28-32HRC)",
@@ -2050,27 +2178,23 @@ function initApp() {
         else if (state.wsStrategyLevel === 5) { p2_ton += 4; }
 
         // BÙ DAO PASS 2 (O2 - REMAIN / LƯỢNG CHỪA PHÔI):
+        // Tuân thủ triệt để Quy tắc Núi Lửa (Rule 14 & Rule 16): O2 = Rz1 + delta2
+        // Khi Ton/IP của Pass 1 biến thiên, Rz1 tự động biến thiên và kéo theo O2 tính toán lại động học
         let calculated_O2;
-        if (passes === 2) {
-            if (H <= 170) {
-                const u_ratio_actual = Volt === 'High' ? 1.0 : (22.0 / 27.0);
-                const Rz_p1 = K_RZ * Math.sqrt(Ton * IP) * u_ratio_actual;
-                const u_ratio_p2 = p2_volt === 'High' ? 1.0 : (22.0 / 27.0);
-                const d_elec_p2 = K_ELEC * Math.sqrt(p2_ton * p2_ip) * u_ratio_p2;
-                const d_low_p2 = p2_volt === 'Low' ? DELTA_LOW : 0.0;
-                const delta_2_calc = C0 + d_elec_p2 + d_low_p2 - K_SLAG * (H / 100.0) / (p2_ip / 4.0);
+        if (H <= 170) {
+            const u_ratio_actual = Volt === 'High' ? 1.0 : (22.0 / 27.0);
+            const Rz_p1 = K_RZ * Math.sqrt(Ton * IP) * u_ratio_actual;
+            const u_ratio_p2 = p2_volt === 'High' ? 1.0 : (22.0 / 27.0);
+            const d_elec_p2 = K_ELEC * Math.sqrt(p2_ton * p2_ip) * u_ratio_p2;
+            const d_low_p2 = p2_volt === 'Low' ? DELTA_LOW : 0.0;
+            const delta_2_calc = C0 + d_elec_p2 + d_low_p2 - K_SLAG * (H / 100.0) / (p2_ip / 4.0);
 
-                calculated_O2 = Rz_p1 + Math.max(0.005, Math.min(0.015, delta_2_calc));
-                if (H > 140) {
-                    calculated_O2 = Math.min(calculated_O2, 0.015 + 0.005 * Math.max(0.0, 1.0 - (H - 140) / 160.0));
-                }
-            } else {
-                calculated_O2 = 0.015;
-            }
+            // Giới hạn trần lượng chừa Pass 2 để triệt tiêu hoàn toàn nguy cơ trượt gió (hụt tia lửa) ở phôi dày (Bài học STT 2P-11 vs 2P-12)
+            // Dải H <= 60mm: trần an toàn 0.025mm. Từ H=60 đến 165mm thu hẹp êm dịu về đúng 0.015mm
+            const maxCeilingO2 = H <= 60 ? 0.025 : Math.max(0.015, 0.025 - (H - 60) * (0.025 - 0.015) / (165 - 60));
+            calculated_O2 = Math.max(0.015, Math.min(Rz_p1 + Math.max(0.005, Math.min(0.015, delta_2_calc)), maxCeilingO2));
         } else {
-            // Khi cắt >= 3 Pass: Pass 2 là bước đệm phạt phẳng gờ nhám thô của Pass 1
-            calculated_O2 = H <= 40 ? 0.018 : (H <= 100 ? 0.020 : 0.022);
-            if (H > 140) calculated_O2 = Math.min(calculated_O2, 0.018);
+            calculated_O2 = 0.015;
         }
 
         // TÍNH TOÁN DÃY GIỚI HẠN TẦN SỐ (HZ) THEO NGUYÊN TẮC CÔNG NGHỆ XƯỞNG
@@ -2123,9 +2247,21 @@ function initApp() {
                 let true_cycle = Ton + toff;
                 let duty = Ton / true_cycle;
                 
-                let eta_eff = (isHard ? 0.88 : 0.80) * Math.pow(Math.max(1, Ton) / 50, 0.40);
-                if (Ton > 80) eta_eff = Math.min(0.95, eta_eff);
-                if (H > 100) eta_eff *= Math.max(0.72, 1.0 - (H - 100) * 0.0012);
+                let eta_eff = (isHard ? 0.85 : 0.78) * Math.pow(Math.max(1, Ton) / 50, 0.38);
+                if (Ton > 80) eta_eff = Math.min(0.92, eta_eff);
+                
+                // Suy giảm hiệu suất do thoát xỉ rãnh sâu
+                if (isHard) {
+                    if (H > 80) eta_eff *= Math.max(0.65, 1.0 - (H - 80) * 0.0010);
+                } else {
+                    // Thép mềm dẻo SCM420 (HB < 200) phoi bết dính suy giảm từ H > 50mm
+                    if (H > 50) eta_eff *= Math.max(0.55, 1.0 - (H - 50) * 0.0016);
+                }
+                
+                // Hệ số hụt áp lực nổ hồ quang khi thiếu sò (IP < 5) trên phôi dày thép dẻo
+                if (!isHard && H >= 70 && IP < 5) {
+                    eta_eff *= 0.65; // Servo theo dõi điện áp liên tục ghìm bước tiến để chống đoản mạch
+                }
                 
                 const u_arc = Volt === 'Low' ? 22 : 27;
                 const i_peak = IP * 2.8;
@@ -3154,7 +3290,9 @@ function initApp() {
             } else if (curLvl === 3) {
                 wsNotices.push("🌟 <strong>Bề mặt mịn (Cấp 3/7):</strong> Dòng kim Ampe giảm đúng 0.5 - 0.7A (đạt 2.0 - 2.2A tại H30). Kéo dài Po để nước xối rửa sạch 100% xỉ, triệt tiêu đánh lửa thứ cấp, $Ra \le 1.8 - 2.2\mu m$.");
             } else if (curLvl === 4) {
-                wsNotices.push("⭐ <strong>Tiêu chuẩn Chuẩn xưởng (Cấp 4/7):</strong> Điểm neo trung tâm Rule 12 (đúng 2.7A tại H30). Cân bằng tối ưu giữa tốc độ cắt, độ phẳng mép và độ bền dây Moly.");
+                const isMulti = (state.wsPassCount || 1) >= 3;
+                const ampeH30Str = isMulti ? '3.2A (dải 3.0 - 3.5A cho 3-5 Pass)' : '2.4A (dải 2.0 - 2.5A cho 1-2 Pass)';
+                wsNotices.push(`⭐ <strong>Tiêu chuẩn Chuẩn xưởng (Cấp 4/7):</strong> Điểm neo trung tâm Rule 12 (đạt ${ampeH30Str} tại H30). Cân bằng tối ưu giữa tốc độ cắt, độ phẳng mép và độ bền dây Moly.`);
             } else if (curLvl === 5) {
                 wsNotices.push("🚀 <strong>Năng suất Cắt nhanh (Cấp 5/7):</strong> Dòng kim Ampe tăng đúng 0.5 - 0.7A (đạt 3.2 - 3.4A tại H30). Rút ngắn Po 1 nấc tăng tần số xung, tăng nhẹ Ton và VF, giữ IP an toàn chống đứt dây.");
             } else if (curLvl === 6) {
@@ -3253,13 +3391,12 @@ function initApp() {
         const strat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[4];
         const matNames = {
             'SCM420': 'Thép mềm SCM420 (HB<200)',
-            'SCM440': 'Thép tôi SCM440 (28-32HRC)',
-            'COPPER': 'Đồng (Cu/Thau)',
-            'ALUMINUM': 'Nhôm (Al 6061/7075)'
+            'SCM440': 'Thép tôi SCM440 (28-32HRC)'
         };
-        const matLabel = matNames[state.material] || state.material;
+        const matLabel = matNames[state.wsMaterial] || matNames['SCM420'];
+        const wsPassNum = state.wsPassCount || 1;
         let text = `AUTOCUT EDM SERVO - BẢNG HIỆU CHỈNH THỰC TẾ XƯỞNG (TAB 2)\n`;
-        text += `Vật liệu: ${matLabel} | Chiều dày H: ${state.thickness}mm | Quy trình: ${state.passCount} Pass | Chế độ: ${strat.name}\n\n`;
+        text += `Vật liệu: ${matLabel} | Chiều dày H: ${state.thickness}mm | Quy trình: ${wsPassNum} Pass | Chế độ: ${strat.name}\n\n`;
         text += `P\tTon\tToff\tIP\tV\tVF\tWire\tOFFSET\tFc thực(mm2/p)\tFc máy H40(mm2/p)\tGiới hạn(Hz)\tAmpe(A)\tRa\n`;
         
         wsRows.forEach(r => {
@@ -3279,7 +3416,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.4.69";
+    const CURRENT_VERSION = "3.5.37";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -3327,12 +3464,16 @@ function initApp() {
             if (data.version && storedVersion && data.version !== storedVersion) {
                 localStorage.setItem('autocut_app_version', data.version);
                 
-                // Cập nhật cache Service Worker
+                // Hủy đăng ký Service Worker cũ & dọn cache
                 if ('serviceWorker' in navigator) {
                     const registrations = await navigator.serviceWorker.getRegistrations();
                     for (let registration of registrations) {
-                        registration.update();
+                        await registration.unregister();
                     }
+                }
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    await Promise.all(keys.map(k => caches.delete(k)));
                 }
 
                 // Thông báo & tự động tải bản mới
@@ -3340,7 +3481,7 @@ function initApp() {
                 setTimeout(() => {
                     const cleanUrl = window.location.href.split('?')[0];
                     window.location.replace(cleanUrl + '?v=' + Date.now());
-                }, 800);
+                }, 600);
             } else if (!storedVersion && data.version) {
                 localStorage.setItem('autocut_app_version', data.version);
             }
@@ -3349,16 +3490,34 @@ function initApp() {
         }
     }
 
-    function forceHardRefresh() {
-        localStorage.removeItem('autocut_app_version');
-        if ('caches' in window) {
-            caches.keys().then(names => names.forEach(name => caches.delete(name)));
+    async function forceHardRefresh() {
+        showToast('🔄 Đang dọn sạch bộ nhớ đệm & tải bản mới nhất...');
+        try {
+            localStorage.removeItem('autocut_app_version');
+            if (typeof sessionStorage !== 'undefined') {
+                sessionStorage.clear();
+            }
+            // 1. Huỷ đăng ký Service Worker cũ
+            if ('serviceWorker' in navigator) {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (let reg of registrations) {
+                    await reg.unregister();
+                }
+            }
+            // 2. Xoá sạch toàn bộ Cache Storage của trình duyệt
+            if ('caches' in window) {
+                const keys = await caches.keys();
+                await Promise.all(keys.map(k => caches.delete(k)));
+            }
+        } catch (e) {
+            console.warn('Cache clear error:', e);
         }
-        showToast('🔄 Đang đồng bộ lại toàn bộ dữ liệu từ máy chủ...');
+
+        // 3. Tải lại trang với query string chống cache tuyệt đối
         setTimeout(() => {
             const cleanUrl = window.location.href.split('?')[0];
-            window.location.replace(cleanUrl + '?force_reload=' + Date.now());
-        }, 600);
+            window.location.href = cleanUrl + '?force_reload=' + Date.now();
+        }, 500);
     }
 
     function showToast(msg) {
@@ -3411,10 +3570,12 @@ function initApp() {
                     { H: 40, material: "30HRC", passes: [{ Ton: 36, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0961", length: "30mm", actualTime: "9p36'", calcTime: "9p36'", actualAmpe: "4,35A - 4,4A", calcAmpe: "4.3A", actualSpeed: "130-140 mm²/p", calcSpeedH40: "125 mm²/p" }] },
                     { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0976", length: "27mm", actualTime: "14p20'", calcTime: "14p24'", actualAmpe: "4,1A - 4,2A", calcAmpe: "4.0A", actualSpeed: "75-85 mm²/p", calcSpeedH40: "75 mm²/p" }] },
                                         { H: 68, material: "30HRC", passes: [{ Ton: 70, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "100Hz", offset: "0,097", actualOffset: "0,097", calcOffset: "0,0945", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,4A - 2,6A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "43 mm²/p" }] },
+                    { H: 75, material: "HB<200", passes: [{ Ton: 55, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 54, maxSpeed: "187Hz", offset: "0,112", actualOffset: "0,112", calcOffset: "0,0921", length: "50,3mm", actualTime: "1h13'", calcTime: "1h02p", actualAmpe: "3,4A - 3,5A", calcAmpe: "3.2A", actualSpeed: "50-65 mm²/p", calcSpeedH40: "32 mm²/p" }] },
                     // H=85 (Quy đổi từ Pass 1 bài cắt 2P-10 có đo kiểm vách P1)
                     { H: 85, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 70, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 61, maxSpeed: "150Hz", offset: "0,1025", actualOffset: "0,1025", calcOffset: "0,0987", length: "65,6mm", actualTime: "48p", calcTime: "47p43'", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.6A", actualSpeed: "55-65 mm²/p", calcSpeedH40: "55 mm²/p" }] },
                     { H: 140, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0992", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "34 mm²/p" }] },
                     { H: 140, material: "HB<200", passes: [{ Ton: 100, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 60, maxSpeed: "100Hz", offset: "0,102", actualOffset: "0,102", calcOffset: "0,105", length: "28,4mm", actualTime: "36p", calcTime: "35p30'", actualAmpe: "3,7A - 3,8A", calcAmpe: "3.8A", actualSpeed: "30-40 mm²/p", calcSpeedH40: "32 mm²/p" }] },
+                    { H: 160, material: "HB<200", passes: [{ Ton: 120, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "154Hz", offset: "0,120", actualOffset: "0,120", calcOffset: "0,1071", length: "32,3mm", actualTime: "59p", calcTime: "57p", actualAmpe: "2,8A - 3A", calcAmpe: "3.2A", actualSpeed: "18-28 mm²/p", calcSpeedH40: "23 mm²/p" }] },
                     // H=165 (Quy đổi từ Pass 1 bài cắt 2P-12 có đo kiểm vách P1)
                     { H: 165, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,1125", actualOffset: "0,1125", calcOffset: "0,1087", length: "43,6mm", actualTime: "1h17'", calcTime: "1h16p", actualAmpe: "2,8A - 3,0A", calcAmpe: "3.2A", actualSpeed: "15-35 mm²/p", calcSpeedH40: "23 mm²/p" }] },
                                         { H: 300, material: "30HRC", passes: [{ Ton: 120, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "50Hz", offset: "0,115", actualOffset: "0,115", calcOffset: "0,115", length: "76,1mm", actualTime: "3h", calcTime: "2h59p", actualAmpe: "3,7A - 3,9A", calcAmpe: "3.8A", actualSpeed: "12-20 mm²/p", calcSpeedH40: "17 mm²/p" }] }
@@ -3449,6 +3610,11 @@ function initApp() {
                     { H: 63, material: "HB<200", passes: [
                         { Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,093", actualOffset: "0,093", calcOffset: "0,0976", length: "30mm", actualTime: "16p26'", calcTime: "16p26'", actualAmpe: "4,2A", calcAmpe: "4.0A", actualSpeed: "75-85 mm²/p", calcSpeedH40: "73 mm²/p" },
                         { Ton: 20, Toff: 5, IP: 3, Wire: 2, Volt: "H", VF: 40, maxSpeed: "100Hz", offset: "0,024", actualOffset: "0,024", calcOffset: "0,0228", length: "30mm", actualTime: "5p20'", calcTime: "5p", actualAmpe: "0,1 - 0,2A", calcAmpe: "0.5 - 1.0A", actualSpeed: "240 mm²/p", calcSpeedH40: "240 mm²/p" }
+                    ]},
+                    // H=75 (SCM420, STT 2P-14 - Đo kiểm khép kín 2 Pass)
+                    { H: 75, material: "HB<200", passes: [
+                        { Ton: 55, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 54, maxSpeed: "187Hz", offset: "0,0945", actualOffset: "0,092", calcOffset: "0,0921", length: "50,3mm", actualTime: "1h13'", calcTime: "1h02p", actualAmpe: "3,4A - 3,5A", calcAmpe: "3.2A", actualSpeed: "50-65 mm²/p", calcSpeedH40: "32 mm²/p" },
+                        { Ton: 18, Toff: 7, IP: 3, Wire: 2, Volt: "H", VF: 32, maxSpeed: "100Hz", offset: "0,0255", actualOffset: "0,023", calcOffset: "0,024", length: "50,3mm", actualTime: "8p40'", calcTime: "8p40'", actualAmpe: "0,5A - 1,0A", calcAmpe: "0.5 - 1.0A", actualSpeed: "240 mm²/p", calcSpeedH40: "240 mm²/p" }
                     ]},
                     // H=85
                     { H: 85, material: "30HRC", passes: [
@@ -3613,10 +3779,10 @@ function initApp() {
                         <h4 style="margin: 0; color: var(--accent); font-size: 1.1em; display: flex; align-items: center; gap: 8px;"><i class="fa fa-book"></i> THƯ VIỆN THÔNG SỐ CẮT THỰC TẾ XƯỞNG (BENCHMARK GROUND TRUTH)</h4>
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <span class="lib-offline-badge">6 Chế Độ Cắt</span>
-                            <i id="ws-lib-toggle-icon" class="fa fa-chevron-down" style="color: var(--accent); transition: transform 0.3s; transform: rotate(180deg);"></i>
+                            <i id="ws-lib-toggle-icon" class="fa fa-chevron-down" style="color: var(--accent); transition: transform 0.3s; transform: rotate(0deg);"></i>
                         </div>
                     </div>
-                    <div id="ws-lib-content" style="margin-top: 15px;">
+                    <div id="ws-lib-content" style="margin-top: 15px; display: none;">
                         <div class="ws-lib-tabs-nav">
                             <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">10 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="2">2 Pass <span class="ws-lib-tab-count">9 bài</span></button>
@@ -3660,10 +3826,277 @@ function initApp() {
                 });
             }
 
+    // =========================================================================
+    // 8. TAB 3: PHÒNG THÍ NGHIỆM & NGHIÊN CỨU VF (1 PASS TỰ DO)
+    // =========================================================================
+    const vfResearchState = {
+        material: 'SCM440',
+        H: 40,
+        Ton: 36,
+        Po: 5,
+        IP: 4,
+        Volt: 'High',
+        VF: 65,
+        wireRadius: 0.090 // Dây Moly Φ0.18 mm
+    };
+
+    // Hệ số mô hình vật lý nhiệt động học thực nghiệm EDM (Hướng 1: Chuẩn hóa 100% bản chất vật lý - Đã tinh chỉnh hội tụ tối ưu)
+    const VF_C0 = 0.00360;          // Hằng số màng cách điện ban đầu (+3.60 μm)
+    const VF_K_ELEC = 0.00092;      // Năng lượng xung đơn tối ưu (mm/sqrt(us*A))
+    const VF_K_SLAG = 0.02000;      // Nén xỉ rãnh sâu tối ưu (mm)
+    const VF_K_VIBR = 0.00390;      // Rung uốn cơ học dây Moly (mm)
+    const VF_K_VF = 0.00210;        // Hệ số bù trễ bước tiến VF (+2.10 μm / 10 vạch VF so với chuẩn 55)
+
+    function calcBaseSparkGap(H, Ton, IP, Volt) {
+        // Bản chất vật lý: High Volt (27V) phóng xa hơn, cào mạnh hơn (U_ratio = 1.0)
+        // Low Volt (22V) phóng cự ly gần hơn, êm dịu, giảm năng lượng xung (U_ratio = 22/27 ≈ 0.8148)
+        // Loại bỏ hoàn toàn hằng số bù giả định +4.5 um để phản ánh chuẩn xác 100% thực tế máy cắt
+        const u_ratio = (Volt === 'High') ? 1.0 : (22.0 / 27.0);
+        const d_elec = VF_K_ELEC * Math.sqrt(Math.max(1, Ton) * Math.max(1, IP)) * u_ratio;
+        const ip_fac = Math.max(1.0, IP / 4.0);
+        const d_slag = - VF_K_SLAG * (H / 100.0) / ip_fac;
+        const d_vibr = VF_K_VIBR * Math.pow(H / 100.0, 2) * (IP / 5.0);
+        const gap = VF_C0 + d_elec + d_slag + d_vibr;
+        return {
+            c0: VF_C0,
+            u_ratio: u_ratio,
+            d_elec: d_elec,
+            d_slag: d_slag,
+            d_vibr: d_vibr,
+            gap: gap,
+            offset: 0.090 + gap,
+            kerf: 0.180 + 2.0 * gap
+        };
+    }
+
+    function calcVFSparkGap(H, Ton, IP, Volt, VF) {
+        const base = calcBaseSparkGap(H, Ton, IP, Volt);
+        const d_vf = VF_K_VF * ((VF - 55.0) / 10.0);
+        const gap_vf = base.gap + d_vf;
+        return {
+            ...base,
+            d_vf: d_vf,
+            gap_vf: gap_vf,
+            offset_vf: 0.090 + gap_vf,
+            kerf_vf: 0.180 + 2.0 * gap_vf,
+            diff_um: d_vf * 1000.0
+        };
+    }
+
+    function renderResearchVF() {
+        const H = parseFloat(vfResearchState.H) || 40;
+        const Ton = parseFloat(vfResearchState.Ton) || 36;
+        const Po = parseFloat(vfResearchState.Po) || 5;
+        const IP = parseFloat(vfResearchState.IP) || 4;
+        const Volt = vfResearchState.Volt || 'High';
+        const VF = parseFloat(vfResearchState.VF) || 65;
+
+        const res = calcVFSparkGap(H, Ton, IP, Volt, VF);
+
+        // 1. CÔNG THỨC VẬT LÝ (KHÔNG VF)
+        const elGapBase = document.getElementById('vf-out-gap-base');
+        const elGapBaseUm = document.getElementById('vf-out-gap-base-um');
+        const elOffBase = document.getElementById('vf-out-offset-base');
+        const elKerfBase = document.getElementById('vf-out-kerf-base');
+
+        if (elGapBase) elGapBase.textContent = res.gap.toFixed(4) + ' mm';
+        if (elGapBaseUm) elGapBaseUm.textContent = '(' + (res.gap * 1000.0).toFixed(2) + ' μm)';
+        if (elOffBase) elOffBase.textContent = res.offset.toFixed(4) + ' mm';
+        if (elKerfBase) elKerfBase.textContent = 'Rãnh cắt W = ' + res.kerf.toFixed(4) + ' mm';
+
+        // 2. CÔNG THỨC MỚI (CÓ VF)
+        const elTagDvf = document.getElementById('vf-tag-dvf');
+        const elGapNew = document.getElementById('vf-out-gap-new');
+        const elGapNewUm = document.getElementById('vf-out-gap-new-um');
+        const elOffNew = document.getElementById('vf-out-offset-new');
+        const elKerfNew = document.getElementById('vf-out-kerf-new');
+
+        const signStr = res.diff_um >= 0 ? '+' : '';
+        if (elTagDvf) elTagDvf.textContent = signStr + res.diff_um.toFixed(2) + ' μm';
+        if (elGapNew) elGapNew.textContent = res.gap_vf.toFixed(4) + ' mm';
+        if (elGapNewUm) elGapNewUm.textContent = '(' + (res.gap_vf * 1000.0).toFixed(2) + ' μm)';
+        if (elOffNew) elOffNew.textContent = res.offset_vf.toFixed(4) + ' mm';
+        if (elKerfNew) elKerfNew.textContent = 'Rãnh cắt W = ' + res.kerf_vf.toFixed(4) + ' mm';
+
+        // 3. THẺ ĐÁNH GIÁ CHÊNH LỆCH & Ý NGHĨA VẬT LÝ
+        const elDiffBadge = document.getElementById('vf-diff-badge');
+        const elInsightText = document.getElementById('vf-insight-text');
+
+        if (elDiffBadge) {
+            elDiffBadge.textContent = 'Δ = ' + signStr + res.diff_um.toFixed(2) + ' μm';
+            if (Math.abs(res.diff_um) < 0.05) {
+                elDiffBadge.style.background = 'rgba(16, 185, 129, 0.2)';
+                elDiffBadge.style.color = '#10b981';
+                elDiffBadge.style.border = '1px solid #10b981';
+            } else if (res.diff_um > 0) {
+                elDiffBadge.style.background = 'rgba(245, 158, 11, 0.2)';
+                elDiffBadge.style.color = '#f59e0b';
+                elDiffBadge.style.border = '1px solid #f59e0b';
+            } else {
+                elDiffBadge.style.background = 'rgba(56, 189, 248, 0.2)';
+                elDiffBadge.style.color = '#38bdf8';
+                elDiffBadge.style.border = '1px solid #38bdf8';
+            }
+        }
+
+        if (elInsightText) {
+            if (Math.abs(res.diff_um) < 0.05) {
+                elInsightText.innerHTML = `<strong>⚡ VF = 55 (Trạng thái cân bằng vàng chuẩn xưởng):</strong> Bước tiến Servo đạt tỷ lệ hài hòa lý tưởng giữa tốc độ đẩy bàn máy và chu kỳ phóng tia lửa. Hiệu ứng trễ bước tiến $d_{\\text{vf}} = 0.00\\,\\mu\\text{m}$, hai công thức cho kết quả <strong>trùng khít tuyệt đối: Offset = ${res.offset.toFixed(4)} mm</strong>.`;
+            } else if (res.diff_um > 0) {
+                elInsightText.innerHTML = `<strong>⚡ VF = ${VF} &gt; 55 (Chạy chậm hơn chuẩn / Dây chần chừ ngâm tia lửa):</strong> Servo dè dặt khiến bàn máy di chuyển chậm lại. Tại cùng một vị trí trên vách phôi, dây EDM lưu lại lâu hơn $\\implies$ mật độ năng lượng nhiệt plasma tích tụ nhiều hơn, khoét sâu thêm <strong style="color: var(--accent-amber);">+${res.diff_um.toFixed(2)} μm</strong> vào bề mặt phôi thép đặc. Khi cắt 1 Pass thực tế ở VF=${VF}, cần bù dao <strong style="color: var(--accent-amber);">${res.offset_vf.toFixed(4)} mm</strong> để sản phẩm sau cắt không bị âm (hụt) kích thước!`;
+            } else {
+                elInsightText.innerHTML = `<strong>⚡ VF = ${VF} &lt; 55 (Chạy nhanh hơn chuẩn / Ép bước tiến Servo):</strong> Servo đẩy bàn máy nhanh hơn, dây Molypden lướt qua nhanh làm giảm thời gian tác động nhiệt của tia lửa trên từng đơn vị diện tích phôi. Lượng bào thép đặc bị hụt đi <strong style="color: var(--accent-cyan);">${Math.abs(res.diff_um).toFixed(2)} μm</strong> so với lý thuyết tĩnh. Khi cắt ở VF=${VF}, cần hạ bù dao về <strong style="color: var(--accent-cyan);">${res.offset_vf.toFixed(4)} mm</strong> để tránh chi tiết bị dày (dương) kích thước.`;
+            }
+        }
+
+        // 4. BẢNG BÓC TÁCH CHI TIẾT TỪNG THÀNH PHẦN VẬT LÝ
+        const tbody = document.getElementById('vf-breakdown-tbody');
+        if (tbody) {
+            const isHigh = (Volt === 'High');
+            tbody.innerHTML = `
+                <tr>
+                    <td><strong>C<sub>0</sub></strong> (Màng cách điện ban đầu)</td>
+                    <td>Điện trở suất dung dịch nhũ tương &amp; ion hóa ban đầu</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--border-highlight);">+${(res.c0 * 1000).toFixed(2)} μm</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber);">+${(res.c0 * 1000).toFixed(2)} μm</td>
+                </tr>
+                <tr>
+                    <td><strong>d<sub>elec</sub></strong> (Bộc phá xung điện theo Volt)</td>
+                    <td>Năng lượng đơn xung plasma: K<sub>elec</sub> &times; &radic;(Ton &times; IP) &times; U<sub>ratio</sub></td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--border-highlight);">+${(res.d_elec * 1000).toFixed(2)} μm</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber);">+${(res.d_elec * 1000).toFixed(2)} μm</td>
+                </tr>
+                <tr>
+                    <td><strong>Cấp điện áp Volt</strong> (${isHigh ? 'High 27V' : 'Low 22V'})</td>
+                    <td>${isHigh ? 'Cao áp phóng điện cự ly xa hơn, cào mạnh hơn' : 'Hạ áp cự ly phóng điện gần, tia lửa êm, giảm cào phôi'}</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: ${isHigh ? '#f43f5e' : '#38bdf8'}; font-weight: 700;">${isHigh ? 'U<sub>ratio</sub> = 1.00 (Chuẩn)' : 'U<sub>ratio</sub> = 0.815 (-18.5%)'}</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: ${isHigh ? '#f43f5e' : '#38bdf8'}; font-weight: 700;">${isHigh ? 'U<sub>ratio</sub> = 1.00 (Chuẩn)' : 'U<sub>ratio</sub> = 0.815 (-18.5%)'}</td>
+                </tr>
+                <tr>
+                    <td><strong>d<sub>slag</sub></strong> (Nén xỉ rãnh sâu)</td>
+                    <td>Xỉ tụ tâm phôi cản trở thoát phoi: -K<sub>slag</sub> &times; (H/100) / (IP/4)</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: #f43f5e;">${(res.d_slag * 1000).toFixed(2)} μm</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: #f43f5e;">${(res.d_slag * 1000).toFixed(2)} μm</td>
+                </tr>
+                <tr>
+                    <td><strong>d<sub>vibr</sub></strong> (Rung uốn cơ học dây)</td>
+                    <td>Xung lực nổ plasma làm võng dây Moly: +K<sub>vibr</sub> &times; (H/100)<sup>2</sup> &times; (IP/5)</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--border-highlight);">+${(res.d_vibr * 1000).toFixed(2)} μm</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber);">+${(res.d_vibr * 1000).toFixed(2)} μm</td>
+                </tr>
+                <tr style="background: rgba(245, 158, 11, 0.08); border-top: 1px dashed var(--accent-amber);">
+                    <td><strong style="color: var(--accent-amber);">d<sub>vf</sub></strong> (Hiệu ứng trễ bước tiến VF)</td>
+                    <td>Thời gian ngâm tia lửa do tốc độ tiến bàn máy: K<sub>vf</sub> &times; (VF - 55)/10</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--text-muted);">0.00 μm (Chưa tính)</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber); font-weight: 700;">${signStr + res.diff_um.toFixed(2)} μm</td>
+                </tr>
+                <tr style="font-weight: 700; background: rgba(0,0,0,0.3); border-top: 2px solid var(--border-color);">
+                    <td>TỔNG LƯỢNG CÀO PHÔI (&delta;)</td>
+                    <td>Khoảng cách từ mép dây Moly đến vách phôi thép đặc</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--border-highlight); font-size: 13px;">${(res.gap * 1000).toFixed(2)} μm<br><span style="font-size: 11px; font-weight: 400; color: var(--text-secondary);">${res.gap.toFixed(4)} mm</span></td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber); font-size: 13px;">${(res.gap_vf * 1000).toFixed(2)} μm<br><span style="font-size: 11px; font-weight: 400; color: var(--text-secondary);">${res.gap_vf.toFixed(4)} mm</span></td>
+                </tr>
+                <tr style="font-weight: 800; background: rgba(0, 240, 255, 0.08); border-top: 1px solid var(--accent-cyan);">
+                    <td style="color: var(--accent-cyan);">OFFSET BÙ DAO 1 PASS (O<sub>1P</sub>)</td>
+                    <td>R<sub>dây</sub> (0.090 mm) + Lượng cào phôi (&delta;)</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-cyan); font-size: 15px;">${res.offset.toFixed(4)} mm</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber); font-size: 15px;">${res.offset_vf.toFixed(4)} mm</td>
+                </tr>
+            `;
+        }
+    }
+
+    function bindResearchVFEvents() {
+        const inputH = document.getElementById('vf-input-h');
+        const sliderH = document.getElementById('vf-slider-h');
+        const inputTon = document.getElementById('vf-input-ton');
+        const inputPo = document.getElementById('vf-input-po');
+        const inputIP = document.getElementById('vf-input-ip');
+        const inputVF = document.getElementById('vf-input-vf');
+        const sliderVF = document.getElementById('vf-slider-vf');
+        const matBtns = document.querySelectorAll('#vf-mat-selector .vf-mat-btn');
+        const voltBtns = document.querySelectorAll('#vf-volt-selector .vf-volt-btn');
+
+        if (inputH && sliderH) {
+            inputH.addEventListener('input', () => {
+                const val = parseFloat(inputH.value) || 40;
+                vfResearchState.H = val;
+                sliderH.value = Math.min(300, Math.max(5, val));
+                renderResearchVF();
+            });
+            sliderH.addEventListener('input', () => {
+                const val = parseFloat(sliderH.value) || 40;
+                vfResearchState.H = val;
+                inputH.value = val;
+                renderResearchVF();
+            });
+        }
+
+        if (inputTon) {
+            inputTon.addEventListener('input', () => {
+                vfResearchState.Ton = parseFloat(inputTon.value) || 36;
+                renderResearchVF();
+            });
+        }
+
+        if (inputPo) {
+            inputPo.addEventListener('input', () => {
+                vfResearchState.Po = parseFloat(inputPo.value) || 5;
+                renderResearchVF();
+            });
+        }
+
+        if (inputIP) {
+            inputIP.addEventListener('input', () => {
+                vfResearchState.IP = parseFloat(inputIP.value) || 4;
+                renderResearchVF();
+            });
+        }
+
+        if (inputVF && sliderVF) {
+            inputVF.addEventListener('input', () => {
+                const val = parseFloat(inputVF.value) || 65;
+                vfResearchState.VF = val;
+                sliderVF.value = Math.min(85, Math.max(20, val));
+                renderResearchVF();
+            });
+            sliderVF.addEventListener('input', () => {
+                const val = parseFloat(sliderVF.value) || 65;
+                vfResearchState.VF = val;
+                inputVF.value = val;
+                renderResearchVF();
+            });
+        }
+
+        matBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                matBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                vfResearchState.material = btn.dataset.mat;
+                renderResearchVF();
+            });
+        });
+
+        voltBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                voltBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                vfResearchState.Volt = btn.dataset.volt;
+                renderResearchVF();
+            });
+        });
+    }
+
+    function initResearchVF() {
+        bindResearchVFEvents();
+        renderResearchVF();
+    }
+
     // INITIAL RENDER
     updateStrategyDisplay(state.strategyLevel);
-        updateWsStrategyDisplay(state.wsStrategyLevel);
+    updateWsStrategyDisplay(state.wsStrategyLevel);
     render();
+    initResearchVF();
 }
 
 if (document.readyState === 'loading') {

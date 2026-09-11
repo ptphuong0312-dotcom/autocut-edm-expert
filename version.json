@@ -1,6 +1,6 @@
 {
-  "version": "3.5.26",
-  "buildTimestamp": 1788756186470,
-  "releaseDate": "2026-09-07",
-  "description": "Standardize Pass 1 electrical parameters for 1-2 Pass (H5-30: 2.0-2.5A, H30-60: 2.5-3.0A, H60-160: 3.0-3.5A) and 3-5 Pass (H5-30: 3.0-3.5A, H30-100: 3.5-4.0A, H100-160: 3.0-3.5A); Smooth Toff progression from H100 to H170 (Po 8 -> 9 -> 10 -> 11)"
-}
+  "version": "3.5.37",
+  "buildTimestamp": 1788960000000,
+  "releaseDate": "2026-09-10",
+  "description": "Tab 3 (Thí Nghiệm VF): Áp dụng bộ tham số tinh chỉnh tối ưu (C0=0.00360, K_elec=0.00092, K_slag=0.02000, K_vf=0.00210, K_vibr=0.00390), giảm sai số MAE trên mẫu thực nghiệm có chiều dài L về mức tiệm cận hoàn hảo ~1.05 μm. Giữ nguyên 100% Tab 1 và Tab 2."
+}

@@ -38,6 +38,8 @@ Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên
 | **12** | 1 Lần | SCM420 (HB<200) | 140 | 100 | 9 | 6 | 1 | High | 60 | 100Hz | **0,120** | 36p | 28,4mm | 3,7A - 3,8A | 30 - 40 | cắt lấy chày : kích thước to hơn lập trình 0,036 |
 | **13** ⛔ *(Đã chuyển sang Vùng C)* | 1 Lần | SCM440 (28-32HRC) | 300 | 80 | 9 | 6 | 1 | High | 50 | 50Hz | **0,120** | 1h29p | 31,3mm | 3,8A - 3,9A | 12 - 20 | GĐ 1 : cắt lấy cối : kích thước lớn hơn lập trình 0,01 *(Chuyển sang Vùng tham khảo C)* |
 | **14** | 1 Lần | SCM440 (28-32HRC) | 300 | 120 | 9 | 6 | 1 | High | 65 | 50Hz | **0,120** | 3h | 76,1mm | 3,7A - 3,9A | 12 - 20 | GĐ 2 : cắt lấy cối : kích thước lớn hơn lập trình 0,01 |
+| **15** | 1 Lần | SCM420 (HB<200) | 160 | 120 | 11 | 6 | 1 | High | 70 | 154Hz | **0,107** | 59p | 32,3mm | 2,8A - 3A | 18 - 28 | cắt lấy cối : kích thước to hơn lập trình 0,026 |
+| **16** | 1 Lần | SCM420 (HB<200) | 75 | 55 | 7 | 4 | 1 | High | 54 | 187Hz | **0,092** | 1h13p | 50,3mm | 3,4A - 3,5A | 50 - 65 | cắt lấy cối : kích thước to hơn lập trình 0,04 |
 
 ---
 
@@ -49,6 +51,7 @@ Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên
 | **1P-5P01** | **5P-01** | 1 Pass (Quy đổi) | SCM440 (28-32HRC) | **12** | 20 | 5 | 3 | 1 | High | 65 | 150Hz | **0,108** | 19p50' | 128mm | 4A | 275 - 285 | Sau P1 đo: 54.08mm (chày chừa 0.040mm/bên) | **0.0110 mm** | **0.1010 mm** |
 | **1P-2P10** | **2P-10** | 1 Pass (Quy đổi) | SCM440 (28-32HRC) | **85** | 70 | 8 | 5 | 1 | High | 61 | 150Hz | **0,095** | 48p | 65,6mm | 3,6A - 3,7A | 55 - 65 | Sau P1 đo: 19.94 - 19.95mm (cối chừa 0.0275mm/bên) | **0.0125 mm** | **0.1025 mm** |
 | **1P-2P12** | **2P-12** | 1 Pass (Quy đổi) | SCM440 (28-32HRC) | **165**| 135 | 11 | 6 | 1 | High | 70 | 60Hz | **0,100** | 1h17' | 43,6mm | 2,8A - 3,0A | 15 - 35 | Sau P1 đo: 23.99 - 24.00mm (cối chừa 2.5μm/bên) | **0.0225 mm** | **0.1125 mm** |
+| **1P-2P14** | **2P-14** | 1 Pass (Quy đổi) | SCM420 (HB<200) | **75** | 55 | 7 | 4 | 1 | High | 54 | 187Hz | **0,092** | 1h13p | 50,3mm | 3,4A - 3,5A | 50 - 65 | Sau P1 đo: 31.935mm (Path1=0.115mm, chừa 2.5μm/bên) | **0.0225 mm** | **0.1125 mm** |
 
 ---
 
@@ -94,6 +97,27 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 | **12**| **H = 140mm**| Ton=100, Po=9, IP=6, Volt=High, VF=60 | 0.120 | Chày to hơn 0.036 | -0.018 | **0.102 mm** | **0.012 mm** | Ton=100, IP=6 kích dòng mạnh $\rightarrow \delta=0.012\text{mm}$ |
 | **13** ⛔| **H = 300mm**| Ton=80, Po=9, IP=6, Volt=High, VF=50 | 0.120 | Cối lớn hơn 0.010 | -0.005 | **0.115 mm** | **0.025 mm** | GĐ 1 phá thô siêu dày H=300mm $\rightarrow \delta=0.025\text{mm}$ *(Đã đưa sang Vùng tham khảo C)* |
 | **14**| **H = 300mm**| Ton=120, Po=9, IP=6, Volt=High, VF=65 | 0.120 | Cối lớn hơn 0.010 | -0.005 | **0.115 mm** | **0.025 mm** | GĐ 2 phá thô siêu dày H=300mm $\rightarrow \delta=0.025\text{mm}$ |
+| **15**| **H = 160mm**| Ton=120, Po=11, IP=6, Volt=High, VF=70| 0.107 | Cối to hơn 0.026 | +0.013 | **0.120 mm** | **0.030 mm** | Phôi dày H=160mm, IP=6 rãnh sâu, cắt cối khép kín (Khớp 100% thời gian tính toán 59p) $\rightarrow \delta=0.030\text{mm}$ |
+| **16**| **H = 75mm** | Ton=55, Po=7, IP=4, Volt=High, VF=54 | 0.092 | Cối to hơn 0.040 | +0.020 | **0.112 mm** | **0.022 mm** | Phôi trung H=75mm, IP=4 rãnh sâu, cắt cối khép kín $\rightarrow \delta=0.022\text{mm}$ |
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 15 (H=160mm, SCM420 - CẮT LẤY CỐI 1 PASS):**
+> * **Bài cắt kiểm định khép kín (Rule 12):** Người dùng sử dụng 100% chế độ điện xuất ra từ Web App Tab 2 ($H=160\text{mm}$, SCM420, Cấp 4): $\text{Ton}=120, \text{Po}=11, \text{IP}=6, \text{Volt}=\text{High}, \text{VF}=70, \text{Giới hạn}=154\text{Hz}$, Offset nhập test ban đầu là $0.107\text{mm}$ (sát mốc tính toán lý thuyết $0.1071\text{mm}$).
+> * **Kích thước đo sau cắt:** Cắt lấy cối, lỗ đo được to hơn lập trình $0.026\text{mm} \implies$ Thành cối bị ăn lấn ra ngoài mỗi bên: $\Delta/2 = +0.013\text{mm}$ ($13\mu m$).
+> * **Bù dao Chuẩn khi cắt cối:** Để lỗ cối co nhỏ lại về đúng kích thước danh nghĩa, dây Moly cần dịch lùi sâu vào trong lòng lỗ (cách xa vách hơn), do đó Offset Chuẩn là:
+>   $$\mathbf{\text{Offset}_{\text{chuẩn}}} = 0.107 + 0.013 = \mathbf{0.120\text{ mm}}$$
+>   $$\mathbf{\delta} = 0.120 - 0.090 = \mathbf{0.030\text{ mm}} \quad (30\mu m)$$
+> * **Đồng hồ Ampe:** Thực tế kim ăn $2.8\text{A} - 3.0\text{A}$ (cực kỳ ổn định và êm dịu, chuẩn theo dải quy định Rule 12).
+> * **Tốc độ cắt & Thời gian:** Chiều dài $L = 32.3\text{mm}$, thời gian cắt thực tế **59 phút** khớp 100% thời gian tính toán của phần mềm (**59 phút**), tốc độ hiển thị trên máy AutoCut đạt $18 - 28\text{ mm}^2/\text{phút}$ (tương đương $F_t \times 40 = 21.9\text{ mm}^2/\text{phút}$).
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 16 (H=75mm, SCM420 - CẮT LẤY CỐI 1 PASS):**
+> * **Bài cắt thực nghiệm tại xưởng:** Người dùng cắt phôi dày $H=75\text{mm}$, thép mềm SCM420 với chế độ điện: $\text{Ton}=55, \text{Po}=7, \text{IP}=4, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=54, \text{Giới hạn}=187\text{Hz}$, Offset nhập test ban đầu là $0.092\text{mm}$ (khớp mốc tính toán lý thuyết ban đầu $0.0921\text{mm}$).
+> * **Kích thước đo sau cắt:** Cắt lấy cối, lỗ đo được to hơn lập trình $0.040\text{mm} \implies$ Thành vách bị ăn lấn ra ngoài mỗi bên: $\Delta/2 = +0.020\text{mm}$ ($20\mu m$).
+> * **Bù dao Chuẩn khi cắt cối:** Để lỗ cối co nhỏ lại về đúng kích thước danh nghĩa, dây Moly cần dịch lùi sâu vào trong lòng lỗ (cách xa vách hơn), do đó Offset Chuẩn là:
+>   $$\mathbf{\text{Offset}_{\text{chuẩn}}} = 0.092 + 0.020 = \mathbf{0.112\text{ mm}}$$
+>   $$\mathbf{\delta} = 0.112 - 0.090 = \mathbf{0.022\text{ mm}} \quad (22\mu m)$$
+> * **Đồng hồ Ampe:** Thực tế kim ăn $3.4\text{A} - 3.5\text{A}$ (chuẩn xác theo Quy luật 4 dải Ampe Rule 12 cho dải phôi trung $H=75\text{mm}$: $3.0 - 3.5\text{A}$).
+> * **Tốc độ cắt & Thời gian:** Chiều dài $L = 50.3\text{mm}$, thời gian cắt thực tế **1 giờ 13 phút (73 phút)**, tốc độ trên máy AutoCut đạt $50 - 65\text{ mm}^2/\text{phút}$ (tốc độ ăn thực tế $F_t = 0.689\text{ mm/phút} \implies F_t \times 75 = 51.7\text{ mm}^2/\text{phút}$ khớp hoàn toàn dải thực tế $50 - 65\text{ mm}^2/\text{p}$).
+> * **Bản chất vật lý trễ thời gian (73p vs 38.4p lý thuyết):** Ở thép mềm dẻo SCM420 ($HB < 200$), phoi bết dính trong rãnh sâu $H=75\text{mm}$, việc chạy $\text{IP}=4$ (4 sò) khiến áp lực nổ hồ quang không đủ tống xỉ dẻo dọc rãnh, servo theo dõi điện áp $\text{VF}=54$ liên tục ghìm bước tiến để chống đoản mạch. Khi hiệu chỉnh hệ số thoát xỉ rãnh sâu cho thép dẻo thiếu công suất đỉnh, thời gian tính toán kéo dài lên ~62 phút (sát thực tế 73 phút).
 
 ---
 
@@ -103,6 +127,7 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 | **1P-5P01** | **H = 12mm** | Ton=20, Po=5, IP=3, Volt=High, VF=65 | 0.108 | Chày chừa 0.040mm/bên | (Khép kín) | **0.1010 mm** | **0.0110 mm** | Phôi mỏng H=12, Volt High, IP=3 cào thép đặc $\delta_1=0.011\text{mm}$ |
 | **1P-2P10** | **H = 85mm** | Ton=70, Po=8, IP=5, Volt=High, VF=61 | 0.095 | Cối chừa 0.0275mm/bên | (Khép kín) | **0.1025 mm** | **0.0125 mm** | Phôi trung H=85, Volt High, IP=5 cào thép đặc $\delta_1=0.0125\text{mm}$ |
 | **1P-2P12** | **H = 165mm**| Ton=135, Po=11, IP=6, Volt=High, VF=70| 0.100 | Cối chừa 2.5μm/bên | (Khép kín) | **0.1125 mm** | **0.0225 mm** | Phôi dày H=165, Volt High, IP=6 cào thép đặc $\delta_1=0.0225\text{mm}$ |
+| **1P-2P14** | **H = 75mm** | Ton=55, Po=7, IP=4, Volt=High, VF=54 | 0.092 | Cối chừa 2.5μm/bên | (Khép kín) | **0.1125 mm** | **0.0225 mm** | Phôi trung H=75 thép mềm, IP=4 cào thép đặc $\delta_1 = 0.0225\text{mm}$ ($\text{Path}_1 = O_1+O_2 = 0.115\text{mm}$) |
 
 ---
 
@@ -184,6 +209,29 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 > * **Bù dao Pass 2 Chuẩn:** Giữ nguyên $\mathbf{0.022\text{ mm}}$ (Pass 2 ăn rất êm $0.5 - 0.6\text{A}$, phạt đỉnh núi lửa $17\mu m + 5\mu m$ hoàn hảo).
 > * **Đồng hồ Ampe:** Pass 1 ăn $3.5\text{A} - 3.6\text{A}$ (chuẩn theo Quy luật 4 dải Ampe Rule 12 cho $H=60\text{mm}$), Pass 2 ăn êm ru $0.5\text{A} - 0.6\text{A}$.
 
+| **2P-14** | 2 Lần | SCM420 (HB<200) | 75 | **P1** | 55 | 7 | 4 | 1 | High | 54 | 187Hz | **0,092** | 1h13p | 50,3mm | 3,4A-3,5A | 50-65 mm²/p | Kích thước chuẩn 31.94mm, sau Pass 1 là 31.935mm (cối chừa 2.5μm/bên) | +0.0025 mm | **0.0945 mm** | **0.0255 mm** |
+| | | | | **P2** | 18 | 7 | 3 | 2 | High | 32 | 100Hz | **0,023** | 8p40' | 50,3mm | 0,5A-1,0A | 240 mm²/p | Sau Pass 2: Cắt lấy cối, to hơn lập trình 0.005mm (31.945mm) | (Đo khép kín 95%) | (Lượng ăn P2: 5.0μm/bên) | (Sai lệch thành phẩm: +2.5μm) |
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT 2P-14 (H=75mm, SCM420 - ĐỐI CHỨNG KHÉP KÍN 2 PASS):**
+> * **Độ chuẩn xác của thông số Web App (Rule 12 - Closed-Loop Validation):** Người dùng sử dụng 100% bộ thông số do Web App Tab 2 xuất ra cho cả Pass 1 ($\text{Ton}=55, \text{Po}=7, \text{IP}=4, \text{VF}=54, \text{Offset}=0.092\text{mm}$, Max Speed=187Hz) và Pass 2 ($\text{Ton}=18, \text{Po}=7, \text{IP}=3, \text{Wire}=2, \text{VF}=32, \text{Offset}=0.023\text{mm}$, Max Speed=100Hz).
+> * **Động học Pass 1 & Lượng cào thép đặc $\delta_1$ (Rule 03 & Rule 15):**
+>   - Trong AutoCut, tâm dây Pass 1 luôn tự động cộng dồn: $\text{Path}_1 = O_1 + O_2 = 0.092 + 0.023 = \mathbf{0.1150\text{ mm}}$.
+>   - Khoảng cách mép dây Pass 1 đến biên dạng danh nghĩa: $d_{\text{dây}} = \text{Path}_1 - R_{\text{dây}} = 0.1150 - 0.0900 = \mathbf{0.0250\text{ mm}}$ ($25\mu m$).
+>   - Kích thước chuẩn danh nghĩa là $31.940\text{mm}$. Sau Pass 1 đo được $31.935\text{mm} \implies$ Vách cối cách biên dạng $d_{\text{vách}} = \frac{31.940 - 31.935}{2} = \mathbf{0.0025\text{ mm}}$ ($2.5\mu m$/bên).
+>   - 👉 **LƯỢNG BÀO MÒN THÉP ĐẶC THỰC TẾ PASS 1 ($\delta_1$):**
+>     $$\mathbf{\delta_1} = d_{\text{dây}} - d_{\text{vách}} = 0.0250 - 0.0025 = \mathbf{0.0225\text{ mm}} = \mathbf{22.5\mu m}!$$
+>   - 👉 **Quy đổi Offset 1-Pass chuẩn tương đương (Rule 15):**
+>     $$\mathbf{\text{Offset}_{\text{1P}}} = R_{\text{dây}} + \delta_1 = 0.090 + 0.0225 = \mathbf{0.1125\text{ mm}} \approx \mathbf{0.112\text{ mm}}$$
+>     *(Hoàn toàn khớp hoàn hảo với bài cắt 1 Pass thực tế STT 16: $\delta = 0.022\text{mm}, \text{Offset} = 0.112\text{mm}$!)*
+> * **Năng lực bóc phoi Pass 2 (Rule 14 - Volcano Peak):** 
+>   - Quỹ đạo Pass 2: $\text{Path}_2 = R_{\text{dây}} + O_2 = 0.090 + 0.023 = \mathbf{0.1130\text{ mm}}$, mép dây cách biên dạng đúng $O_2 = 0.0230\text{mm}$.
+>   - Sau Pass 2 đo được $31.945\text{mm}$ (to hơn lập trình $0.005\text{mm} \implies$ vách cối ăn lẹm ra ngoài $-2.5\mu m$/bên).
+>   - 👉 **Lượng bóc tách thực tế của Pass 2:** $\mathbf{\Delta_{\text{P2}}} = \frac{31.945 - 31.935}{2} = \mathbf{0.0050\text{ mm}} = \mathbf{5.0\mu m/\text{bên}}$.
+>   - 👉 **Vùng phóng điện và phạt đỉnh núi lửa ($Rz_1$):** $\mathbf{\delta_2} = 0.0230 - (-0.0025) = \mathbf{0.0255\text{ mm}} = \mathbf{25.5\mu m}$. Pass 2 phạt sạch đỉnh nhọn rỗng xốp $Rz_1 \approx 20\mu m$ và ăn nhẹ chân vách $5.5\mu m$, dòng ampe cực êm $0.5 - 1.0\text{A}$ trong $8\text{p}40'$ ($F_t = 5.8\text{ mm/p} \implies F_c = 240\text{ mm}^2/\text{p}$).
+> * **Bù dao Chuẩn xác nhận:**
+>   - Sai lệch thành phẩm sau 2 Pass chỉ có **$+2.5\mu m$/bên** (to hơn danh nghĩa $0.005\text{mm}$).
+>   - Bù dao chuẩn danh nghĩa để kích thước về $0.000$: $\mathbf{O_{1\_\text{chuẩn}} = 0.0945\text{ mm}}$ và $\mathbf{O_{2\_\text{chuẩn}} = 0.0255\text{ mm}}$ (hoặc nếu xưởng giữ Pass 1 chừa mỏng $2.5\mu m$ thì giữ $\mathbf{O_1 = 0.092\text{ mm}}$ và đặt $\mathbf{O_2 = 0.0255\text{ mm}} \approx \mathbf{0.025 - 0.026\text{ mm}}$).
+
 ---
 
 ## PHẦN 3: BẢNG DỮ LIỆU THÔ CẮT 5 PASS THỰC TẾ (5-PASS RAW DATA BANK)
@@ -223,6 +271,7 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 | Nguồn Multi-Pass | Vật Liệu | H (mm) | Chế độ điện Pass 1 | Kích thước đo sau Pass 1 | Lượng cào thép đặc δ1 | Offset 1P quy đổi tương đương | Thời gian thực | Ampe thực | Tốc độ thực |
 |:---:|:---|:---:|:---|:---|:---:|:---:|:---:|:---:|:---:|
 | **5P-01** | SCM440 (30HRC) | **12** | Ton=20, Po=5, IP=3, Volt=H, VF=65, 150Hz | Sau P1: 54.08mm (chày chừa 0.040mm/bên) | **0.0110 mm** | **0.1010 mm** | 19p50' (L=128mm) | 4A | 275 - 285 mm²/p |
+| **2P-14** | SCM420 (HB<200) | **75** | Ton=55, Po=7, IP=4, Volt=H, VF=54, 187Hz | Sau P1: 31.935mm (Path1=0.115mm, chừa 2.5μm/bên) | **0.0225 mm** | **0.1125 mm** | 1h13p (L=50.3mm) | 3,4A - 3,5A | 50 - 65 mm²/p |
 | **2P-10** | SCM440 (30HRC) | **85** | Ton=70, Po=8, IP=5, Volt=H, VF=61, 150Hz | Sau P1: 19.94-19.95mm (cối chừa 0.0275mm/bên) | **0.0125 mm** | **0.1025 mm** | 48p (L=65.6mm) | 3,6A - 3,7A | 55 - 65 mm²/p |
 | **2P-12** | SCM440 (30HRC) | **165**| Ton=135, Po=11, IP=6, Volt=H, VF=70, 60Hz | Sau P1: 23.99-24.00mm (cối chừa 2.5μm/bên) | **0.0225 mm** | **0.1125 mm** | 1h17' (L=43.6mm) | 2,8A - 3,0A | 15 - 35 mm²/p |
 

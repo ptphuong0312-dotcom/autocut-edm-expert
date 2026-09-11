@@ -2439,3 +2439,78 @@ body {
     gap: 8px;
     font-family: var(--font-body);
 }
+
+/* ========================================================
+   TAB 3: THÍ NGHIỆM VF (1 PASS TỰ DO) - STYLES
+   ======================================================== */
+.btn-xs {
+    padding: 4px 8px;
+    font-size: 11px;
+    min-height: 24px;
+    line-height: 1.2;
+    border-radius: var(--radius-sm);
+}
+
+.vf-preset-btn {
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--accent-purple);
+    border: 1px solid rgba(139, 92, 246, 0.35);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-mono);
+}
+
+.vf-preset-btn:hover {
+    background: var(--accent-purple);
+    color: #fff;
+    border-color: var(--accent-purple);
+    transform: translateY(-1px);
+}
+
+.vf-mat-btn {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.vf-mat-btn:hover {
+    border-color: var(--accent-purple);
+    color: var(--text-primary);
+}
+
+.vf-mat-btn.active {
+    background: rgba(139, 92, 246, 0.15);
+    border-color: var(--accent-purple);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.25);
+}
+
+.vf-volt-btn {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    font-size: 12px;
+}
+
+.vf-volt-btn:hover {
+    border-color: var(--accent-cyan);
+    color: var(--text-primary);
+}
+
+.vf-volt-btn.active {
+    background: rgba(0, 240, 255, 0.15);
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+    font-weight: 700;
+}
+
