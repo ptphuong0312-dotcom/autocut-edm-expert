@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=3.5.37">
+    <link rel="stylesheet" href="style.css?v=3.5.38">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -729,7 +729,7 @@
                         <div class="kb-body">
                             <p><strong>Bản chất:</strong> Hệ số tỷ lệ quy định thời gian ngắt điện (T<sub>off</sub>) giữa 2 lần phát xung để môi trường dung dịch khử ion và thổi sạch mạt xỉ phôi ra ngoài.</p>
                             <div class="formula-box">
-                                T<sub>off</sub> = Po × ti (μs) &nbsp;|&nbsp; Tần số phát: f = 1000 / [ti × (1 + Po)] (kHz)
+                                T<sub>off</sub> = ti × (Po + 1) (μs) &nbsp;|&nbsp; Tần số phát: f = 1000 / [ti × (Po + 2)] (kHz) &nbsp;|&nbsp; Chu kỳ: T = ti × (Po + 2) (μs)
                             </div>
                             <ul>
                                 <li><strong>Nếu Po quá nhỏ (&lt; 3):</strong> Dung dịch không kịp rửa xỉ → Mạt sắt đọng lại gây đoản mạch hồ quang (Arcing) → <strong>Đứt dây ngay lập tức</strong>.</li>
@@ -1034,7 +1034,7 @@
         <footer class="app-footer">
             <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
             <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">
-                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.37 (Tab 3: Tinh Chỉnh Hội Tụ Tối Ưu Mô Hình VF MAE ~1.05µm)</strong> &bull; 
+                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.38 (Chuẩn Hóa Toff = Pon × (Poff + 1))</strong> &bull; 
                 <a href="javascript:void(0)" id="link-force-update" style="color: var(--accent-amber); text-decoration: underline;">🔄 Cưỡng bức làm mới dữ liệu</a>
             </p>
         </footer>
@@ -1072,6 +1072,6 @@
     </div>
 
         <!-- INLINE APPLICATION SCRIPT (Chống kẹt cache 100% trên mọi trình duyệt) -->
-    <script src="app.js?v=3.5.37"></script>
+    <script src="app.js?v=3.5.38"></script>
 </body>
 </html>

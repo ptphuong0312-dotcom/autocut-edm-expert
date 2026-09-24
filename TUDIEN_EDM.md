@@ -6,7 +6,7 @@
 
 ### 1. CÁC THÔNG SỐ ĐIỆN CƠ BẢN
 *   **Ton / ti (Độ rộng xung - Pulse Width):** Thời gian dòng điện phóng ra (µs). Ton càng lớn, tia lửa càng mạnh, cắt càng nhanh, rãnh cắt càng rộng, nhưng bề mặt phôi càng rỗ và dây Molypden càng nhanh mòn.
-*   **Toff / Po (Thời gian nghỉ - Pulse Off):** Hệ số nhân thời gian nghỉ. Thời gian nghỉ thực tế = Toff * Ton. Quyết định khoảng thời gian xối nước làm mát để đẩy xỉ ra ngoài. Toff càng lớn, cắt càng an toàn (ít đứt dây), nhưng dòng Ampe bị tụt và tốc độ chậm.
+*   **Toff / Po (Thời gian nghỉ - Pulse Off / Poff):** Hệ số thời gian nghỉ xung theo tài liệu máy AutoCut: $\\text{Toff} = \\text{Pon} \\times (\\text{Poff} + 1)$ (với $\\text{Ton} = \\text{Pon}$ và $\\text{Po} = \\text{Poff}$). Tổng chu kỳ  = \\text{Ton} \\times (\\text{Po} + 2)$, tỷ lệ mở van $\\eta = \\frac{1}{\\text{Po} + 2}$. Quyết định khoảng thời gian ngắt điện để dung dịch khử ion và thổi xỉ ra ngoài. Po càng lớn thì xối xỉ càng sạch, ít đứt dây nhưng tần số xung và dòng Ampe giảm, tốc độ chậm lại.
 *   **IP (Ống công suất / Dòng đỉnh):** Số lượng van công suất mở (1 đến 6). Quyết định cường độ dòng điện cực đại của mỗi tia lửa.
 *   **Volt (Điện áp):** High (Điện áp cao) giúp tia lửa dễ mồi qua khoảng cách xa (thích hợp phôi dày), Low (Điện áp thấp) cho tia lửa ngắn (thích hợp cắt tinh Pass 2, 3).
 *   **VF (Biến tần / V-F Tracking):** Tần số cấp cho mô-tơ bước/servo điều khiển mâm máy tiến/lùi. 
@@ -36,8 +36,8 @@
 *   Chỉ khi có lệnh trực tiếp từ Thợ máy, AI mới được sửa đổi thuật toán Tab 1.
 ---
 
-### 5. H?NG S? �I?N �P T? NGU?N (HIGH vs LOW)
-*   **H? s? t? l? Ampe:** D? li?u th?c nghi?m qua 2 b�i test d?c l?p tr�n ph�i SCM420 (=30\text{mm}$):
+### 5. H?NG S? �I?N �P T? NGU?N (HIGH vs LOW)
+*   **H? s? t? l? Ampe:** D? li?u th?c nghi?m qua 2 b�i test d?c l?p tr�n ph�i SCM420 (=30\text{mm}$):
     *   *Test 1 (Ton 28, Toff 6, IP 4):* High = 4.15A, Low = 3.45A $\rightarrow \text{T? l? } \frac{\text{High}}{\text{Low}} = \mathbf{1.203}$ (+20.3%).
     *   *Test 2 (Ton 30, Toff 7, IP 3):* High = 3.0A, Low = 2.5A $\rightarrow \text{T? l? } \frac{\text{High}}{\text{Low}} = \mathbf{1.200}$ (+20.0%).
-*   **K?t lu?n V?t l�:** T? ngu?n s? c?a xu?ng c� h?ng s? t? l? di?n �p c? d?nh  = 1.20$. Chuy?n t? Low sang High lu�n l�m d�ng Ampe tang ch�nh x�c **20%**, v� ngu?c l?i t? High v? Low lu�n l�m d�ng Ampe gi?m ch�nh x�c **16.7%**.
+*   **K?t lu?n V?t l�:** T? ngu?n s? c?a xu?ng c� h?ng s? t? l? di?n �p c? d?nh  = 1.20$. Chuy?n t? Low sang High lu�n l�m d�ng Ampe tang ch�nh x�c **20%**, v� ngu?c l?i t? High v? Low lu�n l�m d�ng Ampe gi?m ch�nh x�c **16.7%**.

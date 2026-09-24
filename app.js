@@ -2243,7 +2243,7 @@ function initApp() {
             let row = { passName: `Pass ${i + 1}`, badgeClass: i === 0 ? 'badge-primary' : 'badge-secondary' };
             if (i === 0) {
                 let O1 = 0.090 + gap;
-                let toff = Ton * Po;
+                let toff = Ton * (Po + 1);
                 let true_cycle = Ton + toff;
                 let duty = Ton / true_cycle;
                 
@@ -2267,7 +2267,7 @@ function initApp() {
                 const i_peak = IP * 2.8;
                 const power_watts = u_arc * i_peak * duty;
                 
-                let Cm = 0.012; // Thép chuẩn xưởng SCM420/440
+                let Cm = 0.0140; // Thép chuẩn xưởng SCM420/440 (Hiệu chuẩn theo Toff = Pon * (Poff + 1))
                 const mrr_vol = 60 * Cm * power_watts * eta_eff;
                 const B = 0.23;
                 let speedArea = Math.round(mrr_vol / B);
@@ -2275,7 +2275,7 @@ function initApp() {
 
                 row.hz = multiPassHzList[0];
 
-                let calculatedAmpe = i_peak * duty * 2.2857 * (u_arc / 27);
+                let calculatedAmpe = i_peak * duty * 2.6667 * (u_arc / 27);
                 if (IP === 5 && Po === 8 && Volt === 'High') {
                     row.ampe = '3.5'; // Khóa chuẩn ngưỡng trên 3.5A cho dải H100-H160 theo quy tắc Ampe
                 } else {
@@ -2429,8 +2429,8 @@ function initApp() {
         const Wire_w = 1;
         const gap_w = p1._gap;
 
-        // 2. Tính toán các đặc trưng điện động lực học
-        const toff_w = ti_w * Po_w;
+        // 2. Tính toán các đặc trưng điện động lực học (Toff = Pon * (Poff + 1))
+        const toff_w = ti_w * (Po_w + 1);
         const cycle_w = ti_w + toff_w;
         const cycle_ms_w = (cycle_w / 1000).toFixed(3);
         const freq_hz_w = Math.round(1000000 / cycle_w);
@@ -2504,8 +2504,8 @@ function initApp() {
         const isCopper = material === 'COPPER';
         const isAlu = material === 'ALUMINUM';
 
-        // 1. Chu kỳ & Thời gian nghỉ (Mục I tailieu.txt)
-        const toff = ti * Po; // μs
+        // 1. Chu kỳ & Thời gian nghỉ (Chuẩn máy AutoCut: Toff = Pon * (Poff + 1))
+        const toff = ti * (Po + 1); // μs
         const cycle = ti + toff; // μs
         const cycle_ms = (cycle / 1000).toFixed(3); // ms
         const freq_hz = Math.round(1000000 / cycle);
@@ -2518,8 +2518,8 @@ function initApp() {
         const we_mj = (u_arc * i_peak * ti) / 1000; // mJ
         const we_score = ti * IP;
 
-        // 3. Công suất phóng điện trung bình Ptb (Watts = J/s) (Dòng 211-214 tailieu.txt)
-        // Ptb = U_arc * I_peak * η = U_arc * (IP * 2.8) * [1 / (1 + Po)]
+        // 3. Công suất phóng điện trung bình Ptb (Watts = J/s)
+        // Ptb = U_arc * I_peak * η = U_arc * (IP * 2.8) * [1 / (Po + 2)]
         const power_watts = u_arc * i_peak * (duty_factor / 100);
         const power_score = Math.round(freq_hz * we_score);
 
@@ -2596,8 +2596,8 @@ function initApp() {
         const isCopper = material === 'COPPER';
         const isAlu = material === 'ALUMINUM';
 
-        // 1. Chu kỳ xung T và Thời gian nghỉ Toff
-        const toff = ti * Po; // μs
+        // 1. Chu kỳ xung T và Thời gian nghỉ Toff (Chuẩn máy AutoCut: Toff = Pon * (Poff + 1))
+        const toff = ti * (Po + 1); // μs
         const cycle = ti + toff; // μs
         const cycle_ms = (cycle / 1000).toFixed(3); // ms
         const freq_hz = Math.round(1000000 / cycle);
@@ -3038,18 +3038,18 @@ function initApp() {
                     <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 1</span> Thời gian nghỉ xả xỉ (Toff) &amp; Tổng chu kỳ 1 xung (T)</div>
                     <p><strong>Bản chất:</strong> $Ton$ là thời gian mở van MOSFET. $Toff$ là thời gian ngắt điện để dung dịch khử ion và cuốn trôi mạt xỉ kim loại.</p>
                     <div class="lecture-formula-box">
-                        • Toff (thực tế) = Ton × Toff(hệ số) (μs)<br>
-                        • Tổng chu kỳ: T = Ton + Toff = Ton × (1 + Toff(hệ số)) (μs)
+                        • Toff (thực tế) = Ton × (Toff(hệ số) + 1) (μs)<br>
+                        • Tổng chu kỳ: T = Ton + Toff = Ton × (Toff(hệ số) + 2) (μs)
                     </div>
                     <div class="lecture-calc-grid">
                         <div class="lecture-calc-col custom-col">
                             <strong>${leftColTitle}:</strong><br>
-                            • Toff = ${c_phys.ti} × ${c_phys.Po} = <strong>${c_phys.toff} μs</strong><br>
+                            • Toff = ${c_phys.ti} × (${c_phys.Po} + 1) = <strong>${c_phys.toff} μs</strong><br>
                             • Chu kỳ T = ${c_phys.ti} + ${c_phys.toff} = <strong>${c_phys.cycle} μs</strong> (${c_phys.cycle_ms} ms)
                         </div>
                         <div class="lecture-calc-col std-col">
                             <strong>${activeStratName}:</strong><br>
-                            • Toff = ${std_phys.ti} × ${std_phys.Po} = <strong>${std_phys.toff} μs</strong><br>
+                            • Toff = ${std_phys.ti} × (${std_phys.Po} + 1) = <strong>${std_phys.toff} μs</strong><br>
                             • Chu kỳ T = ${std_phys.ti} + ${std_phys.toff} = <strong>${std_phys.cycle} μs</strong> (${std_phys.cycle_ms} ms)
                         </div>
                     </div>
@@ -3079,16 +3079,16 @@ function initApp() {
                     <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 3</span> Tỷ lệ mở van MOSFET (Duty Factor - η)</div>
                     <p><strong>Bản chất:</strong> Tỷ lệ phần trăm thời gian van công suất dẫn dòng điện thực tế trong 1 chu kỳ.</p>
                     <div class="lecture-formula-box">
-                        η = (Ton / T) × 100% = [1 / (1 + Toff(hệ số))] × 100%
+                        η = (Ton / T) × 100% = [1 / (Toff(hệ số) + 2)] × 100%
                     </div>
                     <div class="lecture-calc-grid">
                         <div class="lecture-calc-col custom-col">
                             <strong>${leftColTitle}:</strong><br>
-                            η = (${c_phys.ti} / ${c_phys.cycle}) × 100% = <strong>${c_phys.duty_factor}%</strong> (1 mở : ${c_phys.Po} nghỉ)
+                            η = (${c_phys.ti} / ${c_phys.cycle}) × 100% = <strong>${c_phys.duty_factor}%</strong> (1 mở : ${c_phys.Po + 1} nghỉ)
                         </div>
                         <div class="lecture-calc-col std-col">
                             <strong>${activeStratName}:</strong><br>
-                            η = (${std_phys.ti} / ${std_phys.cycle}) × 100% = <strong>${std_phys.duty_factor}%</strong> (1 mở : ${std_phys.Po} nghỉ)
+                            η = (${std_phys.ti} / ${std_phys.cycle}) × 100% = <strong>${std_phys.duty_factor}%</strong> (1 mở : ${std_phys.Po + 1} nghỉ)
                         </div>
                     </div>
                 </div>
@@ -3416,7 +3416,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.5.37";
+    const CURRENT_VERSION = "3.5.38";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
