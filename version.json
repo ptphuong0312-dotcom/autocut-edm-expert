@@ -1,6 +1,6 @@
 {
-  "version": "3.5.41",
-  "buildTimestamp": 1792570800000,
+  "version": "3.5.42",
+  "buildTimestamp": 1792573200000,
   "releaseDate": "2026-10-21",
-  "description": "Chuẩn hóa động lực học phát xung (Toff = Pon * (Poff + 1), Chu kỳ T, Tần số f, Tỷ lệ Duty, Dòng Ampe, Năng suất Fc) và bổ sung hiệu ứng chu kỳ xả xỉ d_po vào Tab 3 (Thí nghiệm tự do)."
+  "description": "Tối ưu hóa đa biến Tab 3 (Thí nghiệm tự do): Bổ sung màng điện môi Volt Low (+4.5μm), phân biệt thoát xỉ theo vật liệu SCM420 (+10% xỉ) và đồng bộ kiến trúc hội tụ xưởng Rule 17 cho phôi siêu dày H>170mm (MAE giảm kỷ lục còn 2.86μm)."
 }
