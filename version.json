@@ -1,6 +1,6 @@
 {
-  "version": "3.5.39",
-  "buildTimestamp": 1792566700000,
+  "version": "3.5.40",
+  "buildTimestamp": 1792568600000,
   "releaseDate": "2026-10-21",
-  "description": "Tích hợp 3 bài cắt thực nghiệm mới STT 17 (H95 SCM440 cối), STT 18 (H63 SCM420 chày), STT 19 (H110 SCM420 chày) vào Thư viện thực nghiệm xưởng. Đồng bộ hóa toàn diện Ngân hàng dữ liệu thô."
+  "description": "Thêm cột Sai số = Offset thực tế - Offset tính toán vào Bảng Thư viện thực nghiệm Tab 2. Phân tích so sánh chuyên sâu 2 trường hợp cắt H=63mm SCM420."
 }

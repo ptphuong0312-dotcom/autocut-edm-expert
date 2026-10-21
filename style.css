@@ -2356,6 +2356,12 @@ body {
     font-size: 13px;
 }
 
+.ws-lib-data-table td.col-offset-diff {
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: -0.2px;
+}
+
 .ws-lib-data-table td.col-offset-calc {
     font-weight: 700;
     color: #2dd4bf;

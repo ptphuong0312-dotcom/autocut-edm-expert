@@ -3497,7 +3497,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.5.39";
+    const CURRENT_VERSION = "3.5.40";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -3796,6 +3796,35 @@ function initApp() {
                         const hLabel = passIdx === 0 ? `<span class="${hBadgeClass}"${hTitle}>${job.H}</span>` : '';
                         const voltClass = p.Volt === 'H' || p.Volt === 'High' ? 'col-volt-h' : 'col-volt-l';
 
+                        
+                        let diffStr = '--';
+                        let diffStyle = 'color: #94a3b8; font-weight: 600;';
+                        const actStr = p.actualOffset || p.offset || '';
+                        const calcStr = p.calcOffset || '';
+                        if (actStr && calcStr && actStr !== '--' && calcStr !== '--') {
+                            const actVal = parseFloat(actStr.replace(',', '.'));
+                            const calcVal = parseFloat(calcStr.replace(',', '.'));
+                            if (!isNaN(actVal) && !isNaN(calcVal)) {
+                                const diff = actVal - calcVal;
+                                const absDiff = Math.abs(diff);
+                                if (absDiff < 0.00005) {
+                                    diffStr = '0,0000';
+                                    diffStyle = 'color: #4ade80; font-weight: 700; background: rgba(74, 222, 128, 0.1);';
+                                } else {
+                                    const sign = diff > 0 ? '+' : '-';
+                                    diffStr = sign + absDiff.toFixed(4).replace('.', ',');
+                                    const absUm = absDiff * 1000;
+                                    if (absUm <= 3.5) {
+                                        diffStyle = 'color: #4ade80; font-weight: 700; background: rgba(74, 222, 128, 0.1);';
+                                    } else if (absUm <= 7.0) {
+                                        diffStyle = 'color: #38bdf8; font-weight: 700; background: rgba(56, 189, 248, 0.1);';
+                                    } else {
+                                        diffStyle = 'color: #fbbf24; font-weight: 700; background: rgba(251, 191, 36, 0.1);';
+                                    }
+                                }
+                            }
+                        }
+
                         tableRowsHtml += `
                             <tr class="${jobClass}">
                                 <td class="col-mat">${matLabel}</td>
@@ -3809,6 +3838,7 @@ function initApp() {
                                 <td><strong>${p.maxSpeed}</strong></td>
                                 <td class="col-offset-act">${p.actualOffset || p.offset}</td>
                                 <td class="col-offset-calc">${p.calcOffset || '--'}</td>
+                                <td class="col-offset-diff" style="${diffStyle}" title="Sai số = Offset thực tế - Offset tính toán">${diffStr}</td>
                                 <td>${p.length}</td>
                                 <td class="col-time-act">${p.actualTime || p.time || '--'}</td>
                                 <td class="col-time-calc" style="color: #38bdf8; font-weight: 600;">${p.calcTime || '--'}</td>
@@ -3839,6 +3869,7 @@ function initApp() {
                                     <th>Max Speed</th>
                                     <th>Offset thực tế</th>
                                     <th>Offset tính toán</th>
+                                    <th>Sai số</th>
                                     <th>chiều dài cắt</th>
                                     <th>thời gian thực</th>
                                     <th>thời gian tính</th>
