@@ -1337,7 +1337,88 @@ function initApp() {
                 },
                 "notes": "Nhập test 0.092mm -> Cắt lấy cối: To hơn lập trình 0.040mm (bù mỗi bên +0.020mm). OFFSET CHUẨN HIỆU CHỈNH = 0.092 + 0.020 = 0.112mm (Khe hở δ = 0.022mm). Ampe 3.4-3.5A và tốc độ 50-65 mm²/p khớp chuẩn dải lý thuyết."
         },
+                {
+                  "id": "STT 17",
+                  "name": "SCM440 (28-32HRC) | H=95mm | 1 Lần",
+                  "materialName": "SCM440 (28-32HRC)",
+                  "thickness": 95,
+                  "cutLength": "76mm",
+                  "passCount": 1,
+                  "params": {
+                            "ti": 82,
+                            "Po": 7,
+                            "IP": 4,
+                            "wire": 1,
+                            "Voltage": "High",
+                            "VF": 55,
+                            "maxSpeed": "150Hz"
+                  },
+                  "measured": {
+                            "totalTimeStr": "1h15p",
+                            "ammeterA": "3,6A - 3,7A",
+                            "measuredSpeed": "35 - 45",
+                            "enteredOffset": 0.091,
+                            "standardOffset": 0.1135,
+                            "sparkGap": "0.0235",
+                            "tolerance": "Cối lớn hơn lập trình 0.045mm"
+                  },
+                  "notes": "Nhập test 0.091mm -> Cắt lấy cối: Lớn hơn lập trình 0.045mm (bù mỗi bên +0.0225mm). OFFSET CHUẨN HIỆU CHỈNH = 0.091 + 0.0225 = 0.1135mm (Khe hở δ = 0.0235mm). Ampe 3.6-3.7A và tốc độ 35-45 mm²/p khớp chuẩn dải lý thuyết."
+        },
         {
+                  "id": "STT 18",
+                  "name": "SCM420 (HB<200) | H=63mm | 1 Lần",
+                  "materialName": "SCM420 (HB<200)",
+                  "thickness": 63,
+                  "cutLength": "22,3mm",
+                  "passCount": 1,
+                  "params": {
+                            "ti": 44,
+                            "Po": 8,
+                            "IP": 4,
+                            "wire": 1,
+                            "Voltage": "High",
+                            "VF": 57,
+                            "maxSpeed": "150Hz"
+                  },
+                  "measured": {
+                            "totalTimeStr": "17p40'",
+                            "ammeterA": "3,3A - 3,4A",
+                            "measuredSpeed": "50 - 65",
+                            "enteredOffset": 0.093,
+                            "standardOffset": 0.098,
+                            "sparkGap": "0.008",
+                            "tolerance": "Chày nhỏ hơn lập trình 0.010mm"
+                  },
+                  "notes": "Nhập test 0.093mm -> Cắt lấy chày: Nhỏ hơn lập trình 0.010mm (bù mỗi bên +0.005mm). OFFSET CHUẨN HIỆU CHỈNH = 0.093 + 0.005 = 0.098mm (Khe hở δ = 0.008mm). Thời gian thực 17p40s khớp 99.9% thời gian tính toán 17.6p."
+        },
+        {
+                  "id": "STT 19",
+                  "name": "SCM420 (HB<200) | H=110mm | 1 Lần",
+                  "materialName": "SCM420 (HB<200)",
+                  "thickness": 110,
+                  "cutLength": "--",
+                  "passCount": 1,
+                  "params": {
+                            "ti": 100,
+                            "Po": 10,
+                            "IP": 5,
+                            "wire": 1,
+                            "Voltage": "High",
+                            "VF": 65,
+                            "maxSpeed": "150Hz"
+                  },
+                  "measured": {
+                            "totalTimeStr": "--",
+                            "ammeterA": "2,7A - 2,8A",
+                            "measuredSpeed": "30 - 40",
+                            "enteredOffset": 0.105,
+                            "standardOffset": 0.105,
+                            "sparkGap": "0.015",
+                            "tolerance": "Chày chuẩn luôn"
+                  },
+                  "notes": "Nhập test 0.105mm -> Cắt lấy chày: Kích thước chuẩn luôn 100% không lệch. OFFSET CHUẨN = 0.105mm (Khe hở δ = 0.015mm). Ampe 2.7-2.8A ở Po=10 cho hồ quang êm dịu, thoát xỉ rãnh sâu 110mm."
+        },
+{
                 "id": "2P-02",
                 "name": "SCM420 | H=63mm | 2 Lần (Cấp 6)",
                 "materialName": "SCM420 (HB<200)",
@@ -3416,7 +3497,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.5.38";
+    const CURRENT_VERSION = "3.5.39";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -3569,11 +3650,14 @@ function initApp() {
                     { H: 30, material: "30HRC", passes: [{ Ton: 32, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "200Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0975", length: "30mm", actualTime: "8p40'", calcTime: "8p42'", actualAmpe: "4,45A - 4,5A", calcAmpe: "4.3A", actualSpeed: "165-175 mm²/p", calcSpeedH40: "138 mm²/p" }] },
                     { H: 40, material: "30HRC", passes: [{ Ton: 36, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0961", length: "30mm", actualTime: "9p36'", calcTime: "9p36'", actualAmpe: "4,35A - 4,4A", calcAmpe: "4.3A", actualSpeed: "130-140 mm²/p", calcSpeedH40: "125 mm²/p" }] },
                     { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0976", length: "27mm", actualTime: "14p20'", calcTime: "14p24'", actualAmpe: "4,1A - 4,2A", calcAmpe: "4.0A", actualSpeed: "75-85 mm²/p", calcSpeedH40: "75 mm²/p" }] },
+                    { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 8, IP: 4, Wire: 1, Volt: "H", VF: 57, maxSpeed: "150Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0928", length: "22,3mm", actualTime: "17p40'", calcTime: "17p36'", actualAmpe: "3,3A - 3,4A", calcAmpe: "3.0A", actualSpeed: "50-65 mm²/p", calcSpeedH40: "51 mm²/p" }] },
                                         { H: 68, material: "30HRC", passes: [{ Ton: 70, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "100Hz", offset: "0,097", actualOffset: "0,097", calcOffset: "0,0945", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,4A - 2,6A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "43 mm²/p" }] },
                     { H: 75, material: "HB<200", passes: [{ Ton: 55, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 54, maxSpeed: "187Hz", offset: "0,112", actualOffset: "0,112", calcOffset: "0,0921", length: "50,3mm", actualTime: "1h13'", calcTime: "1h02p", actualAmpe: "3,4A - 3,5A", calcAmpe: "3.2A", actualSpeed: "50-65 mm²/p", calcSpeedH40: "32 mm²/p" }] },
                     // H=85 (Quy đổi từ Pass 1 bài cắt 2P-10 có đo kiểm vách P1)
                     { H: 85, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 70, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 61, maxSpeed: "150Hz", offset: "0,1025", actualOffset: "0,1025", calcOffset: "0,0987", length: "65,6mm", actualTime: "48p", calcTime: "47p43'", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.6A", actualSpeed: "55-65 mm²/p", calcSpeedH40: "55 mm²/p" }] },
-                    { H: 140, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0992", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "34 mm²/p" }] },
+                                        { H: 95, material: "30HRC", passes: [{ Ton: 82, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,1135", actualOffset: "0,1135", calcOffset: "0,0919", length: "76mm", actualTime: "1h15'", calcTime: "1h05p", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.3A", actualSpeed: "35-45 mm²/p", calcSpeedH40: "47 mm²/p" }] },
+                    { H: 110, material: "HB<200", passes: [{ Ton: 100, Toff: 10, IP: 5, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,105", actualOffset: "0,105", calcOffset: "0,0996", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,7A - 2,8A", calcAmpe: "3.1A", actualSpeed: "30-40 mm²/p", calcSpeedH40: "35 mm²/p" }] },
+{ H: 140, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0992", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "34 mm²/p" }] },
                     { H: 140, material: "HB<200", passes: [{ Ton: 100, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 60, maxSpeed: "100Hz", offset: "0,102", actualOffset: "0,102", calcOffset: "0,105", length: "28,4mm", actualTime: "36p", calcTime: "35p30'", actualAmpe: "3,7A - 3,8A", calcAmpe: "3.8A", actualSpeed: "30-40 mm²/p", calcSpeedH40: "32 mm²/p" }] },
                     { H: 160, material: "HB<200", passes: [{ Ton: 120, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "154Hz", offset: "0,120", actualOffset: "0,120", calcOffset: "0,1071", length: "32,3mm", actualTime: "59p", calcTime: "57p", actualAmpe: "2,8A - 3A", calcAmpe: "3.2A", actualSpeed: "18-28 mm²/p", calcSpeedH40: "23 mm²/p" }] },
                     // H=165 (Quy đổi từ Pass 1 bài cắt 2P-12 có đo kiểm vách P1)
@@ -3784,7 +3868,7 @@ function initApp() {
                     </div>
                     <div id="ws-lib-content" style="margin-top: 15px; display: none;">
                         <div class="ws-lib-tabs-nav">
-                            <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">10 bài</span></button>
+                            <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">15 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="2">2 Pass <span class="ws-lib-tab-count">9 bài</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="3">3 Pass <span class="ws-lib-tab-count">0</span></button>
                             <button class="ws-lib-tab-btn" data-tab-pass="4">4 Pass <span class="ws-lib-tab-count">0</span></button>

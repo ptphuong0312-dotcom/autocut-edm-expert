@@ -1,6 +1,6 @@
 {
-  "version": "3.5.38",
-  "buildTimestamp": 1789000000000,
-  "releaseDate": "2026-09-24",
-  "description": "Chuẩn hóa công thức thời gian nghỉ xung theo tài liệu máy AutoCut: Toff = Pon × (Poff + 1) (với Ton=Pon, Toff/Po=Poff). Cập nhật chu kỳ xung T = Ton × (Po + 2), tỷ lệ mở van duty = 1/(Po + 2), tần số phát xung f và hiệu chuẩn dòng ampe kế kAmpe bảo toàn số đo thực tế xưởng."
-}
+  "version": "3.5.39",
+  "buildTimestamp": 1792566700000,
+  "releaseDate": "2026-10-21",
+  "description": "Tích hợp 3 bài cắt thực nghiệm mới STT 17 (H95 SCM440 cối), STT 18 (H63 SCM420 chày), STT 19 (H110 SCM420 chày) vào Thư viện thực nghiệm xưởng. Đồng bộ hóa toàn diện Ngân hàng dữ liệu thô."
+}

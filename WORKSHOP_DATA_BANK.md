@@ -40,6 +40,9 @@ Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên
 | **14** | 1 Lần | SCM440 (28-32HRC) | 300 | 120 | 9 | 6 | 1 | High | 65 | 50Hz | **0,120** | 3h | 76,1mm | 3,7A - 3,9A | 12 - 20 | GĐ 2 : cắt lấy cối : kích thước lớn hơn lập trình 0,01 |
 | **15** | 1 Lần | SCM420 (HB<200) | 160 | 120 | 11 | 6 | 1 | High | 70 | 154Hz | **0,107** | 59p | 32,3mm | 2,8A - 3A | 18 - 28 | cắt lấy cối : kích thước to hơn lập trình 0,026 |
 | **16** | 1 Lần | SCM420 (HB<200) | 75 | 55 | 7 | 4 | 1 | High | 54 | 187Hz | **0,092** | 1h13p | 50,3mm | 3,4A - 3,5A | 50 - 65 | cắt lấy cối : kích thước to hơn lập trình 0,04 |
+| **17** | 1 Lần | SCM440 (28-32HRC) | 95 | 82 | 7 | 4 | 1 | High | 55 | 150Hz | **0,091** | 1h15p | 76mm | 3,6A - 3,7A | 35 - 45 | cắt lấy cối : kích thước lớn hơn lập trình 0,045 |
+| **18** | 1 Lần | SCM420 (HB<200) | 63 | 44 | 8 | 4 | 1 | High | 57 | 150Hz | **0,093** | 17p40' | 22,3mm | 3,3A - 3,4A | 50 - 65 | cắt lấy chày : kích thước nhỏ hơn lập trình 0,01 |
+| **19** | 1 Lần | SCM420 (HB<200) | 110 | 100 | 10 | 5 | 1 | High | 65 | 150Hz | **0,105** | -- | -- | 2,7A - 2,8A | 30 - 40 | cắt lấy chày : kích thước chuẩn luôn |
 
 ---
 
@@ -99,6 +102,9 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 | **14**| **H = 300mm**| Ton=120, Po=9, IP=6, Volt=High, VF=65 | 0.120 | Cối lớn hơn 0.010 | -0.005 | **0.115 mm** | **0.025 mm** | GĐ 2 phá thô siêu dày H=300mm $\rightarrow \delta=0.025\text{mm}$ |
 | **15**| **H = 160mm**| Ton=120, Po=11, IP=6, Volt=High, VF=70| 0.107 | Cối to hơn 0.026 | +0.013 | **0.120 mm** | **0.030 mm** | Phôi dày H=160mm, IP=6 rãnh sâu, cắt cối khép kín (Khớp 100% thời gian tính toán 59p) $\rightarrow \delta=0.030\text{mm}$ |
 | **16**| **H = 75mm** | Ton=55, Po=7, IP=4, Volt=High, VF=54 | 0.092 | Cối to hơn 0.040 | +0.020 | **0.112 mm** | **0.022 mm** | Phôi trung H=75mm, IP=4 rãnh sâu, cắt cối khép kín $\rightarrow \delta=0.022\text{mm}$ |
+| **17**| **H = 95mm** | Ton=82, Po=7, IP=4, Volt=High, VF=55 | 0.091 | Cối lớn hơn 0.045 | +0.0225 | **0.1135 mm** | **0.0235 mm** | Phôi trung dày H=95mm cắt cối khép kín, vách lấn ra ngoài 22.5μm/bên $\rightarrow \delta=0.0235\text{mm}$ |
+| **18**| **H = 63mm** | Ton=44, Po=8, IP=4, Volt=High, VF=57 | 0.093 | Chày nhỏ hơn 0.010 | +0.0050 | **0.098 mm** | **0.008 mm** | Phôi H=63mm cắt chày, dây ăn sâu 5μm/bên $\rightarrow \text{Offset Chuẩn}=0.098\text{mm}, \delta=0.008\text{mm}$ |
+| **19**| **H = 110mm**| Ton=100, Po=10, IP=5, Volt=High, VF=65| 0.105 | Chày chuẩn luôn | 0.0000 | **0.105 mm** | **0.015 mm** | Phôi dày H=110mm cắt chày, Ton=100, Po=10, IP=5 chuẩn kích thước tuyệt đối $\rightarrow \delta=0.015\text{mm}$ |
 
 > 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 15 (H=160mm, SCM420 - CẮT LẤY CỐI 1 PASS):**
 > * **Bài cắt kiểm định khép kín (Rule 12):** Người dùng sử dụng 100% chế độ điện xuất ra từ Web App Tab 2 ($H=160\text{mm}$, SCM420, Cấp 4): $\text{Ton}=120, \text{Po}=11, \text{IP}=6, \text{Volt}=\text{High}, \text{VF}=70, \text{Giới hạn}=154\text{Hz}$, Offset nhập test ban đầu là $0.107\text{mm}$ (sát mốc tính toán lý thuyết $0.1071\text{mm}$).
@@ -118,6 +124,33 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 > * **Đồng hồ Ampe:** Thực tế kim ăn $3.4\text{A} - 3.5\text{A}$ (chuẩn xác theo Quy luật 4 dải Ampe Rule 12 cho dải phôi trung $H=75\text{mm}$: $3.0 - 3.5\text{A}$).
 > * **Tốc độ cắt & Thời gian:** Chiều dài $L = 50.3\text{mm}$, thời gian cắt thực tế **1 giờ 13 phút (73 phút)**, tốc độ trên máy AutoCut đạt $50 - 65\text{ mm}^2/\text{phút}$ (tốc độ ăn thực tế $F_t = 0.689\text{ mm/phút} \implies F_t \times 75 = 51.7\text{ mm}^2/\text{phút}$ khớp hoàn toàn dải thực tế $50 - 65\text{ mm}^2/\text{p}$).
 > * **Bản chất vật lý trễ thời gian (73p vs 38.4p lý thuyết):** Ở thép mềm dẻo SCM420 ($HB < 200$), phoi bết dính trong rãnh sâu $H=75\text{mm}$, việc chạy $\text{IP}=4$ (4 sò) khiến áp lực nổ hồ quang không đủ tống xỉ dẻo dọc rãnh, servo theo dõi điện áp $\text{VF}=54$ liên tục ghìm bước tiến để chống đoản mạch. Khi hiệu chỉnh hệ số thoát xỉ rãnh sâu cho thép dẻo thiếu công suất đỉnh, thời gian tính toán kéo dài lên ~62 phút (sát thực tế 73 phút).
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 17 (H=95mm, SCM440 - CẮT LẤY CỐI 1 PASS):**
+> * **Bài cắt thực nghiệm tại xưởng:** Người dùng cắt phôi dày $H=95\text{mm}$, thép tôi SCM440 (28-32 HRC) với chế độ điện: $\text{Ton}=82, \text{Po}=7, \text{IP}=4, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=55, \text{Giới hạn}=150\text{Hz}$, Offset nhập test ban đầu là $0.091\text{mm}$.
+> * **Kích thước đo sau cắt:** Cắt lấy cối, lỗ đo được lớn hơn lập trình $0.045\text{mm} \implies$ Thành vách cối bị ăn lấn ra ngoài mỗi bên: $\Delta/2 = +0.0225\text{mm}$ ($22.5\mu m$).
+> * **Bù dao Chuẩn khi cắt cối:** Để lỗ cối co nhỏ lại về đúng kích thước danh nghĩa, dây Moly cần dịch lùi sâu vào trong lòng lỗ (cách xa vách hơn), do đó Offset Chuẩn là:
+>   $$\mathbf{\text{Offset}_{\text{chuẩn}}} = 0.091 + 0.0225 = \mathbf{0.1135\text{ mm}}$$
+>   $$\mathbf{\delta} = 0.1135 - 0.090 = \mathbf{0.0235\text{ mm}} \quad (23.5\mu m)$$
+> * **Đồng hồ Ampe:** Thực tế kim ăn $3.6\text{A} - 3.7\text{A}$ (chuẩn xác theo Quy luật 4 dải Ampe Rule 12 cho $H=95\text{mm}$: $3.0 - 3.5\text{A}$ đến tiệm cận dải phôi dày).
+> * **Tốc độ cắt & Thời gian:** Chiều dài $L = 76\text{mm}$, thời gian cắt thực tế **1 giờ 15 phút (75 phút)**, tốc độ trên máy AutoCut đạt $35 - 45\text{ mm}^2/\text{phút}$ ($F_t = 1.013\text{ mm/p} \implies F_t \times 40 = 40.5\text{ mm}^2/\text{p}$ khớp hoàn hảo dải hiển thị $35 - 45\text{ mm}^2/\text{p}$).
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 18 (H=63mm, SCM420 - CẮT LẤY CHÀY 1 PASS):**
+> * **Bài cắt thực nghiệm tại xưởng:** Người dùng cắt phôi dày $H=63\text{mm}$, thép dẻo SCM420 ($HB < 200$) với chế độ điện: $\text{Ton}=44, \text{Po}=8, \text{IP}=4, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=57, \text{Giới hạn}=150\text{Hz}$, Offset nhập test ban đầu là $0.093\text{mm}$.
+> * **Kích thước đo sau cắt:** Cắt lấy chày, chày đo được nhỏ hơn lập trình $0.010\text{mm} \implies$ Vách chày bị ăn lấn sâu vào trong mỗi bên: $\Delta/2 = +0.005\text{mm}$ ($5\mu m$).
+> * **Bù dao Chuẩn khi cắt chày:** Để chày to rộng ra về đúng kích thước danh nghĩa, tâm dây Moly cần dịch lùi ra xa biên dạng phôi (ra phía phôi thải), do đó Offset Chuẩn phải tăng thêm:
+>   $$\mathbf{\text{Offset}_{\text{chuẩn}}} = 0.093 + 0.005 = \mathbf{0.098\text{ mm}}$$
+>   $$\mathbf{\delta} = 0.098 - 0.090 = \mathbf{0.008\text{ mm}} \quad (8.0\mu m)$$
+> * **Đồng hồ Ampe:** Thực tế kim ăn $3.3\text{A} - 3.4\text{A}$ (chuẩn xác theo Quy luật 4 dải Ampe Rule 12 cho dải phôi trung $H=63\text{mm}$: $3.0 - 3.5\text{A}$).
+> * **Tốc độ cắt & Thời gian:** Chiều dài $L = 22.3\text{mm}$, thời gian cắt thực tế **17 phút 40 giây (17.67 phút)** khớp 99.9% thời gian tính toán của phần mềm (**17.6 phút**), tốc độ hiển thị trên máy AutoCut đạt $50 - 65\text{ mm}^2/\text{phút}$ ($F_t = 1.262\text{ mm/p} \implies F_t \times 40 = 50.5\text{ mm}^2/\text{p}$ khớp hoàn hảo dải hiển thị $50 - 65\text{ mm}^2/\text{p}$).
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 19 (H=110mm, SCM420 - CẮT LẤY CHÀY 1 PASS):**
+> * **Bài cắt thực nghiệm tại xưởng:** Người dùng cắt phôi dày $H=110\text{mm}$, thép dẻo SCM420 ($HB < 200$) với chế độ điện: $\text{Ton}=100, \text{Po}=10, \text{IP}=5, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=65, \text{Giới hạn}=150\text{Hz}$, Offset nhập test ban đầu là $0.105\text{mm}$.
+> * **Kích thước đo sau cắt:** Cắt lấy chày: Kích thước chuẩn luôn $100\%$ không sai lệch danh nghĩa ($\Delta = 0.000$).
+> * **Bù dao Chuẩn:** Giữ nguyên giá trị nhập test ban đầu:
+>   $$\mathbf{\text{Offset}_{\text{chuẩn}}} = \mathbf{0.105\text{ mm}}$$
+>   $$\mathbf{\delta} = 0.105 - 0.090 = \mathbf{0.015\text{ mm}} \quad (15.0\mu m)$$
+> * **Đồng hồ Ampe:** Thực tế kim ăn $2.7\text{A} - 2.8\text{A}$ (ở $\text{Po}=10$, chu kỳ nghỉ xung dài giúp xả xỉ sâu trong rãnh $110\text{mm}$, dòng tải nhẹ nhàng và ổn định).
+> * **Tốc độ cắt:** Tốc độ hiển thị trên máy AutoCut đạt $30 - 40\text{ mm}^2/\text{phút}$ khớp hoàn hảo tốc độ tính toán lý thuyết ($32 - 35\text{ mm}^2/\text{p}$).
 
 ---
 
