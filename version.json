@@ -1,6 +1,6 @@
 {
-  "version": "3.5.42",
-  "buildTimestamp": 1792573200000,
+  "version": "3.5.43",
+  "buildTimestamp": 1792588397691,
   "releaseDate": "2026-10-21",
-  "description": "Tối ưu hóa đa biến Tab 3 (Thí nghiệm tự do): Bổ sung màng điện môi Volt Low (+4.5μm), phân biệt thoát xỉ theo vật liệu SCM420 (+10% xỉ) và đồng bộ kiến trúc hội tụ xưởng Rule 17 cho phôi siêu dày H>170mm (MAE giảm kỷ lục còn 2.86μm)."
+  "description": "Khắc phục triệt để lỗi phân cấp thẻ HTML DOM Tab 3: Loại bỏ 2 thẻ </div> đóng dư thừa gây tràn khối Kết Quả Tính Toán So Sánh sang toàn bộ các Tab, khôi phục giao diện lưới 2 cột song song chuẩn đẹp và cách ly hoàn toàn theo Tab."
 }
