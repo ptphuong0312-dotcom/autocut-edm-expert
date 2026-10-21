@@ -595,6 +595,26 @@
                             <span style="font-family: var(--font-mono); font-weight: 700; color: var(--text-secondary);">R = 0.090 mm (Dây Φ0.18)</span>
                         </div>
                     </div>
+
+                    <!-- 6. ĐỘNG LỰC HỌC XUNG THEO CÔNG THỨC TOFF MỚI -->
+                    <div style="background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: var(--radius-sm); padding: 10px 12px; margin-top: 14px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <strong style="color: var(--accent-purple); font-size: 12px;">⚡ Động Lực Học Xung &amp; Năng Suất (Chuẩn Toff mới):</strong>
+                            <span class="tag" id="vf-pulse-duty-tag" style="font-size: 11px; background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); border: 1px solid rgba(139, 92, 246, 0.4); font-weight: 700;">η = 14.3%</span>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; font-size: 11px;">
+                            <div>• Toff thực tế: <strong style="color: #fff; font-family: var(--font-mono);" id="vf-out-toff">216 μs</strong></div>
+                            <div>• Tổng chu kỳ T: <strong style="color: #fff; font-family: var(--font-mono);" id="vf-out-cycle">252 μs</strong></div>
+                            <div>• Tần số xung f: <strong style="color: var(--accent-cyan); font-family: var(--font-mono);" id="vf-out-freq">3.97 kHz</strong></div>
+                            <div>• Dòng Ampe dự tính: <strong style="color: var(--accent-amber); font-family: var(--font-mono);" id="vf-out-ampe">~1.8 A</strong></div>
+                            <div style="grid-column: 1 / -1; border-top: 1px dashed rgba(139, 92, 246, 0.3); padding-top: 5px; display: flex; justify-content: space-between; align-items: center;">
+                                <span>• Năng suất lý thuyết (Fc):</span>
+                                <strong style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 12px;" id="vf-out-fc">~112 mm²/p</strong>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- CỘT PHẢI: KẾT QUẢ SO SÁNH SONG SONG 2 CÔNG THỨC -->
@@ -627,10 +647,10 @@
                         <!-- KẾT QUẢ 2: CÔNG THỨC MỚI (TÍCH HỢP VF) -->
                         <div style="background: rgba(245, 158, 11, 0.05); border: 1px solid var(--accent-amber); border-radius: var(--radius-md); padding: 14px; position: relative;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <span class="tag" style="background: rgba(245, 158, 11, 0.2); color: var(--accent-amber); border: 1px solid var(--accent-amber); font-weight: 700;">2. CÔNG THỨC MỚI (CÓ VF)</span>
+                                <span class="tag" style="background: rgba(245, 158, 11, 0.2); color: var(--accent-amber); border: 1px solid var(--accent-amber); font-weight: 700;">2. CÔNG THỨC MỚI (VF &amp; CHU KỲ PO)</span>
                                 <span style="font-size: 11px; color: var(--accent-amber); font-weight: 700;" id="vf-tag-dvf">+2.55 μm</span>
                             </div>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">Đã cộng hưởng bù trừ độ trễ bước tiến theo VF</p>
+                            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">Đã cộng hưởng bù trừ độ trễ VF và chu kỳ xả xỉ Po</p>
 
                             <div style="margin-bottom: 10px;">
                                 <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Lượng cào phôi bề mặt (δ_vf):</span>
@@ -669,7 +689,7 @@
                                         <th style="padding: 6px 10px; text-align: left;">Thành phần vật lý</th>
                                         <th style="padding: 6px 10px; text-align: left;">Cơ chế sinh ra</th>
                                         <th style="padding: 6px 10px; text-align: right; color: var(--border-highlight);">Công thức Gốc</th>
-                                        <th style="padding: 6px 10px; text-align: right; color: var(--accent-amber);">Công thức có VF</th>
+                                        <th style="padding: 6px 10px; text-align: right; color: var(--accent-amber);">Công thức mới (VF &amp; Po)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="vf-breakdown-tbody">
@@ -1034,7 +1054,7 @@
         <footer class="app-footer">
             <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
             <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">
-                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.40 (Tích Hợp Dữ Liệu Thực Nghiệm STT 17, 18, 19)</strong> &bull; 
+                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.41 (Chuẩn Hóa Động Học Xung Tab 3 &amp; Tương Tác Chu Kỳ Toff)</strong> &bull; 
                 <a href="javascript:void(0)" id="link-force-update" style="color: var(--accent-amber); text-decoration: underline;">🔄 Cưỡng bức làm mới dữ liệu</a>
             </p>
         </footer>
@@ -1072,6 +1092,6 @@
     </div>
 
         <!-- INLINE APPLICATION SCRIPT (Chống kẹt cache 100% trên mọi trình duyệt) -->
-    <script src="app.js?v=3.5.40"></script>
+    <script src="app.js?v=3.5.41"></script>
 </body>
 </html>

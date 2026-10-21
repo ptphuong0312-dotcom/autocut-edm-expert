@@ -1,6 +1,6 @@
 {
-  "version": "3.5.40",
-  "buildTimestamp": 1792568600000,
+  "version": "3.5.41",
+  "buildTimestamp": 1792570800000,
   "releaseDate": "2026-10-21",
-  "description": "Thêm cột Sai số = Offset thực tế - Offset tính toán vào Bảng Thư viện thực nghiệm Tab 2. Phân tích so sánh chuyên sâu 2 trường hợp cắt H=63mm SCM420."
+  "description": "Chuẩn hóa động lực học phát xung (Toff = Pon * (Poff + 1), Chu kỳ T, Tần số f, Tỷ lệ Duty, Dòng Ampe, Năng suất Fc) và bổ sung hiệu ứng chu kỳ xả xỉ d_po vào Tab 3 (Thí nghiệm tự do)."
 }

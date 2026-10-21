@@ -3961,6 +3961,7 @@ function initApp() {
     const VF_K_SLAG = 0.02000;      // Nén xỉ rãnh sâu tối ưu (mm)
     const VF_K_VIBR = 0.00390;      // Rung uốn cơ học dây Moly (mm)
     const VF_K_VF = 0.00210;        // Hệ số bù trễ bước tiến VF (+2.10 μm / 10 vạch VF so với chuẩn 55)
+    const VF_K_PO = 0.00120;        // Hệ số chu kỳ & xả xỉ Po (mm / 10 nấc Po lệch so với chuẩn 5)
 
     function calcBaseSparkGap(H, Ton, IP, Volt) {
         // Bản chất vật lý: High Volt (27V) phóng xa hơn, cào mạnh hơn (U_ratio = 1.0)
@@ -3984,17 +3985,48 @@ function initApp() {
         };
     }
 
-    function calcVFSparkGap(H, Ton, IP, Volt, VF) {
+    function calcVFSparkGap(H, Ton, IP, Volt, VF, Po = 5, material = 'SCM440') {
         const base = calcBaseSparkGap(H, Ton, IP, Volt);
         const d_vf = VF_K_VF * ((VF - 55.0) / 10.0);
-        const gap_vf = base.gap + d_vf;
+        // Hiệu ứng chu kỳ xung và xả xỉ: Po < 5 đọng xỉ -> đánh lửa thứ cấp nở rãnh (+); Po > 5 sạch xỉ -> rãnh co lại (-)
+        const d_po = - VF_K_PO * ((Po - 5.0) / 10.0);
+        const gap_vf = base.gap + d_vf + d_po;
+        const diff_um = (d_vf + d_po) * 1000.0;
+
+        // Động học phát xung theo công thức Toff mới (Chuẩn máy AutoCut)
+        const toff = Ton * (Po + 1); // μs
+        const cycle = Ton + toff;   // Ton * (Po + 2) μs
+        const freq_hz = Math.round(1000000 / cycle);
+        const freq_khz = (freq_hz / 1000).toFixed(2);
+        const duty = Ton / cycle;   // 1 / (Po + 2)
+        const duty_pct = (duty * 100).toFixed(1);
+
+        const u_arc = (Volt === 'High') ? 27 : 22;
+        const i_peak = IP * 2.8;
+        const power_watts = u_arc * i_peak * duty;
+        const ampe_est = (i_peak * duty * 1.15).toFixed(1);
+
+        const Cm = (material === 'SCM420' || material === 'SCM440') ? 0.0140 : 0.0120;
+        const B = 0.23;
+        const eta_eff = 0.78;
+        const fc_est = Math.round((60 * Cm * power_watts * eta_eff) / B);
+
         return {
             ...base,
+            Po: Po,
             d_vf: d_vf,
+            d_po: d_po,
+            d_po_um: d_po * 1000.0,
             gap_vf: gap_vf,
             offset_vf: 0.090 + gap_vf,
             kerf_vf: 0.180 + 2.0 * gap_vf,
-            diff_um: d_vf * 1000.0
+            diff_um: diff_um,
+            toff: toff,
+            cycle: cycle,
+            freq_khz: freq_khz,
+            duty_pct: duty_pct,
+            ampe_est: ampe_est,
+            fc_est: fc_est
         };
     }
 
@@ -4005,10 +4037,26 @@ function initApp() {
         const IP = parseFloat(vfResearchState.IP) || 4;
         const Volt = vfResearchState.Volt || 'High';
         const VF = parseFloat(vfResearchState.VF) || 65;
+        const material = vfResearchState.material || 'SCM440';
 
-        const res = calcVFSparkGap(H, Ton, IP, Volt, VF);
+        const res = calcVFSparkGap(H, Ton, IP, Volt, VF, Po, material);
 
-        // 1. CÔNG THỨC VẬT LÝ (KHÔNG VF)
+        // 0. CẬP NHẬT THẺ ĐỘNG LỰC HỌC XUNG (CHUẨN TOFF MỚI)
+        const elDutyTag = document.getElementById('vf-pulse-duty-tag');
+        const elOutToff = document.getElementById('vf-out-toff');
+        const elOutCycle = document.getElementById('vf-out-cycle');
+        const elOutFreq = document.getElementById('vf-out-freq');
+        const elOutAmpe = document.getElementById('vf-out-ampe');
+        const elOutFc = document.getElementById('vf-out-fc');
+
+        if (elDutyTag) elDutyTag.textContent = 'η = ' + res.duty_pct + '%';
+        if (elOutToff) elOutToff.textContent = res.toff + ' μs';
+        if (elOutCycle) elOutCycle.textContent = res.cycle + ' μs';
+        if (elOutFreq) elOutFreq.textContent = res.freq_khz + ' kHz';
+        if (elOutAmpe) elOutAmpe.textContent = '~' + res.ampe_est + ' A';
+        if (elOutFc) elOutFc.textContent = '~' + res.fc_est + ' mm²/p';
+
+        // 1. CÔNG THỨC VẬT LÝ (KHÔNG VF, PO CHUẨN = 5)
         const elGapBase = document.getElementById('vf-out-gap-base');
         const elGapBaseUm = document.getElementById('vf-out-gap-base-um');
         const elOffBase = document.getElementById('vf-out-offset-base');
@@ -4019,7 +4067,7 @@ function initApp() {
         if (elOffBase) elOffBase.textContent = res.offset.toFixed(4) + ' mm';
         if (elKerfBase) elKerfBase.textContent = 'Rãnh cắt W = ' + res.kerf.toFixed(4) + ' mm';
 
-        // 2. CÔNG THỨC MỚI (CÓ VF)
+        // 2. CÔNG THỨC MỚI (TÍCH HỢP VF & CHU KỲ PO)
         const elTagDvf = document.getElementById('vf-tag-dvf');
         const elGapNew = document.getElementById('vf-out-gap-new');
         const elGapNewUm = document.getElementById('vf-out-gap-new-um');
@@ -4055,19 +4103,35 @@ function initApp() {
         }
 
         if (elInsightText) {
-            if (Math.abs(res.diff_um) < 0.05) {
-                elInsightText.innerHTML = `<strong>⚡ VF = 55 (Trạng thái cân bằng vàng chuẩn xưởng):</strong> Bước tiến Servo đạt tỷ lệ hài hòa lý tưởng giữa tốc độ đẩy bàn máy và chu kỳ phóng tia lửa. Hiệu ứng trễ bước tiến $d_{\\text{vf}} = 0.00\\,\\mu\\text{m}$, hai công thức cho kết quả <strong>trùng khít tuyệt đối: Offset = ${res.offset.toFixed(4)} mm</strong>.`;
-            } else if (res.diff_um > 0) {
-                elInsightText.innerHTML = `<strong>⚡ VF = ${VF} &gt; 55 (Chạy chậm hơn chuẩn / Dây chần chừ ngâm tia lửa):</strong> Servo dè dặt khiến bàn máy di chuyển chậm lại. Tại cùng một vị trí trên vách phôi, dây EDM lưu lại lâu hơn $\\implies$ mật độ năng lượng nhiệt plasma tích tụ nhiều hơn, khoét sâu thêm <strong style="color: var(--accent-amber);">+${res.diff_um.toFixed(2)} μm</strong> vào bề mặt phôi thép đặc. Khi cắt 1 Pass thực tế ở VF=${VF}, cần bù dao <strong style="color: var(--accent-amber);">${res.offset_vf.toFixed(4)} mm</strong> để sản phẩm sau cắt không bị âm (hụt) kích thước!`;
+            let insightHtml = '';
+            // Phân tích thành phần VF:
+            if (Math.abs(res.d_vf * 1000.0) < 0.05) {
+                insightHtml += '<strong>⚡ VF = 55 (Cân bằng chuẩn xưởng):</strong> Bước tiến Servo hài hòa lý tưởng ($d_{\\text{vf}} = 0.00\\,\\mu\\text{m}$).';
+            } else if (res.d_vf > 0) {
+                insightHtml += '<strong>⚡ VF = ' + VF + ' &gt; 55 (Bàn tiến chậm / Dây ngâm tia lửa):</strong> Servo dè dặt ngâm dây lâu $\\implies$ nhiệt tích tụ khoét sâu thêm <strong style="color: var(--accent-amber);">+' + (res.d_vf * 1000).toFixed(2) + ' μm</strong>.';
             } else {
-                elInsightText.innerHTML = `<strong>⚡ VF = ${VF} &lt; 55 (Chạy nhanh hơn chuẩn / Ép bước tiến Servo):</strong> Servo đẩy bàn máy nhanh hơn, dây Molypden lướt qua nhanh làm giảm thời gian tác động nhiệt của tia lửa trên từng đơn vị diện tích phôi. Lượng bào thép đặc bị hụt đi <strong style="color: var(--accent-cyan);">${Math.abs(res.diff_um).toFixed(2)} μm</strong> so với lý thuyết tĩnh. Khi cắt ở VF=${VF}, cần hạ bù dao về <strong style="color: var(--accent-cyan);">${res.offset_vf.toFixed(4)} mm</strong> để tránh chi tiết bị dày (dương) kích thước.`;
+                insightHtml += '<strong>⚡ VF = ' + VF + ' &lt; 55 (Bàn tiến nhanh / Ép Servo):</strong> Dây lướt nhanh làm giảm thời gian truyền nhiệt $\\implies$ lớp cào hụt đi <strong style="color: var(--accent-cyan);">' + Math.abs(res.d_vf * 1000).toFixed(2) + ' μm</strong>.';
             }
+
+            // Phân tích thành phần Po / Chu kỳ xung:
+            if (Math.abs(res.d_po * 1000.0) < 0.05) {
+                insightHtml += '<br><strong>🔄 Po = 5 (Chuẩn xưởng):</strong> Chu kỳ xả xỉ đạt trạng thái cân bằng lý tưởng ($d_{\\text{po}} = 0.00\\,\\mu\\text{m}$, Toff = ' + res.toff + ' μs).';
+            } else if (res.d_po > 0) {
+                insightHtml += '<br><strong>🔄 Po = ' + Po + ' &lt; 5 (Toff ngắn = ' + res.toff + ' μs / f = ' + res.freq_khz + ' kHz):</strong> Nước chưa kịp thổi sạch xỉ $\\implies$ mạt sắt gây <strong>đánh lửa thứ cấp</strong> làm nở rãnh cắt thêm <strong style="color: #f43f5e;">+' + (res.d_po * 1000).toFixed(2) + ' μm</strong> (nguy cơ sọc vách &amp; đứt dây tăng).';
+            } else {
+                insightHtml += '<br><strong>🔄 Po = ' + Po + ' &gt; 5 (Toff dài = ' + res.toff + ' μs / f = ' + res.freq_khz + ' kHz):</strong> Xối xỉ cực sạch, tia lửa êm không phóng bạt $\\implies$ rãnh cắt co gọn lại <strong style="color: var(--accent-cyan);">' + (res.d_po * 1000).toFixed(2) + ' μm</strong> (bề mặt mịn hơn, nhưng tốc độ cắt giảm còn ~' + res.fc_est + ' mm²/p).';
+            }
+
+            insightHtml += '<br><strong>🎯 Tổng sai lệch: $\\Delta = ' + signStr + res.diff_um.toFixed(2) + '\\,\\mu\\text{m} \\implies$ Offset đề xuất: <span style="color: var(--accent-amber);">' + res.offset_vf.toFixed(4) + ' mm</span>.</strong>';
+            elInsightText.innerHTML = insightHtml;
         }
 
         // 4. BẢNG BÓC TÁCH CHI TIẾT TỪNG THÀNH PHẦN VẬT LÝ
         const tbody = document.getElementById('vf-breakdown-tbody');
         if (tbody) {
             const isHigh = (Volt === 'High');
+            const signVf = res.d_vf >= 0 ? '+' : '';
+            const signPo = res.d_po >= 0 ? '+' : '';
             tbody.innerHTML = `
                 <tr>
                     <td><strong>C<sub>0</sub></strong> (Màng cách điện ban đầu)</td>
@@ -4102,8 +4166,14 @@ function initApp() {
                 <tr style="background: rgba(245, 158, 11, 0.08); border-top: 1px dashed var(--accent-amber);">
                     <td><strong style="color: var(--accent-amber);">d<sub>vf</sub></strong> (Hiệu ứng trễ bước tiến VF)</td>
                     <td>Thời gian ngâm tia lửa do tốc độ tiến bàn máy: K<sub>vf</sub> &times; (VF - 55)/10</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--text-muted);">0.00 μm (Chưa tính)</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber); font-weight: 700;">${signStr + res.diff_um.toFixed(2)} μm</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--text-muted);">0.00 μm (VF chuẩn 55)</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber); font-weight: 700;">${signVf + (res.d_vf * 1000).toFixed(2)} μm</td>
+                </tr>
+                <tr style="background: rgba(139, 92, 246, 0.08);">
+                    <td><strong style="color: var(--accent-purple);">d<sub>po</sub></strong> (Chu kỳ xung &amp; xả xỉ Po)</td>
+                    <td>Toff = Ton &times; (Po + 1). Po &lt; 5 đọng xỉ nở rãnh; Po &gt; 5 sạch xỉ co rãnh: -K<sub>po</sub> &times; (Po - 5)/10</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--text-muted);">0.00 μm (Po chuẩn 5)</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-purple); font-weight: 700;">${signPo + res.d_po_um.toFixed(2)} μm</td>
                 </tr>
                 <tr style="font-weight: 700; background: rgba(0,0,0,0.3); border-top: 2px solid var(--border-color);">
                     <td>TỔNG LƯỢNG CÀO PHÔI (&delta;)</td>
