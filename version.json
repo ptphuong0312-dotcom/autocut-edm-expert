@@ -1,6 +1,6 @@
 {
-  "version": "3.5.43",
-  "buildTimestamp": 1792588397691,
-  "releaseDate": "2026-10-21",
-  "description": "Khắc phục triệt để lỗi phân cấp thẻ HTML DOM Tab 3: Loại bỏ 2 thẻ </div> đóng dư thừa gây tràn khối Kết Quả Tính Toán So Sánh sang toàn bộ các Tab, khôi phục giao diện lưới 2 cột song song chuẩn đẹp và cách ly hoàn toàn theo Tab."
+  "version": "3.5.44",
+  "buildTimestamp": 1792685483382,
+  "releaseDate": "2026-10-22",
+  "description": "Thiết lập Hạ tầng Bộ Não Tri Thức 4 Trụ Cột luân chuyển 2 máy (Nhà ⟷ Công Ty qua OneDrive & GitHub): CURRENT_STATE.md, docs/OPTIMIZATION_HISTORY.md, GEMINI.md, .agents/workflows/khoi_dong_phien_lam_viec_bat_dau.md và verify_integrity.py."
 }

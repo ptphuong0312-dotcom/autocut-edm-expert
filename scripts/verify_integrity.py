@@ -1,23 +1,20 @@
-import re, sys, os, json
+import os
+import json
+import re
+import sys
 
-sys.stdout.reconfigure(encoding='utf-8')
-ws_dir = r"F:\Antigravity\Cat Day EDM 1"
+ws_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 app_js_path = os.path.join(ws_dir, 'app.js')
-version_path = os.path.join(ws_dir, 'version.json')
-index_html_path = os.path.join(ws_dir, 'index.html')
-sw_path = os.path.join(ws_dir, 'sw.js')
-
-print("=== RUNNING SYSTEM INTEGRITY AND LAW VERIFICATION ===")
 
 with open(app_js_path, 'r', encoding='utf-8') as f:
     app_js = f.read()
 
-# 1. Syntax and bracket check
-clean = re.sub(r'/\*.*?\*/', '', app_js, flags=re.DOTALL)
-clean = re.sub(r'//.*', '', clean)
-clean = re.sub(r'`(?:\\`|[^`])*`', '""', clean)
-clean = re.sub(r'"(?:\\"|[^"])*"', '""', clean)
-clean = re.sub(r"'(?:\\'|[^'])*'", "''", clean)
+# 1. Bracket and stack check
+clean = re.sub(r'/\*[\s\S]*?\*/', '', app_js)
+clean = re.sub(r'//.*$', '', clean, flags=re.MULTILINE)
+clean = re.sub(r'`(?:\\[\s\S]|[^`])*`', '""', clean)
+clean = re.sub(r'"(?:\\[\s\S]|[^"\\])*"', '""', clean)
+clean = re.sub(r"'(?:\\[\s\S]|[^'\\])*'", "''", clean)
 
 stack = []
 pairs = {')': '(', '}': '{', ']': '['}
@@ -26,49 +23,53 @@ for idx, ch in enumerate(clean):
         stack.append((ch, idx))
     elif ch in ')}]':
         if not stack:
-            print(f'SYNTAX ERROR: Unmatched closing {ch} at char {idx}')
+            print(f"SYNTAX ERROR: Unmatched closing {ch} at index {idx}", file=sys.stderr)
             sys.exit(1)
-        top, top_idx = stack.pop()
-        if top != pairs[ch]:
-            print(f'SYNTAX ERROR: Mismatched {top} at {top_idx} with {ch} at {idx}')
+        top_ch, top_idx = stack.pop()
+        if top_ch != pairs[ch]:
+            print(f"SYNTAX ERROR: Mismatched {top_ch} at {top_idx} with {ch} at {idx}", file=sys.stderr)
             sys.exit(1)
 
 if stack:
-    print(f'SYNTAX ERROR: Unmatched opening {stack[-1][0]} at {stack[-1][1]}')
+    top_ch, top_idx = stack[-1]
+    print(f"SYNTAX ERROR: Unmatched opening {top_ch} at index {top_idx}", file=sys.stderr)
     sys.exit(1)
+
 print("  [OK] Bracket balance and syntax integrity: PASSED")
 
-# 2. Anti-Lookup-Table Law Check (Rule 16 / Constitution Rule 16)
-forbidden_patterns = [
-    'anchorOffsetTarget',
-    'anchorOffset',
-]
-for p in forbidden_patterns:
+# 2. Anti-Lookup-Table Law Check
+forbidden = ['anchorOffsetTarget', 'anchorOffset']
+for p in forbidden:
     if p in app_js:
-        print(f"INTEGRITY VIOLATION: Forbidden static lookup table pattern '{p}' found in app.js! All offsets must use pure mathematical physics formulas.")
+        print(f"INTEGRITY VIOLATION: Forbidden pattern '{p}' found in app.js!", file=sys.stderr)
         sys.exit(1)
 
-# Check presence of universal physics constants
-required_constants = ['C0', 'K_ELEC', 'DELTA_LOW', 'K_SLAG', 'K_VIBR', 'K_RZ']
-for c in required_constants:
+required = ['C0', 'K_ELEC', 'DELTA_LOW', 'K_SLAG', 'K_VIBR', 'K_RZ']
+for c in required:
     if c not in app_js:
-        print(f"INTEGRITY VIOLATION: Required physical constant '{c}' missing from app.js!")
+        print(f"INTEGRITY VIOLATION: Required constant '{c}' missing in app.js!", file=sys.stderr)
         sys.exit(1)
+
 print("  [OK] Anti-Lookup-Table Law and Pure Physics Engine: PASSED")
 
-# 3. Version Synchronization Check
-with open(version_path, 'r', encoding='utf-8') as f:
-    vdata = json.load(f)
-ver = vdata.get('version')
+# 3. Version synchronization check
+with open(os.path.join(ws_dir, 'version.json'), 'r', encoding='utf-8') as f:
+    version_data = json.load(f)
+ver = version_data['version']
 
-with open(index_html_path, 'r', encoding='utf-8') as f:
-    html = f.read()
+with open(os.path.join(ws_dir, 'index.html'), 'r', encoding='utf-8') as f:
+    index_html = f.read()
 
-with open(sw_path, 'r', encoding='utf-8') as f:
-    sw = f.read()
+with open(os.path.join(ws_dir, 'sw.js'), 'r', encoding='utf-8') as f:
+    sw_js = f.read()
 
-assert f"v={ver}" in html or f"v{ver}" in html, f"Version mismatch in index.html! Expected {ver}"
-assert f"autocut-v{ver}" in sw, f"Version mismatch in sw.js! Expected autocut-v{ver}"
+if f"v={ver}" not in index_html and f"v{ver}" not in index_html:
+    print(f"Version mismatch in index.html! Expected {ver}", file=sys.stderr)
+    sys.exit(1)
+
+if f"autocut-v{ver}" not in sw_js:
+    print(f"Version mismatch in sw.js! Expected autocut-v{ver}", file=sys.stderr)
+    sys.exit(1)
+
 print(f"  [OK] Version synchronization (v{ver}): PASSED")
-
-print("=== ALL INTEGRITY AND ANTI-LOOKUP-TABLE CHECKS PASSED 100% ===")
+print("=== ALL INTEGRITY CHECKS PASSED 100% ===")
