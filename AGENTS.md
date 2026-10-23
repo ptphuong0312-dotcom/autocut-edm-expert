@@ -85,3 +85,9 @@ Before modifying ANY file or executing any logic, you MUST adhere to the followi
       5. Đánh giá tính ổn định của 5 hệ số vật lý $(C_0, K_{\text{elec}}, \delta_{\text{low}}, K_{\text{slag}}, K_{\text{vibr}})$ và đưa ra kết luận rõ ràng có cần tinh chỉnh thêm hay giữ nguyên mô hình tối ưu.
 
 
+20. **SPARK GAP ACCURACY REFINEMENT INTELLIGENCE VAULT (KHO TRI THỨC VÀ KHẨU LỆNH TINH CHỈNH ĐỘ CHÍNH XÁC LƯỢNG CÀO PHÔI):**
+    - Bất kỳ khi nào người dùng đề cập **trực tiếp hoặc gián tiếp** đến việc *"tinh chỉnh phát triển độ chính xác lượng cào phôi"* (hoặc *"tinh chỉnh delta"*, *"độ chính xác cào phôi"*, *"nâng cấp công thức lượng cào phôi"*):
+      1. AI **BẮT BUỘC** mang ngay toàn bộ hệ thống số liệu phân tích kiểm toán từ kho dữ liệu `docs/RESEARCH_TAB3_ALTERNATIVE_MODELS.md` và `.agents/rules/18-SPARK_GAP_PRECISION_RESEARCH_VAULT.md` ra trình bày.
+      2. Nêu rõ kết quả đánh giá thực nghiệm LOOCV 14 bài cắt độc lập sạch ($H \le 170\text{mm}$): Tab 3 hiện tại MAE $5.50\mu m$, RMSE $8.43\mu m$, Max $20.20\mu m$ (lệch dồn ở 3 bài cối STT 15, 16, 17); Hiện tượng phân hóa Cối vs Chày ($\delta_{\text{cối}} \approx 22.15\mu m$ vs $\delta_{\text{chày}} \approx 8.78\mu m$, $p=0.0010$); Hiện tượng đa cộng tuyến $r \approx 0.84 - 0.99$.
+      3. Đưa ra 2 mô hình tối ưu Tab 3 v2: Mô hình P2 ($\delta = C_0 + K_{\text{elec}}\sqrt{\text{Ton}\cdot\text{IP}}\cdot(U/27) + \delta_{\text{Low}} + K_{\text{vf}}(\text{VF}-55)/10 + K_{\text{die}}s$, LOO-MAE $4.43\mu m$, dự đoán $H=300$ cối $24.08\mu m$ khớp tự nhiên) và Mô hình P1 (LOO-MAE $4.04\mu m$).
+      4. Đề xuất 2 bài test thực nghiệm đối ứng T1 ($H=75$ chày) và T2 ($H=165$ chày) để kiểm chứng trước khi can thiệp mã nguồn.

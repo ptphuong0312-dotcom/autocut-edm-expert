@@ -102,3 +102,33 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
 * **Kết quả nghiệm thu:**
   - Gia tăng độ dày đặc của dữ liệu thực nghiệm ở dải phôi trung và dày ($63\text{mm}$, $95\text{mm}$, $110\text{mm}$).
   - Bản sao lưu số 78: `autocut_2026-10-21(78).zip`.
+
+
+---
+
+### 🔬 NGHIÊN CỨU 2026-10-23: PHƯƠNG ÁN TÍNH TAB 3 SÁT THỰC TẾ HƠN (CHỜ DUYỆT – CHƯA SỬA CODE)
+* **Yêu cầu của SirPhuong:** Tìm kiểu tính toán Tab 3 sát thực tế hơn từ dữ liệu thực tế, trình bày rồi mới quyết định làm.
+* **Phương pháp:** LOOCV trên 14 điểm độc lập (H ≤ 170, 1 Pass thật + quy đổi Rule 15, đã gộp trùng); STT14 (H=300) dùng kiểm tra ngoài mẫu. Máy không có Node/Python nên chạy bằng PowerShell.
+* **Kết quả:** Tab 3 hiện tại MAE 5.50 µm / max 20.2 µm (lệch dồn ở 3 bài cối STT15/16/17). Biến cối/chày giải thích δ mạnh nhất (22.2 vs 8.8 µm, permutation p=0.001). H, Ton, IP, Po đa cộng tuyến (corr 0.9–0.99). Mô hình `c + √(Ton·IP)·U + VF + cối` đạt LOO-MAE 4.4 µm, dự đoán H=300 cối lệch −0.9 µm không cần neo.
+* **Trạng thái:** Không sửa file mã nguồn/Data Bank. Báo cáo đầy đủ: `docs/RESEARCH_TAB3_ALTERNATIVE_MODELS.md`. Bước tiếp: SirPhuong duyệt + cắt kiểm chứng T1/T2 (đổi cối↔chày cùng chế độ).
+
+
+---
+
+### 🚀 ĐỢT 45: TÍCH HỢP BÀI CẮT PHÔI SIÊU DÀY STT 20 (H=290mm) VÀO DATA BANK VÀ THƯ VIỆN TAB 2 (v3.5.45)
+* **Thời gian:** 2026-10-23
+* **Mục tiêu kỹ thuật:**
+  - Tiếp nhận và giải mã bài cắt thực tế phôi siêu dày $H=290\text{mm}$ do SirPhuong cung cấp theo đúng SOP 6 bước:
+    + STT 20: Phôi siêu dày $H=290\text{mm}$, thép tôi SCM440 (28-32 HRC), cắt cối 1 Pass: $\text{Ton}=135, \text{Po}=10, \text{IP}=6, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=50, 150\text{Hz}$, Offset nhập $0.110\text{mm} \implies$ kích thước chuẩn luôn 100% ($\Delta = 0.000$).
+    + Lượng cào phôi thép đặc: $\delta = 0.110 - 0.090 = \mathbf{0.0200\text{ mm}} = 20.0\,\mu\text{m}$.
+    + Minh chứng thực nghiệm giá trị cao: Chứng minh ở phôi siêu dày ($H=290\text{mm}$ vs $H=300\text{mm}$), khi giảm $\text{VF}$ từ 65 về 50 (bàn tiến nhanh hơn, giảm ngâm nhiệt) thì $\delta$ giảm đúng $5.0\,\mu\text{m}$ (từ $25.0\,\mu\text{m}$ về $20.0\,\mu\text{m}$).
+* **Các file đã sửa:**
+  - `WORKSHOP_DATA_BANK.md` & `09-WORKSHOP_RAW_DATA_BANK_AND_REVERSE_INTERPOLATION.md`: Bổ sung STT 20 và hộp phân tích động học.
+  - `app.js`: Thêm STT 20 vào `WORKSHOP_EMPIRICAL_LIBRARY` và chèn $H=290$ vào bảng `WS_LIB_BENCHMARK_JOBS[1]`.
+  - `AGENTS.md` & `GEMINI.md`: Thêm Luật 20 (Kho tri thức nghiên cứu độ chính xác lượng cào phôi).
+  - `.agents/rules/18-SPARK_GAP_PRECISION_RESEARCH_VAULT.md`: Tạo tài liệu quy chuẩn kích hoạt tự động.
+  - `scripts/verify_integrity.ps1`: Tạo script kiểm toán AST & cú pháp độc lập bằng PowerShell.
+  - Đồng bộ phiên bản `v3.5.45` trên 5 file hệ thống.
+* **Kết quả nghiệm thu:**
+  - Vượt qua 100% kiểm tra cú pháp AST/ngoặc nhọn và Đạo luật Chống Bảng Tra.
+  - Bản sao lưu số 85: `autocut_2026-10-23(85).zip`.

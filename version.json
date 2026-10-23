@@ -1,6 +1,6 @@
 {
-  "version": "3.5.44",
-  "buildTimestamp": 1792685483382,
-  "releaseDate": "2026-10-22",
-  "description": "Thiết lập Hạ tầng Bộ Não Tri Thức 4 Trụ Cột luân chuyển 2 máy (Nhà ⟷ Công Ty qua OneDrive & GitHub): CURRENT_STATE.md, docs/OPTIMIZATION_HISTORY.md, GEMINI.md, .agents/workflows/khoi_dong_phien_lam_viec_bat_dau.md và verify_integrity.py."
+  "version": "3.5.45",
+  "buildTimestamp": 1792740600000,
+  "releaseDate": "2026-10-23",
+  "description": "Tích hợp bài cắt thực nghiệm phôi siêu dày STT 20 (H=290mm, SCM440 cắt cối, Ton=135, Po=10, IP=6, VF=50, Offset chuẩn 0.110mm) vào Data Bank và Thư viện Tab 2."
 }

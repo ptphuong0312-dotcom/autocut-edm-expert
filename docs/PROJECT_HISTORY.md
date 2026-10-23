@@ -101,3 +101,4 @@ Dự án **AutoCut Servo EDM Expert** được khởi xướng bởi **SirPhuong
 | **v3.5.42** | 2026-10-21 | Tối ưu hóa đa biến Tab 3 (Volt Low $+4.5\mu m$, vật liệu, Rule 17, MAE $2.86\mu m$) | `autocut_2026-10-21(81).zip` |
 | **v3.5.43** | 2026-10-21 | Khắc phục lỗi phân cấp DOM HTML, khôi phục lưới 2 cột Tab 3 và cách ly layout | `autocut_2026-10-21(82).zip` |
 | **v3.5.44** | 2026-10-22 | Thiết lập Hạ tầng Bộ Não Tri Thức 4 Trụ Cột luân chuyển 2 máy (CURRENT_STATE, OPTIMIZATION_HISTORY, workflows/BẮT ĐẦU) | `autocut_2026-10-22(84).zip` |
+| **v3.5.45** | 2026-10-23 | Tích hợp dữ liệu phôi siêu dày STT 20 (H=290mm cối, Offset chuẩn 0.110mm) vào Data Bank & Thư viện Tab 2, ban hành Luật 20 | `autocut_2026-10-23(85).zip` |
