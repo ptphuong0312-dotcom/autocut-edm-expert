@@ -98,7 +98,9 @@ F:\Antigravity\Cat Day EDM 1\ (hoặc D:\OneDrive\Antigravity\Cat_Day_EDM\)
 │   │   ├── 14-CLOSED_LOOP_EMPIRICAL_VALIDATION_PROTOCOL.md # Vòng lặp đóng 95%
 │   │   ├── 15-PRODUCTIVITY_VS_SURFACE_FINISH_REGIMES.md # Năng suất vs Bề mặt mịn
 │   │   ├── 16-DUAL_REGIME_OPERATIONAL_BOUNDARY.md # Ranh giới phân vùng kép H<=170 & H>170
-│   │   └── 17-AUTOMATED_OFFSET_VERIFICATION_PROTOCOL.md # Khẩu lệnh kiểm định offset tự động
+│   │   ├── 17-AUTOMATED_OFFSET_VERIFICATION_PROTOCOL.md # Khẩu lệnh kiểm định offset tự động
+│   │   ├── 18-SPARK_GAP_PRECISION_RESEARCH_VAULT.md # Kho tri thức tinh chỉnh độ chính xác lượng cào phôi (Luật 20)
+│   │   └── 19-GROUP_PULSE_GPON_GPOFF_KNOWLEDGE.md # Kiến thức chùm xung GPon/GPoff của máy AutoCut
 │   └── skills/                                # Các kỹ năng chuyên biệt của Agent
 │       ├── deploy-vercel-github/              # Quy trình sao lưu, commit và hướng dẫn deploy
 │       ├── edm-offset-verifier/               # Kỹ năng kiểm toán sai số lượng cào phôi tự động
@@ -194,6 +196,7 @@ F:\Antigravity\Cat Day EDM 1\ (hoặc D:\OneDrive\Antigravity\Cat_Day_EDM\)
 * Tổng chu kỳ phát xung: $T = T_{\text{on}} + T_{\text{off}} = T_{\text{on}} \times (P_o + 2)$ ($\mu s$).
 * Tần số phát xung: $f = \frac{10^6}{T}$ ($\text{Hz}$ hoặc $\text{kHz}$).
 * Hệ số làm việc (Duty cycle / Tỷ lệ mở van): $\eta = \frac{T_{\text{on}}}{T} = \frac{1}{P_o + 2}$.
+* **Chùm xung (Group Pulse) — GPon / GPoff (xác minh từ màn hình máy 2026-10-23):** $N = GP_{on}+1$ chu kỳ xung đơn mỗi chùm; $GP_{on,\text{máy}} = N \times T$; $GP_{off,\text{máy}} = GP_{off} \times GP_{on,\text{máy}}$ ($GP_{off}=0$: xung liên tục); hệ số làm việc chùm $\eta_g = \frac{1}{1+GP_{off}}$. Chi tiết và phần chưa biết: `.agents/rules/19-GROUP_PULSE_GPON_GPOFF_KNOWLEDGE.md`; trích xuất sách hãng: `docs/AUTOCUT_MANUAL_TEXT_EXTRACT.txt`.
 
 ### B. Dòng điện Ampe kế trung bình:
 $$I_{\text{tb}} = \frac{6.4 \times \text{IP}}{1 + P_o} \times k_{\text{ampe}} \quad (\text{với } k_{\text{ampe}} = 2.2857 \text{ cho SCM440 và } 2.8571 \text{ cho SCM420})$$

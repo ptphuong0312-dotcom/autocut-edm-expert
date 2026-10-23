@@ -41,3 +41,10 @@
     *   *Test 1 (Ton 28, Toff 6, IP 4):* High = 4.15A, Low = 3.45A $\rightarrow \text{T? l? } \frac{\text{High}}{\text{Low}} = \mathbf{1.203}$ (+20.3%).
     *   *Test 2 (Ton 30, Toff 7, IP 3):* High = 3.0A, Low = 2.5A $\rightarrow \text{T? l? } \frac{\text{High}}{\text{Low}} = \mathbf{1.200}$ (+20.0%).
 *   **K?t lu?n V?t l�:** T? ngu?n s? c?a xu?ng c� h?ng s? t? l? di?n �p c? d?nh  = 1.20$. Chuy?n t? Low sang High lu�n l�m d�ng Ampe tang ch�nh x�c **20%**, v� ngu?c l?i t? High v? Low lu�n l�m d�ng Ampe gi?m ch�nh x�c **16.7%**.
+
+
+### 6. CHÙM XUNG (GROUP PULSE) — GPon / GPoff CỦA MÁY AUTOCUT (ĐÃ XÁC MINH TỪ MÀN HÌNH MÁY, 2026-10-23)
+*   **Pon / Poff / GPon / GPoff** là 4 ô nhập trong bảng *Technics Database* (Expert Database) của AutoCut. Máy hiển thị lại giá trị tính ra (µs).
+*   **Công thức:** $P_{off,\,máy} = P_{on} \times (P_{off,\,nhập}+1)$; $T = P_{on}\times(P_{off,\,nhập}+2)$; $N = GP_{on,\,nhập}+1$ chu kỳ/chùm; $GP_{on,\,máy} = N\times T$; $GP_{off,\,máy} = GP_{off,\,nhập}\times GP_{on,\,máy}$.
+*   **GPoff = 0:** xung đơn liên tục (chế độ thường, mặc định `GPon=1, GPoff=0`). **GPoff = k ≥ 1:** sau mỗi chùm N xung, ngắt hẳn thời gian $k\times N\times T$ → hệ số làm việc chùm $\eta_g = 1/(1+k)$.
+*   Nội dung chi tiết, bảng 8 ảnh, định nghĩa trong sách hãng và kết quả tìm kiếm ngoài: xem `.agents/rules/19-GROUP_PULSE_GPON_GPOFF_KNOWLEDGE.md`. Chưa có dữ liệu thực nghiệm về ảnh hưởng của GPoff lên $\delta$, Ampe, tốc độ; chưa đưa vào công thức Tab 1/2/3.

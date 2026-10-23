@@ -132,3 +132,13 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
 * **Kết quả nghiệm thu:**
   - Vượt qua 100% kiểm tra cú pháp AST/ngoặc nhọn và Đạo luật Chống Bảng Tra.
   - Bản sao lưu số 85: `autocut_2026-10-23(85).zip`.
+
+
+---
+
+### 📚 TRI THỨC 2026-10-23 (TỐI): CHÙM XUNG GPon/GPoff CỦA MÁY AUTOCUT (KHÔNG SỬA CODE)
+* **Nguồn:** 8 ảnh chụp màn hình bảng Technics Database do SirPhuong nhập số liệu tự do (chỉ để lộ cách máy tính), sách hướng dẫn hãng, 6 lượt tìm kiếm web.
+* **Đã xác minh (khớp 8/8 ảnh):** $P_{off}=P_{on}(P_{off,nhập}+1)$; $GP_{on}=(GP_{on,nhập}+1)\times T$; $GP_{off}=GP_{off,nhập}\times GP_{on}$; $GP_{off}=0$ → xung liên tục. Hệ số làm việc chùm $=1/(1+GP_{off})$.
+* **Sách hãng:** định nghĩa tham số ở mục 4.5 (Expert Database); không có ví dụ/giá trị khuyến nghị GPon/GPoff. Đã trích xuất văn bản PDF → `docs/AUTOCUT_MANUAL_TEXT_EXTRACT.txt`.
+* **Web:** chỉ có mô tả định tính (nghỉ chùm dài để xả mùn, chống đứt dây phôi dày); không tìm được ví dụ cắt thực tế kèm chế độ điện; một số nhận định ngoài mâu thuẫn với số liệu máy → không dùng làm công thức.
+* **Lưu tại:** `.agents/rules/19-GROUP_PULSE_GPON_GPOFF_KNOWLEDGE.md`, `TUDIEN_EDM.md` (mục 6), `GEMINI.md` (mục 6A). Chưa ảnh hưởng Tab 1/2/3; chưa có dữ liệu GPoff lên δ/Ampe/tốc độ.
