@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=3.5.45">
+    <link rel="stylesheet" href="style.css?v=3.5.46">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1044,6 +1044,65 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- 11. GIẢI MÃ VI XỬ LÝ AUTOCUT & CÔNG NGHỆ CHÙM XUNG (GPon / GPoff) -->
+                    <div class="kb-card">
+                        <div class="kb-card-header">
+                            <span class="kb-badge">11</span>
+                            <h3>Giải Mã Vi Xử Lý AutoCut (Ton, Toff) &amp; Công Nghệ Chùm Xung (GPon, GPoff)</h3>
+                        </div>
+                        <div class="kb-body">
+                            <h4 style="color: var(--accent-cyan); margin-bottom: 6px; font-size: 13px;">1. Công thức Vi xử lý AutoCut quy đổi thời gian thực (μs):</h4>
+                            <p>Khi nhập thông số vào phần mềm AutoCut, bộ vi điều khiển tủ xung ADP0106 tự động quy đổi ra micro-giây (μs) và tần số thực tế theo công thức:</p>
+                            <div class="formula-box">
+                                • P<sub>off</sub> (thực phát) = P<sub>on</sub> × (P<sub>off</sub> + 1) (μs)<br>
+                                • Tổng chu kỳ xung đơn: T = P<sub>on</sub> + P<sub>off</sub> = P<sub>on</sub> × (P<sub>off</sub> + 2) (μs)<br>
+                                • Tần số phát xung: f = 10⁶ / T(μs) (Hz) = 1.000 / T(μs) (kHz)
+                            </div>
+                            <p style="font-size: 11.5px; color: var(--text-secondary); margin-bottom: 8px;">
+                                <em>Ví dụ máy thực: Nhập P<sub>on</sub>=20, P<sub>off</sub>=5 &rarr; Máy phát P<sub>off</sub> = 20×(5+1) = 120 μs, Chu kỳ T = 20×(5+2) = 140 μs, Tần số f ≈ 7.14 kHz.</em>
+                            </p>
+
+                            <h4 style="color: var(--accent-cyan); margin-top: 10px; margin-bottom: 6px; font-size: 13px;">2. Bản chất Công nghệ Chùm Xung (Group Pulse / 脉冲组):</h4>
+                            <p>Là kỹ thuật gom các xung đơn thành từng nhóm (chùm), xen kẽ giữa các chùm là một khoảng ngắt sâu để hỗ trợ xả xỉ phôi siêu dày:</p>
+                            <div class="formula-box">
+                                • Số xung đơn trong 1 chùm: N = GP<sub>on</sub> + 1 (chu kỳ xung)<br>
+                                • Thời gian phát 1 chùm: GP<sub>on(máy)</sub> = (GP<sub>on</sub> + 1) × T (μs)<br>
+                                • Thời gian ngắt giữa 2 chùm: GP<sub>off(máy)</sub> = GP<sub>off</sub> × GP<sub>on(máy)</sub> (μs)<br>
+                                • Hệ số chu kỳ chùm: η<sub>g</sub> = 1 / (1 + GP<sub>off</sub>)
+                            </div>
+
+                            <div class="table-responsive" style="margin: 8px 0;">
+                                <table class="mini-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Trạng thái</th>
+                                            <th>Cài đặt (GPon, GPoff)</th>
+                                            <th>Cơ chế vận hành &amp; Ứng dụng thực chiến</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Xung Đơn (Tắt chùm)</strong></td>
+                                            <td><strong>GPon = 1, GPoff = 0</strong><br><em>(Mặc định xưởng)</em></td>
+                                            <td>GP<sub>off</sub> = 0 &rarr; Không có khoảng ngắt chùm. Máy phát xung đơn liên tục, <strong>năng suất cao nhất</strong>. Dùng cho phôi mỏng và vừa (H &le; 100mm).</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Bật Chùm Xung (Xả xỉ sâu)</strong></td>
+                                            <td><strong>GPon = 1 ~ 3, GPoff = 1 ~ 2</strong></td>
+                                            <td>Máy phát 1 chùm N xung nung phôi rồi <strong>ngắt sâu GP<sub>off</sub></strong> cho nước xối sạch mạt xỉ, hạ nhiệt dây Moly. <strong>Chống nghẹt xỉ, chống đứt dây phôi siêu dày (H &ge; 100 - 300mm)</strong>.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="formula-box" style="margin-top: 8px; border-left-color: var(--accent-amber); color: #fff; line-height: 1.5; font-size: 11.5px;">
+                                <strong style="color: var(--accent-amber);">💡 CHỈ DẪN VẬN HÀNH THỰC TẾ CHO THỢ XƯỞNG:</strong><br>
+                                • Khi cắt phôi dày &gt; 100mm hoặc thép mềm dẻo, nếu thấy <strong>kim Ampe giật mạnh, xuất hiện hoa dây hoặc máy hay lùi Soft-short</strong>: Hãy bật Chùm xung bằng cách tăng <code>GPoff = 1</code> hoặc <code>2</code> để tạo khoảng thở xối sạch mạt xỉ.<br>
+                                • Khi gia công bình thường không có nguy cơ đứt dây, luôn giữ <code>GPoff = 0</code> để đạt tốc độ cắt tối đa!
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1052,7 +1111,7 @@
         <footer class="app-footer">
             <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
             <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">
-                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.45 (Tích Hợp Dữ Liệu Thực Nghiệm STT 20 H=290mm)</strong> &bull; 
+                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.46 (Bổ Sung Thẻ 11 Cẩm Nang EDM &amp; Chùm Xung GPon/GPoff)</strong> &bull; 
                 <a href="javascript:void(0)" id="link-force-update" style="color: var(--accent-amber); text-decoration: underline;">🔄 Cưỡng bức làm mới dữ liệu</a>
             </p>
         </footer>
@@ -1090,6 +1149,6 @@
     </div>
 
         <!-- INLINE APPLICATION SCRIPT (Chống kẹt cache 100% trên mọi trình duyệt) -->
-    <script src="app.js?v=3.5.45"></script>
+    <script src="app.js?v=3.5.46"></script>
 </body>
 </html>

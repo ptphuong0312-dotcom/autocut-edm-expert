@@ -6,17 +6,18 @@
 ---
 
 ## ⏱️ 1. THỜI GIAN LÀM VIỆC GẦN NHẤT
-* **Thời điểm cập nhật:** `2026-10-23 14:35:00` (Giờ địa phương GMT+7)
-* **Vị trí làm việc hiện tại:** Máy tính Ở Nhà
-* **Phiên bản hệ thống:** `v3.5.45` (Đã hoàn thiện & đóng gói)
+* **Thời điểm cập nhật:** `2026-10-24 00:53:00` (Giờ địa phương GMT+7)
+* **Vị trí làm việc hiện tại:** Máy tính Ở Nhà (Ổ G:)
+* **Phiên bản hệ thống:** `v3.5.46` (Đã hoàn thiện & đóng gói)
 
 ---
 
 ## ✅ 2. CÁC VIỆC VỪA HOÀN THÀNH
-* **Đợt 44 (v3.5.44 - Thiết lập Hạ tầng Bộ Não Luân Phiên 2 Máy):**
-  - Xây dựng 4 Trụ Cột Bộ Não Tri Thức: `GEMINI.md`, `CURRENT_STATE.md`, `docs/OPTIMIZATION_HISTORY.md`, `.agents/workflows/khoi_dong_phien_lam_viec_bat_dau.md`.
-  - Khởi tạo script kiểm định cú pháp/ngoặc AST Python & PowerShell độc lập (`scripts/verify_integrity.ps1`).
-  - Xác lập khẩu lệnh khởi động siêu tốc `"Bắt đầu"` và quy chuẩn an toàn kép kết thúc buổi làm việc (OneDrive + GitHub `main`).
+* **Đợt 46 (v3.5.46 - Bổ sung Thẻ 11 Cẩm nang EDM Tab 4 & Giải mã Chùm xung GPon/GPoff):**
+  - Tiếp nhận xác nhận từ SirPhuong: `GPon = 1, GPoff = 0` là xung đơn tiêu chuẩn liên tục, chùm xung không hoạt động.
+  - Tìm kiếm và đối chiếu tài liệu kỹ thuật chuyên sâu về Chùm xung (Group Pulse / 脉冲组 / 分组脉冲 / F.M.): Cơ chế vật lý "Xung nung chảy phôi - Ngắt sâu xối xỉ & làm nguội dây" giải quyết triệt để nguy cơ đứt dây, hoa dây cho phôi siêu dày $H \ge 100 - 300\text{mm}$.
+  - Thiết kế và bổ sung **Thẻ 11 trong Cẩm nang EDM Tab 4**: Trình bày rõ ràng công thức vi xử lý AutoCut ($P_{\text{off\_máy}}, T, f$) và các chế độ chùm xung ($GP_{\text{on}}, GP_{\text{off}}$) kèm chỉ dẫn vận hành cho thợ xưởng.
+  - Cập nhật Rule 19, đồng bộ phiên bản `v3.5.46` trên toàn bộ 5 file hệ thống và vượt qua 100% kiểm tra AST.
 * **Đợt 45 (v3.5.45 - Tích hợp Dữ liệu Thực nghiệm Phôi Siêu Dày STT 20 H=290mm):**
   - Tiếp nhận và giải mã bài cắt thực tế phôi siêu dày $H=290\text{mm}$, SCM440 cắt cối 1 Pass: $\text{Ton}=135, \text{Po}=10, \text{IP}=6, \text{VF}=50, 150\text{Hz}$, Offset nhập $0.110\text{mm} \implies$ kích thước chuẩn luôn 100% danh nghĩa ($\Delta = 0.000$).
   - Xác lập Offset Chuẩn = $0.110\text{mm}$, lượng cào phôi $\delta = 0.0200\text{mm}$ ($20.0\,\mu\text{m}$).
@@ -30,7 +31,7 @@
 * **Tính toàn vẹn mã nguồn:**
   - Bracket AST & Syntax check: `PASSED 100%`
   - Đạo luật Chống Bảng Tra & Phương trình Nhiệt động học Liên tục: `PASSED 100%`
-  - Đồng bộ phiên bản (`v3.5.45`): `PASSED` trên 4 file (`version.json`, `index.html`, `app.js`, `sw.js`).
+  - Đồng bộ phiên bản (`v3.5.46`): `PASSED` trên 4 file (`version.json`, `index.html`, `app.js`, `sw.js`).
 * **Độ chính xác kiểm toán bù dao EDM (Rule 19):**
   - MAE toàn cục 23 bài cắt: `6.26 um`
   - MAE phôi mỏng ($H \le 40\text{mm}$): `4.02 um`

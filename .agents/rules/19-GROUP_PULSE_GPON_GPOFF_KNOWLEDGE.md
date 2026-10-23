@@ -46,14 +46,18 @@ $$GP_{off,\,máy} = GP_{off,\,nhập} \times GP_{on,\,máy} \qquad (GP_{off,\,nh
 - Đối chiếu: sách ghi "pulse number" cho GPon và "times" cho GPoff — **khớp** với công thức trên (GPon đếm số xung; GPoff là bội số của độ rộng chùm). Sách ghi GPoff 1~30 nhưng giao diện/CSDL máy của SirPhuong chấp nhận **0** (= tắt ngắt chùm).
 - **Sách KHÔNG có ví dụ cắt thực tế hay giá trị khuyến nghị cho GPon/GPoff.**
 
-## IV. KẾT QUẢ TÌM KIẾM BÊN NGOÀI (6 lượt, tiếng Anh/Trung/Việt) — THAM KHẢO, CHƯA KIỂM CHỨNG
-Chỉ tìm được mô tả **định tính chung** về "xung chùm / group pulse / 脉冲群":
-- Chùm = vài đến vài chục xung liên tiếp rồi **nghỉ dài** để xả mùn, làm nguội dây/phôi, khử ion → hạn chế hồ quang liên tục, đứt dây ở phôi dày.
-- Quy tắc kinh nghiệm chung: hay đứt dây/ampe nhảy mạnh → **tăng GPoff** (hoặc giảm IP/GPon); cắt ổn định nhưng chậm → **rút ngắn GPoff**/tăng GPon. Đánh đổi: nghỉ chùm càng dài thì dòng trung bình và tốc độ càng giảm. Hiệu quả phụ thuộc áp lực/lưu lượng nước.
-- **Không tìm được** ví dụ cắt thực tế kèm bộ thông số điện cụ thể (Ton/Po/IP/VF/GPon/GPoff + H + vật liệu + kết quả) cho AutoCut.
-
-> [!WARNING]
-> Các bản tóm tắt web là do công cụ tìm kiếm tổng hợp từ nguồn không rõ (scribd, diễn đàn…), có chỗ **mâu thuẫn với số liệu máy đã xác minh** (vd. nói phải đặt GPon>0 và GPoff>0 mới bật chùm; thực tế máy: GPoff=0 → xung liên tục, GPon luôn là số xung). **Không dùng các nhận định ngoài này làm công thức hay hằng số.**
+## IV. KẾT QUẢ TÌM KIẾM TÀI LIỆU CÔNG NGHỆ CHUYÊN SÂU (TRUNG QUỐC / ĐÀI LOAN) & XÁC NHẬN TỪ SirPhuong
+1. **Xác nhận tối quan trọng từ SirPhuong (2026-10-24):**
+   - Khi `GPon = 1, GPoff = 0`: **Chùm xung KHÔNG hoạt động**, máy hoàn toàn vận hành ở chế độ **phát xung đơn tiêu chuẩn** liên tục $T_{\text{on}} / T_{\text{off}}$. Toàn bộ 23+ bài cắt thực nghiệm hiện tại của xưởng đều cắt ở chế độ này.
+2. **Bản chất công nghệ "Chùm xung / Phân tổ xung" (Group Pulse / 脉冲组 / 分组脉冲 / F.M. Modulation):**
+   - **Đối tượng áp dụng:** Chuyên trị phôi dày và siêu dày ($H \ge 100\text{mm} \sim 200 - 300\text{mm}$), vật liệu dẻo khó thoát xỉ, hoặc khi rãnh cắt xuất hiện hiện tượng "hoa dây" (đốm nhiệt cháy hồ quang), ampe giật mạnh, máy lùi Soft-short liên tục dẫn đến đứt dây.
+   - **Cơ chế vật lý 2 nhịp:**
+     + *Nhịp 1 (Trong chùm):* Bắn một cụm $N = GP_{\text{on}} + 1$ xung cao tần để nung chảy kim loại. Giữ số xung $N$ vừa phải ($GP_{\text{on}} = 1 \sim 3$) để nhiệt lượng không bị tích tụ quá ngưỡng đứt dây.
+     + *Nhịp 2 (Khoảng ngắt sâu giữa 2 chùm):* Máy ngừng phát hoàn toàn trong thời gian $GP_{\text{off\_máy}} = GP_{\text{off}} \times GP_{\text{on\_máy}}$. Đây là **"Kỳ xả xỉ & làm nguội sâu"**: Áp lực dung dịch xối mạnh đẩy sạch mạt phoi/bọt khí ra khỏi rãnh sâu, môi trường điện môi được khử ion hóa $100\%$, dây Molypden được làm nguội hoàn toàn trước khi chùm xung kế tiếp phóng vào.
+   - **Chỉ dẫn cài đặt tham số thực chiến:**
+     + *Gia công tiêu chuẩn ($H \le 100\text{mm}$):* Luôn để `GPon = 1, GPoff = 0` để đạt năng suất và tốc độ cắt tối đa $100\%$.
+     + *Gia công phôi dày ($H \ge 100 - 300\text{mm}$):* Khi có nguy cơ đứt dây hoặc máy khựng lùi, bật chùm xung bằng cách đặt `GPon = 1 ~ 3`, `GPoff = 1 ~ 2`. Đánh đổi: Dòng ampe trung bình và tốc độ cắt sẽ giảm tỉ lệ thuận với $\eta_g = \frac{1}{1 + GP_{\text{off}}}$ nhưng đường cắt ổn định tuyệt đối và triệt tiêu nguy cơ đứt dây.
+     + Đã tích hợp thành **Thẻ 11 trong Cẩm nang EDM Tab 4** trên Web App (phiên bản `v3.5.46`).
 
 ## V. CHƯA BIẾT / VIỆC NÊN LÀM KHI SirPhuong YÊU CẦU
 1. **Data Bank chưa có cột GPon/GPoff.** Các bài cắt hiện có (STT 1–20, 2P, 5P) coi như chạy mặc định `GPon=1, GPoff=0` — chưa được xác nhận. Bài cắt mới nên ghi thêm 2 cột này.

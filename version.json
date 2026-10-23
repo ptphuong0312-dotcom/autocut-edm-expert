@@ -1,6 +1,6 @@
 {
-  "version": "3.5.45",
-  "buildTimestamp": 1792740600000,
-  "releaseDate": "2026-10-23",
-  "description": "Tích hợp bài cắt thực nghiệm phôi siêu dày STT 20 (H=290mm, SCM440 cắt cối, Ton=135, Po=10, IP=6, VF=50, Offset chuẩn 0.110mm) vào Data Bank và Thư viện Tab 2."
+  "version": "3.5.46",
+  "buildTimestamp": 1792774000000,
+  "releaseDate": "2026-10-24",
+  "description": "Bổ sung Thẻ 11 Cẩm nang EDM Tab 4: Giải mã thuật toán Vi xử lý AutoCut (Ton, Toff, T, f) và Công nghệ Chùm Xung (GPon, GPoff) cắt phôi siêu dày."
 }

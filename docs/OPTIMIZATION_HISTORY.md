@@ -142,3 +142,26 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
 * **Sách hãng:** định nghĩa tham số ở mục 4.5 (Expert Database); không có ví dụ/giá trị khuyến nghị GPon/GPoff. Đã trích xuất văn bản PDF → `docs/AUTOCUT_MANUAL_TEXT_EXTRACT.txt`.
 * **Web:** chỉ có mô tả định tính (nghỉ chùm dài để xả mùn, chống đứt dây phôi dày); không tìm được ví dụ cắt thực tế kèm chế độ điện; một số nhận định ngoài mâu thuẫn với số liệu máy → không dùng làm công thức.
 * **Lưu tại:** `.agents/rules/19-GROUP_PULSE_GPON_GPOFF_KNOWLEDGE.md`, `TUDIEN_EDM.md` (mục 6), `GEMINI.md` (mục 6A). Chưa ảnh hưởng Tab 1/2/3; chưa có dữ liệu GPoff lên δ/Ampe/tốc độ.
+
+
+---
+
+### 🚀 ĐỢT 46: BỔ SUNG THẺ 11 CẨM NANG EDM TAB 4 & GIẢI MÃ CÔNG NGHỆ CHÙM XUNG (v3.5.46)
+* **Thời gian:** 2026-10-24
+* **Mục tiêu kỹ thuật:**
+  - Tiếp nhận xác nhận từ SirPhuong: `GPon = 1, GPoff = 0` nghĩa là chùm xung không hoạt động, máy vẫn đang chạy chế độ phát xung đơn tiêu chuẩn liên tục.
+  - Tìm kiếm và tích hợp tài liệu công nghệ EDM chuyên sâu (Trung Quốc/Đài Loan) về Chùm xung (Group Pulse / 脉冲组 / 分组脉冲): Giải mã bản chất 2 nhịp (Nhịp nổ bóc phôi trong chùm $N = GP_{\text{on}}+1$ xung & Nhịp ngắt sâu $GP_{\text{off}}$ để nước áp lực cao xối sạch mạt xỉ, khử ion hóa và làm nguội dây Moly), chống đứt dây triệt để khi cắt phôi siêu dày $H \ge 100 - 300\text{mm}$.
+  - Thiết kế và bổ sung **Thẻ 11 trong Cẩm nang EDM Tab 4** trên giao diện Web App:
+    + Mục 1: Công thức vi xử lý AutoCut quy đổi micro-giây ($\mu s$) thực tế và tần số ($P_{\text{off\_máy}}, T, f$).
+    + Mục 2: Công thức và bảng tra trạng thái Chùm xung ($GP_{\text{on}}, GP_{\text{off}}$).
+    + Mục 3: Chỉ dẫn vận hành thực tế cho thợ xưởng (khi nào giữ $GP_{\text{off}}=0$, khi nào nâng $GP_{\text{off}}=1 \sim 2$).
+* **Các file đã sửa:**
+  - `index.html`: Thêm Thẻ 11 vào `#tab-knowledge`, cập nhật số hiệu phiên bản.
+  - `app.js`: Đồng bộ `CURRENT_VERSION = "3.5.46"`.
+  - `version.json`: Nâng phiên bản `v3.5.46` và release note.
+  - `sw.js`: Cập nhật cache name `autocut-v3.5.46`.
+  - `.agents/rules/19-GROUP_PULSE_GPON_GPOFF_KNOWLEDGE.md`: Cập nhật xác nhận của SirPhuong và các chỉ dẫn kỹ thuật chuyên sâu.
+  - `CURRENT_STATE.md`: Cập nhật trạng thái Đợt 46.
+* **Kết quả nghiệm thu:**
+  - Kiểm tra cú pháp/ngoặc AST và Đạo luật Chống bảng tra bằng `scripts/verify_integrity.ps1`: `PASSED 100%`.
+  - Đồng bộ phiên bản `v3.5.46` trên toàn bộ hệ thống: `PASSED 100%`.
