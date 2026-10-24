@@ -65,3 +65,17 @@ $$GP_{off,\,máy} = GP_{off,\,nhập} \times GP_{on,\,máy} \qquad (GP_{off,\,nh
 3. Số hiển thị là do phần mềm máy tính; **dạng sóng thực của tủ nguồn chưa đo** (cần dao động ký nếu muốn chắc chắn).
 4. Thí nghiệm đề xuất (khi được lệnh): lấy một bài đã biết (vd. 2P-12 hoặc STT 14), giữ nguyên mọi thông số, chỉ đổi `GPoff` 0→1→2, ghi Ampe, thời gian/tốc độ, kích thước → đo hệ số quy đổi δ và Fc theo $\eta_g$.
 5. Nếu sau này thêm vào Tab 3: nhân hệ số làm việc `η × 1/(1+GPoff)`, cập nhật tần số/ampe ước tính; **chỉ khi SirPhuong duyệt.**
+
+
+## VI. ĐO THỰC TẾ ẢNH HƯỞNG CỦA GPoff LÊN ĐỒNG HỒ AMPE (SirPhuong, 2026-10-24) — CHỈ LƯU TRỮ, CHƯA SỬA CÔNG THỨC
+* **Điều kiện đo:** Phôi $H=51\text{mm}$, SCM420 (HB<200). $P_{on}=50, P_{off}=7, GP_{on}=1, IP=3, \text{Volt}=\text{High}, \text{VF}=50$ (trùng ảnh A mục I: $P_{off}=400\,\mu s$, $T=450\,\mu s$, $f\approx2.22\text{ kHz}$).
+* **Kết quả đồng hồ Ampe cơ trên máy:**
+
+| GPoff | GPon máy / GPoff máy (µs) | $\eta_g = 1/(1+GP_{off})$ | Ampe đo |
+|:--:|:--:|:--:|:--:|
+| 0 (xung đơn) | 900 / 0 | 1.00 | **3.0 A** |
+| 1 | 900 / 900 | 0.50 | **1.5 A** |
+
+* **Kết luận:** Tỷ lệ Ampe $1.5/3.0 = 0.50$ khớp **đúng** $\eta_g = 1/(1+GP_{off})$ → xác nhận bằng thực nghiệm rằng $I_{tb} \propto \dfrac{1}{1+GP_{off}}$ (độ phân giải đồng hồ cơ ~±0.1–0.25A). *(Ghi chú: lời nói "giảm 30–45%" ở phiên 2026-10-24 sáng là ước lượng sai; thực đo là giảm đúng 50% với GPoff=1.)*
+* **Đối chiếu công thức hiện tại (Tab 2, `app.js` dòng 2386, $I = I_{peak}\cdot\eta\cdot2.6667\cdot U/27$):** với $IP=3, P_o=7$ → $8.4 \times \tfrac{1}{9} \times 2.6667 \approx 2.5\text{A}$ so với **3.0A đo** (lệch ≈ −17% ở $H=51$, SCM420, $GP_{off}=0$). Chỉ là ghi nhận benchmark (Luật 10/11), **chưa hiệu chỉnh** hệ số Ampe.
+* **Việc đã/chưa làm:** Chưa đưa vào `WORKSHOP_DATA_BANK.md` (không phải bài cắt có kích thước đo; Luật 6) và chưa thêm tham số GPon/GPoff vào Tab 1/2/3. Khi SirPhuong ra lệnh: có thể nhân thêm hệ số $\eta_g=1/(1+GP_{off})$ vào công thức Ampe/Fc và bổ sung dòng đo này vào Thẻ 11 Tab 4.

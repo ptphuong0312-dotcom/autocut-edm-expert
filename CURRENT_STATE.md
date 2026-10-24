@@ -43,6 +43,7 @@
 
 ## 🔬 3b. NGHIÊN CỨU ĐANG CHỜ DUYỆT (2026-10-23) — CHƯA SỬA CODE
 * **Kiến thức mới đã lưu (2026-10-23 tối):** Cách máy AutoCut tính Pon/Poff/GPon/GPoff (chùm xung) — xem `.agents/rules/19-GROUP_PULSE_GPON_GPOFF_KNOWLEDGE.md`; sách hướng dẫn hãng đã trích xuất văn bản tại `docs/AUTOCUT_MANUAL_TEXT_EXTRACT.txt` (AI không đọc trực tiếp PDF được). Chưa đưa vào công thức/app; Data Bank chưa có cột GPon/GPoff.
+* **Đo thực tế 2026-10-24:** H=51 SCM420, Pon50/Poff7/GPon1/IP3/High/VF50: GPoff=0 → 3.0A, GPoff=1 → 1.5A (đúng 1/(1+GPoff)); công thức Ampe Tab 2 cho ≈2.5A (lệch −17%, chưa hiệu chỉnh). Xem Rule 19 mục VI.
 * Báo cáo: `docs/RESEARCH_TAB3_ALTERNATIVE_MODELS.md` (so sánh mô hình Tab 3 bằng LOOCV trên 14 điểm thật H≤170).
 * Kết luận chính: Tab 3 hiện tại MAE 5.50 µm / max 20.2 µm; biến **cối vs chày** là nhân tố lớn nhất chưa mô hình hóa (δ cối ≈ 22.2 µm vs chày ≈ 8.8 µm, p=0.001); H, Ton, IP, Po đa cộng tuyến (corr ≈ 0.9–0.99) nên d_elec/d_slag/d_vibr không tách được.
 * Đề xuất Tab 3 v2: `δ = C0 + K_e·√(Ton·IP)·U + δ_Low + K_vf·(VF−55)/10 + K_die·s`. **Chờ SirPhuong duyệt + thí nghiệm kiểm chứng T1/T2 (cùng chế độ, đổi cối↔chày)** trước khi sửa `app.js`.

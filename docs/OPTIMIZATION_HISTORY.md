@@ -165,3 +165,11 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
 * **Kết quả nghiệm thu:**
   - Kiểm tra cú pháp/ngoặc AST và Đạo luật Chống bảng tra bằng `scripts/verify_integrity.ps1`: `PASSED 100%`.
   - Đồng bộ phiên bản `v3.5.46` trên toàn bộ hệ thống: `PASSED 100%`.
+
+
+---
+
+### 📚 TRI THỨC 2026-10-24 (TRƯA): ĐO ẢNH HƯỞNG GPoff LÊN AMPE (KHÔNG SỬA CODE)
+* **Dữ liệu SirPhuong:** $H=51\text{mm}$ SCM420; $P_{on}=50, P_{off}=7, GP_{on}=1, IP=3, \text{High}, \text{VF}=50$: $GP_{off}=0 \to 3.0\text{A}$; $GP_{off}=1 \to 1.5\text{A}$ (đúng 50% $= 1/(1+GP_{off})$).
+* **Đối chiếu:** công thức Ampe Tab 2 cho ≈2.5A ở $GP_{off}=0$ (lệch −17% so với 3.0A đo). Chưa hiệu chỉnh.
+* **Lưu tại:** `.agents/rules/19-GROUP_PULSE_GPON_GPOFF_KNOWLEDGE.md` (mục VI). Chưa vào Data Bank/Tab 4.
