@@ -43,7 +43,7 @@ Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên
 | **17** | 1 Lần | SCM440 (28-32HRC) | 95 | 82 | 7 | 4 | 1 | High | 55 | 150Hz | **0,091** | 1h15p | 76mm | 3,6A - 3,7A | 35 - 45 | cắt lấy cối : kích thước lớn hơn lập trình 0,045 |
 | **18** | 1 Lần | SCM420 (HB<200) | 63 | 44 | 8 | 4 | 1 | High | 57 | 150Hz | **0,093** | 17p40' | 22,3mm | 3,3A - 3,4A | 50 - 65 | cắt lấy chày : kích thước nhỏ hơn lập trình 0,01 |
 | **19** | 1 Lần | SCM420 (HB<200) | 110 | 100 | 10 | 5 | 1 | High | 65 | 150Hz | **0,105** | -- | -- | 2,7A - 2,8A | 30 - 40 | cắt lấy chày : kích thước chuẩn luôn |
-| **20** | 1 Lần | SCM440 (28-32HRC) | 290 | 135 | 10 | 6 | 1 | High | 50 | 150Hz | **0,110** | -- | -- | -- | -- | cắt lấy cối : kích thước chuẩn luôn |
+| **20** | 1 Lần | SCM440 (28-32HRC) | 290 | 135 | 10 | 6 | 1 | High | 75 | 50Hz | **0,110** | -- | -- | -- | -- | cắt lấy cối : kích thước chuẩn luôn |
 
 ---
 
@@ -106,7 +106,7 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 | **17**| **H = 95mm** | Ton=82, Po=7, IP=4, Volt=High, VF=55 | 0.091 | Cối lớn hơn 0.045 | +0.0225 | **0.1135 mm** | **0.0235 mm** | Phôi trung dày H=95mm cắt cối khép kín, vách lấn ra ngoài 22.5μm/bên $\rightarrow \delta=0.0235\text{mm}$ |
 | **18**| **H = 63mm** | Ton=44, Po=8, IP=4, Volt=High, VF=57 | 0.093 | Chày nhỏ hơn 0.010 | +0.0050 | **0.098 mm** | **0.008 mm** | Phôi H=63mm cắt chày, dây ăn sâu 5μm/bên $\rightarrow \text{Offset Chuẩn}=0.098\text{mm}, \delta=0.008\text{mm}$ |
 | **19**| **H = 110mm**| Ton=100, Po=10, IP=5, Volt=High, VF=65| 0.105 | Chày chuẩn luôn | 0.0000 | **0.105 mm** | **0.015 mm** | Phôi dày H=110mm cắt chày, Ton=100, Po=10, IP=5 chuẩn kích thước tuyệt đối $\rightarrow \delta=0.015\text{mm}$ |
-| **20**| **H = 290mm**| Ton=135, Po=10, IP=6, Volt=High, VF=50| 0.110 | Cối chuẩn luôn | 0.0000 | **0.110 mm** | **0.020 mm** | Phôi siêu dày H=290mm cắt cối, Ton=135, Po=10, IP=6, VF=50 chuẩn kích thước tuyệt đối $\rightarrow \delta=0.020\text{mm}$ |
+| **20**| **H = 290mm**| Ton=135, Po=10, IP=6, Volt=High, VF=75| 0.110 | Cối chuẩn luôn | 0.0000 | **0.110 mm** | **0.020 mm** | Phôi siêu dày H=290mm cắt cối, Ton=135, Po=10, IP=6, VF=75 chuẩn kích thước tuyệt đối $\rightarrow \delta=0.020\text{mm}$ |
 
 > 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 15 (H=160mm, SCM420 - CẮT LẤY CỐI 1 PASS):**
 > * **Bài cắt kiểm định khép kín (Rule 12):** Người dùng sử dụng 100% chế độ điện xuất ra từ Web App Tab 2 ($H=160\text{mm}$, SCM420, Cấp 4): $\text{Ton}=120, \text{Po}=11, \text{IP}=6, \text{Volt}=\text{High}, \text{VF}=70, \text{Giới hạn}=154\text{Hz}$, Offset nhập test ban đầu là $0.107\text{mm}$ (sát mốc tính toán lý thuyết $0.1071\text{mm}$).
@@ -155,15 +155,15 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 > * **Tốc độ cắt:** Tốc độ hiển thị trên máy AutoCut đạt $30 - 40\text{ mm}^2/\text{phút}$ khớp hoàn hảo tốc độ tính toán lý thuyết ($32 - 35\text{ mm}^2/\text{p}$).
 
 > 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 20 (H=290mm, SCM440 - CẮT LẤY CỐI 1 PASS PHÔI SIÊU DÀY):**
-> * **Bài cắt thực nghiệm tại xưởng:** Người dùng cắt phôi siêu dày $H=290\text{mm}$, thép tôi SCM440 (28-32 HRC) với chế độ điện: $\text{Ton}=135, \text{Po}=10, \text{IP}=6, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=50, \text{Giới hạn}=150\text{Hz}$, Offset nhập test là $0.110\text{mm}$.
+> * **Bài cắt thực nghiệm tại xưởng:** Người dùng cắt phôi siêu dày $H=290\text{mm}$, thép tôi SCM440 (28-32 HRC) với chế độ điện: $\text{Ton}=135, \text{Po}=10, \text{IP}=6, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=75, \text{Giới hạn}=50\text{Hz}$, Offset nhập test là $0.110\text{mm}$.
 > * **Kích thước đo sau cắt:** Cắt lấy cối: Kích thước chuẩn luôn $100\%$ không sai lệch danh nghĩa ($\Delta = 0.000$).
 > * **Bù dao Chuẩn & Lượng cào phôi:**
 >   $$\mathbf{\text{Offset}_{\text{chuẩn}}} = \mathbf{0.110\text{ mm}}$$
 >   $$\mathbf{\delta} = 0.110 - 0.090 = \mathbf{0.020\text{ mm}} \quad (20.0\,\mu\text{m})$$
-> * **Bản chất động lực học Servo & VF ở phôi siêu dày ($H=290\text{mm}$ vs $H=300\text{mm}$):**
->   - Ở bài cắt STT 14 ($H=300\text{mm}$), xưởng chạy $\text{VF}=65 \implies$ Servo dè dặt ngâm dây lâu, nhiệt tích tụ làm khoét sâu rãnh cắt $\delta = 25.0\,\mu\text{m}$ (Offset $0.115\text{mm}$).
->   - Ở bài cắt STT 20 ($H=290\text{mm}$), xưởng chạy $\text{VF}=50$ (bàn máy tiến chủ động hơn, giảm thời gian ngâm tia lửa) và $\text{Po}=10$ (tăng tần số xung $f \approx 6.94\,\text{kHz}$) $\implies$ Tia lửa lướt nhanh hơn, khe hở thu hẹp đúng $5\,\mu\text{m}$ về $\delta = 20.0\,\mu\text{m}$ (Offset $0.110\text{mm}$).
->   - Đây là minh chứng thực nghiệm vô giá chứng minh sự phụ thuộc mật thiết của lượng cào phôi vào tốc độ bám tải $\text{VF}$ ở dải phôi siêu dày!
+> * **Bản chất động lực học Servo & VF ở phôi siêu dày ($H=290\text{mm}$, SCM440):**
+>   - Ở phôi siêu dày $H=290\text{mm}$, xưởng cài đặt $\text{VF}=75$ để tăng độ nhạy phản hồi điện áp servo theo dõi khe hở trong lòng rãnh sâu, kết hợp tần số hãm giới hạn $\text{Max Speed}=50\text{Hz}$ giúp bàn máy tiến cực kỳ điềm tĩnh, triệt tiêu rung giật và chống nghẹt phoi đoản mạch.
+>   - Với $\text{Ton}=135, \text{Po}=10, \text{IP}=6$, Offset chuẩn xác lập được là $\mathbf{0.110\text{ mm}} \implies \mathbf{\delta = 0.020\text{ mm}}$ ($20.0\,\mu\text{m}$).
+>   - Dữ liệu này chứng minh tính ổn định tuyệt vời của mô hình cắt phôi siêu dày khi hãm tần số Max Speed ở $50\text{Hz}$.
 
 ---
 

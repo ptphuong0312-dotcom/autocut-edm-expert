@@ -173,3 +173,22 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
 * **Dữ liệu SirPhuong:** $H=51\text{mm}$ SCM420; $P_{on}=50, P_{off}=7, GP_{on}=1, IP=3, \text{High}, \text{VF}=50$: $GP_{off}=0 \to 3.0\text{A}$; $GP_{off}=1 \to 1.5\text{A}$ (đúng 50% $= 1/(1+GP_{off})$).
 * **Đối chiếu:** công thức Ampe Tab 2 cho ≈2.5A ở $GP_{off}=0$ (lệch −17% so với 3.0A đo). Chưa hiệu chỉnh.
 * **Lưu tại:** `.agents/rules/19-GROUP_PULSE_GPON_GPOFF_KNOWLEDGE.md` (mục VI). Chưa vào Data Bank/Tab 4.
+
+
+---
+
+### 🚀 ĐỢT 47: HIỆU CHỈNH THÔNG SỐ BÀI CẮT STT 20 (H=290mm, SCM440 CỐI) (v3.5.47)
+* **Thời gian:** 2026-10-24
+* **Mục tiêu kỹ thuật:**
+  - Tiếp nhận ảnh chụp bảng thông số gia công thực tế từ SirPhuong hiệu chỉnh bài cắt STT 20:
+    + Thông số trước đó gửi nhầm: $\text{VF}=50, \text{Max Speed}=150\text{Hz}$.
+    + Thông số thực tế chuẩn xác theo ảnh: $\mathbf{\text{VF}=75}, \mathbf{\text{Max Speed}=50\text{Hz}}$ (cùng $\text{Ton}=135, \text{Po}=10, \text{IP}=6, \text{Wire}=1, \text{Volt}=\text{High}$, Offset nhập $0.110\text{mm} \implies$ cắt cối chuẩn kích thước $100\%$, $\delta = 0.020\text{mm}$).
+  - Cập nhật đồng bộ trong `WORKSHOP_DATA_BANK.md`, Rule 09 và `app.js` (`WORKSHOP_EMPIRICAL_LIBRARY` và `WS_LIB_BENCHMARK_JOBS[1]`).
+* **Các file đã sửa:**
+  - `WORKSHOP_DATA_BANK.md` & `.agents/rules/09-WORKSHOP_RAW_DATA_BANK_AND_REVERSE_INTERPOLATION.md`: Cập nhật bảng thô STT 20, bảng suy luận ngược và phân tích động học.
+  - `app.js`: Cập nhật `VF: 75`, `maxSpeed: "50Hz"` và nâng phiên bản `v3.5.47`.
+  - `version.json`, `index.html`, `sw.js`: Đồng bộ phiên bản `v3.5.47`.
+  - `CURRENT_STATE.md`: Cập nhật trạng thái Đợt 47.
+* **Kết quả nghiệm thu:**
+  - `scripts/verify_integrity.ps1`: `PASSED 100%`.
+  - Backup: `autocut_2026-10-24(87).zip`.
