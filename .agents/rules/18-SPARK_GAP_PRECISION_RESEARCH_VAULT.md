@@ -3,8 +3,17 @@
 
 ---
 
-## 🚨 MỆNH LỆNH TRỰC TIẾP TỪ SIRPHUONG (USER DIRECTIVE - 2026-10-23)
-> *"Tạm thời cứ lưu trữ số liệu phân tích này lại, sau này tôi đề cập trực tiếp hoặc gián tiếp đến vấn đề tinh chỉnh phát triển độ chính xác lượng cào phôi thì bạn đưa những thông tin này ra."*
+## 🚨 MỆNH LỆNH TRỰC TIẾP TỪ SIRPHUONG (USER DIRECTIVE - 2026-10-23 & 2026-10-31)
+> [!IMPORTANT]
+> **CHỈ THỊ VẬT LÝ TỐI CAO TỪ SIRPHUONG (2026-10-31): BÁC BỎ HOÀN TOÀN BIẾN CỐI VS CHÀY**
+> *"Bạn nói 'Củng cố thực nghiệm cho Luật 20 (Hiện tượng phân hóa Cối vs Chày)' là chưa đúng nhá, lượng cào phôi dầy mỏng là do chế độ điện còn bạn cắt cối hay chày thì dây vẫn chạy vào cắt ở 1 khối đặc thì làm gì có sự khác nhau."*
+>
+> 👉 **BẢN CHẤT VẬT LÝ KHẮC CỐT GHI TÂM:**
+> 1. Khi cắt 1 Pass vào khối thép đặc nguyên khối, dây Molypden xẻ rãnh đối xứng xuyên qua khối kim loại đồng nhất. Vùng tia lửa hai bên phóng vào thép đặc là hoàn toàn như nhau.
+> 2. Lượng cào phôi $\delta$ dày hay mỏng phụ thuộc **100% vào chế độ điện** ($\text{Ton}, \text{Po}, \text{IP}, \text{Volt}, \text{VF}, \text{Max Speed}$) và điều kiện chiều dày phôi $H$, **tuyệt đối không phụ thuộc vào việc thợ máy lấy cối hay lấy chày**.
+> 3. Sự chênh lệch $\delta$ giữa các bài cắt cối và cắt chày trong quá khứ là do **NGỤY TƯƠNG QUAN / ĐA CỘNG TUYẾN CHẾ ĐỘ ĐIỆN**: Các bài cắt cối (như STT 15, 16, 17, 21) thực tế đều được thợ máy cài đặt chế độ điện năng lượng rất mạnh ($\text{Ton}$ lớn từ 55 đến 120, $\text{IP}$ từ 4 đến 6 sò) nên sinh hố rỗ hồ quang lớn $\delta = 22 - 30\mu m$. Trong khi các bài cắt chày (STT 1, 2, 18) xưởng chạy $\text{Ton}$ rất ngắn (32 đến 44) nên $\delta$ chỉ $8\mu m$.
+> 4. **Minh chứng đối ứng thực tế:** Cùng là bài cắt cối, phôi siêu dày $H=290\text{mm}$ (STT 20, SCM440) chạy $\text{Ton}=135, \text{Po}=10, \text{IP}=6, \text{VF}=75, \text{Max Speed}=50\text{Hz}$ có $\delta = \mathbf{20.0\,\mu\text{m}}$, nhỏ hơn nhiều so với phôi $H=90\text{mm}$ (STT 21, SCM420, cũng cắt cối) chạy $\text{Ton}=80, \text{Po}=7, \text{IP}=4, \text{VF}=54, \text{Max Speed}=150\text{Hz}$ có $\delta = \mathbf{28.0\,\mu\text{m}}$! Sự khác biệt này hoàn toàn do chu kỳ xung $\text{Po}$, ngưỡng điện áp servo $\text{VF}$ và giới hạn tần số bàn máy $\text{Max Speed}$ quyết định!
+> 5. **KẾT LUẬN KIẾN TRÚC:** Bác bỏ vĩnh viễn việc thêm biến hình học $K_{\text{die}}$ vào công thức tính toán. Mọi nghiên cứu nâng cấp độ chính xác $\delta$ bắt buộc phải đi sâu vào động học xung đa biến thuần vật lý.
 
 Tài liệu này là **ĐIỀU LUẬT KHỞI TẠO TỰ ĐỘNG**. Bất kỳ AI nào tiếp quản hệ thống, khi người dùng đề cập **trực tiếp hoặc gián tiếp** đến việc **"tinh chỉnh phát triển độ chính xác lượng cào phôi"** (hoặc *"tinh chỉnh delta"*, *"độ chính xác cào phôi"*, *"nâng cấp công thức lượng cào phôi"*), AI **BẮT BUỘC PHẢI MANG TOÀN BỘ BỘ DỮ LIỆU VÀ CÁC ĐỀ XUẤT DƯỚI ĐÂY RA TRÌNH BÀY NGAY LẬP TỨC**.
 

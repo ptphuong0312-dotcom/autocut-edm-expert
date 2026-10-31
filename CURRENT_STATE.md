@@ -6,19 +6,24 @@
 ---
 
 ## ⏱️ 1. THỜI GIAN LÀM VIỆC GẦN NHẤT
-* **Thời điểm cập nhật:** `2026-10-31 09:35:00` (Giờ địa phương GMT+7)
+* **Thời điểm cập nhật:** `2026-10-31 16:15:00` (Giờ địa phương GMT+7)
 * **Vị trí làm việc hiện tại:** Máy tính Ở Nhà (Ổ G:)
 * **Phiên bản hệ thống:** `v3.5.48` (Đã hoàn thiện & đóng gói)
 
 ---
 
 ## ✅ 2. CÁC VIỆC VỪA HOÀN THÀNH
-* **Đợt 48 (v3.5.48 - Tích hợp Dữ liệu Thực nghiệm Cắt Cối STT 21 H=90mm SCM420):**
-  - Tiếp nhận và giải mã bài cắt thực tế phôi $H=90\text{mm}$, thép dẻo SCM420 ($HB < 200$) cắt cối 1 Pass: $\text{Ton}=80, \text{Po}=7, \text{IP}=4, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=54, \text{Max Speed}=150\text{Hz}$, Offset nhập $0.118\text{mm} \implies$ kích thước chuẩn luôn 100% danh nghĩa ($\Delta = 0.000$).
+* **Đợt 48 (v3.5.48 - Tích hợp Bài cắt STT 21 H=90mm & Đính chính Bản chất Vật lý Cốt lõi từ SirPhuong):**
+  - **Tiếp nhận bài cắt thực tế STT 21:** Phôi dày $H=90\text{mm}$, SCM420 ($HB < 200$), cắt 1 Pass: $\text{Ton}=80, \text{Po}=7, \text{IP}=4, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=54, \text{Max Speed}=150\text{Hz}$, Offset nhập $0.118\text{mm} \implies$ kích thước chuẩn luôn 100% danh nghĩa ($\Delta = 0.000$).
   - Xác lập Offset Chuẩn = $0.118\text{mm}$, lượng cào phôi $\delta = 0.118 - 0.090 = \mathbf{0.0280\text{ mm}}$ ($28.0\,\mu\text{m}$).
-  - Ghi nhận chỉ số thực tế quý giá: Kim Ampe ăn $3.5\text{A} - 3.6\text{A}$ (khớp lý thuyết $3.3\text{A} \sim 3.5\text{A}$), tốc độ thực $50 - 60\text{ mm}^2/\text{phút}$.
+  - Ghi nhận thực tế: Kim Ampe ăn $3.5\text{A} - 3.6\text{A}$ (khớp lý thuyết), tốc độ thực $50 - 60\text{ mm}^2/\text{phút}$.
   - Cập nhật đồng bộ vào `WORKSHOP_DATA_BANK.md`, Rule 09 và mảng `WORKSHOP_EMPIRICAL_LIBRARY` + bảng `WS_LIB_BENCHMARK_JOBS[1]` trong `app.js`.
-  - Đồng bộ phiên bản `v3.5.48` trên 5 file hệ thống và vượt qua 100% kiểm tra AST / Đạo luật chống bảng tra.
+  - **Chỉ thị Vật lý Cốt lõi từ SirPhuong (Bác bỏ biến Cối vs Chày):**
+    > *"Lượng cào phôi dầy mỏng là do chế độ điện còn bạn cắt cối hay chày thì dây vẫn chạy vào cắt ở 1 khối đặc thì làm gì có sự khác nhau."*
+    + Khắc sâu nguyên lý: Khi cắt 1 Pass vào khối thép đặc, dây Molypden xẻ rãnh đối xứng xuyên qua khối kim loại đồng nhất; lượng cào phôi $\delta$ phụ thuộc **100% vào chế độ điện** ($\text{Ton}, \text{Po}, \text{IP}, \text{Volt}, \text{VF}, \text{Max Speed}$) và chiều dày $H$, tuyệt đối không phân biệt cối hay chày.
+    + Nhận diện ngụy tương quan: Sự chênh lệch $\delta$ trong quá khứ là do các bài cắt cối xưởng chạy năng lượng xung $\text{Ton}, \text{IP}$ rất lớn. Minh chứng: Cùng cắt cối, $H=290\text{mm}$ (STT 20) chạy $\text{Po}=10, \text{VF}=75, 50\text{Hz}$ có $\delta = 20\mu m$, nhỏ hơn nhiều so với $H=90\text{mm}$ (STT 21) chạy $\text{Po}=7, \text{VF}=54, 150\text{Hz}$ có $\delta = 28\mu m$!
+    + Hủy bỏ hoàn toàn đề xuất đưa biến hình học $K_{\text{die}}$ vào công thức tính toán.
+    + Cập nhật đồng bộ trong `AGENTS.md` (Luật 20), `GEMINI.md`, Rule 18 và `docs/RESEARCH_TAB3_ALTERNATIVE_MODELS.md`.
 * **Đợt 47 (v3.5.47 - Hiệu chỉnh thông số bài cắt thực nghiệm STT 20 H=290mm):**
   - Tiếp nhận ảnh chụp bảng dữ liệu thực tế từ SirPhuong hiệu chỉnh thông số cắt STT 20: $\text{VF}=75$ (thay vì 50) và $\text{Max Speed}=50\text{Hz}$ (thay vì 150Hz).
   - Cập nhật đồng bộ trong `WORKSHOP_DATA_BANK.md`, Rule 09 và `app.js` (cả `WORKSHOP_EMPIRICAL_LIBRARY` và bảng `WS_LIB_BENCHMARK_JOBS[1]`).
@@ -51,12 +56,11 @@
 
 ---
 
-## 🔬 3b. NGHIÊN CỨU ĐANG CHỜ DUYỆT (2026-10-23) — CHƯA SỬA CODE
-* **Kiến thức mới đã lưu (2026-10-23 tối):** Cách máy AutoCut tính Pon/Poff/GPon/GPoff (chùm xung) — xem `.agents/rules/19-GROUP_PULSE_GPON_GPOFF_KNOWLEDGE.md`; sách hướng dẫn hãng đã trích xuất văn bản tại `docs/AUTOCUT_MANUAL_TEXT_EXTRACT.txt` (AI không đọc trực tiếp PDF được). Chưa đưa vào công thức/app; Data Bank chưa có cột GPon/GPoff.
-* **Đo thực tế 2026-10-24:** H=51 SCM420, Pon50/Poff7/GPon1/IP3/High/VF50: GPoff=0 → 3.0A, GPoff=1 → 1.5A (đúng 1/(1+GPoff)); công thức Ampe Tab 2 cho ≈2.5A (lệch −17%, chưa hiệu chỉnh). Xem Rule 19 mục VI.
-* Báo cáo: `docs/RESEARCH_TAB3_ALTERNATIVE_MODELS.md` (so sánh mô hình Tab 3 bằng LOOCV trên 14 điểm thật H≤170).
-* Kết luận chính: Tab 3 hiện tại MAE 5.50 µm / max 20.2 µm; biến **cối vs chày** là nhân tố lớn nhất chưa mô hình hóa (δ cối ≈ 22.2 µm vs chày ≈ 8.8 µm, p=0.001); H, Ton, IP, Po đa cộng tuyến (corr ≈ 0.9–0.99) nên d_elec/d_slag/d_vibr không tách được.
-* Đề xuất Tab 3 v2: `δ = C0 + K_e·√(Ton·IP)·U + δ_Low + K_vf·(VF−55)/10 + K_die·s`. **Chờ SirPhuong duyệt + thí nghiệm kiểm chứng T1/T2 (cùng chế độ, đổi cối↔chày)** trước khi sửa `app.js`.
+## 🔬 3b. NGHIÊN CỨU & KẾT LUẬN VẬT LÝ TỪ SIRPHUONG (2026-10-31)
+* **Kiến thức mới đã lưu:** Cách máy AutoCut tính Pon/Poff/GPon/GPoff (chùm xung) — xem `.agents/rules/19-GROUP_PULSE_GPON_GPOFF_KNOWLEDGE.md`; sách hướng dẫn hãng đã trích xuất văn bản tại `docs/AUTOCUT_MANUAL_TEXT_EXTRACT.txt`.
+* **Đo thực tế 2026-10-24:** H=51 SCM420, Pon50/Poff7/GPon1/IP3/High/VF50: GPoff=0 → 3.0A, GPoff=1 → 1.5A (đúng 1/(1+GPoff)).
+* **Báo cáo nghiên cứu:** `docs/RESEARCH_TAB3_ALTERNATIVE_MODELS.md` và `.agents/rules/18-SPARK_GAP_PRECISION_RESEARCH_VAULT.md`.
+* **Kết luận Tối cao từ SirPhuong:** Bác bỏ hoàn toàn biến hình học $K_{\text{die}}$ (Cối vs Chày). Dây cắt vào phôi đặc nguyên khối thì tia lửa đối xứng đồng nhất; $\delta$ phụ thuộc 100% vào chế độ điện ($\text{Ton}, \text{Po}, \text{IP}, \text{Volt}, \text{VF}, \text{Max Speed}$) và chiều dày $H$. Mọi hướng nghiên cứu tiếp theo sẽ tập trung vào phân rã động học xung đa biến thuần vật lý.
 
 ---
 

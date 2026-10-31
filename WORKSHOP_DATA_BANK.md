@@ -176,9 +176,9 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 > * **Đồng hồ Ampe & Tốc độ cắt:**
 >   - Kim đồng hồ Ampe ăn **$3.5\text{A} - 3.6\text{A}$**, khớp chuẩn xác theo công thức lý thuyết ($3.3\text{A} \sim 3.5\text{A}$) ở cấp công suất $\text{IP}=4, \text{Po}=7$.
 >   - Tốc độ cắt thực tế đạt **$50 - 60\text{ mm}^2/\text{phút}$** ($F_t \approx 0.56 - 0.67\text{ mm/phút}$).
-> * **Ý nghĩa công nghệ & Hiện tượng phân hóa Cối vs Chày:**
->   - Ở phôi thép mềm dẻo SCM420 khi cắt lòng cối kín ($H=90\text{mm}$, $\text{Ton}=80, \text{IP}=4$), mạt xỉ dẻo tích tụ trong lòng lỗ kín tạo hiệu ứng đánh lửa thứ cấp và áp lực nén làm mở rộng rãnh cắt lên $\delta = 28.0\,\mu\text{m}$.
->   - Số liệu này tiếp tục củng cố vững chắc phát hiện trong Luật 20 và `RESEARCH_TAB3_ALTERNATIVE_MODELS.md`: Cắt lòng Cối kín luôn có lượng cào phôi lớn hơn đáng kể so với cắt Chày ngoài thoáng xỉ ($\delta_{\text{cối}} \approx 22 - 28\,\mu\text{m}$ vs $\delta_{\text{chày}} \approx 8 - 15\,\mu\text{m}$).
+> * **Bản chất vật lý của lượng cào phôi (Do chế độ điện quyết định):**
+>   - Lượng cào phôi $\delta = 0.0280\text{ mm}$ ($28.0\,\mu\text{m}$) ở bài cắt này HOÀN TOÀN DO CHẾ ĐỘ ĐIỆN NĂNG LƯỢNG CAO: thời gian phát xung dài $\text{Ton}=80\mu s$ kết hợp $\text{IP}=4$ (4 sò) sinh nhiệt lượng Joule và áp lực bộc phá hố rỗ lớn trong rãnh phôi dày $H=90\text{mm}$.
+>   - Khi cắt 1 Pass, dây Molypden chẻ đôi khối thép đặc nguyên khối, tia lửa phóng vào phôi đặc là hoàn toàn đồng nhất. Lượng cào phôi dày hay mỏng phụ thuộc 100% vào chế độ điện ($\text{Ton}, \text{Po}, \text{IP}, \text{Volt}, \text{VF}$) và chiều dày $H$, tuyệt đối không phụ thuộc vào tên gọi chi tiết lấy cối hay lấy chày!
 
 ---
 

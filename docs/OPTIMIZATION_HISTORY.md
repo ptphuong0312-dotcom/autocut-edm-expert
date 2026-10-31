@@ -204,8 +204,9 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
     + Lượng cào phôi thép đặc: $\delta = 0.118 - 0.090 = \mathbf{0.0280\text{ mm}} = 28.0\,\mu\text{m}$.
     + Đồng hồ Ampe thực tế: $3.5\text{A} - 3.6\text{A}$, khớp rất sát công thức lý thuyết ($3.3\text{A} \sim 3.5\text{A}$) ở cấp công suất $\text{IP}=4, \text{Po}=7$.
     + Tốc độ cắt thực tế: $50 - 60\text{ mm}^2/\text{phút}$.
-    + Ý nghĩa kiểm chứng: Củng cố phát hiện phân hóa Cối vs Chày (Luật 20) — khi cắt cối khép kín, mạt xỉ dẻo SCM420 thoát khó hơn làm tăng đánh lửa thứ cấp, đẩy lượng cào lên $\delta = 28.0\,\mu\text{m}$.
+    + Bản chất vật lý cốt lõi (Đính chính từ SirPhuong): Lượng cào phôi $\delta = 28.0\,\mu\text{m}$ hoàn toàn do chế độ điện năng lượng cao ($\text{Ton}=80\mu s, \text{Po}=7, \text{IP}=4$, Volt High) trong phôi dày $H=90\text{mm}$. Dây cắt 1 Pass vào khối thép đặc thì tia lửa chẻ đôi khối phôi đồng nhất, lượng cào phôi dày hay mỏng 100% do chế độ điện quyết định, tuyệt đối không phân biệt cối hay chày. Bác bỏ hoàn toàn giả thuyết $K_{\text{die}}$. Minh chứng: Cùng cắt cối, $H=290\text{mm}$ (STT 20) chạy $\text{Po}=10, \text{VF}=75, \text{Max Speed}=50\text{Hz}$ có $\delta = 20.0\,\mu\text{m}$, nhỏ hơn nhiều so với $H=90\text{mm}$ ($\delta = 28.0\,\mu\text{m}$).
   - Cập nhật đồng bộ vào `WORKSHOP_DATA_BANK.md`, Rule 09 và `app.js` (`WORKSHOP_EMPIRICAL_LIBRARY` và `WS_LIB_BENCHMARK_JOBS[1]`).
+  - Đồng bộ cập nhật Hiến pháp `AGENTS.md` (Luật 20), `GEMINI.md`, Rule 18 và `docs/RESEARCH_TAB3_ALTERNATIVE_MODELS.md`.
 * **Các file đã sửa:**
   - `WORKSHOP_DATA_BANK.md` & `.agents/rules/09-WORKSHOP_RAW_DATA_BANK_AND_REVERSE_INTERPOLATION.md`: Thêm STT 21 vào Bảng thô, Bảng suy luận ngược và hộp phân tích động học.
   - `app.js`: Thêm STT 21 vào `WORKSHOP_EMPIRICAL_LIBRARY`, thêm hàng $H=90$ vào `WS_LIB_BENCHMARK_JOBS[1]`, nâng phiên bản `v3.5.48`.
