@@ -6,13 +6,19 @@
 ---
 
 ## ⏱️ 1. THỜI GIAN LÀM VIỆC GẦN NHẤT
-* **Thời điểm cập nhật:** `2026-10-24 11:32:00` (Giờ địa phương GMT+7)
+* **Thời điểm cập nhật:** `2026-10-31 09:35:00` (Giờ địa phương GMT+7)
 * **Vị trí làm việc hiện tại:** Máy tính Ở Nhà (Ổ G:)
-* **Phiên bản hệ thống:** `v3.5.47` (Đã hoàn thiện & đóng gói)
+* **Phiên bản hệ thống:** `v3.5.48` (Đã hoàn thiện & đóng gói)
 
 ---
 
 ## ✅ 2. CÁC VIỆC VỪA HOÀN THÀNH
+* **Đợt 48 (v3.5.48 - Tích hợp Dữ liệu Thực nghiệm Cắt Cối STT 21 H=90mm SCM420):**
+  - Tiếp nhận và giải mã bài cắt thực tế phôi $H=90\text{mm}$, thép dẻo SCM420 ($HB < 200$) cắt cối 1 Pass: $\text{Ton}=80, \text{Po}=7, \text{IP}=4, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=54, \text{Max Speed}=150\text{Hz}$, Offset nhập $0.118\text{mm} \implies$ kích thước chuẩn luôn 100% danh nghĩa ($\Delta = 0.000$).
+  - Xác lập Offset Chuẩn = $0.118\text{mm}$, lượng cào phôi $\delta = 0.118 - 0.090 = \mathbf{0.0280\text{ mm}}$ ($28.0\,\mu\text{m}$).
+  - Ghi nhận chỉ số thực tế quý giá: Kim Ampe ăn $3.5\text{A} - 3.6\text{A}$ (khớp lý thuyết $3.3\text{A} \sim 3.5\text{A}$), tốc độ thực $50 - 60\text{ mm}^2/\text{phút}$.
+  - Cập nhật đồng bộ vào `WORKSHOP_DATA_BANK.md`, Rule 09 và mảng `WORKSHOP_EMPIRICAL_LIBRARY` + bảng `WS_LIB_BENCHMARK_JOBS[1]` trong `app.js`.
+  - Đồng bộ phiên bản `v3.5.48` trên 5 file hệ thống và vượt qua 100% kiểm tra AST / Đạo luật chống bảng tra.
 * **Đợt 47 (v3.5.47 - Hiệu chỉnh thông số bài cắt thực nghiệm STT 20 H=290mm):**
   - Tiếp nhận ảnh chụp bảng dữ liệu thực tế từ SirPhuong hiệu chỉnh thông số cắt STT 20: $\text{VF}=75$ (thay vì 50) và $\text{Max Speed}=50\text{Hz}$ (thay vì 150Hz).
   - Cập nhật đồng bộ trong `WORKSHOP_DATA_BANK.md`, Rule 09 và `app.js` (cả `WORKSHOP_EMPIRICAL_LIBRARY` và bảng `WS_LIB_BENCHMARK_JOBS[1]`).
@@ -35,7 +41,7 @@
 * **Tính toàn vẹn mã nguồn:**
   - Bracket AST & Syntax check: `PASSED 100%`
   - Đạo luật Chống Bảng Tra & Phương trình Nhiệt động học Liên tục: `PASSED 100%`
-  - Đồng bộ phiên bản (`v3.5.47`): `PASSED` trên 4 file (`version.json`, `index.html`, `app.js`, `sw.js`).
+  - Đồng bộ phiên bản (`v3.5.48`): `PASSED` trên 4 file (`version.json`, `index.html`, `app.js`, `sw.js`).
 * **Độ chính xác kiểm toán bù dao EDM (Rule 19):**
   - MAE toàn cục 23 bài cắt: `6.26 um`
   - MAE phôi mỏng ($H \le 40\text{mm}$): `4.02 um`

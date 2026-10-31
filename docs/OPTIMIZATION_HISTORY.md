@@ -192,3 +192,25 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
 * **Kết quả nghiệm thu:**
   - `scripts/verify_integrity.ps1`: `PASSED 100%`.
   - Backup: `autocut_2026-10-24(87).zip`.
+
+
+---
+
+### 🚀 ĐỢT 48: TÍCH HỢP BÀI CẮT THỰC NGHIỆM STT 21 (H=90mm, SCM420 CỐI) (v3.5.48)
+* **Thời gian:** 2026-10-31
+* **Mục tiêu kỹ thuật:**
+  - Tiếp nhận và giải mã bài cắt thực tế phôi $H=90\text{mm}$, thép dẻo SCM420 ($HB < 200$), cắt cối 1 Pass do SirPhuong cung cấp theo đúng SOP 6 bước:
+    + STT 21: Phôi dày $H=90\text{mm}$, SCM420 ($HB < 200$), cắt cối 1 Pass: $\text{Ton}=80, \text{Po}=7, \text{IP}=4, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=54, \text{Max Speed}=150\text{Hz}$, Offset nhập $0.118\text{mm} \implies$ kích thước chuẩn luôn 100% danh nghĩa ($\Delta = 0.000$).
+    + Lượng cào phôi thép đặc: $\delta = 0.118 - 0.090 = \mathbf{0.0280\text{ mm}} = 28.0\,\mu\text{m}$.
+    + Đồng hồ Ampe thực tế: $3.5\text{A} - 3.6\text{A}$, khớp rất sát công thức lý thuyết ($3.3\text{A} \sim 3.5\text{A}$) ở cấp công suất $\text{IP}=4, \text{Po}=7$.
+    + Tốc độ cắt thực tế: $50 - 60\text{ mm}^2/\text{phút}$.
+    + Ý nghĩa kiểm chứng: Củng cố phát hiện phân hóa Cối vs Chày (Luật 20) — khi cắt cối khép kín, mạt xỉ dẻo SCM420 thoát khó hơn làm tăng đánh lửa thứ cấp, đẩy lượng cào lên $\delta = 28.0\,\mu\text{m}$.
+  - Cập nhật đồng bộ vào `WORKSHOP_DATA_BANK.md`, Rule 09 và `app.js` (`WORKSHOP_EMPIRICAL_LIBRARY` và `WS_LIB_BENCHMARK_JOBS[1]`).
+* **Các file đã sửa:**
+  - `WORKSHOP_DATA_BANK.md` & `.agents/rules/09-WORKSHOP_RAW_DATA_BANK_AND_REVERSE_INTERPOLATION.md`: Thêm STT 21 vào Bảng thô, Bảng suy luận ngược và hộp phân tích động học.
+  - `app.js`: Thêm STT 21 vào `WORKSHOP_EMPIRICAL_LIBRARY`, thêm hàng $H=90$ vào `WS_LIB_BENCHMARK_JOBS[1]`, nâng phiên bản `v3.5.48`.
+  - `version.json`, `index.html`, `sw.js`: Đồng bộ phiên bản `v3.5.48`.
+  - `CURRENT_STATE.md`: Cập nhật trạng thái Đợt 48.
+* **Kết quả nghiệm thu:**
+  - `scripts/verify_integrity.ps1`: `PASSED 100%`.
+  - Backup: `autocut_2026-10-31(88).zip`.

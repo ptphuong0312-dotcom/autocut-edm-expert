@@ -102,3 +102,6 @@ Dự án **AutoCut Servo EDM Expert** được khởi xướng bởi **SirPhuong
 | **v3.5.43** | 2026-10-21 | Khắc phục lỗi phân cấp DOM HTML, khôi phục lưới 2 cột Tab 3 và cách ly layout | `autocut_2026-10-21(82).zip` |
 | **v3.5.44** | 2026-10-22 | Thiết lập Hạ tầng Bộ Não Tri Thức 4 Trụ Cột luân chuyển 2 máy (CURRENT_STATE, OPTIMIZATION_HISTORY, workflows/BẮT ĐẦU) | `autocut_2026-10-22(84).zip` |
 | **v3.5.45** | 2026-10-23 | Tích hợp dữ liệu phôi siêu dày STT 20 (H=290mm cối, Offset chuẩn 0.110mm) vào Data Bank & Thư viện Tab 2, ban hành Luật 20 | `autocut_2026-10-23(85).zip` |
+| **v3.5.46** | 2026-10-24 | Bổ sung Thẻ 11 Cẩm nang EDM Tab 4: Giải mã vi xử lý AutoCut (Ton, Toff, T, f) và Công nghệ Chùm xung (GPon, GPoff) | `autocut_2026-10-24(86).zip` |
+| **v3.5.47** | 2026-10-24 | Hiệu chỉnh thông số bài cắt STT 20 (H=290mm VF=75 MaxSpeed=50Hz) theo ảnh bảng dữ liệu xưởng | `autocut_2026-10-24(87).zip` |
+| **v3.5.48** | 2026-10-31 | Tích hợp bài cắt thực nghiệm STT 21 (H=90mm SCM420 cối, Offset chuẩn 0.118mm, Ampe 3.5-3.6A, Fc 50-60mm2/p) | `autocut_2026-10-31(88).zip` |

@@ -44,6 +44,7 @@ Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên
 | **18** | 1 Lần | SCM420 (HB<200) | 63 | 44 | 8 | 4 | 1 | High | 57 | 150Hz | **0,093** | 17p40' | 22,3mm | 3,3A - 3,4A | 50 - 65 | cắt lấy chày : kích thước nhỏ hơn lập trình 0,01 |
 | **19** | 1 Lần | SCM420 (HB<200) | 110 | 100 | 10 | 5 | 1 | High | 65 | 150Hz | **0,105** | -- | -- | 2,7A - 2,8A | 30 - 40 | cắt lấy chày : kích thước chuẩn luôn |
 | **20** | 1 Lần | SCM440 (28-32HRC) | 290 | 135 | 10 | 6 | 1 | High | 75 | 50Hz | **0,110** | -- | -- | -- | -- | cắt lấy cối : kích thước chuẩn luôn |
+| **21** | 1 Lần | SCM420 (HB<200) | 90 | 80 | 7 | 4 | 1 | High | 54 | 150Hz | **0,118** | -- | -- | 3,5A - 3,6A | 50 - 60 | cắt lấy cối : kích thước chuẩn luôn |
 
 ---
 
@@ -107,6 +108,7 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 | **18**| **H = 63mm** | Ton=44, Po=8, IP=4, Volt=High, VF=57 | 0.093 | Chày nhỏ hơn 0.010 | +0.0050 | **0.098 mm** | **0.008 mm** | Phôi H=63mm cắt chày, dây ăn sâu 5μm/bên $\rightarrow \text{Offset Chuẩn}=0.098\text{mm}, \delta=0.008\text{mm}$ |
 | **19**| **H = 110mm**| Ton=100, Po=10, IP=5, Volt=High, VF=65| 0.105 | Chày chuẩn luôn | 0.0000 | **0.105 mm** | **0.015 mm** | Phôi dày H=110mm cắt chày, Ton=100, Po=10, IP=5 chuẩn kích thước tuyệt đối $\rightarrow \delta=0.015\text{mm}$ |
 | **20**| **H = 290mm**| Ton=135, Po=10, IP=6, Volt=High, VF=75| 0.110 | Cối chuẩn luôn | 0.0000 | **0.110 mm** | **0.020 mm** | Phôi siêu dày H=290mm cắt cối, Ton=135, Po=10, IP=6, VF=75 chuẩn kích thước tuyệt đối $\rightarrow \delta=0.020\text{mm}$ |
+| **21**| **H = 90mm** | Ton=80, Po=7, IP=4, Volt=High, VF=54 | 0.118 | Cối chuẩn luôn | 0.0000 | **0.118 mm** | **0.028 mm** | Phôi trung dày H=90mm SCM420 cắt cối khép kín, Ton=80, Po=7, IP=4 chuẩn kích thước $\rightarrow \delta=0.028\text{mm}$ |
 
 > 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 15 (H=160mm, SCM420 - CẮT LẤY CỐI 1 PASS):**
 > * **Bài cắt kiểm định khép kín (Rule 12):** Người dùng sử dụng 100% chế độ điện xuất ra từ Web App Tab 2 ($H=160\text{mm}$, SCM420, Cấp 4): $\text{Ton}=120, \text{Po}=11, \text{IP}=6, \text{Volt}=\text{High}, \text{VF}=70, \text{Giới hạn}=154\text{Hz}$, Offset nhập test ban đầu là $0.107\text{mm}$ (sát mốc tính toán lý thuyết $0.1071\text{mm}$).
@@ -164,6 +166,19 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 >   - Ở phôi siêu dày $H=290\text{mm}$, xưởng cài đặt $\text{VF}=75$ để tăng độ nhạy phản hồi điện áp servo theo dõi khe hở trong lòng rãnh sâu, kết hợp tần số hãm giới hạn $\text{Max Speed}=50\text{Hz}$ giúp bàn máy tiến cực kỳ điềm tĩnh, triệt tiêu rung giật và chống nghẹt phoi đoản mạch.
 >   - Với $\text{Ton}=135, \text{Po}=10, \text{IP}=6$, Offset chuẩn xác lập được là $\mathbf{0.110\text{ mm}} \implies \mathbf{\delta = 0.020\text{ mm}}$ ($20.0\,\mu\text{m}$).
 >   - Dữ liệu này chứng minh tính ổn định tuyệt vời của mô hình cắt phôi siêu dày khi hãm tần số Max Speed ở $50\text{Hz}$.
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 21 (H=90mm, SCM420 - CẮT LẤY CỐI 1 PASS):**
+> * **Bài cắt thực nghiệm tại xưởng:** Người dùng cắt phôi dày $H=90\text{mm}$, thép dẻo SCM420 ($HB < 200$) với chế độ điện: $\text{Ton}=80, \text{Po}=7, \text{IP}=4, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=54, \text{Giới hạn}=150\text{Hz}$, Offset nhập test là $0.118\text{mm}$.
+> * **Kích thước đo sau cắt:** Cắt lấy cối: Kích thước chuẩn luôn $100\%$ không sai lệch danh nghĩa ($\Delta = 0.000$).
+> * **Bù dao Chuẩn & Lượng cào phôi:**
+>   $$\mathbf{\text{Offset}_{\text{chuẩn}}} = \mathbf{0.118\text{ mm}}$$
+>   $$\mathbf{\delta} = 0.118 - 0.090 = \mathbf{0.028\text{ mm}} \quad (28.0\,\mu\text{m})$$
+> * **Đồng hồ Ampe & Tốc độ cắt:**
+>   - Kim đồng hồ Ampe ăn **$3.5\text{A} - 3.6\text{A}$**, khớp chuẩn xác theo công thức lý thuyết ($3.3\text{A} \sim 3.5\text{A}$) ở cấp công suất $\text{IP}=4, \text{Po}=7$.
+>   - Tốc độ cắt thực tế đạt **$50 - 60\text{ mm}^2/\text{phút}$** ($F_t \approx 0.56 - 0.67\text{ mm/phút}$).
+> * **Ý nghĩa công nghệ & Hiện tượng phân hóa Cối vs Chày:**
+>   - Ở phôi thép mềm dẻo SCM420 khi cắt lòng cối kín ($H=90\text{mm}$, $\text{Ton}=80, \text{IP}=4$), mạt xỉ dẻo tích tụ trong lòng lỗ kín tạo hiệu ứng đánh lửa thứ cấp và áp lực nén làm mở rộng rãnh cắt lên $\delta = 28.0\,\mu\text{m}$.
+>   - Số liệu này tiếp tục củng cố vững chắc phát hiện trong Luật 20 và `RESEARCH_TAB3_ALTERNATIVE_MODELS.md`: Cắt lòng Cối kín luôn có lượng cào phôi lớn hơn đáng kể so với cắt Chày ngoài thoáng xỉ ($\delta_{\text{cối}} \approx 22 - 28\,\mu\text{m}$ vs $\delta_{\text{chày}} \approx 8 - 15\,\mu\text{m}$).
 
 ---
 

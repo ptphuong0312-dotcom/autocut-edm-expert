@@ -1,6 +1,6 @@
 {
-  "version": "3.5.47",
-  "buildTimestamp": 1792816000000,
-  "releaseDate": "2026-10-24",
-  "description": "Hiệu chỉnh thông số bài cắt thực nghiệm STT 20 (H=290mm SCM440 cối): VF từ 50 thành 75, Max Speed từ 150Hz thành 50Hz theo ảnh bảng số liệu xưởng."
+  "version": "3.5.48",
+  "buildTimestamp": 1793414000000,
+  "releaseDate": "2026-10-31",
+  "description": "Tích hợp bài cắt thực nghiệm STT 21 (H=90mm SCM420 cối, Ton=80, Po=7, IP=4, VF=54, Offset chuẩn 0.118mm, Ampe 3.5-3.6A, Fc 50-60mm2/p) vào Data Bank và Thư viện Tab 2."
 }
