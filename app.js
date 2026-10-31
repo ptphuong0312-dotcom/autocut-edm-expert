@@ -3551,7 +3551,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.5.48";
+    const CURRENT_VERSION = "3.5.49";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -4026,8 +4026,8 @@ function initApp() {
         const d_elec = VF_K_ELEC * Math.sqrt(Math.max(1, Ton) * Math.max(1, IP)) * u_ratio;
         const d_low = (Volt === 'Low' || Volt === 'L') ? VF_DELTA_LOW : 0.0;
         const ip_fac = Math.max(1.0, IP / 4.0);
-        // Thép dẻo SCM420 phoi bết dính hơn thép tôi SCM440
-        const slag_mat = isHard ? 1.0 : 1.10;
+        // Thép dẻo SCM420 phoi bết dính hơn thép tôi SCM440; hiệu chỉnh thực nghiệm: SCM420 cào thoáng hơn (+1.8 - 4μm), giảm độ ghìm xỉ
+        const slag_mat = isHard ? 1.0 : 0.80;
         const d_slag = - VF_K_SLAG * (H / 100.0) * slag_mat / ip_fac;
         let d_vibr, gap;
 
@@ -4081,7 +4081,8 @@ function initApp() {
         const u_arc = (Volt === 'High' || Volt === 'H') ? 27 : 22;
         const i_peak = IP * 2.8;
         const power_watts = u_arc * i_peak * duty;
-        const ampe_est = (i_peak * duty * 1.15).toFixed(1);
+        const calculatedAmpe = i_peak * duty * 2.6667 * (u_arc / 27);
+        const ampe_est = calculatedAmpe.toFixed(1);
 
         const Cm = (material === 'SCM420' || material === 'HB<200') ? 0.0140 : 0.0140;
         const B = 0.23;
@@ -4115,6 +4116,7 @@ function initApp() {
         const Volt = vfResearchState.Volt || 'High';
         const VF = parseFloat(vfResearchState.VF) || 65;
         const material = vfResearchState.material || 'SCM440';
+        const isHard = (material === 'SCM440' || material === '30HRC');
 
         const res = calcVFSparkGap(H, Ton, IP, Volt, VF, Po, material);
 
@@ -4238,7 +4240,7 @@ function initApp() {
                 </tr>
                 <tr>
                     <td><strong>d<sub>slag</sub></strong> (Nén xỉ rãnh sâu theo vật liệu)</td>
-                    <td>Xỉ tụ tâm phôi: SCM420 dẻo bết dính (+10% xỉ) so với SCM440</td>
+                    <td>${isHard ? 'SCM440 thép tôi cứng (chuẩn xỉ 1.0x)' : 'SCM420 thép mềm dẻo (hệ số xỉ 0.80x cào thoáng hơn)'}</td>
                     <td style="text-align: right; font-family: var(--font-mono); color: #f43f5e;">${(res.d_slag * 1000).toFixed(2)} μm</td>
                     <td style="text-align: right; font-family: var(--font-mono); color: #f43f5e;">${(res.d_slag * 1000).toFixed(2)} μm</td>
                 </tr>

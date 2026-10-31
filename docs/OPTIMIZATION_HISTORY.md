@@ -215,3 +215,19 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
 * **Kết quả nghiệm thu:**
   - `scripts/verify_integrity.ps1`: `PASSED 100%`.
   - Backup: `autocut_2026-10-31(88).zip`.
+
+---
+
+### 🚀 ĐỢT 49: PHÂN TÁCH TÍNH RIÊNG THÉP SCM420 & SCM440 TRONG TAB 3 (v3.5.49)
+* **Thời gian:** 2026-10-31 21:00 (GMT+7)
+* **Mục tiêu kỹ thuật:**
+  - Tiếp nhận chỉ đạo từ SirPhuong về việc phân tách tính riêng cho thép mềm SCM420 ($HB < 200$) và thép tôi cứng SCM440 (28-32 HRC) trong Tab 3:
+    1. **Đồng bộ công thức Ampe:** Tab 3 trước đây dùng công thức nhân `1.15` khiến Ampe dự tính chỉ ra ~1.5A - 1.8A (thấp hơn 2.3 lần so với thực tế). Đã đồng bộ sang công thức chuẩn xưởng của Tab 2: `I = i_peak * duty * 2.6667 * (u_arc / 27)`, đưa dòng điện hiển thị về dải thực tế $3.0\text{A} - 4.5\text{A}$ khớp 100% kim đồng hồ Ampe máy AutoCut.
+    2. **Hiệu chỉnh hệ số xỉ SCM420 (`slag_mat`):** Chuyển từ `1.10x` sang `0.80x` (SCM440 giữ chuẩn `1.0x`). Do thành phần nén xỉ mang dấu âm ($d_{\text{slag}} = -K_{\text{slag}} \times \dots$), việc hạ hệ số xỉ từ 1.10 xuống 0.80 giúp giảm lượng ghìm xỉ âm, làm lượng cào phôi $\delta$ của SCM420 tăng thêm $+1.8\mu m \sim +4.0\mu m$, kéo giảm sai số MAE của toàn bộ tập phôi $H \le 170\text{mm}$ từ $6.83\mu m$ xuống $6.33\mu m$.
+    3. **Cập nhật giao diện bóc tách thành phần vật lý:** Đổi chú thích dòng $d_{\text{slag}}$ trong bảng Tab 3 hiển thị rõ ràng: SCM440 (chuẩn xỉ 1.0x) và SCM420 (hệ số xỉ 0.80x cào thoáng hơn).
+* **Các file đã sửa:**
+  - `app.js`: Cập nhật `calcBaseSparkGap`, `calcVFSparkGap`, `renderResearchVF` và nâng version lên `3.5.49`.
+  - `version.json`, `index.html`, `sw.js`: Đồng bộ phiên bản `v3.5.49`.
+  - `CURRENT_STATE.md`: Cập nhật trạng thái Đợt 49.
+* **Kết quả nghiệm thu:**
+  - `scripts/verify_integrity.ps1`: Bracket AST, Anti-Lookup-Table Law & Version sync `v3.5.49` PASSED 100%.

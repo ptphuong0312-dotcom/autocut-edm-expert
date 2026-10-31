@@ -1,6 +1,6 @@
 {
-  "version": "3.5.48",
-  "buildTimestamp": 1793414000000,
+  "version": "3.5.49",
+  "buildTimestamp": 1793420000000,
   "releaseDate": "2026-10-31",
-  "description": "Tích hợp bài cắt thực nghiệm STT 21 (H=90mm SCM420 cối, Ton=80, Po=7, IP=4, VF=54, Offset chuẩn 0.118mm, Ampe 3.5-3.6A, Fc 50-60mm2/p) vào Data Bank và Thư viện Tab 2."
+  "description": "Phân tách tính riêng thép SCM420 (HB<200) và SCM440 (28-32HRC) trong Tab 3: đồng bộ công thức Ampe thực tế theo Tab 2 và hiệu chỉnh hệ số xỉ SCM420 về 0.80x giúp tăng độ nhạy cào phôi."
 }

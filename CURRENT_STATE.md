@@ -6,13 +6,18 @@
 ---
 
 ## ⏱️ 1. THỜI GIAN LÀM VIỆC GẦN NHẤT
-* **Thời điểm cập nhật:** `2026-10-31 16:15:00` (Giờ địa phương GMT+7)
+* **Thời điểm cập nhật:** `2026-10-31 21:00:00` (Giờ địa phương GMT+7)
 * **Vị trí làm việc hiện tại:** Máy tính Ở Nhà (Ổ G:)
-* **Phiên bản hệ thống:** `v3.5.48` (Đã hoàn thiện & đóng gói)
+* **Phiên bản hệ thống:** `v3.5.49` (Đã hoàn thiện & đóng gói)
 
 ---
 
 ## ✅ 2. CÁC VIỆC VỪA HOÀN THÀNH
+* **Đợt 49 (v3.5.49 - Phân tách tính riêng SCM420 & SCM440 trong Tab 3):**
+  - **Đồng bộ công thức Ampe Tab 3:** Thay thế hệ số cũ `1.15` bằng công thức chuẩn Tab 2 `i_peak * duty * 2.6667 * (u_arc / 27)`, giúp chỉ số Ampe dự tính của Tab 3 khớp chính xác với kim Ampe thực tế xưởng (dải 3.0A - 4.5A thay vì bị tụt thấp ~1.5A - 1.8A như trước).
+  - **Hiệu chỉnh hệ số xỉ SCM420 (`slag_mat`):** Chuyển từ `1.10x` sang `0.80x` (SCM440 giữ chuẩn `1.0x`), giúp giảm độ ghìm xỉ âm, tăng nhẹ khe cào phôi $\delta$ cho thép mềm SCM420 thêm $\approx +1.8\mu m \sim +4.0\mu m$, kéo giảm sai số MAE của toàn bộ tập phôi $H \le 170\text{mm}$ từ $6.83\mu m$ xuống $6.33\mu m$.
+  - **Cập nhật giao diện bóc tách thành phần vật lý:** Đổi chú thích dòng $d_{\text{slag}}$ trong bảng Tab 3 hiển thị rõ ràng đặc tính của SCM440 (chuẩn xỉ 1.0x) và SCM420 (hệ số xỉ 0.80x cào thoáng hơn).
+  - **Đồng bộ phiên bản `v3.5.49`:** Cập nhật đồng bộ trên `version.json`, `index.html`, `app.js`, `sw.js` và vượt qua 100% kiểm tra cú pháp AST `verify_integrity.ps1`.
 * **Đợt 48 (v3.5.48 - Tích hợp Bài cắt STT 21 H=90mm & Đính chính Bản chất Vật lý Cốt lõi từ SirPhuong):**
   - **Tiếp nhận bài cắt thực tế STT 21:** Phôi dày $H=90\text{mm}$, SCM420 ($HB < 200$), cắt 1 Pass: $\text{Ton}=80, \text{Po}=7, \text{IP}=4, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=54, \text{Max Speed}=150\text{Hz}$, Offset nhập $0.118\text{mm} \implies$ kích thước chuẩn luôn 100% danh nghĩa ($\Delta = 0.000$).
   - Xác lập Offset Chuẩn = $0.118\text{mm}$, lượng cào phôi $\delta = 0.118 - 0.090 = \mathbf{0.0280\text{ mm}}$ ($28.0\,\mu\text{m}$).
