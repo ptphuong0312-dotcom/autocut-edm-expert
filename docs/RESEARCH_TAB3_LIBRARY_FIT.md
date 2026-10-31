@@ -44,3 +44,17 @@ Mỗi bài chỉ cần: Offset nhập + kết quả đo kích thước. 8–10 b
 
 ## 6. Tái lập
 Script PowerShell (máy không có Node/Python): `scripts/research_tab3_library/lib_fit_step1.ps1` (đánh giá Tab 3), `lib_fit_step2.ps1` (tuyến tính ≤3 biến, LOOCV), `lib_fit_step3.ps1` (lũy thừa + fit lại khung Tab 3).
+
+## 7. Phân tách riêng SCM420 (HB<200) và SCM440 (28-32HRC) trong Tab 3 (2026-10-31)
+Hiện trạng code: vật liệu chỉ tác động qua `slag_mat = 1.10` nhân vào số hạng `d_slag` (âm) → SCM420 bị kéo δ **nhỏ hơn** ≈1.8 µm; Ampe (`×1.15`) và tốc độ (`η = 0.78`) **không** phân biệt vật liệu.
+
+Đối chiếu thư viện Web App (17 bài):
+| Đại lượng | SCM420 | SCM440 | Nhận xét |
+|:--|:--:|:--:|:--|
+| Sai số δ Tab 3 hiện tại, H≤170 (tính − thực) | −6.9 µm (n=8, MAE 9.3) | −1.5 µm (n=7, MAE 4.0) | SCM420 thực tế cào **nhiều hơn** → hệ số 1.10 đang lệch chiều |
+| Ampe: thực / công thức Tab 2 (`I=2.8·IP·η·2.667·U/27`) | 0.98 | 1.05 | khác nhau ≤7%, nằm trong nhiễu (0.84–1.25) → **không cần tách**. Tab 3 hiện dùng hằng `1.15` nên thấp ≈2.3 lần ở cả 2 thép (bug) |
+| Tốc độ máy hiển thị (Ft×40): tính/thực, engine Tab 3 (η=0.78 chung) | 0.93 | 0.97 | sai số tương đối 7.6% — **tốt hơn** engine Tab 2 tách vật liệu (13.7%) |
+| Cặp cùng chế độ điện: H90 SCM420 (Ton80 Po7 IP4 VF54) δ=28 vs H95 SCM440 (Ton82 Po7 IP4 VF55) δ=23.5 | | | chênh ≈ +4.5 µm cho SCM420 |
+
+Thử đưa tách vật liệu vào δ bằng LOOCV (H≤170, n=15): hằng số lệch theo vật liệu, hệ số riêng cho H/Ton/VF/Po/IP, biến xả xỉ `H/IP^k`, hệ số xỉ SCM420 tự do → **không cấu hình nào cải thiện LOO** (8–11 µm so với 6.83). Chỉnh hệ số xỉ SCM420 (`sm420`) về 0.8 giảm MAE trong mẫu 6.83 → 6.33 nhưng LOO SCM420 không tốt hơn (9.87 vs 9.34); phần dư 20–25 µm ở H75/H90 không biến điện nào giải thích được.
+Script: `scripts/research_tab3_library/lib_fit_step4..8_*.ps1`.
