@@ -59,6 +59,8 @@
 ## 🔬 3b. NGHIÊN CỨU & KẾT LUẬN VẬT LÝ TỪ SIRPHUONG (2026-10-31)
 * **Kiến thức mới đã lưu:** Cách máy AutoCut tính Pon/Poff/GPon/GPoff (chùm xung) — xem `.agents/rules/19-GROUP_PULSE_GPON_GPOFF_KNOWLEDGE.md`; sách hướng dẫn hãng đã trích xuất văn bản tại `docs/AUTOCUT_MANUAL_TEXT_EXTRACT.txt`.
 * **Đo thực tế 2026-10-24:** H=51 SCM420, Pon50/Poff7/GPon1/IP3/High/VF50: GPoff=0 → 3.0A, GPoff=1 → 1.5A (đúng 1/(1+GPoff)).
+* **Quy ước thuật ngữ (SirPhuong, 2026-10-31):** "thư viện" = thư viện thực nghiệm trên Web App (17 bài 1 Pass). **Vùng tham khảo C (⛔ STT 4, 5, 8, 9, 13) là vùng cách ly, chỉ dùng khi SirPhuong nhắc đích danh.**
+* **Đối chiếu Tab 3 với thư viện Web App (2026-10-31, chưa sửa code):** Tab 3 hiện tại MAE 6.36 µm / max 25.7 µm (lệch dồn H75, H90, H95, H160). Thử tuyến tính ≤3 biến, luật lũy thừa, fit lại khung Tab 3 bằng LOOCV: không cấu trúc nào xuống dưới LOO-MAE ≈ 6 µm; fit lại hệ số làm LOO tệ hơn (7.3–8.9). Gốc rễ là đa cộng tuyến/thiếu dữ liệu đơn biến → đề xuất thí nghiệm đơn biến (thang Ton/Po/VF/IP tại H=75). Chi tiết: `docs/RESEARCH_TAB3_LIBRARY_FIT.md`, script: `scripts/research_tab3_library/`.
 * **Báo cáo nghiên cứu:** `docs/RESEARCH_TAB3_ALTERNATIVE_MODELS.md` và `.agents/rules/18-SPARK_GAP_PRECISION_RESEARCH_VAULT.md`.
 * **Kết luận Tối cao từ SirPhuong:** Bác bỏ hoàn toàn biến hình học $K_{\text{die}}$ (Cối vs Chày). Dây cắt vào phôi đặc nguyên khối thì tia lửa đối xứng đồng nhất; $\delta$ phụ thuộc 100% vào chế độ điện ($\text{Ton}, \text{Po}, \text{IP}, \text{Volt}, \text{VF}, \text{Max Speed}$) và chiều dày $H$. Mọi hướng nghiên cứu tiếp theo sẽ tập trung vào phân rã động học xung đa biến thuần vật lý.
 

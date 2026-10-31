@@ -182,6 +182,8 @@ F:\Antigravity\Cat Day EDM 1\ (hoặc D:\OneDrive\Antigravity\Cat_Day_EDM\)
 
 ---
 
+* **Quy ước thuật ngữ "thư viện" (SirPhuong, 2026-10-31):** Khi SirPhuong nói "thư viện" mà không nói gì thêm, mặc định là thư viện thực nghiệm hiển thị trên Web App (Tab 2). **Vùng tham khảo C (các bài ⛔ STT 4, 5, 8, 9, 13) là vùng cách ly**, chỉ được dùng khi SirPhuong nhắc đích danh. Báo cáo đối chiếu Tab 3 ↔ thư viện: `docs/RESEARCH_TAB3_LIBRARY_FIT.md`.
+
 ### ⚠️ QUY CHUẨN CHỐNG ĐÓNG BĂNG GIAO DIỆN & LỖI DOM (UI FREEZE PROTECTION):
 1. **Kiểm tra cú pháp & ngoặc nhọn AST:** Trước khi bàn giao, bắt buộc chạy `scripts/verify_integrity.js` để quét sạch toàn bộ lỗi thiếu dấu ngoặc `{ }`, `( )`, `[ ]` trong `app.js`.
 2. **Kiểm tra đóng mở thẻ HTML DOM:** Khi chèn thêm thành phần giao diện vào `index.html`, tuyệt đối không để thừa thẻ `</div>` làm đóng sớm các khối thẻ cha (`main.main-content` hay `tab-content`), gây hiện tượng rò rỉ layout sang các Tab khác.
