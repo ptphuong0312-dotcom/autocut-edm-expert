@@ -1,6 +1,6 @@
 {
-  "version": "3.5.49",
-  "buildTimestamp": 1793420000000,
-  "releaseDate": "2026-10-31",
-  "description": "Phân tách tính riêng thép SCM420 (HB<200) và SCM440 (28-32HRC) trong Tab 3: đồng bộ công thức Ampe thực tế theo Tab 2 và hiệu chỉnh hệ số xỉ SCM420 về 0.80x giúp tăng độ nhạy cào phôi."
+  "version": "3.5.50",
+  "buildTimestamp": 1793776000000,
+  "releaseDate": "2026-11-04",
+  "description": "Tích hợp bài cắt thực nghiệm STT 22 (H=12mm SCM420 chày, Ton=16, Po=6, IP=3, Volt=Low, VF=60, 150Hz, Offset chuẩn 0.095mm, Ampe 2.5-2.7A) vào Data Bank và Thư viện Tab 2."
 }

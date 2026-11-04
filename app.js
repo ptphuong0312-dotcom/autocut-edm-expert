@@ -1472,6 +1472,33 @@ function initApp() {
                   },
                   "notes": "Nhập test 0.118mm -> Cắt lấy cối: Kích thước chuẩn luôn 100%. OFFSET CHUẨN = 0.118mm (Khe hở δ = 0.028mm). Chế độ điện H=90mm, Ton=80, Po=7, IP=4, VF=54, giới hạn 150Hz, Ampe=3.5-3.6A, Fc=50-60mm²/p."
         },
+        {
+                  "id": "STT 22",
+                  "name": "SCM420 (HB<200) | H=12mm | 1 Lần",
+                  "materialName": "SCM420 (HB<200)",
+                  "thickness": 12,
+                  "cutLength": "--",
+                  "passCount": 1,
+                  "params": {
+                            "ti": 16,
+                            "Po": 6,
+                            "IP": 3,
+                            "wire": 1,
+                            "Voltage": "Low",
+                            "VF": 60,
+                            "maxSpeed": "150Hz"
+                  },
+                  "measured": {
+                            "totalTimeStr": "--",
+                            "ammeterA": "2,5A - 2,7A",
+                            "measuredSpeed": "--",
+                            "enteredOffset": 0.095,
+                            "standardOffset": 0.095,
+                            "sparkGap": "0.005",
+                            "tolerance": "Cắt lấy chày: Kích thước chuẩn luôn"
+                  },
+                  "notes": "Nhập test 0.095mm -> Cắt lấy chày: Kích thước chuẩn luôn 100%. OFFSET CHUẨN = 0.095mm (Khe hở δ = 0.005mm). Chế độ điện H=12mm SCM420, Ton=16, Po=6, IP=3, Volt=Low, VF=60, giới hạn 150Hz, Ampe=2.5-2.7A."
+        },
 {
                 "id": "2P-02",
                 "name": "SCM420 | H=63mm | 2 Lần (Cấp 6)",
@@ -3551,7 +3578,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.5.49";
+    const CURRENT_VERSION = "3.5.50";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -3701,6 +3728,8 @@ function initApp() {
                 1: [
                                         // H=12 (Quy đổi từ Pass 1 bài cắt 5P-01 có đo kiểm vách P1)
                     { H: 12, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 20, Toff: 5, IP: 3, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,101", actualOffset: "0,101", calcOffset: "0,0978", length: "128mm", actualTime: "19p50'", calcTime: "19p50'", actualAmpe: "4A", calcAmpe: "3.2A", actualSpeed: "275-285 mm²/p", calcSpeedH40: "258 mm²/p" }] },
+                    // H=12 (SCM420, STT 22 - Cắt chày 1 Pass Volt Low)
+                    { H: 12, material: "HB<200", passes: [{ Ton: 16, Toff: 6, IP: 3, Wire: 1, Volt: "L", VF: 60, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,1026", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,5A - 2,7A", calcAmpe: "2.3A", actualSpeed: "--", calcSpeedH40: "147 mm²/p" }] },
                     { H: 30, material: "30HRC", passes: [{ Ton: 32, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "200Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0975", length: "30mm", actualTime: "8p40'", calcTime: "8p42'", actualAmpe: "4,45A - 4,5A", calcAmpe: "4.3A", actualSpeed: "165-175 mm²/p", calcSpeedH40: "138 mm²/p" }] },
                     { H: 40, material: "30HRC", passes: [{ Ton: 36, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0961", length: "30mm", actualTime: "9p36'", calcTime: "9p36'", actualAmpe: "4,35A - 4,4A", calcAmpe: "4.3A", actualSpeed: "130-140 mm²/p", calcSpeedH40: "125 mm²/p" }] },
                     { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0976", length: "27mm", actualTime: "14p20'", calcTime: "14p24'", actualAmpe: "4,1A - 4,2A", calcAmpe: "4.0A", actualSpeed: "75-85 mm²/p", calcSpeedH40: "75 mm²/p" }] },

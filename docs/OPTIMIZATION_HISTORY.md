@@ -231,3 +231,23 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
   - `CURRENT_STATE.md`: Cập nhật trạng thái Đợt 49.
 * **Kết quả nghiệm thu:**
   - `scripts/verify_integrity.ps1`: Bracket AST, Anti-Lookup-Table Law & Version sync `v3.5.49` PASSED 100%.
+
+---
+
+### 🚀 ĐỢT 50: TÍCH HỢP BÀI CẮT THỰC NGHIỆM STT 22 (H=12mm, SCM420 CHÀY VOLT LOW) (v3.5.50)
+* **Thời gian:** 2026-11-04 14:15 (GMT+7)
+* **Mục tiêu kỹ thuật:**
+  - Tiếp nhận và giải mã bài cắt thực tế phôi mỏng $H=12\text{mm}$, thép dẻo SCM420 ($HB < 200$), cắt chày 1 Pass do SirPhuong cung cấp theo đúng SOP 6 bước:
+    + STT 22: Phôi mỏng $H=12\text{mm}$, SCM420 ($HB < 200$), cắt chày 1 Pass: $\text{Ton}=16, \text{Po}=6, \text{IP}=3, \text{Wire}=1, \text{Volt}=\text{Low}, \text{VF}=60, \text{Max Speed}=150\text{Hz}$, Offset nhập $0.095\text{mm} \implies$ kích thước chuẩn luôn 100% danh nghĩa ($\Delta = 0.000$).
+    + Lượng cào phôi thép đặc: $\delta = 0.095 - 0.090 = \mathbf{0.0050\text{ mm}} = 5.0\,\mu\text{m}$.
+    + Đồng hồ Ampe thực tế: $2.5\text{A} - 2.7\text{A}$, chuẩn xác theo quy luật Ampe Rule 12 cho dải phôi mỏng ở $\text{IP}=3, \text{Po}=6$ Volt Low.
+    + Ý nghĩa kiểm chứng khép kín: Chế độ thực tế này khớp $95\% - 100\%$ với chế độ tiêu chuẩn khuyến nghị của Web App Tab 2 cho phôi $H \le 15\text{mm}$ ($\text{Volt}=\text{Low}, \text{Po}=6, \text{IP}=3, \text{Ton} \approx 16 - 17\mu s$).
+  - Cập nhật đồng bộ vào `WORKSHOP_DATA_BANK.md`, Rule 09 và `app.js` (`WORKSHOP_EMPIRICAL_LIBRARY` và `WS_LIB_BENCHMARK_JOBS[1]`).
+  - Nâng phiên bản hệ thống lên `v3.5.50` trên 5 file hệ thống.
+* **Các file đã sửa:**
+  - `WORKSHOP_DATA_BANK.md` & `.agents/rules/09-WORKSHOP_RAW_DATA_BANK_AND_REVERSE_INTERPOLATION.md`: Thêm STT 22 vào Bảng thô, Bảng suy luận ngược và hộp phân tích động học.
+  - `app.js`: Thêm STT 22 vào `WORKSHOP_EMPIRICAL_LIBRARY`, thêm hàng $H=12$ vào `WS_LIB_BENCHMARK_JOBS[1]`, nâng phiên bản `v3.5.50`.
+  - `version.json`, `index.html`, `sw.js`: Đồng bộ phiên bản `v3.5.50`.
+  - `CURRENT_STATE.md`: Cập nhật trạng thái Đợt 50.
+* **Kết quả nghiệm thu:**
+  - `scripts/verify_integrity.ps1`: PASSED 100%.

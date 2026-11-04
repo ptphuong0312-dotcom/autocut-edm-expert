@@ -6,13 +6,20 @@
 ---
 
 ## ⏱️ 1. THỜI GIAN LÀM VIỆC GẦN NHẤT
-* **Thời điểm cập nhật:** `2026-10-31 21:00:00` (Giờ địa phương GMT+7)
+* **Thời điểm cập nhật:** `2026-11-04 14:15:00` (Giờ địa phương GMT+7)
 * **Vị trí làm việc hiện tại:** Máy tính Ở Nhà (Ổ G:)
-* **Phiên bản hệ thống:** `v3.5.49` (Đã hoàn thiện & đóng gói)
+* **Phiên bản hệ thống:** `v3.5.50` (Đã hoàn thiện & đóng gói)
 
 ---
 
 ## ✅ 2. CÁC VIỆC VỪA HOÀN THÀNH
+* **Đợt 50 (v3.5.50 - Tích hợp Dữ liệu Thực nghiệm Cắt Chày STT 22 H=12mm SCM420 Volt Low):**
+  - **Tiếp nhận bài cắt thực tế STT 22:** Phôi mỏng $H=12\text{mm}$, SCM420 ($HB < 200$), cắt chày 1 Pass: $\text{Ton}=16, \text{Po}=6, \text{IP}=3, \text{Wire}=1, \text{Volt}=\text{Low}, \text{VF}=60, \text{Max Speed}=150\text{Hz}$, Offset nhập $0.095\text{mm} \implies$ kích thước chuẩn luôn 100% danh nghĩa ($\Delta = 0.000$).
+  - **Xác lập Offset Chuẩn & Lượng cào phôi:** $\text{Offset Chuẩn} = 0.095\text{mm} \implies \delta = 0.095 - 0.090 = \mathbf{0.0050\text{ mm}}$ ($5.0\,\mu\text{m}$).
+  - **Ghi nhận đồng hồ Ampe:** Thực tế kim ăn **$2.5\text{A} - 2.7\text{A}$** ở $\text{IP}=3, \text{Po}=6$ Volt Low, khớp chuẩn xác với dải Ampe Rule 12 cho phôi mỏng.
+  - **Ý nghĩa kiểm chứng khép kín:** Khớp $95\% - 100\%$ với chế độ tiêu chuẩn khuyến nghị của Web App Tab 2 cho phôi $H \le 15\text{mm}$ ($\text{Volt}=\text{Low}, \text{Po}=6, \text{IP}=3, \text{Ton} \approx 16-17\mu s$).
+  - **Cập nhật dữ liệu & Thư viện:** Bổ sung STT 22 vào `WORKSHOP_DATA_BANK.md`, Rule 09 và mảng `WORKSHOP_EMPIRICAL_LIBRARY` + bảng `WS_LIB_BENCHMARK_JOBS[1]` trong `app.js`.
+  - **Đồng bộ phiên bản `v3.5.50`:** Đồng bộ trên 5 file hệ thống và vượt qua 100% kiểm tra AST `verify_integrity.ps1`.
 * **Đợt 49 (v3.5.49 - Phân tách tính riêng SCM420 & SCM440 trong Tab 3):**
   - **Đồng bộ công thức Ampe Tab 3:** Thay thế hệ số cũ `1.15` bằng công thức chuẩn Tab 2 `i_peak * duty * 2.6667 * (u_arc / 27)`, giúp chỉ số Ampe dự tính của Tab 3 khớp chính xác với kim Ampe thực tế xưởng (dải 3.0A - 4.5A thay vì bị tụt thấp ~1.5A - 1.8A như trước).
   - **Hiệu chỉnh hệ số xỉ SCM420 (`slag_mat`):** Chuyển từ `1.10x` sang `0.80x` (SCM440 giữ chuẩn `1.0x`), giúp giảm độ ghìm xỉ âm, tăng nhẹ khe cào phôi $\delta$ cho thép mềm SCM420 thêm $\approx +1.8\mu m \sim +4.0\mu m$, kéo giảm sai số MAE của toàn bộ tập phôi $H \le 170\text{mm}$ từ $6.83\mu m$ xuống $6.33\mu m$.

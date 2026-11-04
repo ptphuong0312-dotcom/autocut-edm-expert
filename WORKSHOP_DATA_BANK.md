@@ -45,6 +45,7 @@ Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên
 | **19** | 1 Lần | SCM420 (HB<200) | 110 | 100 | 10 | 5 | 1 | High | 65 | 150Hz | **0,105** | -- | -- | 2,7A - 2,8A | 30 - 40 | cắt lấy chày : kích thước chuẩn luôn |
 | **20** | 1 Lần | SCM440 (28-32HRC) | 290 | 135 | 10 | 6 | 1 | High | 75 | 50Hz | **0,110** | -- | -- | -- | -- | cắt lấy cối : kích thước chuẩn luôn |
 | **21** | 1 Lần | SCM420 (HB<200) | 90 | 80 | 7 | 4 | 1 | High | 54 | 150Hz | **0,118** | -- | -- | 3,5A - 3,6A | 50 - 60 | cắt lấy cối : kích thước chuẩn luôn |
+| **22** | 1 Lần | SCM420 (HB<200) | 12 | 16 | 6 | 3 | 1 | Low | 60 | 150Hz | **0,095** | -- | -- | 2,5A - 2,7A | -- | cắt lấy chày : kích thước chuẩn luôn |
 
 ---
 
@@ -109,6 +110,7 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 | **19**| **H = 110mm**| Ton=100, Po=10, IP=5, Volt=High, VF=65| 0.105 | Chày chuẩn luôn | 0.0000 | **0.105 mm** | **0.015 mm** | Phôi dày H=110mm cắt chày, Ton=100, Po=10, IP=5 chuẩn kích thước tuyệt đối $\rightarrow \delta=0.015\text{mm}$ |
 | **20**| **H = 290mm**| Ton=135, Po=10, IP=6, Volt=High, VF=75| 0.110 | Cối chuẩn luôn | 0.0000 | **0.110 mm** | **0.020 mm** | Phôi siêu dày H=290mm cắt cối, Ton=135, Po=10, IP=6, VF=75 chuẩn kích thước tuyệt đối $\rightarrow \delta=0.020\text{mm}$ |
 | **21**| **H = 90mm** | Ton=80, Po=7, IP=4, Volt=High, VF=54 | 0.118 | Cối chuẩn luôn | 0.0000 | **0.118 mm** | **0.028 mm** | Phôi trung dày H=90mm SCM420 cắt cối khép kín, Ton=80, Po=7, IP=4 chuẩn kích thước $\rightarrow \delta=0.028\text{mm}$ |
+| **22**| **H = 12mm** | Ton=16, Po=6, IP=3, Volt=Low, VF=60  | 0.095 | Chày chuẩn luôn | 0.0000 | **0.095 mm** | **0.005 mm** | Phôi mỏng H=12mm SCM420 cắt chày, Volt Low, IP=3, Ton=16 xung nhẹ êm $\rightarrow \delta=0.005\text{mm}$ |
 
 > 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 15 (H=160mm, SCM420 - CẮT LẤY CỐI 1 PASS):**
 > * **Bài cắt kiểm định khép kín (Rule 12):** Người dùng sử dụng 100% chế độ điện xuất ra từ Web App Tab 2 ($H=160\text{mm}$, SCM420, Cấp 4): $\text{Ton}=120, \text{Po}=11, \text{IP}=6, \text{Volt}=\text{High}, \text{VF}=70, \text{Giới hạn}=154\text{Hz}$, Offset nhập test ban đầu là $0.107\text{mm}$ (sát mốc tính toán lý thuyết $0.1071\text{mm}$).
@@ -179,6 +181,17 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 > * **Bản chất vật lý của lượng cào phôi (Do chế độ điện quyết định):**
 >   - Lượng cào phôi $\delta = 0.0280\text{ mm}$ ($28.0\,\mu\text{m}$) ở bài cắt này HOÀN TOÀN DO CHẾ ĐỘ ĐIỆN NĂNG LƯỢNG CAO: thời gian phát xung dài $\text{Ton}=80\mu s$ kết hợp $\text{IP}=4$ (4 sò) sinh nhiệt lượng Joule và áp lực bộc phá hố rỗ lớn trong rãnh phôi dày $H=90\text{mm}$.
 >   - Khi cắt 1 Pass, dây Molypden chẻ đôi khối thép đặc nguyên khối, tia lửa phóng vào phôi đặc là hoàn toàn đồng nhất. Lượng cào phôi dày hay mỏng phụ thuộc 100% vào chế độ điện ($\text{Ton}, \text{Po}, \text{IP}, \text{Volt}, \text{VF}$) và chiều dày $H$, tuyệt đối không phụ thuộc vào tên gọi chi tiết lấy cối hay lấy chày!
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 22 (H=12mm, SCM420 - CẮT LẤY CHÀY 1 PASS VOLT LOW):**
+> * **Bài cắt thực nghiệm tại xưởng:** Người dùng cắt phôi mỏng $H=12\text{mm}$, thép dẻo SCM420 ($HB < 200$) với chế độ điện: $\text{Ton}=16, \text{Po}=6, \text{IP}=3, \text{Wire}=1, \text{Volt}=\text{Low}, \text{VF}=60, \text{Giới hạn}=150\text{Hz}$, Offset nhập test ban đầu là $0.095\text{mm}$.
+> * **Kích thước đo sau cắt:** Cắt lấy chày: Kích thước chuẩn luôn $100\%$ không sai lệch danh nghĩa ($\Delta = 0.000$).
+> * **Bù dao Chuẩn & Lượng cào phôi:**
+>   $$\mathbf{\text{Offset}_{\text{chuẩn}}} = \mathbf{0.095\text{ mm}}$$
+>   $$\mathbf{\delta} = 0.095 - 0.090 = \mathbf{0.005\text{ mm}} \quad (5.0\,\mu\text{m})$$
+> * **Đồng hồ Ampe:** Thực tế kim ăn **$2.5\text{A} - 2.7\text{A}$** (ở $\text{IP}=3, \text{Po}=6$, chế độ Volt Low cho hồ quang êm dịu, chuẩn xác theo quy luật Ampe Rule 12 cho dải phôi mỏng).
+> * **Ý nghĩa công nghệ của bài cắt Volt Low $H=12\text{mm}$ (SCM420):**
+>   - Đây là bài cắt 1 Pass đầu tiên tại xưởng kiểm chứng chế độ **Volt Low** trên phôi mỏng thép dẻo SCM420 với $\text{Ton}=16\mu s$ (xung ngắn) và $\text{IP}=3$. Năng lượng xung đơn nhỏ giúp tia lửa rất mịn, sục rửa sạch mùn xỉ, cho lượng cào phôi bề mặt cực kỳ tinh gọn: $\delta = \mathbf{0.005\text{ mm}}$ ($5.0\,\mu\text{m}$).
+>   - Bộ thông số này khớp $95\% - 100\%$ với chế độ tiêu chuẩn khuyến nghị của Web App Tab 2 cho phôi $H \le 15\text{mm}$ ($\text{Volt}=\text{Low}, \text{Po}=6, \text{IP}=3, \text{Ton} \approx 16 - 17\mu s$), minh chứng tính chính xác và độ tin cậy thực chiến của hệ thống.
 
 ---
 
