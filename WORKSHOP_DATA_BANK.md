@@ -46,6 +46,7 @@ Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên
 | **20** | 1 Lần | SCM440 (28-32HRC) | 290 | 135 | 10 | 6 | 1 | High | 75 | 50Hz | **0,110** | -- | -- | -- | -- | cắt lấy cối : kích thước chuẩn luôn |
 | **21** | 1 Lần | SCM420 (HB<200) | 90 | 80 | 7 | 4 | 1 | High | 54 | 150Hz | **0,118** | -- | -- | 3,5A - 3,6A | 50 - 60 | cắt lấy cối : kích thước chuẩn luôn |
 | **22** | 1 Lần | SCM420 (HB<200) | 12 | 16 | 6 | 3 | 1 | Low | 60 | 150Hz | **0,095** | -- | -- | 2,5A - 2,7A | -- | cắt lấy chày : kích thước chuẩn luôn |
+| **23** | 1 Lần | SCM420 (HB<200) | 200 | 120 | 10 | 6 | 1 | High | 65 | 60Hz | **0,108** | -- | -- | -- | -- | cắt lấy cối : kích thước chuẩn luôn |
 
 ---
 
@@ -111,6 +112,7 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 | **20**| **H = 290mm**| Ton=135, Po=10, IP=6, Volt=High, VF=75| 0.110 | Cối chuẩn luôn | 0.0000 | **0.110 mm** | **0.020 mm** | Phôi siêu dày H=290mm cắt cối, Ton=135, Po=10, IP=6, VF=75 chuẩn kích thước tuyệt đối $\rightarrow \delta=0.020\text{mm}$ |
 | **21**| **H = 90mm** | Ton=80, Po=7, IP=4, Volt=High, VF=54 | 0.118 | Cối chuẩn luôn | 0.0000 | **0.118 mm** | **0.028 mm** | Phôi trung dày H=90mm SCM420 cắt cối khép kín, Ton=80, Po=7, IP=4 chuẩn kích thước $\rightarrow \delta=0.028\text{mm}$ |
 | **22**| **H = 12mm** | Ton=16, Po=6, IP=3, Volt=Low, VF=60  | 0.095 | Chày chuẩn luôn | 0.0000 | **0.095 mm** | **0.005 mm** | Phôi mỏng H=12mm SCM420 cắt chày, Volt Low, IP=3, Ton=16 xung nhẹ êm $\rightarrow \delta=0.005\text{mm}$ |
+| **23**| **H = 200mm**| Ton=120, Po=10, IP=6, Volt=High, VF=65| 0.108 | Cối chuẩn luôn | 0.0000 | **0.108 mm** | **0.018 mm** | Phôi siêu dày H=200mm SCM420 cắt cối, Ton=120, Po=10, IP=6, VF=65, 60Hz chuẩn kích thước tuyệt đối $\rightarrow \delta=0.018\text{mm}$ |
 
 > 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 15 (H=160mm, SCM420 - CẮT LẤY CỐI 1 PASS):**
 > * **Bài cắt kiểm định khép kín (Rule 12):** Người dùng sử dụng 100% chế độ điện xuất ra từ Web App Tab 2 ($H=160\text{mm}$, SCM420, Cấp 4): $\text{Ton}=120, \text{Po}=11, \text{IP}=6, \text{Volt}=\text{High}, \text{VF}=70, \text{Giới hạn}=154\text{Hz}$, Offset nhập test ban đầu là $0.107\text{mm}$ (sát mốc tính toán lý thuyết $0.1071\text{mm}$).
@@ -192,6 +194,17 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 > * **Ý nghĩa công nghệ của bài cắt Volt Low $H=12\text{mm}$ (SCM420):**
 >   - Đây là bài cắt 1 Pass đầu tiên tại xưởng kiểm chứng chế độ **Volt Low** trên phôi mỏng thép dẻo SCM420 với $\text{Ton}=16\mu s$ (xung ngắn) và $\text{IP}=3$. Năng lượng xung đơn nhỏ giúp tia lửa rất mịn, sục rửa sạch mùn xỉ, cho lượng cào phôi bề mặt cực kỳ tinh gọn: $\delta = \mathbf{0.005\text{ mm}}$ ($5.0\,\mu\text{m}$).
 >   - Bộ thông số này khớp $95\% - 100\%$ với chế độ tiêu chuẩn khuyến nghị của Web App Tab 2 cho phôi $H \le 15\text{mm}$ ($\text{Volt}=\text{Low}, \text{Po}=6, \text{IP}=3, \text{Ton} \approx 16 - 17\mu s$), minh chứng tính chính xác và độ tin cậy thực chiến của hệ thống.
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 23 (H=200mm, SCM420 - CẮT LẤY CỐI 1 PASS PHÔI SIÊU DÀY):**
+> * **Bài cắt thực nghiệm tại xưởng:** Người dùng cắt phôi siêu dày $H=200\text{mm}$, thép dẻo SCM420 ($HB < 200$) với chế độ điện: $\text{Ton}=120, \text{Po}=10, \text{IP}=6, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=65, \text{Giới hạn}=60\text{Hz}$, Offset nhập test là $0.108\text{mm}$.
+> * **Kích thước đo sau cắt:** Cắt lấy cối: Kích thước chuẩn luôn $100\%$ không sai lệch danh nghĩa ($\Delta = 0.000$).
+> * **Bù dao Chuẩn & Lượng cào phôi:**
+>   $$\mathbf{\text{Offset}_{\text{chuẩn}}} = \mathbf{0.108\text{ mm}}$$
+>   $$\mathbf{\delta} = 0.108 - 0.090 = \mathbf{0.018\text{ mm}} \quad (18.0\,\mu\text{m})$$
+> * **Bản chất động lực học Servo & VF ở phôi siêu dày $H=200\text{mm}$ (SCM420):**
+>   - Ở phôi siêu dày $H=200\text{mm}$, xưởng cài đặt $\text{VF}=65$ để tăng độ nhạy phản hồi điện áp servo theo dõi khe hở trong lòng rãnh sâu, kết hợp tần số hãm giới hạn $\text{Max Speed}=60\text{Hz}$ giúp bàn máy tiến cực kỳ điềm tĩnh, triệt tiêu rung giật và chống nghẹt phoi đoản mạch.
+>   - Khớp nối tuyệt hảo với Kiến trúc Phân vùng Kép (Rule 17): Tại $H=200\text{mm}$, thuật toán thống kê hội tụ xưởng dự tính $\text{Offset}_{\text{calc}} \approx 0.1102\text{mm} \implies \delta_{\text{calc}} \approx 20.2\,\mu\text{m}$. Sai số giữa lý thuyết và số đo thực tế xưởng ($0.108\text{mm}$) chỉ vỏn vẹn **$2.2\,\mu\text{m}$**, chứng minh mô hình hội tụ phôi siêu dày của phần mềm đạt độ chính xác thực chiến tuyệt vời!
+>   - Dữ liệu này tiếp tục củng cố vững chắc chỉ thị của SirPhuong: Dù cắt lấy cối, $\delta$ của phôi $H=200\text{mm}$ chỉ là $18.0\,\mu\text{m}$, hoàn toàn do chế độ điện $\text{Po}=10, \text{VF}=65, \text{Max Speed}=60\text{Hz}$ hãm bàn máy và kiểm soát hồ quang êm dịu.
 
 ---
 

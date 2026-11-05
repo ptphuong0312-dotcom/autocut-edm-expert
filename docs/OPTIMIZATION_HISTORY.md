@@ -251,3 +251,23 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
   - `CURRENT_STATE.md`: Cập nhật trạng thái Đợt 50.
 * **Kết quả nghiệm thu:**
   - `scripts/verify_integrity.ps1`: PASSED 100%.
+
+---
+
+### 🚀 ĐỢT 51: TÍCH HỢP BÀI CẮT THỰC NGHIỆM STT 23 (H=200mm, SCM420 CỐI PHÔI SIÊU DÀY) (v3.5.51)
+* **Thời gian:** 2026-11-05 13:35 (GMT+7)
+* **Mục tiêu kỹ thuật:**
+  - Tiếp nhận và giải mã bài cắt thực tế phôi siêu dày $H=200\text{mm}$, thép dẻo SCM420 ($HB < 200$), cắt cối 1 Pass do SirPhuong cung cấp theo đúng SOP 6 bước:
+    + STT 23: Phôi siêu dày $H=200\text{mm}$, SCM420 ($HB < 200$), cắt cối 1 Pass: $\text{Ton}=120, \text{Po}=10, \text{IP}=6, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=65, \text{Max Speed}=60\text{Hz}$, Offset nhập $0.108\text{mm} \implies$ kích thước chuẩn luôn 100% danh nghĩa ($\Delta = 0.000$).
+    + Lượng cào phôi thép đặc: $\delta = 0.108 - 0.090 = \mathbf{0.0180\text{ mm}} = 18.0\,\mu\text{m}$.
+    + Kiểm chứng Kiến trúc Phân vùng Kép (Rule 17): Tại $H=200\text{mm}$, thuật toán thống kê hội tụ xưởng dự tính $\text{Offset}_{\text{calc}} \approx 0.1102\text{mm} \implies \delta_{\text{calc}} \approx 20.2\,\mu\text{m}$. Sai số giữa lý thuyết và số đo thực tế xưởng ($0.108\text{mm}$) chỉ vỏn vẹn **$2.2\,\mu\text{m}$**, chứng minh mô hình hội tụ phôi siêu dày của phần mềm đạt độ chính xác thực chiến tuyệt vời!
+    + Tiếp tục củng cố Chỉ thị Vật lý của SirPhuong: Cùng cắt cối, $H=200\text{mm}$ có $\delta = 18.0\,\mu\text{m}$ (nhỏ hơn $H=90\text{mm}$ cào $28.0\,\mu\text{m}$) vì chạy $\text{Po}=10, \text{VF}=65, \text{Max Speed}=60\text{Hz}$ hãm bàn máy và kiểm soát hồ quang êm dịu.
+  - Cập nhật đồng bộ vào `WORKSHOP_DATA_BANK.md`, Rule 09 và `app.js` (`WORKSHOP_EMPIRICAL_LIBRARY` và `WS_LIB_BENCHMARK_JOBS[1]`).
+  - Nâng phiên bản hệ thống lên `v3.5.51` trên 5 file hệ thống.
+* **Các file đã sửa:**
+  - `WORKSHOP_DATA_BANK.md` & `.agents/rules/09-WORKSHOP_RAW_DATA_BANK_AND_REVERSE_INTERPOLATION.md`: Thêm STT 23 vào Bảng thô, Bảng suy luận ngược và hộp phân tích động học.
+  - `app.js`: Thêm STT 23 vào `WORKSHOP_EMPIRICAL_LIBRARY`, thêm hàng $H=200$ vào `WS_LIB_BENCHMARK_JOBS[1]`, nâng phiên bản `v3.5.51`.
+  - `version.json`, `index.html`, `sw.js`: Đồng bộ phiên bản `v3.5.51`.
+  - `CURRENT_STATE.md`: Cập nhật trạng thái Đợt 51.
+* **Kết quả nghiệm thu:**
+  - `scripts/verify_integrity.ps1`: PASSED 100%.

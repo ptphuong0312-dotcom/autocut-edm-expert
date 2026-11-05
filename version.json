@@ -1,6 +1,6 @@
 {
-  "version": "3.5.50",
-  "buildTimestamp": 1793776000000,
-  "releaseDate": "2026-11-04",
-  "description": "Tích hợp bài cắt thực nghiệm STT 22 (H=12mm SCM420 chày, Ton=16, Po=6, IP=3, Volt=Low, VF=60, 150Hz, Offset chuẩn 0.095mm, Ampe 2.5-2.7A) vào Data Bank và Thư viện Tab 2."
+  "version": "3.5.51",
+  "buildTimestamp": 1793860000000,
+  "releaseDate": "2026-11-05",
+  "description": "Tích hợp bài cắt thực nghiệm STT 23 (H=200mm SCM420 cối, Ton=120, Po=10, IP=6, Volt=High, VF=65, 60Hz, Offset chuẩn 0.108mm, delta=18um) vào Data Bank và Thư viện Tab 2."
 }

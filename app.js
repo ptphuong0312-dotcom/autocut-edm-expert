@@ -1499,6 +1499,33 @@ function initApp() {
                   },
                   "notes": "Nhập test 0.095mm -> Cắt lấy chày: Kích thước chuẩn luôn 100%. OFFSET CHUẨN = 0.095mm (Khe hở δ = 0.005mm). Chế độ điện H=12mm SCM420, Ton=16, Po=6, IP=3, Volt=Low, VF=60, giới hạn 150Hz, Ampe=2.5-2.7A."
         },
+        {
+                  "id": "STT 23",
+                  "name": "SCM420 (HB<200) | H=200mm | 1 Lần",
+                  "materialName": "SCM420 (HB<200)",
+                  "thickness": 200,
+                  "cutLength": "--",
+                  "passCount": 1,
+                  "params": {
+                            "ti": 120,
+                            "Po": 10,
+                            "IP": 6,
+                            "wire": 1,
+                            "Voltage": "High",
+                            "VF": 65,
+                            "maxSpeed": "60Hz"
+                  },
+                  "measured": {
+                            "totalTimeStr": "--",
+                            "ammeterA": "--",
+                            "measuredSpeed": "--",
+                            "enteredOffset": 0.108,
+                            "standardOffset": 0.108,
+                            "sparkGap": "0.018",
+                            "tolerance": "Cắt lấy cối: Kích thước chuẩn luôn"
+                  },
+                  "notes": "Nhập test 0.108mm -> Cắt lấy cối: Kích thước chuẩn luôn 100%. OFFSET CHUẨN = 0.108mm (Khe hở δ = 0.018mm). Chế độ điện H=200mm SCM420, Ton=120, Po=10, IP=6, Volt=High, VF=65, giới hạn 60Hz."
+        },
 {
                 "id": "2P-02",
                 "name": "SCM420 | H=63mm | 2 Lần (Cấp 6)",
@@ -3578,7 +3605,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.5.50";
+    const CURRENT_VERSION = "3.5.51";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -3746,6 +3773,7 @@ function initApp() {
                     { H: 160, material: "HB<200", passes: [{ Ton: 120, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "154Hz", offset: "0,120", actualOffset: "0,120", calcOffset: "0,1071", length: "32,3mm", actualTime: "59p", calcTime: "57p", actualAmpe: "2,8A - 3A", calcAmpe: "3.2A", actualSpeed: "18-28 mm²/p", calcSpeedH40: "23 mm²/p" }] },
                     // H=165 (Quy đổi từ Pass 1 bài cắt 2P-12 có đo kiểm vách P1)
                     { H: 165, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,1125", actualOffset: "0,1125", calcOffset: "0,1087", length: "43,6mm", actualTime: "1h17'", calcTime: "1h16p", actualAmpe: "2,8A - 3,0A", calcAmpe: "3.2A", actualSpeed: "15-35 mm²/p", calcSpeedH40: "23 mm²/p" }] },
+                    { H: 200, material: "HB<200", passes: [{ Ton: 120, Toff: 10, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "60Hz", offset: "0,108", actualOffset: "0,108", calcOffset: "0,1102", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "--", calcAmpe: "3.7A", actualSpeed: "--", calcSpeedH40: "20 mm²/p" }] },
                                         { H: 290, material: "30HRC", passes: [{ Ton: 135, Toff: 10, IP: 6, Wire: 1, Volt: "H", VF: 75, maxSpeed: "50Hz", offset: "0,110", actualOffset: "0,110", calcOffset: "0,1145", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "--", calcAmpe: "3.5A", actualSpeed: "--", calcSpeedH40: "18 mm²/p" }] },
                     { H: 300, material: "30HRC", passes: [{ Ton: 120, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "50Hz", offset: "0,115", actualOffset: "0,115", calcOffset: "0,115", length: "76,1mm", actualTime: "3h", calcTime: "2h59p", actualAmpe: "3,7A - 3,9A", calcAmpe: "3.8A", actualSpeed: "12-20 mm²/p", calcSpeedH40: "17 mm²/p" }] }
                 ],
