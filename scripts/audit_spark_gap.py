@@ -15,9 +15,13 @@ K_VIBR = 0.00390
 K_VF = 0.00210
 K_PO = 0.00120
 
+K_SEC = 0.00400
+S_THRESH = 0.20
+
 def calc_gap(H, Ton, Po, IP, Volt, VF, mat='SCM440'):
     isHard = (mat == 'SCM440' or mat == '30HRC')
     sm = 1.0 if isHard else 0.80
+    km = 1.0 if isHard else 1.25
     if H <= 170:
         u_ratio = 1.0 if (Volt == 'High' or Volt == 'H') else (22.0 / 27.0)
         d_elec = K_ELEC * math.sqrt(Ton * IP) * u_ratio
@@ -27,7 +31,10 @@ def calc_gap(H, Ton, Po, IP, Volt, VF, mat='SCM440'):
         d_vibr = K_VIBR * math.pow(H / 100.0, 2) * (IP / 5.0)
         d_vf = K_VF * ((VF - 55.0) / 10.0)
         d_po = - K_PO * ((Po - 5.0) / 10.0)
-        return C0 + d_elec + d_low + d_slag + d_vibr + d_vf + d_po
+        
+        s_raw = ((Ton * IP) / (Po * 25.0)) * (H / 100.0) * km
+        d_sec = (K_SEC * (s_raw - S_THRESH)) / (1.0 + 1.5 * math.pow(H / 100.0, 2)) if s_raw > S_THRESH else 0.0
+        return C0 + d_elec + d_low + d_slag + d_vibr + d_vf + d_po + d_sec
     else:
         gap170 = C0 + (K_ELEC * math.sqrt(Ton * IP) * 1.0) + (- K_SLAG * 1.70 * sm / max(1.0, IP / 4.0)) + (K_VIBR * math.pow(1.70, 2) * (IP / 5.0))
         gapBase = gap170 + (H - 170) * (0.0250 - gap170) / (300 - 170)
@@ -59,7 +66,7 @@ dataset = [
 ]
 
 print("=" * 115)
-print("BẢNG KIỂM ĐỊNH LƯỢNG CÀO PHÔI: CÔNG THỨC TOÁN - VẬT LÝ VS THỰC NGHIỆM XƯỞNG (v3.5.52)")
+print("BẢNG KIỂM ĐỊNH LƯỢNG CÀO PHÔI: CÔNG THỨC TOÁN - VẬT LÝ VS THỰC NGHIỆM XƯỞNG (v3.5.53)")
 print("=" * 115)
 print(f"| {'STT':<8} | {'Nhóm':<20} | {'H':>3} | {'Thép':<6} | {'Ton':>3} | {'Po':>2} | {'IP':>2} | {'Volt':<4} | {'VF':>2} | {'delta_thực':>10} | {'delta_tính':>10} | {'Sai lệch':>10} | {'O_chuẩn':>8} |")
 print("|" + "-"*10 + "|" + "-"*22 + "|" + "-"*5 + "|" + "-"*8 + "|" + "-"*5 + "|" + "-"*4 + "|" + "-"*4 + "|" + "-"*6 + "|" + "-"*4 + "|" + "-"*12 + "|" + "-"*12 + "|" + "-"*12 + "|" + "-"*10 + "|")

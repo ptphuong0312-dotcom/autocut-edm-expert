@@ -204,12 +204,15 @@ F:\Antigravity\Cat Day EDM 1\ (hoặc D:\OneDrive\Antigravity\Cat_Day_EDM\)
 $$I_{\text{tb}} = \frac{6.4 \times \text{IP}}{1 + P_o} \times k_{\text{ampe}} \quad (\text{với } k_{\text{ampe}} = 2.2857 \text{ cho SCM440 và } 2.8571 \text{ cho SCM420})$$
 
 ### C. Lượng cào phôi bề mặt liên tục $\delta$ ($H \le 170\text{mm}$):
-$$\delta = C_0 + d_{\text{elec}} + d_{\text{low}} + d_{\text{slag}} + d_{\text{vibr}}$$
-* $C_0 = 0.0050\text{mm}$ (Khoảng cách tia lửa hồ quang mồi ban đầu).
-* $d_{\text{elec}} = K_{\text{elec}} \times \sqrt[3]{T_{\text{on}} \times \text{IP} \times U_{\text{arc}}}$ (Năng lượng nổ bộc phá xung đơn).
-* $d_{\text{low}} = 0.0045\text{mm}$ nếu $\text{Volt} = \text{Low}$ (Hiệu ứng màng đệm điện môi nén chặt).
-* $d_{\text{slag}} = K_{\text{slag}} \times \left(\frac{H}{100}\right)^{1.35} \times K_{\text{mat}}$ (Áp lực nén và đánh lửa thứ cấp do tích tụ mùn xỉ).
-* $d_{\text{vibr}} = K_{\text{vibr}} \times \left(\frac{H}{100}\right)^{1.8}$ (Rung võng cơ học dây Molypden giữa 2 đầu dẫn hướng).
+$$\delta = C_0 + d_{\text{elec}} + d_{\text{low}} + d_{\text{slag}} + d_{\text{vibr}} + d_{\text{vf}} + d_{\text{po}} + d_{\text{sec}}$$
+* $C_0 = 0.00360\text{mm}$ (Hằng số màng cách điện ion hóa ban đầu).
+* $d_{\text{elec}} = K_{\text{elec}} \times \sqrt{T_{\text{on}} \times \text{IP}} \times U_{\text{ratio}}$ (Năng lượng nổ bộc phá xung đơn).
+* $d_{\text{low}} = 0.00450\text{mm}$ nếu $\text{Volt} = \text{Low}$ (Hiệu ứng màng đệm điện môi nén chặt khi cắt hạ áp).
+* $d_{\text{slag}} = - K_{\text{slag}} \times \left(\frac{H}{100}\right) \times \frac{K_{\text{mat\_slag}}}{\max(1, \text{IP}/4)}$ (Áp lực nghẽn xỉ lòng rãnh sâu, SCM440 $1.0\times$ vs SCM420 $0.80\times$).
+* $d_{\text{vibr}} = K_{\text{vibr}} \times \left(\frac{H}{100}\right)^2 \times \left(\frac{\text{IP}}{5}\right)$ (Rung võng cơ học dây Molypden giữa 2 đầu dẫn hướng).
+* $d_{\text{vf}} = K_{\text{vf}} \times \left(\frac{\text{VF} - 55}{10}\right)$ (Bù trễ bước tiến servo và thời gian ngâm dây).
+* $d_{\text{po}} = - K_{\text{po}} \times \left(\frac{P_o - 5}{10}\right)$ (Hiệu ứng xả sạch phoi hay đọng xỉ theo chu kỳ nghỉ).
+* $d_{\text{sec}} = K_{\text{sec}} \times \frac{s_{\text{raw}} - S_{\text{thresh}}}{1.0 + 1.5 \times (H/100)^2}$ nếu $s_{\text{raw}} > S_{\text{thresh}}$ (Đánh lửa thứ cấp do tích tụ mùn xỉ trong khe hẹp, $K_{\text{sec}} = 0.00400\text{mm}, S_{\text{thresh}} = 0.20, K_{\text{mat\_sec}} = 1.0$ cho SCM440 và $1.25$ cho SCM420).
 
 ### D. Bù dao Offset:
 * Cắt 1 Pass: $\text{Offset}_{1\text{P}} = R_{\text{wire}} + \delta = 0.090 + \delta$.

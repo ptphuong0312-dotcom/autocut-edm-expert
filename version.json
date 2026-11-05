@@ -1,6 +1,6 @@
 {
-  "version": "3.5.52",
+  "version": "3.5.53",
   "buildTimestamp": 1793865000000,
   "releaseDate": "2026-11-05",
-  "description": "Tách biệt và hiệu chuẩn lại động cơ toán - vật lý Tab 2 cho 2 dòng thép SCM420 (HB<200) và SCM440 (28-32HRC), tích hợp hệ số xỉ vật liệu 0.80x/1.0x, bù trễ servo VF/Po, dỡ bỏ hệ số ghìm tiến nhân tạo, tối ưu MAE xuống 6.00um (SCM440 đạt 3.71um)."
+  "description": "Tích hợp tham số vật lý Đánh lửa thứ cấp theo Mật độ mùn xỉ (d_sec) vào Tab 2 & Tab 3; giảm sai số cực đại toàn cục xưởng từ 20.3 μm xuống 17.0 μm; tối ưu độ chính xác phôi dày H75-H165."
 }

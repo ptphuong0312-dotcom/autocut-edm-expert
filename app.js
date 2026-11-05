@@ -2198,6 +2198,8 @@ function initApp() {
         const K_RZ = 0.00120;        // Hệ số chiều sâu hố rỗ nhấp nhô phá thô Pass 1
         const K_VF = 0.00210;        // Hệ số bù trễ bước tiến VF (+2.10 μm / 10 vạch VF so với chuẩn 55)
         const K_PO = 0.00120;        // Hệ số chu kỳ & xả xỉ Po (mm / 10 nấc Po lệch so với chuẩn 5)
+        const K_SEC = 0.00400;       // Hệ số đánh lửa thứ cấp theo mật độ mùn xỉ tích tụ (mm)
+        const S_THRESH = 0.20;       // Ngưỡng mật độ mùn xỉ kích hoạt đánh lửa thứ cấp
         const slag_mat = isHard ? 1.0 : 0.80; // SCM420 phoi bết dính nhưng cào thoáng hơn (+1.8 - 4μm), giảm độ ghìm xỉ
 
         // 1. Hệ thống Quy luật Vật lý Biến đổi Mượt mà & 4 Dải Ampe Tiêu Chuẩn (Rule 12)
@@ -2293,7 +2295,10 @@ function initApp() {
             const d_vibr_base = K_VIBR * Math.pow(H / 100.0, 2) * (baseIP / 5.0);
             const d_vf_base = K_VF * ((baseVF - 55.0) / 10.0);
             const d_po_base = - K_PO * ((basePo - 5.0) / 10.0);
-            baseGap = C0 + d_elec_base + d_low_base + d_slag_base + d_vibr_base + d_vf_base + d_po_base;
+            const s_mat_base = isHard ? 1.0 : 1.25;
+            const s_raw_base = ((baseTon * baseIP) / (basePo * 25.0)) * (H / 100.0) * s_mat_base;
+            const d_sec_base = s_raw_base > S_THRESH ? (K_SEC * (s_raw_base - S_THRESH)) / (1.0 + 1.5 * Math.pow(H / 100.0, 2)) : 0.0;
+            baseGap = C0 + d_elec_base + d_low_base + d_slag_base + d_vibr_base + d_vf_base + d_po_base + d_sec_base;
 
         } else {
             // PHÂN VÙNG 2 (H > 170mm): PHƯƠNG PHÁP THỐNG KÊ HỘI TỤ THỰC NGHIỆM XƯỞNG
@@ -2341,7 +2346,10 @@ function initApp() {
             const d_vibr_actual = K_VIBR * Math.pow(H / 100.0, 2) * (IP / 5.0);
             const d_vf_actual = K_VF * ((VF - 55.0) / 10.0);
             const d_po_actual = - K_PO * ((Po - 5.0) / 10.0);
-            gap = C0 + d_elec_actual + d_low_actual + d_slag_actual + d_vibr_actual + d_vf_actual + d_po_actual;
+            const s_mat_actual = isHard ? 1.0 : 1.25;
+            const s_raw_actual = ((Ton * IP) / (Po * 25.0)) * (H / 100.0) * s_mat_actual;
+            const d_sec_actual = s_raw_actual > S_THRESH ? (K_SEC * (s_raw_actual - S_THRESH)) / (1.0 + 1.5 * Math.pow(H / 100.0, 2)) : 0.0;
+            gap = C0 + d_elec_actual + d_low_actual + d_slag_actual + d_vibr_actual + d_vf_actual + d_po_actual + d_sec_actual;
         } else {
             const stratGapMods = {1: -0.009, 2: -0.006, 3: -0.003, 4: 0.0, 5: +0.003, 6: +0.006, 7: +0.010};
             gap = baseGap + (stratGapMods[lvl] || 0.0);
@@ -3609,7 +3617,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.5.52";
+    const CURRENT_VERSION = "3.5.53";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -3758,41 +3766,41 @@ function initApp() {
                         const WS_LIB_BENCHMARK_JOBS = {
                 1: [
                     // H=12 (Quy Ä‘á»•i tá»« Pass 1 bÃ i cáº¯t 5P-01 cÃ³ Ä‘o kiá»ƒm vÃ¡ch P1)
-                    { H: 12, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 20, Toff: 5, IP: 3, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,101", actualOffset: "0,101", calcOffset: "0,1010", length: "128mm", actualTime: "19p50'", calcTime: "19p50'", actualAmpe: "4A", calcAmpe: "3.2A", actualSpeed: "275-285 mmÂ²/p", calcSpeedH40: "237 mmÂ²/p" }] },
+                    { H: 12, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 20, Toff: 5, IP: 3, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,101", actualOffset: "0,101", calcOffset: "0,1005", length: "128mm", actualTime: "19p50'", calcTime: "19p50'", actualAmpe: "4A", calcAmpe: "3.2A", actualSpeed: "275-285 mmÂ²/p", calcSpeedH40: "237 mmÂ²/p" }] },
                     // H=12 (SCM420, STT 22 - Cáº¯t chÃ y 1 Pass Volt Low)
-                    { H: 12, material: "HB<200", passes: [{ Ton: 16, Toff: 6, IP: 3, Wire: 1, Volt: "L", VF: 60, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,1027", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,5A - 2,7A", calcAmpe: "2.3A", actualSpeed: "--", calcSpeedH40: "143 mmÂ²/p" }] },
+                    { H: 12, material: "HB<200", passes: [{ Ton: 16, Toff: 6, IP: 3, Wire: 1, Volt: "L", VF: 60, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,1034", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,5A - 2,7A", calcAmpe: "2.3A", actualSpeed: "--", calcSpeedH40: "143 mmÂ²/p" }] },
                     // H=30 (SCM440, STT 1 - Chuáº©n gá»‘c 1 Pass)
-                    { H: 30, material: "30HRC", passes: [{ Ton: 32, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "200Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,1012", length: "30mm", actualTime: "8p40'", calcTime: "7p58'", actualAmpe: "4,45A - 4,5A", calcAmpe: "4.3A", actualSpeed: "165-175 mmÂ²/p", calcSpeedH40: "151 mmÂ²/p" }] },
+                    { H: 30, material: "30HRC", passes: [{ Ton: 32, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "200Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,1008", length: "30mm", actualTime: "8p40'", calcTime: "7p58'", actualAmpe: "4,45A - 4,5A", calcAmpe: "4.3A", actualSpeed: "165-175 mmÂ²/p", calcSpeedH40: "151 mmÂ²/p" }] },
                     // H=40 (SCM440, STT 2 - Chuáº©n gá»‘c 1 Pass)
                     { H: 40, material: "30HRC", passes: [{ Ton: 36, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,1001", length: "30mm", actualTime: "9p36'", calcTime: "10p10'", actualAmpe: "4,35A - 4,4A", calcAmpe: "4.3A", actualSpeed: "130-140 mmÂ²/p", calcSpeedH40: "118 mmÂ²/p" }] },
                     // H=63 (SCM420, STT 3 - Cáº¯t chÃ y 1 Pass)
-                    { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,1016", length: "27mm", actualTime: "14p20'", calcTime: "15p11'", actualAmpe: "4,1A - 4,2A", calcAmpe: "4.1A", actualSpeed: "75-85 mmÂ²/p", calcSpeedH40: "71 mmÂ²/p" }] },
+                    { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,1025", length: "27mm", actualTime: "14p20'", calcTime: "15p11'", actualAmpe: "4,1A - 4,2A", calcAmpe: "4.1A", actualSpeed: "75-85 mmÂ²/p", calcSpeedH40: "71 mmÂ²/p" }] },
                     // H=63 (SCM420, STT 18 - Cáº¯t chÃ y 1 Pass)
-                    { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 8, IP: 4, Wire: 1, Volt: "H", VF: 57, maxSpeed: "150Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0980", length: "22,3mm", actualTime: "17p40'", calcTime: "17p34'", actualAmpe: "3,3A - 3,4A", calcAmpe: "3.0A", actualSpeed: "50-65 mmÂ²/p", calcSpeedH40: "51 mmÂ²/p" }] },
+                    { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 8, IP: 4, Wire: 1, Volt: "H", VF: 57, maxSpeed: "150Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0983", length: "22,3mm", actualTime: "17p40'", calcTime: "17p34'", actualAmpe: "3,3A - 3,4A", calcAmpe: "3.0A", actualSpeed: "50-65 mmÂ²/p", calcSpeedH40: "51 mmÂ²/p" }] },
                     // H=68 (SCM440, STT 6 - Cáº¯t chÃ y Volt Low)
-                    { H: 68, material: "30HRC", passes: [{ Ton: 70, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "100Hz", offset: "0,097", actualOffset: "0,097", calcOffset: "0,0960", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,4A - 2,6A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "42 mmÂ²/p" }] },
+                    { H: 68, material: "30HRC", passes: [{ Ton: 70, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "100Hz", offset: "0,097", actualOffset: "0,097", calcOffset: "0,0966", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,4A - 2,6A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "42 mmÂ²/p" }] },
                     // H=75 (SCM420, STT 16 - Cáº¯t cá»‘i 1 Pass)
-                    { H: 75, material: "HB<200", passes: [{ Ton: 55, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 54, maxSpeed: "187Hz", offset: "0,112", actualOffset: "0,112", calcOffset: "0,0976", length: "50,3mm", actualTime: "1h13'", calcTime: "39p43'", actualAmpe: "3,4A - 3,5A", calcAmpe: "3.3A", actualSpeed: "50-65 mmÂ²/p", calcSpeedH40: "51 mmÂ²/p" }] },
+                    { H: 75, material: "HB<200", passes: [{ Ton: 55, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 54, maxSpeed: "187Hz", offset: "0,112", actualOffset: "0,112", calcOffset: "0,0987", length: "50,3mm", actualTime: "1h13'", calcTime: "39p43'", actualAmpe: "3,4A - 3,5A", calcAmpe: "3.3A", actualSpeed: "50-65 mmÂ²/p", calcSpeedH40: "51 mmÂ²/p" }] },
                     // H=85 (Quy Ä‘á»•i tá»« Pass 1 bÃ i cáº¯t 2P-10 cÃ³ Ä‘o kiá»ƒm vÃ¡ch P1)
                     { H: 85, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 70, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 61, maxSpeed: "150Hz", offset: "0,1025", actualOffset: "0,1025", calcOffset: "0,1023", length: "65,6mm", actualTime: "48p", calcTime: "41p55'", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.7A", actualSpeed: "55-65 mmÂ²/p", calcSpeedH40: "63 mmÂ²/p" }] },
                     // H=90 (SCM420, STT 21 - Cáº¯t cá»‘i 1 Pass)
-                    { H: 90, material: "HB<200", passes: [{ Ton: 80, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 54, maxSpeed: "150Hz", offset: "0,118", actualOffset: "0,118", calcOffset: "0,0991", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,6A", calcAmpe: "3.3A", actualSpeed: "50-60 mmÂ²/p", calcSpeedH40: "48 mmÂ²/p" }] },
+                    { H: 90, material: "HB<200", passes: [{ Ton: 80, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 54, maxSpeed: "150Hz", offset: "0,118", actualOffset: "0,118", calcOffset: "0,1011", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,6A", calcAmpe: "3.3A", actualSpeed: "50-60 mmÂ²/p", calcSpeedH40: "48 mmÂ²/p" }] },
                     // H=95 (SCM440, STT 17 - Cáº¯t cá»‘i 1 Pass)
-                    { H: 95, material: "30HRC", passes: [{ Ton: 82, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,1135", actualOffset: "0,1135", calcOffset: "0,0952", length: "76mm", actualTime: "1h15'", calcTime: "1h5p", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.3A", actualSpeed: "35-45 mmÂ²/p", calcSpeedH40: "47 mmÂ²/p" }] },
+                    { H: 95, material: "30HRC", passes: [{ Ton: 82, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,1135", actualOffset: "0,1135", calcOffset: "0,0965", length: "76mm", actualTime: "1h15'", calcTime: "1h5p", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.3A", actualSpeed: "35-45 mmÂ²/p", calcSpeedH40: "47 mmÂ²/p" }] },
                     // H=110 (SCM420, STT 19 - Cáº¯t chÃ y 1 Pass)
-                    { H: 110, material: "HB<200", passes: [{ Ton: 100, Toff: 10, IP: 5, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,105", actualOffset: "0,105", calcOffset: "0,1080", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,7A - 2,8A", calcAmpe: "3.1A", actualSpeed: "30-40 mmÂ²/p", calcSpeedH40: "35 mmÂ²/p" }] },
+                    { H: 110, material: "HB<200", passes: [{ Ton: 100, Toff: 10, IP: 5, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,105", actualOffset: "0,105", calcOffset: "0,1099", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,7A - 2,8A", calcAmpe: "3.1A", actualSpeed: "30-40 mmÂ²/p", calcSpeedH40: "35 mmÂ²/p" }] },
                     // H=140 (SCM420, STT 7 - Cáº¯t chÃ y 1 Pass)
-                    { H: 140, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,1074", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.7A", actualSpeed: "--", calcSpeedH40: "31 mmÂ²/p" }] },
+                    { H: 140, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,1106", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.7A", actualSpeed: "--", calcSpeedH40: "31 mmÂ²/p" }] },
                     // H=140 (SCM420, STT 12 - Cáº¯t chÃ y 1 Pass)
-                    { H: 140, material: "HB<200", passes: [{ Ton: 100, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 60, maxSpeed: "100Hz", offset: "0,102", actualOffset: "0,102", calcOffset: "0,1128", length: "28,4mm", actualTime: "36p", calcTime: "33p25'", actualAmpe: "3,7A - 3,8A", calcAmpe: "4.1A", actualSpeed: "30-40 mmÂ²/p", calcSpeedH40: "34 mmÂ²/p" }] },
+                    { H: 140, material: "HB<200", passes: [{ Ton: 100, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 60, maxSpeed: "100Hz", offset: "0,102", actualOffset: "0,102", calcOffset: "0,1155", length: "28,4mm", actualTime: "36p", calcTime: "33p25'", actualAmpe: "3,7A - 3,8A", calcAmpe: "4.1A", actualSpeed: "30-40 mmÂ²/p", calcSpeedH40: "34 mmÂ²/p" }] },
                     // H=160 (SCM420, STT 15 - Cáº¯t cá»‘i 1 Pass)
-                    { H: 160, material: "HB<200", passes: [{ Ton: 120, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "154Hz", offset: "0,120", actualOffset: "0,120", calcOffset: "0,1177", length: "32,3mm", actualTime: "59p", calcTime: "53p17'", actualAmpe: "2,8A - 3A", calcAmpe: "3.4A", actualSpeed: "18-28 mmÂ²/p", calcSpeedH40: "24 mmÂ²/p" }] },
+                    { H: 160, material: "HB<200", passes: [{ Ton: 120, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "154Hz", offset: "0,120", actualOffset: "0,120", calcOffset: "0,1198", length: "32,3mm", actualTime: "59p", calcTime: "53p17'", actualAmpe: "2,8A - 3A", calcAmpe: "3.4A", actualSpeed: "18-28 mmÂ²/p", calcSpeedH40: "24 mmÂ²/p" }] },
                     // H=165 (Quy Ä‘á»•i tá»« Pass 1 bÃ i cáº¯t 2P-12 cÃ³ Ä‘o kiá»ƒm vÃ¡ch P1)
-                    { H: 165, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,1125", actualOffset: "0,1125", calcOffset: "0,1151", length: "43,6mm", actualTime: "1h17'", calcTime: "1h7p", actualAmpe: "2,8A - 3,0A", calcAmpe: "3.4A", actualSpeed: "15-35 mmÂ²/p", calcSpeedH40: "26 mmÂ²/p" }] },
+                    { H: 165, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,1125", actualOffset: "0,1125", calcOffset: "0,1166", length: "43,6mm", actualTime: "1h17'", calcTime: "1h7p", actualAmpe: "2,8A - 3,0A", calcAmpe: "3.4A", actualSpeed: "15-35 mmÂ²/p", calcSpeedH40: "26 mmÂ²/p" }] },
                     // H=200 (SCM420, STT 23 - Cáº¯t cá»‘i 1 Pass phÃ´i siÃªu dÃ y)
-                    { H: 200, material: "HB<200", passes: [{ Ton: 120, Toff: 10, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "60Hz", offset: "0,108", actualOffset: "0,108", calcOffset: "0,1102", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "--", calcAmpe: "3.7A", actualSpeed: "--", calcSpeedH40: "19 mmÂ²/p" }] },
+                    { H: 200, material: "HB<200", passes: [{ Ton: 120, Toff: 10, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "60Hz", offset: "0,108", actualOffset: "0,108", calcOffset: "0,1139", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "--", calcAmpe: "3.7A", actualSpeed: "--", calcSpeedH40: "19 mmÂ²/p" }] },
                     // H=290 (SCM440, STT 20 - Cáº¯t cá»‘i 1 Pass phÃ´i siÃªu dÃ y)
-                    { H: 290, material: "30HRC", passes: [{ Ton: 135, Toff: 10, IP: 6, Wire: 1, Volt: "H", VF: 75, maxSpeed: "50Hz", offset: "0,110", actualOffset: "0,110", calcOffset: "0,1145", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "--", calcAmpe: "3.7A", actualSpeed: "--", calcSpeedH40: "14 mmÂ²/p" }] },
+                    { H: 290, material: "30HRC", passes: [{ Ton: 135, Toff: 10, IP: 6, Wire: 1, Volt: "H", VF: 75, maxSpeed: "50Hz", offset: "0,110", actualOffset: "0,110", calcOffset: "0,1157", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "--", calcAmpe: "3.7A", actualSpeed: "--", calcSpeedH40: "14 mmÂ²/p" }] },
                     // H=300 (SCM440, STT 14 - Cáº¯t cá»‘i 1 Pass má»‘c biÃªn)
                     { H: 300, material: "30HRC", passes: [{ Ton: 120, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "50Hz", offset: "0,115", actualOffset: "0,115", calcOffset: "0,1150", length: "76,1mm", actualTime: "3h", calcTime: "3h31p", actualAmpe: "3,7A - 3,9A", calcAmpe: "4.1A", actualSpeed: "12-20 mmÂ²/p", calcSpeedH40: "14 mmÂ²/p" }] }
                 ],
@@ -4095,6 +4103,8 @@ function initApp() {
     const VF_K_VIBR = 0.00390;      // Rung uốn cơ học dây Moly (mm)
     const VF_K_VF = 0.00210;        // Hệ số bù trễ bước tiến VF (+2.10 μm / 10 vạch VF so với chuẩn 55)
     const VF_K_PO = 0.00120;        // Hệ số chu kỳ & xả xỉ Po (mm / 10 nấc Po lệch so với chuẩn 5)
+    const VF_K_SEC = 0.00400;       // Hệ số đánh lửa thứ cấp theo mật độ mùn xỉ tích tụ (mm)
+    const VF_S_THRESH = 0.20;       // Ngưỡng mật độ mùn xỉ kích hoạt đánh lửa thứ cấp
 
     function calcBaseSparkGap(H, Ton, IP, Volt, material = 'SCM440') {
         const isHard = (material === 'SCM440' || material === '30HRC');
@@ -4107,16 +4117,21 @@ function initApp() {
         const d_slag = - VF_K_SLAG * (H / 100.0) * slag_mat / ip_fac;
         let d_vibr, gap;
 
+        let d_sec;
         if (H <= 170) {
             // Phân vùng 1 (H <= 170mm): Phương trình liên tục thuần túy
             d_vibr = VF_K_VIBR * Math.pow(H / 100.0, 2) * (IP / 5.0);
-            gap = VF_C0 + d_elec + d_low + d_slag + d_vibr;
+            const s_mat = isHard ? 1.0 : 1.25;
+            const s_raw = ((Ton * IP) / (5.0 * 25.0)) * (H / 100.0) * s_mat; // Po chuẩn = 5
+            d_sec = s_raw > VF_S_THRESH ? (VF_K_SEC * (s_raw - VF_S_THRESH)) / (1.0 + 1.5 * Math.pow(H / 100.0, 2)) : 0.0;
+            gap = VF_C0 + d_elec + d_low + d_slag + d_vibr + d_sec;
         } else {
             // Phân vùng 2 (H > 170mm): Đồng bộ Kiến trúc Phân vùng Kép Rule 17 (Hội tụ xưởng về 0.1150mm tại H=300mm)
             const gap170 = VF_C0 + d_elec + d_low + (- VF_K_SLAG * 1.70 * slag_mat / ip_fac) + (VF_K_VIBR * Math.pow(1.70, 2) * (IP / 5.0));
             const targetGap300 = 0.0250;
             gap = gap170 + (H - 170) * (targetGap300 - gap170) / (300 - 170);
             d_vibr = gap - (VF_C0 + d_elec + d_low + d_slag);
+            d_sec = 0.0;
         }
 
         return {
@@ -4126,6 +4141,7 @@ function initApp() {
             d_low: d_low,
             d_slag: d_slag,
             d_vibr: d_vibr,
+            d_sec: d_sec,
             gap: gap,
             offset: 0.090 + gap,
             kerf: 0.180 + 2.0 * gap
@@ -4134,17 +4150,23 @@ function initApp() {
 
     function calcVFSparkGap(H, Ton, IP, Volt, VF, Po = 5, material = 'SCM440') {
         const base = calcBaseSparkGap(H, Ton, IP, Volt, material);
-        let d_vf, d_po;
+        let d_vf, d_po, d_sec_vf;
+        const isHard = (material === 'SCM440' || material === '30HRC');
+        const s_mat = isHard ? 1.0 : 1.25;
+
         if (H <= 170) {
             d_vf = VF_K_VF * ((VF - 55.0) / 10.0);
             d_po = - VF_K_PO * ((Po - 5.0) / 10.0);
+            const s_raw_vf = ((Ton * IP) / (Math.max(1, Po) * 25.0)) * (H / 100.0) * s_mat;
+            d_sec_vf = s_raw_vf > VF_S_THRESH ? (VF_K_SEC * (s_raw_vf - VF_S_THRESH)) / (1.0 + 1.5 * Math.pow(H / 100.0, 2)) : 0.0;
         } else {
             // Ở phôi siêu dày H > 170mm, chuẩn xưởng là VF=65, Po=9
             d_vf = VF_K_VF * 0.5 * ((VF - 65.0) / 10.0);
             d_po = - VF_K_PO * 0.5 * ((Po - 9.0) / 10.0);
+            d_sec_vf = 0.0;
         }
-        const gap_vf = base.gap + d_vf + d_po;
-        const diff_um = (d_vf + d_po) * 1000.0;
+        const gap_vf = base.c0 + base.d_elec + base.d_low + base.d_slag + base.d_vibr + d_vf + d_po + d_sec_vf;
+        const diff_um = (gap_vf - base.gap) * 1000.0;
 
         // Động học phát xung theo công thức Toff mới (Chuẩn máy AutoCut)
         const toff = Ton * (Po + 1); // μs
@@ -4168,6 +4190,7 @@ function initApp() {
         return {
             ...base,
             Po: Po,
+            d_sec_vf: d_sec_vf,
             d_vf: d_vf,
             d_po: d_po,
             d_po_um: d_po * 1000.0,
@@ -4277,6 +4300,10 @@ function initApp() {
                 insightHtml += '<br><strong>🔄 Po = ' + Po + ' &gt; 5 (Toff dài = ' + res.toff + ' μs / f = ' + res.freq_khz + ' kHz):</strong> Xối xỉ cực sạch, tia lửa êm không phóng bạt $\\implies$ rãnh cắt co gọn lại <strong style="color: var(--accent-cyan);">' + (res.d_po * 1000).toFixed(2) + ' μm</strong> (bề mặt mịn hơn, nhưng tốc độ cắt giảm còn ~' + res.fc_est + ' mm²/p).';
             }
 
+            if (res.d_sec_vf > 0.0005) {
+                insightHtml += '<br><strong>🔥 Đánh lửa thứ cấp do nén mùn xỉ (+' + (res.d_sec_vf * 1000).toFixed(2) + ' μm):</strong> Khe hẹp tích tụ mùn xỉ kích nổ phóng điện vách phụ, hệ thống đã tự động bù vào Offset để triệt tiêu sai số âm.';
+            }
+
             if (res.d_low > 0) {
                 insightHtml += '<br><strong>🔹 Chế độ Volt Low (22V):</strong> Bổ sung màng điện môi êm dịu $+4.50\\,\\mu\\text{m}$, bảo toàn kích thước không bị hụt khi cắt hạ áp.';
             }
@@ -4325,6 +4352,12 @@ function initApp() {
                     <td>${H <= 170 ? 'Xung lực nổ plasma làm võng dây: K_vibr &times; (H/100)² &times; (IP/5)' : 'Kiến trúc Phân vùng Kép Rule 17: Hội tụ êm về chuẩn xưởng 0.1150 mm'}</td>
                     <td style="text-align: right; font-family: var(--font-mono); color: var(--border-highlight);">+${(res.d_vibr * 1000).toFixed(2)} μm</td>
                     <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber);">+${(res.d_vibr * 1000).toFixed(2)} μm</td>
+                </tr>
+                <tr style="background: rgba(244, 63, 94, 0.06);">
+                    <td><strong style="color: #f43f5e;">d<sub>sec</sub></strong> (Đánh lửa thứ cấp do nén mùn xỉ)</td>
+                    <td>Mùn xỉ nén rãnh hẹp kích nổ phóng điện vách phụ: K<sub>sec</sub> &times; (S - S<sub>th</sub>)/(1 + 1.5&times;(H/100)²)</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: #f43f5e;">+${(res.d_sec * 1000).toFixed(2)} μm</td>
+                    <td style="text-align: right; font-family: var(--font-mono); color: #f43f5e; font-weight: 700;">+${(res.d_sec_vf * 1000).toFixed(2)} μm</td>
                 </tr>
                 <tr style="background: rgba(245, 158, 11, 0.08); border-top: 1px dashed var(--accent-amber);">
                     <td><strong style="color: var(--accent-amber);">d<sub>vf</sub></strong> (Hiệu ứng trễ bước tiến VF)</td>

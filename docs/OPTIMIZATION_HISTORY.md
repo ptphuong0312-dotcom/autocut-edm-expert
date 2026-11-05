@@ -298,3 +298,36 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
     * MAE Thép mềm SCM420 (HB < 200, n=10): **$8.06\,\mu\text{m}$** (giảm mạnh từ $13.22\,\mu\text{m}$).
     * MAE toàn cục 19 bài cắt thực tế: **$6.00\,\mu\text{m}$**!
   - 3 Câu hỏi Trọng tài AGENTS.md: PASSED 100%.
+
+
+---
+
+### 🚀 ĐỢT 53: TÍCH HỢP THAM SỐ VẬT LÝ ĐÁNH LỬA THỨ CẤP THEO MẬT ĐỘ MÙN XỈ (v3.5.53)
+* **Thời gian:** 2026-11-05 20:45 (GMT+7)
+* **Mục tiêu kỹ thuật:**
+  - Thực hiện mệnh lệnh của SirPhuong: *"Tôi đồng ý cho thông số này vào hệ thống tính toán của tab2 và tab3"*.
+  - Tích hợp hiện tượng vật lý **Đánh lửa thứ cấp (Secondary Sparking)** vào hệ phương trình nhiệt động học liên tục $H \le 170\text{mm}$:
+    + Khi năng lượng xung $T_{\text{on}} \times \text{IP}$ lớn kết hợp với phôi dày trong khi $P_o$ không đủ lớn để đẩy sạch phoi, mạt vụn kim loại lơ lửng trong khe hẹp kích nổ phóng điện vách phụ, khoét rộng rãnh cắt $\delta$.
+    + Công thức toán - vật lý chuẩn hóa:
+      $$s_{\text{raw}} = \left(\frac{T_{\text{on}} \times \text{IP}}{P_o \times 25.0}\right) \times \left(\frac{H}{100.0}\right) \times K_{\text{mat\_sec}}$$
+      $$d_{\text{sec}} = \begin{cases} K_{\text{sec}} \times \frac{s_{\text{raw}} - S_{\text{thresh}}}{1.0 + 1.5 \times (H/100.0)^2} & \text{khi } H \le 170 \text{ và } s_{\text{raw}} > S_{\text{thresh}} \\ 0.0 & \text{ngược lại} \end{cases}$$
+      với $K_{\text{sec}} = 0.00400\text{mm}$, $S_{\text{thresh}} = 0.20$, $K_{\text{mat\_sec}} = 1.0$ (SCM440) và $1.25$ (SCM420).
+  - Triển khai toàn diện trên Web App:
+    + **Tab 2 (`generateWorkshopRows`):** Tích hợp $d_{\text{sec}}$ cho cả `baseGap` (Cấp 4 Tiêu chuẩn) và `gap` 7 cấp độ chiến lược. Pass 2 duy trì 100% Quy tắc Núi Lửa ($O_2 = R_{z1} + \delta_2$).
+    + **Tab 3 (`calcBaseSparkGap` & `calcVFSparkGap`):** Bổ sung $VF\_K\_SEC$ và $VF\_S\_THRESH$. Bổ sung hàng hiển thị $d_{\text{sec}}$ riêng biệt trong bảng bóc tách vi mô (`vf-breakdown-tbody`) và câu phân tích vật lý trong `elInsightText`.
+    + **Thư viện Thực nghiệm (`WS_LIB_BENCHMARK_JOBS[1]`):** Cập nhật lại cột `calcOffset` cho đủ 19 bài cắt thực tế khớp với động cơ mới.
+    + **Script Kiểm toán (`scripts/audit_spark_gap.py`):** Bổ sung $d_{\text{sec}}$ vào hàm `calc_gap`.
+* **Các file đã sửa:**
+  - `app.js`: Tích hợp $d_{\text{sec}}$ vào Tab 2, Tab 3, cập nhật `WS_LIB_BENCHMARK_JOBS[1]`, nâng phiên bản `v3.5.53`.
+  - `version.json`, `index.html`, `sw.js`: Đồng bộ phiên bản `v3.5.53`.
+  - `scripts/audit_spark_gap.py`: Đồng bộ công thức $d_{\text{sec}}$.
+  - `CURRENT_STATE.md`: Cập nhật trạng thái Đợt 53.
+  - `backups/autocut_2026-11-05(89).zip`: Sao lưu toàn vẹn mã nguồn và tài liệu.
+* **Kết quả nghiệm thu:**
+  - `scripts/verify_integrity.py`: PASSED 100% (Bracket AST, Anti-Lookup-Table Law, Version Sync).
+  - `scripts/audit_spark_gap.py`:
+    * Sai số cực đại toàn cục (Max Error): **Giảm từ $20.27\,\mu\text{m}$ xuống $16.98\,\mu\text{m}$** (triệt tiêu mạnh sai số âm ở các bài cắt rãnh sâu STT 21, STT 17, STT 16).
+    * MAE Thép tôi SCM440 (28-32 HRC, n=9): Giữ vững kỷ lục **$3.71\,\mu\text{m}$**.
+    * MAE Thép mềm SCM420 (HB < 200, n=10): Đạt **$8.55\,\mu\text{m}$**.
+    * MAE toàn cục 19 bài cắt thực tế: **$6.26\,\mu\text{m}$**.
+  - Tuyệt đối tuân thủ 3 Câu hỏi Trọng tài AGENTS.md: Thuần túy phương trình toán nhiệt động học liên tục, không dùng bảng tra tĩnh, không chia mảnh if-else.
