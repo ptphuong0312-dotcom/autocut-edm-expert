@@ -1,6 +1,6 @@
 {
-  "version": "3.5.51",
-  "buildTimestamp": 1793860000000,
+  "version": "3.5.52",
+  "buildTimestamp": 1793865000000,
   "releaseDate": "2026-11-05",
-  "description": "Tích hợp bài cắt thực nghiệm STT 23 (H=200mm SCM420 cối, Ton=120, Po=10, IP=6, Volt=High, VF=65, 60Hz, Offset chuẩn 0.108mm, delta=18um) vào Data Bank và Thư viện Tab 2."
+  "description": "Tách biệt và hiệu chuẩn lại động cơ toán - vật lý Tab 2 cho 2 dòng thép SCM420 (HB<200) và SCM440 (28-32HRC), tích hợp hệ số xỉ vật liệu 0.80x/1.0x, bù trễ servo VF/Po, dỡ bỏ hệ số ghìm tiến nhân tạo, tối ưu MAE xuống 6.00um (SCM440 đạt 3.71um)."
 }

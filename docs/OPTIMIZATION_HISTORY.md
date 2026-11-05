@@ -271,3 +271,30 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
   - `CURRENT_STATE.md`: Cập nhật trạng thái Đợt 51.
 * **Kết quả nghiệm thu:**
   - `scripts/verify_integrity.ps1`: PASSED 100%.
+
+---
+
+### 🚀 ĐỢT 52: PHÂN TÁCH VÀ HIỆU CHUẨN LẠI TOÀN DIỆN ĐỘNG CƠ TOÁN - VẬT LÝ TAB 2 (v3.5.52)
+* **Thời gian:** 2026-11-05 15:35 (GMT+7)
+* **Mục tiêu kỹ thuật:**
+  - Thực hiện mệnh lệnh của SirPhuong: *"dữ liệu cắt vật liệu HB<200 cũng tương đối đủ rồi đấy, bạn hãy thực hiện kế hoạch trước đây chúng đã vạch ra để tính toán lại tab2"*.
+  - Tách biệt và thống nhất động cơ toán - vật lý Tab 2 (`generateWorkshopRows`) với mô hình nhiệt động học đa biến liên tục:
+    + Cập nhật các hằng số vật lý: $C_0 = 0.00360\text{mm}$, $K_{\text{elec}} = 0.00092$, $\delta_{\text{Low}} = 0.00450\text{mm}$, $K_{\text{slag}} = 0.02000\text{mm}$, $K_{\text{vibr}} = 0.00390\text{mm}$, $K_{rz} = 0.00120\text{mm}$, $K_{\text{vf}} = 0.00210\text{mm}$, $K_{\text{po}} = 0.00120\text{mm}$.
+    + Phân tách rõ rệt yếu tố vật liệu: `slag_mat = isHard ? 1.0 : 0.80` (SCM420 phoi mềm bết dính nhưng cào thoáng hơn $+1.8 \sim 4\mu m$, giảm ghìm xỉ).
+    + Tích hợp đầy đủ số hạng trễ servo bước tiến $d_{\text{vf}}$ và chu kỳ $d_{\text{po}}$ vào cả `baseGap` và `gap` chiến lược.
+    + Thừa kế số hạng `slag_mat` vào tính toán Pass 2 `delta_2_calc` tuân thủ triệt để Quy tắc Núi Lửa ($O_2 = R_{z1} + \delta_2$).
+  - Dỡ bỏ hoàn toàn hệ số ghìm tiến nhân tạo `if (!isHard && H >= 70 && IP < 5) eta_eff *= 0.65;`, đưa tốc độ tính toán của SCM420 tại $H=75$ lên $51\text{ mm}^2/\text{p}$ và $H=90$ lên $48\text{ mm}^2/\text{p}$, trùng khớp chuẩn xác với tốc độ cắt thực tế xưởng ($50 - 65\text{ mm}^2/\text{p}$).
+  - Cập nhật Thư viện Đối chứng `WS_LIB_BENCHMARK_JOBS[1]`: Đồng bộ lại toàn bộ các cột `calcOffset`, `calcAmpe`, `calcSpeedH40`, `calcTime` cho đủ 19 bài cắt thực tế.
+  - Cập nhật các công cụ kiểm toán `scripts/audit_spark_gap.js`, `scripts/audit_spark_gap.py` và tạo mới `scripts/audit_spark_gap.ps1` hỗ trợ PowerShell trực tiếp trên Windows.
+* **Các file đã sửa:**
+  - `app.js`: Cập nhật `generateWorkshopRows`, dỡ bỏ ghìm tiến `eta_eff`, cập nhật `WS_LIB_BENCHMARK_JOBS[1]`, nâng phiên bản `v3.5.52`.
+  - `version.json`, `index.html`, `sw.js`: Đồng bộ phiên bản `v3.5.52`.
+  - `scripts/audit_spark_gap.js`, `scripts/audit_spark_gap.py`, `scripts/audit_spark_gap.ps1`: Đồng bộ thuật toán và tập dữ liệu 19 bài.
+  - `CURRENT_STATE.md`: Cập nhật trạng thái Đợt 52.
+* **Kết quả nghiệm thu:**
+  - `scripts/verify_integrity.ps1`: PASSED 100% (Bracket AST, Anti-Lookup-Table Law, Version Sync).
+  - `scripts/audit_spark_gap.ps1`:
+    * MAE Thép tôi SCM440 (28-32 HRC, n=9): **$3.71\,\mu\text{m}$** (7/9 bài cắt có sai số $\le 2.4\,\mu\text{m}$).
+    * MAE Thép mềm SCM420 (HB < 200, n=10): **$8.06\,\mu\text{m}$** (giảm mạnh từ $13.22\,\mu\text{m}$).
+    * MAE toàn cục 19 bài cắt thực tế: **$6.00\,\mu\text{m}$**!
+  - 3 Câu hỏi Trọng tài AGENTS.md: PASSED 100%.

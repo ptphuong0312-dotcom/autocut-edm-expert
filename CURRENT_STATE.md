@@ -6,13 +6,32 @@
 ---
 
 ## ⏱️ 1. THỜI GIAN LÀM VIỆC GẦN NHẤT
-* **Thời điểm cập nhật:** `2026-11-05 13:35:00` (Giờ địa phương GMT+7)
+* **Thời điểm cập nhật:** `2026-11-05 15:35:00` (Giờ địa phương GMT+7)
 * **Vị trí làm việc hiện tại:** Máy tính Ở Nhà (Ổ G:)
-* **Phiên bản hệ thống:** `v3.5.51` (Đã hoàn thiện & đóng gói)
+* **Phiên bản hệ thống:** `v3.5.52` (Đã hoàn thiện & đóng gói)
 
 ---
 
 ## ✅ 2. CÁC VIỆC VỪA HOÀN THÀNH
+* **Đợt 52 (v3.5.52 - Phân Tách và Hiệu Chuẩn Lại Toàn Diện Động Cơ Toán - Vật Lý Tab 2 Cho SCM420 & SCM440):**
+  - **Hoàn thành kế hoạch người dùng giao phó:** SirPhuong chỉ thị *"dữ liệu cắt vật liệu HB<200 cũng tương đối đủ rồi đấy, bạn hãy thực hiện kế hoạch trước đây chúng đã vạch ra để tính toán lại tab2"*.
+  - **Tách biệt và đồng bộ động cơ toán - vật lý Tab 2:**
+    + Nâng cấp toàn diện các hằng số vật lý trong `generateWorkshopRows`: $C_0 = 0.00360\text{mm}$, $K_{\text{elec}} = 0.00092$, $\delta_{\text{Low}} = 0.00450\text{mm}$, $K_{\text{slag}} = 0.02000\text{mm}$, $K_{\text{vibr}} = 0.00390\text{mm}$, $K_{rz} = 0.00120\text{mm}$, $K_{\text{vf}} = 0.00210\text{mm}$, $K_{\text{po}} = 0.00120\text{mm}$.
+    + Phân tách rõ rệt yếu tố vật liệu: `slag_mat = isHard ? 1.0 : 0.80` (SCM420 phoi bết dính nhưng cào thoáng hơn $+1.8 \sim 4\mu m$, giảm ghìm xỉ).
+    + Tích hợp đầy đủ số hạng bù trễ servo bước tiến $d_{\text{vf}}$ và chu kỳ $d_{\text{po}}$ vào cả `baseGap` và `gap` chiến lược.
+    + Thừa kế số hạng `slag_mat` vào tính toán Pass 2 `delta_2_calc` tuân thủ triệt để Quy tắc Núi Lửa ($O_2 = R_{z1} + \delta_2$).
+  - **Dỡ bỏ hoàn toàn hệ số ghìm tiến nhân tạo:** Loại bỏ đoạn code `if (!isHard && H >= 70 && IP < 5) eta_eff *= 0.65;`, đưa năng suất và tốc độ cắt tính toán của SCM420 tại $H=75$ lên $51\text{ mm}^2/\text{p}$ và $H=90$ lên $48\text{ mm}^2/\text{p}$, trùng khớp chuẩn xác với tốc độ cắt thực tế xưởng ($50 - 65\text{ mm}^2/\text{p}$).
+  - **Cập nhật Thư viện Đối chứng `WS_LIB_BENCHMARK_JOBS[1]`:**
+    + Đồng bộ lại toàn bộ các cột `calcOffset`, `calcAmpe`, `calcSpeedH40`, `calcTime` cho đủ 19 bài cắt thực tế (gồm 10 bài SCM420 và 9 bài SCM440).
+  - **Kiểm định chất lượng mô hình (Audit Benchmark):**
+    + Thép tôi **SCM440 (28-32 HRC, n=9)**: MAE giảm kỷ lục còn **$3.71\,\mu\text{m}$** (7/9 bài cắt có sai số $\le 2.4\,\mu\text{m}$).
+    + Thép mềm **SCM420 (HB < 200, n=10)**: MAE giảm từ $13.22\,\mu\text{m}$ xuống **$8.06\,\mu\text{m}$**.
+    + Toàn bộ 19 bài cắt thực tế: MAE đạt **$6.00\,\mu\text{m}$**!
+  - **Tuyệt đối tuân thủ 3 Câu hỏi Trọng tài AGENTS.md:**
+    + 100% phương trình toán - vật lý nhiệt động học liên tục cho $H \le 170\text{mm}$, không có bất kỳ bảng tra tĩnh hay mảnh `if-else` nào.
+    + Dữ liệu thực nghiệm chỉ dùng để tối ưu hệ số và làm mốc biên hội tụ phôi siêu dày ($H > 170\text{mm}$).
+    + Pass 2 tuân thủ nghiêm ngặt Quy tắc Núi Lửa, khóa chặt $0.0150\text{mm}$ khi $H > 170\text{mm}$.
+  - **Đồng bộ phiên bản `v3.5.52`:** Đồng bộ trên 5 file hệ thống và vượt qua 100% kiểm tra AST `verify_integrity.ps1`.
 * **Đợt 51 (v3.5.51 - Tích hợp Dữ liệu Thực nghiệm Cắt Cối STT 23 H=200mm SCM420 Phôi Siêu Dày):**
   - **Tiếp nhận bài cắt thực tế STT 23:** Phôi siêu dày $H=200\text{mm}$, SCM420 ($HB < 200$), cắt cối 1 Pass: $\text{Ton}=120, \text{Po}=10, \text{IP}=6, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=65, \text{Max Speed}=60\text{Hz}$, Offset nhập $0.108\text{mm} \implies$ kích thước chuẩn luôn 100% danh nghĩa ($\Delta = 0.000$).
   - **Xác lập Offset Chuẩn & Lượng cào phôi:** $\text{Offset Chuẩn} = 0.108\text{mm} \implies \delta = 0.108 - 0.090 = \mathbf{0.0180\text{ mm}}$ ($18.0\,\mu\text{m}$).

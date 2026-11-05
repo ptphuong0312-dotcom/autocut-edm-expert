@@ -1,83 +1,95 @@
-import math, sys
-sys.stdout.reconfigure(encoding='utf-8')
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# ==============================================================================
+# AUDIT SPARK GAP & OFFSET BENCHMARK (RULE 17 & RULE 19)
+# DỰ ÁN: AUTOCUT SERVO EDM EXPERT (DK77 WIRE EDM)
+# ==============================================================================
 
-# Current formula constants (Rule 10 continuous thermodynamic EDM model)
-C0 = 0.00280
-K_ELEC = 0.00100
+import math
+
+C0 = 0.00360
+K_ELEC = 0.00092
 DELTA_LOW = 0.00450
-K_SLAG = 0.02300
+K_SLAG = 0.02000
 K_VIBR = 0.00390
-K_RZ = 0.00120
+K_VF = 0.00210
+K_PO = 0.00120
 
-def calc_gap(H, Ton, IP, Volt):
-    u_ratio = 1.0 if Volt == 'High' else (22.0 / 27.0)
-    d_elec = K_ELEC * math.sqrt(Ton * IP) * u_ratio
-    d_low = DELTA_LOW if Volt == 'Low' else 0.0
-    ip_fac = max(1.0, IP / 4.0)
-    d_slag = - K_SLAG * (H / 100.0) / ip_fac
-    d_vibr = K_VIBR * ((H / 100.0) ** 2) * (IP / 5.0)
-    return C0 + d_elec + d_low + d_slag + d_vibr
+def calc_gap(H, Ton, Po, IP, Volt, VF, mat='SCM440'):
+    isHard = (mat == 'SCM440' or mat == '30HRC')
+    sm = 1.0 if isHard else 0.80
+    if H <= 170:
+        u_ratio = 1.0 if (Volt == 'High' or Volt == 'H') else (22.0 / 27.0)
+        d_elec = K_ELEC * math.sqrt(Ton * IP) * u_ratio
+        d_low = DELTA_LOW if (Volt == 'Low' or Volt == 'L') else 0.0
+        ip_fac = max(1.0, IP / 4.0)
+        d_slag = - K_SLAG * (H / 100.0) * sm / ip_fac
+        d_vibr = K_VIBR * math.pow(H / 100.0, 2) * (IP / 5.0)
+        d_vf = K_VF * ((VF - 55.0) / 10.0)
+        d_po = - K_PO * ((Po - 5.0) / 10.0)
+        return C0 + d_elec + d_low + d_slag + d_vibr + d_vf + d_po
+    else:
+        gap170 = C0 + (K_ELEC * math.sqrt(Ton * IP) * 1.0) + (- K_SLAG * 1.70 * sm / max(1.0, IP / 4.0)) + (K_VIBR * math.pow(1.70, 2) * (IP / 5.0))
+        gapBase = gap170 + (H - 170) * (0.0250 - gap170) / (300 - 170)
+        d_vf = K_VF * 0.5 * ((VF - 65.0) / 10.0)
+        d_po = - K_PO * 0.5 * ((Po - 9.0) / 10.0)
+        return gapBase + d_vf + d_po
 
-# Benchmark dataset: (Name, Group, H, Ton, IP, Volt, actual_gap, actual_O1)
 dataset = [
-    # 1-Pass Active Benchmark cuts (H <= 170mm) - STT 5 (H45) & STT 8 (H160) relocated to Reference Zone C
-    ('1P-5P01', '1 Pass (Quy đổi 5P-01)', 12, 20, 3, 'High', 0.0110, 0.1010),
-    ('STT 1',   '1 Pass (Chuẩn gốc)',      30, 32, 4, 'High', 0.0080, 0.0980),
-    ('STT 2',   '1 Pass (Chuẩn gốc)',      40, 36, 4, 'High', 0.0080, 0.0980),
-    ('STT 3',   '1 Pass (Chuẩn gốc)',      63, 44, 5, 'High', 0.0050, 0.0950),
-    ('STT 6',   '1 Pass (Chuẩn gốc)',      68, 70, 3, 'Low',  0.0070, 0.0970),
-    ('STT 16',  '1 Pass (SCM420 cối)',     75, 55, 4, 'High', 0.0220, 0.1120),
-    ('1P-2P14', '1 Pass (Quy đổi 2P-14)', 75, 55, 4, 'High', 0.0225, 0.1125),
-    ('1P-2P10', '1 Pass (Quy đổi 2P-10)', 85, 70, 5, 'High', 0.0125, 0.1025),
-    ('STT 7',   '1 Pass (Chuẩn gốc)',     140, 120, 5, 'High', 0.0050, 0.0950),
-    ('STT 12',  '1 Pass (Chuẩn gốc)',     140, 100, 6, 'High', 0.0120, 0.1020),
-    ('STT 15',  '1 Pass (SCM420 cối)',    160, 120, 6, 'High', 0.0300, 0.1200),
-    ('1P-2P12', '1 Pass (Quy đổi 2P-12)', 165, 135, 6, 'High', 0.0225, 0.1125),
-
-    # 2-Pass Pass 1 cuts (H <= 170mm)
-    ('2P-02', '2 Pass P1', 63, 44, 5, 'High', 0.0030, 0.0930),
-    ('2P-03', '2 Pass P1', 30, 28, 4, 'High', 0.0175, 0.1075),
-    ('2P-04', '2 Pass P1', 12, 20, 2, 'Low',  0.0080, 0.0980),
-    ('2P-05', '2 Pass P1', 32, 30, 3, 'Low',  0.0010, 0.0910),
-    ('2P-06', '2 Pass P1', 62, 70, 4, 'High', 0.0020, 0.0920),
-    ('2P-09', '2 Pass P1', 140, 120, 5, 'High', 0.0080, 0.0980),
-    ('2P-10', '2 Pass P1 (thép đặc)', 85, 70, 5, 'High', 0.0125, 0.1025),
-    ('2P-12', '2 Pass P1 (thép đặc)', 165, 135, 6, 'High', 0.0225, 0.1125),
-    ('2P-13', '2 Pass P1 (cắt cối)', 60, 50, 4, 'High', 0.0090, 0.0990),
-    ('2P-14', '2 Pass P1 (thép mềm)', 75, 55, 4, 'High', 0.0225, 0.1125),
-
-    # 5-Pass Pass 1 cut
-    ('5P-01', '5 Pass P1 (thép đặc)', 12, 20, 3, 'High', 0.0110, 0.1010),
+    # 1-Pass Benchmark cuts
+    ['1P-5P01', '1P (Quy đổi 5P-01)', 12, 20, 5, 3, 'High', 65, 'SCM440', 0.0110, 0.1010],
+    ['STT 22',  '1P (SCM420 chày L)',  12, 16, 6, 3, 'Low',  60, 'SCM420', 0.0050, 0.0950],
+    ['STT 1',   '1P (Chuẩn gốc)',      30, 32, 5, 4, 'High', 65, 'SCM440', 0.0080, 0.0980],
+    ['STT 2',   '1P (Chuẩn gốc)',      40, 36, 5, 4, 'High', 65, 'SCM440', 0.0080, 0.0980],
+    ['STT 3',   '1P (SCM420 chày)',    63, 44, 7, 5, 'High', 55, 'SCM420', 0.0050, 0.0950],
+    ['STT 18',  '1P (SCM420 chày)',    63, 44, 8, 4, 'High', 57, 'SCM420', 0.0080, 0.0980],
+    ['STT 6',   '1P (SCM440 chày L)',  68, 70, 7, 3, 'Low',  50, 'SCM440', 0.0070, 0.0970],
+    ['STT 16',  '1P (SCM420 cối)',     75, 55, 7, 4, 'High', 54, 'SCM420', 0.0220, 0.1120],
+    ['1P-2P10', '1P (Quy đổi 2P-10)',  85, 70, 8, 5, 'High', 61, 'SCM440', 0.0125, 0.1025],
+    ['STT 21',  '1P (SCM420 cối)',     90, 80, 7, 4, 'High', 54, 'SCM420', 0.0280, 0.1180],
+    ['STT 17',  '1P (SCM440 cối)',     95, 82, 7, 4, 'High', 55, 'SCM440', 0.0235, 0.1135],
+    ['STT 19',  '1P (SCM420 chày)',   110, 100, 10, 5, 'High', 65, 'SCM420', 0.0150, 0.1050],
+    ['STT 7',   '1P (SCM420 chày)',   140, 120, 8, 5, 'High', 55, 'SCM420', 0.0050, 0.0950],
+    ['STT 12',  '1P (SCM420 chày)',   140, 100, 9, 6, 'High', 60, 'SCM420', 0.0120, 0.1020],
+    ['STT 15',  '1P (SCM420 cối)',    160, 120, 11, 6, 'High', 70, 'SCM420', 0.0300, 0.1200],
+    ['1P-2P12', '1P (Quy đổi 2P-12)', 165, 135, 11, 6, 'High', 70, 'SCM440', 0.0225, 0.1125],
+    ['STT 23',  '1P (SCM420 siêu dày)', 200, 120, 10, 6, 'High', 65, 'SCM420', 0.0180, 0.1080],
+    ['STT 20',  '1P (SCM440 siêu dày)', 290, 135, 10, 6, 'High', 75, 'SCM440', 0.0200, 0.1100],
+    ['STT 14',  '1P (SCM440 mốc 300)', 300, 120, 9, 6, 'High', 65, 'SCM440', 0.0250, 0.1150]
 ]
 
-print("="*105)
-print("BẢNG KIỂM ĐỊNH LƯỢNG CÀO PHÔI: CÔNG THỨC TOÁN - VẬT LÝ VS THỰC NGHIỆM XƯỞNG")
-print("="*105)
-print(f"| {'STT':<8} | {'Nhóm':<18} | {'H':>3} | {'Ton':>3} | {'IP':>2} | {'Volt':>4} | {'delta_thực':>10} | {'delta_tính':>10} | {'Sai lệch':>12} | {'Offset chuẩn':>12} |")
-print("|" + "-"*10 + "|" + "-"*20 + "|" + "-"*5 + "|" + "-"*5 + "|" + "-"*4 + "|" + "-"*6 + "|" + "-"*12 + "|" + "-"*12 + "|" + "-"*14 + "|" + "-"*14 + "|")
+print("=" * 115)
+print("BẢNG KIỂM ĐỊNH LƯỢNG CÀO PHÔI: CÔNG THỨC TOÁN - VẬT LÝ VS THỰC NGHIỆM XƯỞNG (v3.5.52)")
+print("=" * 115)
+print(f"| {'STT':<8} | {'Nhóm':<20} | {'H':>3} | {'Thép':<6} | {'Ton':>3} | {'Po':>2} | {'IP':>2} | {'Volt':<4} | {'VF':>2} | {'delta_thực':>10} | {'delta_tính':>10} | {'Sai lệch':>10} | {'O_chuẩn':>8} |")
+print("|" + "-"*10 + "|" + "-"*22 + "|" + "-"*5 + "|" + "-"*8 + "|" + "-"*5 + "|" + "-"*4 + "|" + "-"*4 + "|" + "-"*6 + "|" + "-"*4 + "|" + "-"*12 + "|" + "-"*12 + "|" + "-"*12 + "|" + "-"*10 + "|")
 
 errors = []
-for name, grp, H, Ton, IP, Volt, actual_gap, actual_O1 in dataset:
-    calc = calc_gap(H, Ton, IP, Volt)
-    diff = (actual_gap - calc) * 1000 # in um
-    errors.append(abs(diff))
-    print(f"| {name:<8} | {grp:<18} | {H:3d} | {Ton:3d} | {IP:2d} | {Volt:4s} | {actual_gap*1000:8.2f} um | {calc*1000:8.2f} um | {diff:+10.2f} um | {actual_O1:10.4f} mm |")
+errors440 = []
+errors420 = []
+
+for name, grp, H, Ton, Po, IP, Volt, VF, mat, actual_gap, actual_O1 in dataset:
+    calc = calc_gap(H, Ton, Po, IP, Volt, VF, mat)
+    diff = (calc - actual_gap) * 1000
+    abs_err = abs(diff)
+    errors.append(abs_err)
+    if mat == 'SCM440':
+        errors440.append(abs_err)
+    else:
+        errors420.append(abs_err)
+    sign = '+' if diff >= 0 else ''
+    print(f"| {name:<8} | {grp:<20} | {H:>3} | {mat:<6} | {Ton:>3} | {Po:>2} | {IP:>2} | {Volt:<4} | {VF:>2} | {actual_gap*1000:>7.1f} um | {calc*1000:>7.1f} um | {sign + f'{diff:.1f}':>7} um | {actual_O1:>8.4f} |")
 
 mae = sum(errors) / len(errors)
+mae440 = sum(errors440) / len(errors440)
+mae420 = sum(errors420) / len(errors420)
 rmse = math.sqrt(sum(e**2 for e in errors) / len(errors))
 max_err = max(errors)
-print("="*105)
-print(f"TỔNG KẾT THỐNG KÊ TOÀN DIỆN ({len(dataset)} bài cắt thực nghiệm hợp lệ):")
-print(f"  * Sai số trung bình tuyệt đối (MAE): {mae:.2f} um ({mae/1000:.4f} mm)")
-print(f"  * Sai số hiệu dụng toàn cục (RMSE): {rmse:.2f} um ({rmse/1000:.4f} mm)")
-print(f"  * Sai số cực đại (Max Error): {max_err:.2f} um ({max_err/1000:.4f} mm)")
 
-# Phân loại độ lệch theo dải chiều dày:
-thin_errors = [abs((actual_gap - calc_gap(H, Ton, IP, Volt))*1000) for name, grp, H, Ton, IP, Volt, actual_gap, actual_O1 in dataset if H <= 40]
-mid_errors = [abs((actual_gap - calc_gap(H, Ton, IP, Volt))*1000) for name, grp, H, Ton, IP, Volt, actual_gap, actual_O1 in dataset if 40 < H <= 100]
-thick_errors = [abs((actual_gap - calc_gap(H, Ton, IP, Volt))*1000) for name, grp, H, Ton, IP, Volt, actual_gap, actual_O1 in dataset if H > 100]
-
-print(f"  * Dải phôi mỏng  (H <= 40mm): MAE = {sum(thin_errors)/len(thin_errors):.2f} um")
-print(f"  * Dải phôi trung (40 < H <= 100mm): MAE = {sum(mid_errors)/len(mid_errors):.2f} um")
-print(f"  * Dải phôi dày   (100 < H <= 170mm): MAE = {sum(thick_errors)/len(thick_errors):.2f} um")
-print("="*105)
+print("=" * 115)
+print(f"TỔNG KẾT THỐNG KÊ TOÀN DIỆN ({len(dataset)} bài cắt thực nghiệm xưởng):")
+print(f"  * MAE Thép tôi SCM440 (28-32 HRC, n={len(errors440)}): {mae440:.2f} um")
+print(f"  * MAE Thép mềm SCM420 (HB < 200, n={len(errors420)}): {mae420:.2f} um")
+print(f"  * Sai số trung bình tuyệt đối toàn cục (MAE): {mae:.2f} um")
+print(f"  * Sai số hiệu dụng toàn cục (RMSE): {rmse:.2f} um")
+print(f"  * Sai số cực đại (Max Error): {max_err:.2f} um")
