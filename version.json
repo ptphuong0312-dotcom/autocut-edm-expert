@@ -1,6 +1,6 @@
 {
-  "version": "3.5.60",
-  "buildTimestamp": 1793972000000,
+  "version": "3.5.61",
+  "buildTimestamp": 1793980000000,
   "releaseDate": "2026-11-06",
-  "description": "Khắc phục lỗi cú pháp JavaScript hàm sao chép, làm mới bộ nhớ đệm Service Worker PWA; Hoàn thiện hiển thị 2 Vùng Đầu Vào vs Đầu Ra (Offset đứng đầu Vùng 2) và tối ưu hóa xem trên Mobile."
+  "description": "Tích hợp Mô hình Toán - Vật lý Nhiệt động học Vòng 5 Siêu Tinh Chỉnh cho Fc thực & Fc máy (H40), bám tải VF phi tuyến 2 nhánh, chặn trần Hz động cơ bước, đưa sai số thời gian cắt xuống 8.9%."
 }

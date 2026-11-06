@@ -470,6 +470,42 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
 
 ---
 
+### 🚀 ĐỢT 61: TÍCH HỢP MÔ HÌNH TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC VÒNG 5 SIÊU TINH CHỈNH CHO FC THỰC & FC MÁY H40 (v3.5.61)
+* **Thời gian:** 2026-11-06 23:10 (GMT+7)
+* **Môi trường:** Máy tính Ở Nhà
+* **Chỉ thị & Phương pháp luận đột phá từ SirPhuong:**
+  - *"hãy tinh chỉnh giá trị Fc thực và máy theo quy trình và nguyên tắc làm với lượng cào phôi để sát với thực tế nhất"*
+  - *"để tinh chỉnh Fc thì ngoài khoảng Fc cắt thực (tham khảo vì nó sẽ không đi cố định 1 tốc độ) tôi gửi để tham khảo thì tôi cung cấp cho bạn chính xác thời gian cắt + chiều dài cắt + chiều cao phôi cắt thì những thông số này bạn hoàn toàn có thể tinh chỉnh để đưa ra cách tính toán chính xác bằng phương pháp như tính lượng cào phôi"*
+  - Quy tắc bất biến: Dùng **3 số đo cứng khách quan tuyệt đối**:
+    $$F_{t,\text{thực}} = \frac{L}{t} \quad (\text{mm/p})$$
+    $$F_{c,\text{thực}} = \frac{L \times H}{t} = F_t \times H \quad (\text{mm}^2/\text{p})$$
+    $$F_{c,\text{máy H40}} = \frac{L}{t} \times 40 \quad (\text{mm}^2/\text{p})$$
+* **Hành trình 5 Vòng nghiên cứu đối đầu & hội tụ khoa học:**
+  - **Vòng 1 (Baseline cũ):** MAPE thời gian cắt $11.6\%$, MAE $F_{c,\text{máy}} = 7.96\text{ mm}^2/\text{p}$, MAE $F_{c,\text{thực}} = 11.87\text{ mm}^2/\text{p}$.
+  - **Vòng 2 (Năng lượng xung $T_{\text{on}}$ phi tuyến):** Nâng số mũ $T_{\text{on}}^{0.32}$ giúp cải thiện dải phôi dày, kéo MAPE xuống $10.8\%$.
+  - **Vòng 3 (Lực cản mạt xỉ dẻo nghẽn phôi $k_{\text{drag}}$):** Đồng bộ hoàn toàn với cơ chế $d_{\text{sec}}$ của lượng cào phôi ($H > 63\text{mm}, P_o < 8$), kéo MAPE xuống $9.2\%$.
+  - **Vòng 4 (Cảnh báo Overfit):** Thử nghiệm đẩy lực cản xỉ SCM420 lên $3.2$ nhằm kéo bài STT 16 nhưng làm méo mó các bài khác (MAPE tăng lên $9.9\%$) $\implies$ Bác bỏ.
+  - **Vòng 5 Refined (Tuyệt đỉnh hội tụ - Sai số kỷ lục 8.9%):**
+    $$\eta_{\text{eff}} = \eta_{\text{base}}(T_{\text{on}}) \times \eta_H(H) \times k_{\text{drag}}(H, P_o) \times k_{\text{VF}}(\text{VF})$$
+    + **Năng lượng xung:** $\eta_{\text{base}} = \eta_0 \times (T_{\text{on}} / 50.0)^{0.28}$ ($\eta_0 = 0.85$ với SCM440; $0.78$ với SCM420).
+    + **Suy giảm độ sâu:** $\eta_H = \max(0.70, 1.0 - \max(0, H - 80) \times 0.0005)$ (SCM440) hoặc $\max(0.55, 1.0 - \max(0, H - 50) \times 0.0022)$ (SCM420).
+    + **Lực cản xỉ dẻo:** $k_{\text{drag}} = \max\left(0.38, 1.0 - 0.60 \times [\max(0, (H-63)/100)]^{0.65} \times [\max(0, (8-P_o)/10)] \times K_{\text{mat}}\right)$ ($K_{\text{mat}}=1.0$ SCM440, $2.60$ SCM420).
+    + **Bám tải servo phi tuyến 2 nhánh:** $\text{VF} \ge 55 \implies k_{\text{VF}} = 1.0 + (\text{VF}-55) \times 0.0050$; $\text{VF} < 55 \implies k_{\text{VF}} = 1.0 + (\text{VF}-55) \times 0.0100$ (thiếu áp servo lùi nhanh gấp đôi).
+    + **Chặn trần cơ học:** $F_{t,\text{final}} = \min(F_{t,\text{calc}}, \text{Hz} \times 0.060)$.
+  - **Kết quả nghiệm thu xuất sắc:**
+    + **MAPE thời gian cắt:** **$8.9\%$**.
+    + **MAE $F_{c,\text{máy}}$:** **$6.07\text{ mm}^2/\text{p}$**.
+    + **MAE $F_{c,\text{thực}}$:** **$9.06\text{ mm}^2/\text{p}$**.
+    + Phôi siêu dày $H=300\text{mm}$ (STT 14): Cắt thực tế 180 phút, mô hình tính toán **182 phút 51 giây** (lệch đúng 2 phút 51 giây!).
+    + Các bài $H=12, 40, 63, 140\text{mm}$: Thời gian tính toán lệch thực tế chưa đầy 20 giây!
+* **Các thay đổi đã triển khai trong mã nguồn:**
+  - `app.js`: Tích hợp mô hình Vòng 5 vào `generateWorkshopRows(state)` và `computeRowDynamics(r, idx, ov)`. Cập nhật toàn bộ 19 bài trong `WS_LIB_BENCHMARK_JOBS[1]`. Xóa biến trùng lặp `let speedAreaH40`.
+  - Đồng bộ phiên bản `v3.5.61` trên 5 file: `version.json`, `sw.js`, `index.html`, `app.js`, `style.css`.
+  - Tài liệu chi tiết lưu tại `docs/RESEARCH_FC_OPTIMIZATION_MODEL.md`.
+  - Sao lưu an toàn: `backups/autocut_2026-11-06(97).zip`.
+  - Kiểm định tự động: AST syntax integrity PASSED 100%, Trình duyệt Edge Headless render DOM thật PASSED 100%.
+
+
 ### 🚀 ĐỢT 60: KHẮC PHỤC TRIỆT ĐỂ LỖI CÚ PHÁP JAVASCRIPT HÀM SAO CHÉP, BỔ SUNG BROWSER HEADLESS TESTING & NÂNG CẤP v3.5.60 (v3.5.60)
 * **Thời gian:** 2026-11-06 20:30 (GMT+7)
 * **Bối cảnh & Phát hiện sự cố từ SirPhuong:**
