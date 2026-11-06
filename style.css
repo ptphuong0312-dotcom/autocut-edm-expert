@@ -2567,3 +2567,183 @@ body {
     background: #090d16;
     color: #fff;
 }
+
+/* ====================================================
+   WORKSHOP DUAL-ZONE CONTAINER & TABLE STYLES (v3.5.59)
+   ==================================================== */
+.ws-zone-card {
+    margin-bottom: 14px;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    transition: all 0.2s ease;
+}
+.ws-zone-vung1 {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+}
+.ws-zone-vung2 {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+.ws-zone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.ws-zone-title {
+    font-size: 13px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.ws-title-vung1 {
+    color: var(--accent-cyan);
+}
+.ws-title-vung2 {
+    color: var(--accent-purple);
+}
+.ws-zone-subtitle {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+.ws-zone-hint {
+    font-size: 11px;
+    color: var(--accent-amber);
+}
+.ws-hint-vung2 {
+    color: rgba(167, 139, 250, 0.9);
+}
+
+.results-header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+#ws-btn-reset-params {
+    border-color: rgba(251, 191, 36, 0.5);
+    color: var(--accent-amber);
+    font-size: 11.5px;
+    padding: 5px 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: rgba(251, 191, 36, 0.08);
+    transition: all 0.2s ease;
+}
+#ws-btn-reset-params:hover {
+    background: rgba(251, 191, 36, 0.18);
+    border-color: var(--accent-amber);
+}
+
+/* TỐI ƯU CỘT OFFSET Ở ĐẦU VÙNG 2 */
+.col-offset-header {
+    background: rgba(245, 158, 11, 0.12) !important;
+    border-left: 1px solid rgba(245, 158, 11, 0.3);
+    border-right: 1px solid rgba(245, 158, 11, 0.3);
+    text-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+}
+.col-offset-cell {
+    border-left: 1px solid rgba(245, 158, 11, 0.25);
+    border-right: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+/* ====================================================
+   MOBILE RESPONSIVENESS ENHANCEMENTS (max-width: 768px)
+   ==================================================== */
+@media (max-width: 768px) {
+    .results-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    .results-header-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+    .results-header-actions .btn {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        padding: 7px 4px;
+        font-size: 11.5px;
+        min-height: 36px;
+    }
+
+    .ws-zone-card {
+        padding: 8px 6px;
+        margin-bottom: 10px;
+    }
+    .ws-zone-header {
+        margin-bottom: 6px;
+    }
+    .ws-zone-title {
+        font-size: 12px;
+    }
+    .ws-zone-subtitle {
+        font-size: 10px;
+    }
+    .ws-zone-hint {
+        font-size: 10.5px;
+    }
+
+    /* Table cells & inputs on Mobile */
+    .edm-table th, .edm-table td {
+        padding: 7px 4px;
+        font-size: 12px;
+    }
+    .edm-table th {
+        font-size: 10.5px;
+        padding: 6px 3px;
+        letter-spacing: 0;
+    }
+    .ws-cell-input {
+        width: 50px;
+        padding: 4px 2px;
+        font-size: 12.5px;
+    }
+    .ws-cell-select {
+        padding: 4px 2px;
+        font-size: 11px;
+    }
+    .pass-badge {
+        padding: 3px 5px;
+        font-size: 10.5px;
+    }
+    .col-offset-header, .col-offset-cell {
+        font-size: 13px !important;
+        padding-left: 6px !important;
+        padding-right: 6px !important;
+    }
+    .col-offset-cell strong {
+        font-size: 13.5px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .ws-cell-input {
+        width: 46px;
+        padding: 3px 1px;
+        font-size: 12px;
+    }
+    .ws-cell-select {
+        padding: 3px 1px;
+        font-size: 10.5px;
+    }
+    .edm-table th, .edm-table td {
+        padding: 6px 2px;
+    }
+    .pass-badge {
+        padding: 2px 3px;
+        font-size: 9.5px;
+    }
+}

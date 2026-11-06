@@ -3707,7 +3707,7 @@ function initApp() {
                 return { tiVal, poVal, ipVal, voltVal, vfVal, wireVal, offsetDisplay, ampeDisplay, speedArea, speedAreaH40, hz, Ra };
             }
 
-            // Render VÙNG 1: Thông số điện xung & Bù dao Offset
+            // Render VÙNG 1: Thông số đầu vào (Điện xung & Bước tiến)
             wsTableBodyVung1.innerHTML = wsRowsList.map((r, idx) => {
                 const ov = state.wsCustomOverrides[idx] || {};
                 const dyn = computeRowDynamics(r, idx, ov);
@@ -3731,22 +3731,22 @@ function initApp() {
                             <option value="3" ${dyn.wireVal == '3' ? 'selected' : ''}>3</option>
                         </select>
                     </td>
-                    <td class="val-offset fw-bold" style="color:var(--accent-amber); font-size:13.5px;"><span id="ws-dyn-offset-${idx}">${dyn.offsetDisplay}</span> mm</td>
                 </tr>
                 `;
             }).join('');
 
-            // Render VÙNG 2: Năng suất & Động học máy
+            // Render VÙNG 2: Kết quả đầu ra (OFFSET, Năng suất & Động học máy)
             wsTableBodyVung2.innerHTML = wsRowsList.map((r, idx) => {
                 const ov = state.wsCustomOverrides[idx] || {};
                 const dyn = computeRowDynamics(r, idx, ov);
                 return `
                 <tr>
                     <td class="pass-cell sticky-col"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
-                    <td><span id="ws-dyn-fc-${idx}" style="color:var(--accent-amber); font-weight:600;">${dyn.speedArea}</span></td>
-                    <td><strong id="ws-dyn-fch40-${idx}" style="color:var(--accent-amber);">${dyn.speedAreaH40}</strong></td>
-                    <td><strong id="ws-dyn-hz-${idx}" style="color:var(--accent-amber);">${dyn.hz} Hz</strong></td>
-                    <td><strong id="ws-dyn-ampe-${idx}" style="color:var(--accent-amber); font-size:13px;">${dyn.ampeDisplay}</strong></td>
+                    <td class="val-offset fw-bold col-offset-cell" style="color:var(--accent-amber); font-size:14px; background: rgba(245, 158, 11, 0.08);"><strong id="ws-dyn-offset-${idx}">${dyn.offsetDisplay}</strong> mm</td>
+                    <td><span id="ws-dyn-fc-${idx}" style="color:var(--accent-cyan); font-weight:600;">${dyn.speedArea}</span></td>
+                    <td><strong id="ws-dyn-fch40-${idx}" style="color:var(--accent-cyan);">${dyn.speedAreaH40}</strong></td>
+                    <td><strong id="ws-dyn-hz-${idx}" style="color:var(--text-primary);">${dyn.hz} Hz</strong></td>
+                    <td><strong id="ws-dyn-ampe-${idx}" style="color:var(--accent-green); font-size:13px;">${dyn.ampeDisplay}</strong></td>
                     <td class="val-ra"><span id="ws-dyn-ra-${idx}">${dyn.Ra}</span></td>
                 </tr>
                 `;
@@ -3949,12 +3949,33 @@ function initApp() {
         };
         const matLabel = matNames[state.wsMaterial] || matNames['SCM420'];
         const wsPassNum = state.wsPassCount || 1;
-        let text = `AUTOCUT EDM SERVO - BẢNG HIỆU CHỈNH THỰC TẾ XƯỞNG (TAB 2)\n`;
-        text += `Vật liệu: ${matLabel} | Chiều dày H: ${state.thickness}mm | Quy trình: ${wsPassNum} Pass | Chế độ: ${strat.name}\n\n`;
-        text += `P\tTon\tToff\tIP\tV\tVF\tWire\tOFFSET\tFc thực(mm2/p)\tFc máy H40(mm2/p)\tGiới hạn(Hz)\tAmpe(A)\tRa\n`;
+        let text = AUTOCUT EDM SERVO - THÔNG SỐ CẮT & BÙ DAO OFFSET (TAB 1)\n;
+        text += Vật liệu:  | Chiều dày H: mm | Quy trình:  Pass | Chế độ: \n\n;
+        text += P\tPon(μs)\tPoff(Po)\tIP(Sò)\tVolt\tVF\tWire\tOFFSET(mm)\tFc thực(mm2/p)\tFc máy H40\tGiới hạn(Hz)\tAmpe(A)\tRa\n;
         
-        wsRows.forEach(r => {
-            text += `${r.passName}\t${r.ti}\t${r.Po}\t${r.IP}\t${r.Voltage}\t${r.VF}\t${r.Wire}\t${r.offsetText}\t${r.speedArea}\t${r.speedAreaH40}\t${r.hz || '--'}\t${r.ampe}\t${r.Ra}\n`;
+        wsRows.forEach((r, idx) => {
+            const offEl = document.getElementById(ws-dyn-offset-);
+            const offsetVal = offEl ? offEl.textContent.trim() : r.offsetText;
+            const fcEl = document.getElementById(ws-dyn-fc-);
+            const fcVal = fcEl ? fcEl.textContent.trim() : r.speedArea;
+            const fch40El = document.getElementById(ws-dyn-fch40-);
+            const fch40Val = fch40El ? fch40El.textContent.trim() : r.speedAreaH40;
+            const ampeEl = document.getElementById(ws-dyn-ampe-);
+            const ampeVal = ampeEl ? ampeEl.textContent.trim() : r.ampe;
+            const hzEl = document.getElementById(ws-dyn-hz-);
+            const hzVal = hzEl ? hzEl.textContent.trim() : (r.hz || '--');
+            const raEl = document.getElementById(ws-dyn-ra-);
+            const raVal = raEl ? raEl.textContent.trim() : r.Ra;
+
+            const ov = (state.wsCustomOverrides && state.wsCustomOverrides[idx]) || {};
+            const ti = ov.ti !== undefined ? ov.ti : r.ti;
+            const po = ov.Po !== undefined ? ov.Po : r.Po;
+            const ip = ov.IP !== undefined ? ov.IP : r.IP;
+            const volt = ov.Voltage !== undefined ? ov.Voltage : r.Voltage;
+            const vf = ov.VF !== undefined ? ov.VF : r.VF;
+            const wire = ov.Wire !== undefined ? ov.Wire : r.Wire;
+
+            text += ${r.passName}\t\t\t\t\t\t\t\t\t\t\t\t\n;
         });
 
         navigator.clipboard.writeText(text).then(() => {
@@ -3970,7 +3991,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.5.58";
+    const CURRENT_VERSION = "3.5.59";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {

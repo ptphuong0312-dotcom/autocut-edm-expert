@@ -436,3 +436,34 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
   - **Kiểm tra luật chống bảng tra tĩnh (Rule 16 & Rule 17):** PASSED 100%.
   - **Kiểm tra đồng bộ phiên bản (`v3.5.58` trên 5 file):** PASSED 100%.
   - **Kiểm tra cân bằng thẻ HTML DOM (`check_dom_balance.ps1`):** Open divs 171 / Close divs 171 (PERFECT!).
+
+
+---
+
+### 🚀 ĐỢT 59: CHUYỂN CỘT OFFSET SANG ĐẦU VÙNG 2 & TỐI ƯU TOÀN DIỆN THIẾT KẾ MOBILE (v3.5.59)
+* **Thời gian:** 2026-11-06 20:05 (GMT+7)
+* **Mục tiêu kỹ thuật từ SirPhuong:**
+  1. Chuyển cột `OFFSET` xuống để ở đầu bảng trong Vùng 2 để phân định chuẩn rạch ròi 2 vùng: Vùng 1 là THÔNG SỐ ĐẦU VÀO (Input) và Vùng 2 là KẾT QUẢ ĐẦU RA (Output).
+  2. Tối ưu hóa toàn diện thiết kế cho điện thoại di động (Mobile) để xem và thao tác dễ dàng nhất.
+* **Các cải tiến kỹ thuật đã thực hiện:**
+  - **Phân định rạch ròi Đầu Vào ⟷ Đầu Ra:**
+    + **VÙNG 1 (ĐẦU VÀO):** Gồm 7 cột `P | Pon (μs) | Poff (Po) | IP (Sò) | Volt | VF | Wire`. Thuần túy là các thông số điện xung và tốc độ kéo dây/tiến bàn mà người thợ có thể sửa trực tiếp.
+    + **VÙNG 2 (ĐẦU RA):** Gồm 7 cột `P | OFFSET (mm) | Fc thực (mm²/p) | Fc máy (H40) | Giới hạn (Hz) | Ampe kế (A) | Ra (μm)`. Cột `OFFSET (mm)` được đưa lên ngay đầu tiên sau cột `P`, nổi bật bằng màu Amber `#f59e0b` và số lớn in đậm `14px`.
+    + Cơ chế động học tức thời: Khi sửa bất kỳ ô nào ở Vùng 1, `OFFSET` và toàn bộ kết quả ở Vùng 2 tự động cập nhật ngay lập tức mà không làm mất focus chuột hay bàn phím.
+  - **Tối ưu hóa thiết kế Mobile (`style.css` & `index.html`):**
+    + **Xem ngay OFFSET không cần cuộn:** Vì `OFFSET` nằm ngay cạnh cột Pass `P`, người dùng mở app trên điện thoại (mọi kích cỡ màn hình từ 360px đến 430px) là thấy ngay thông số quan trọng nhất mà không cần phải vuốt ngang.
+    + **Co gọn bảng Vùng 1:** Ô nhập `ws-cell-input` được co gọn lại 50px (vẫn đủ gõ 3 chữ số thoải mái), padding ô giảm xuống `7px 4px`, giúp bảng Vùng 1 gần như lọt trọn trong chiều rộng màn hình mobile.
+    + **Nút bấm 2 cột cân đối:** Hai nút `[🔄 Trở Về Mặc Định]` và `[📋 Copy Bảng]` được xếp dạng lưới 2 cột đối xứng `grid-template-columns: 1fr 1fr` trên mobile, chạm ngón tay cái rất dễ dàng.
+    + **Đồng bộ tính năng Copy:** Nút `[📋 Copy Bảng]` xuất chuẩn văn bản theo cấu trúc mới: `P, Pon, Poff, IP, Volt, VF, Wire, OFFSET, Fc thực, Fc máy H40, Hz, Ampe, Ra` kế thừa cả các can thiệp thực tế.
+* **Các file đã sửa:**
+  - `index.html`: Di chuyển cột OFFSET sang Vùng 2, gắn class `.ws-zone-card`, `.col-offset-header`.
+  - `app.js`: Render lại bảng Vùng 1 & Vùng 2, cập nhật copy table, nâng phiên bản `v3.5.59`.
+  - `style.css`: Thêm stylesheet Dual-Zone và bộ quy chuẩn responsive mobile `@media (max-width: 768px)` và `@media (max-width: 480px)`.
+  - `version.json`, `sw.js`: Đồng bộ phiên bản `v3.5.59` và cập nhật Service Worker cache.
+  - `backups/autocut_2026-11-06(95).zip`: Bản sao lưu an toàn độc lập.
+* **Kết quả nghiệm thu kỹ thuật:**
+  - **Kiểm định cú pháp & tính toàn vẹn AST (`verify_integrity.py`):** PASSED 100%.
+  - **Kiểm tra luật chống bảng tra tĩnh (Rule 16 & Rule 17):** PASSED 100%.
+  - **Kiểm tra đồng bộ phiên bản (`v3.5.59` trên 5 file):** PASSED 100%.
+  - **Kiểm tra cân bằng thẻ HTML DOM:** Open divs 171 / Close divs 171 (PERFECT!).
+  - **Độ chính xác mô hình vật lý EDM (Model Vòng 5):** MAE toàn cục `2.70 um` (SCM440 `2.77 um`, SCM420 `2.64 um`, Max Error `5.75 um`).
