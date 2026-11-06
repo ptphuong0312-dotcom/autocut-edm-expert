@@ -6,53 +6,58 @@
 ---
 
 ## ⏱️ 1. THỜI GIAN LÀM VIỆC GẦN NHẤT
-* **Thời điểm cập nhật:** `2026-11-07 00:55:00` (Giờ địa phương GMT+7)
+* **Thời điểm cập nhật:** `2026-11-07 01:45:00` (Giờ địa phương GMT+7)
 * **Vị trí làm việc hiện tại:** Máy tính Ở Nhà
-* **Phiên bản hệ thống:** `v3.5.62` (Đã hoàn thiện & đóng gói)
+* **Phiên bản hệ thống:** `v3.5.63` (Đã hoàn thiện & đóng gói)
 
 ---
 
 ## ✅ 2. CÁC VIỆC VỪA HOÀN THÀNH
-* **Đợt 62 (v3.5.62 - Nâng Cấp Mô Hình Toán - Vật Lý Nhiệt Động Học Vòng 6 Tối Ưu Hội Tụ Cho Fc Thực & Fc Máy H40):**
-  - **Chỉ thị cốt lõi & Phương pháp luận từ SirPhuong:**
-    + Dải đọc bằng mắt trên màn hình máy (`read`) CHỈ DÙNG ĐỂ THAM KHẢO (dao động theo từng giây).
-    + Cơ sở duy nhất để so sánh, tính toán và tinh chỉnh là **3 số đo cứng khách quan tuyệt đối**: **Thời gian cắt $t$**, **Chiều dài cắt $L$**, **Chiều cao phôi cắt $H$**.
-    + $F_{c,\text{máy (H40)}}$ là tốc độ quy đổi cố định cho phôi cao $40\text{mm}$, do đó:
-      $$F_{t,\text{thực}} = \frac{L}{t} \quad (\text{mm/p})$$
-      $$F_{c,\text{thực}} = F_t \times H = \frac{L \times H}{t} \quad (\text{mm}^2/\text{p})$$
-      $$F_{c,\text{máy H40}} = F_t \times 40 = \frac{L \times 40}{t} \quad (\text{mm}^2/\text{p})$$
-    + Giữ nguyên hiển thị 2 cột như cũ trên Web App.
-  - **Kết quả Vòng 6 Tối Ưu Hội Tụ (15 bài cắt thực tế):**
-    + **Khơi thông biến $P_{\text{on}}$:** Cho $P_{\text{on}}$ ($T_{\text{on}}$) tham gia bóc tách theo lũy thừa $T_{\text{on}}^{0.15}$ và sò $\text{IP}^{0.16}$, dỡ bỏ hoàn toàn trần cứng $80\mu s$. Khi người dùng tăng/giảm $P_{\text{on}}$ ở Vùng 1, $F_c$ biến thiên nhịp nhàng, tăng giảm hợp lý ở mọi độ dày từ $10\text{mm} \rightarrow 300\text{mm}$, không còn bị đơ hay phẳng lì.
-    + **MAPE thời gian cắt (Toàn bộ 15 bài):** **$7.84\%$** (Giảm mạnh từ $14.31\%$).
-    + **MAPE thời gian cắt (14 bài chuẩn xưởng):** **$5.84\%$** (Hội tụ xuất sắc dưới $6\%$).
-    + **MAE $F_{c,\text{máy}}$:** Chỉ **$3.98\text{ mm}^2/\text{p}$**.
-    + **MAE $F_{c,\text{thực}}$:** Chỉ **$7.86\text{ mm}^2/\text{p}$**.
-    + **4 bài cắt có sai số thời gian cắt $\approx 0$ (lệch dưới 2 giây):**
-      * 5P-01 ($H=12\text{mm}$): Thực tế $19.8\text{p}$, tính toán $19.8\text{p}$ (lệch -1.2 giây).
-      * STT 12 ($H=140\text{mm}$): Thực tế $36.0\text{p}$, tính toán $36.0\text{p}$ (lệch 0 giây).
-      * STT 13 ($H=300\text{mm}$): Thực tế $89.0\text{p}$, tính toán $89.0\text{p}$ (lệch -0.6 giây).
-      * STT 18 ($H=63\text{mm}$): Thực tế $17.7\text{p}$, tính toán $17.7\text{p}$ (lệch 0 giây).
-  - **Tích hợp Web App:**
-    1. Đưa hệ phương trình Vòng 6 vào `generateWorkshopRows(state)` và `computeRowDynamics(r, idx, ov)` trong `app.js`.
-    2. Cập nhật 19 bài trong `WS_LIB_BENCHMARK_JOBS[1]` (Tab 2 Thư viện) với số liệu $t_{\text{calc}}$ và $F_{c,\text{máy}}$ mới nhất.
-    3. Đồng bộ phiên bản `v3.5.62` trên 5 file hệ thống (`version.json`, `sw.js`, `index.html`, `app.js`, `style.css`).
-    4. Kiểm định tự động: AST syntax integrity PASSED 100%, Trình duyệt Edge Headless render DOM thật PASSED 100%.
+* **Đợt 63 (v3.5.63 - Chuẩn Hóa Bảng 2 Vùng Pon-Offset, Mũi Tên Mở Rộng 6 Chế Độ Cắt, Loại Bỏ Tab 2 Cũ & Tối Ưu Mobile UX Toàn Diện):**
+  - **1. Chuẩn Hóa Bảng 2 Vùng Theo Đúng Chỉ Thị Của SirPhuong:**
+    + **VÙNG 1 (Từ Pon đến OFFSET):** `P` | `Pon (μs)` | `Poff (Po)` | `IP (Sò)` | `Volt` | `VF` | `Wire` | `OFFSET (mm)`.
+      * Các ô `Pon`, `Poff`, `IP`, `Volt`, `VF`, `Wire` cho phép người dùng tùy chỉnh trực tiếp.
+      * Cột `OFFSET` nằm ngay cuối Vùng 1, hiển thị số nổi bật (màu vàng hổ phách, chữ đậm), tự động tính toán lại tức thì theo hệ phương trình nhiệt động học liên tục EDM khi người dùng chỉnh bất kỳ thông số nào.
+    + **VÙNG 2 (Động học máy):** `P` | `Fc thực (mm²/p)` | `Fc máy (H40)` | `Giới hạn (Hz)` | `Ampe kế (A)` | `Ra (μm)`.
+      * Tự động phản ứng và cập nhật đồng bộ theo các thông số ở Vùng 1.
+    + **Nút "🔄 Trở Về Mặc Định":** Khôi phục lại toàn bộ thông số chuẩn của App tính toán trước đó chỉ với 1 cú click.
+  - **2. Bổ Sung Biểu Tượng Mũi Tên Hướng Xuống Cho "6 Chế Độ Cắt":**
+    + Thêm ký tự mũi tên `▼` (`#ws-lib-toggle-arrow`) nổi bật bên cạnh chữ `6 Chế Độ Cắt`.
+    + Hiệu ứng xoay mượt mà 180° khi mở/đóng accordion thư viện, giúp thợ nhận diện trực quan vùng mở rộng.
+  - **3. Loại Bỏ Hoàn Toàn Tab 2 Cũ ("Nhập thông số cắt"):**
+    + Web App giờ đây tinh gọn tối đa với đúng **2 TAB**:
+      * Tab 1: ⚡ Tra Cứu Thông Số Cắt
+      * Tab 2: 📚 Kiến Thức EDM
+  - **4. Tối Ưu Hóa Trải Nghiệm Mobile Toàn Diện Cho Thợ Vận Hành:**
+    + Thanh điều hướng 2 Tab dạng Segmented Control bản địa (2 cột đều đặn).
+    + Lựa chọn vật liệu (SCM420 vs SCM440) xếp ngang 2 cột tiết kiệm 70px chiều dọc.
+    + Chip chọn nhanh chiều dày $H$ cuộn ngang vuốt ngón tay mượt mà (`overflow-x: auto`).
+    + Lưới chọn Pass (1P đến 6P) chia 2 hàng x 3 nút với diện tích chạm lớn ($\ge 42\text{px}$).
+    + Con trượt thanh kéo mở rộng nút trượt lên $26\text{px}$ để dễ vuốt bằng ngón tay cái.
+    + Bỏ nút mũi tên spinner trên các ô số trong bảng để giải phóng không gian hiển thị số.
+    + Cố định cột `P` với nền đen đậm và đổ bóng 3D, không bị trôi khi cuộn bảng ngang.
+    + Thư viện bài cắt thực nghiệm xưởng cuộn tab ngang mượt mà.
+    + Khắc phục sự cố khuyết thiếu lệnh gọi `render()` khởi động ban đầu.
+  - **5. Kiểm Định Chất Lượng:**
+    + AST Bracket balance & Syntax integrity: PASSED 100%.
+    + Anti-Lookup-Table Law & Continuous Physics: PASSED 100%.
+    + Live Browser Edge Headless Render (104,884 ký tự): PASSED 100%.
+    + Đồng bộ phiên bản `v3.5.63` trên cả 5 file hệ thống.
 
 ---
 
 ## 📌 3. TRẠNG THÁI MÃ NGUỒN & DỮ LIỆU HIỆN TẠI
-* **Phiên bản:** `3.5.62`
+* **Phiên bản:** `3.5.63`
 * **File chính đã cập nhật:**
-  - `app.js`: Tích hợp mô hình $F_c$ Vòng 6 Tối Ưu Hội Tụ, cập nhật `WS_LIB_BENCHMARK_JOBS[1]`, nâng `CURRENT_VERSION = "3.5.62"`.
-  - `sw.js`: Đổi `CACHE_NAME = 'autocut-v3.5.62'`.
-  - `version.json`: Nâng cấp version `3.5.62`, build timestamp `1793984000000`.
-  - `index.html`: Cập nhật query `?v=3.5.62` cho css, js và nhãn hiển thị phiên bản `v3.5.62`.
-  - `style.css`: Cập nhật chú thích header `v3.5.62`.
-* **Sao lưu an toàn:** File nén mới nhất `backups/autocut_2026-11-07(98).zip` (226 files).
+  - `index.html`: Cấu trúc Vùng 1 (chứa OFFSET), Vùng 2 (Động học), bỏ Tab 2 cũ, nâng cấp nhãn phiên bản `v3.5.63`.
+  - `app.js`: Render Vùng 1 có OFFSET, Vùng 2 động học, nút mũi tên `▼` cho 6 Chế Độ Cắt, khôi phục `render()` khởi động, `CURRENT_VERSION = "3.5.63"`.
+  - `style.css`: Bộ stylesheet tối ưu hóa Mobile toàn diện (Segmented tabs, touch sliders, swipe chips, no-spinner inputs).
+  - `sw.js`: Đổi `CACHE_NAME = 'autocut-v3.5.63'`.
+  - `version.json`: Nâng cấp version `3.5.63`.
+* **Sao lưu an toàn:** File nén `backups/autocut_2026-11-07(99).zip`.
 
 ---
 
 ## 🎯 4. KẾ HOẠCH BƯỚC TIẾP THEO
-1. Đẩy code lên GitHub nhánh `main` để Vercel tự động deploy phiên bản `v3.5.62`.
-2. Báo cáo kết quả chi tiết cho SirPhuong và hướng dẫn bấm nút **"🔄 Tải bản mới"** (hoặc Ctrl+F5) để kiểm tra trải nghiệm thực tế trên Web App.
+1. Đẩy code lên GitHub nhánh `main` để Vercel tự động deploy phiên bản `v3.5.63`.
+2. Sẵn sàng nhận thêm dữ liệu cắt thực tế mới từ SirPhuong để tiếp tục nghiên cứu tinh chỉnh đồng hồ Ampe sát thực tế theo quy trình chuỗi đối sánh.

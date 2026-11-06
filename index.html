@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=3.5.62">
+    <link rel="stylesheet" href="style.css?v=3.5.63">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -38,7 +38,6 @@
         <nav class="nav-tabs">
             <button class="nav-tab active" data-tab="tab-workshop">⚡ Tra Cứu Thông Số Cắt</button>
 
-            <button class="nav-tab" data-tab="tab-vf-research">📝 Nhập Thông Số Cắt</button>
             <button class="nav-tab" data-tab="tab-knowledge">📚 Kiến Thức EDM</button>
         </nav>
 
@@ -192,13 +191,13 @@
                         </div>
                     </div>
 
-                    <!-- VÙNG 1: THÔNG SỐ ĐẦU VÀO (XẾP DỌC) -->
+                    <!-- VÙNG 1: THÔNG SỐ ĐẦU VÀO & BÙ DAO OFFSET (XẾP DỌC) -->
                     <div class="ws-zone-card ws-zone-vung1">
                         <div class="ws-zone-header">
                             <h3 class="ws-zone-title ws-title-vung1">
-                                <span>⚡</span> VÙNG 1: THÔNG SỐ ĐẦU VÀO <span class="ws-zone-subtitle">(Điện xung &amp; Bước tiến - Có thể sửa trực tiếp)</span>
+                                <span>⚡</span> VÙNG 1: THÔNG SỐ ĐẦU VÀO &amp; BÙ DAO OFFSET <span class="ws-zone-subtitle">(Điện xung, Bước tiến &amp; Offset - Có thể sửa trực tiếp)</span>
                             </h3>
-                            <span class="ws-zone-hint">💡 Chỉnh Pon, Poff, IP, Volt, VF, Wire &rarr; Vùng 2 tự tính lại</span>
+                            <span class="ws-zone-hint">💡 Chỉnh Pon, Poff, IP, Volt, VF, Wire &rarr; OFFSET &amp; Vùng 2 tự tính lại</span>
                         </div>
                         <div class="table-responsive">
                             <table class="edm-table workshop-table" id="ws-edm-table-vung1">
@@ -211,6 +210,7 @@
                                         <th>Volt</th>
                                         <th>VF</th>
                                         <th>Wire</th>
+                                        <th class="col-offset-header" style="color: var(--accent-amber); font-size: 13px; font-weight: 800;">OFFSET (mm)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="ws-table-body-vung1">
@@ -220,11 +220,11 @@
                         </div>
                     </div>
 
-                    <!-- VÙNG 2: KẾT QUẢ ĐẦU RA (OFFSET, NĂNG SUẤT & ĐỘNG HỌC MÁY - XẾP DỌC) -->
+                    <!-- VÙNG 2: KẾT QUẢ ĐỘNG HỌC MÁY (XẾP DỌC) -->
                     <div class="ws-zone-card ws-zone-vung2">
                         <div class="ws-zone-header">
                             <h3 class="ws-zone-title ws-title-vung2">
-                                <span>📊</span> VÙNG 2: KẾT QUẢ ĐẦU RA <span class="ws-zone-subtitle">(Bù dao Offset, Năng suất &amp; Động học máy)</span>
+                                <span>📊</span> VÙNG 2: KẾT QUẢ ĐỘNG HỌC MÁY <span class="ws-zone-subtitle">(Năng suất, Tần số &amp; Dòng Ampe)</span>
                             </h3>
                             <span class="ws-zone-hint ws-hint-vung2">⚡ Tự động tính toán phản ứng theo Vùng 1</span>
                         </div>
@@ -233,7 +233,6 @@
                                 <thead>
                                     <tr>
                                         <th class="sticky-col">P</th>
-                                        <th class="col-offset-header" style="color: var(--accent-amber); font-size: 13px; font-weight: 800;">OFFSET (mm)</th>
                                         <th>Fc thực (mm²/p)</th>
                                         <th>Fc máy (H40)</th>
                                         <th>Giới hạn (Hz)</th>
@@ -264,210 +263,7 @@
             </main>
         </div>
 
-        <!-- PHÂN HỆ 2: NHẬP THÔNG SỐ CẮT -->
-        <div class="tab-content" id="tab-vf-research">
-            <main class="main-content">
-                <!-- CỘT TRÁI: BẢNG NHẬP THÔNG SỐ GIA CÔNG TỰ DO -->
-                <section class="control-panel card">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 8px;">
-                        <div>
-                            <h2 class="section-title" style="margin-bottom: 4px;">
-                                <span class="badge-num" style="background: var(--accent-purple); color: #fff;">📝</span> Nhập Thông Số Cắt Tự Do
-                            </h2>
-                            <p style="font-size: 12px; color: var(--text-secondary);">Tự do tùy chỉnh bất kỳ thông số nào (Pon, Poff, IP, Volt, VF, Tần số Max) để tính toán Lượng cào phôi δ, Bù dao Offset và Dòng Ampe</p>
-                        </div>
-                        <span class="tag" style="background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); border: 1px solid var(--accent-purple); white-space: nowrap;">Mô Phỏng 1 Pass</span>
-                    </div>
-
-
-                    <!-- NÚT LẤY THÔNG SỐ TỪ TAB TRA CỨU (TAB 1) -->
-                    <div style="margin-bottom: 16px; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: var(--radius-sm); padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <span style="font-size: 22px;">⚡</span>
-                            <div>
-                                <strong style="font-size: 13px; color: var(--accent-cyan); display: block;">Lấy Thông Số Đầu Vào Từ Tab Tra Cứu:</strong>
-                                <span style="font-size: 11.5px; color: var(--text-secondary);" id="vf-sync-preview-text">Nạp nhanh toàn bộ H, Pon, Poff, IP, Volt, VF đang tính ở Tab Tra Cứu sang đây</span>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-primary" id="btn-sync-from-tab1" style="background: linear-gradient(135deg, #0284c7, #7c3aed); border: 1px solid rgba(255, 255, 255, 0.2); padding: 8px 16px; font-weight: 700; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 10px rgba(14, 165, 233, 0.4); cursor: pointer; border-radius: 6px; color: #fff; transition: all 0.2s ease;">
-                            <span>📥 Nạp Thông Số Từ Tab 1</span>
-                        </button>
-                    </div>
-
-                    <!-- 1. VẬT LIỆU -->
-                    <div class="form-group">
-                        <label class="form-label">1. Vật Liệu Phôi:</label>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;" id="vf-mat-selector">
-                            <button type="button" class="btn btn-outline vf-mat-btn active" data-mat="SCM440">
-                                <strong>SCM440</strong> <span style="font-size: 11px; opacity: 0.8;">(28-32 HRC Thép cứng)</span>
-                            </button>
-                            <button type="button" class="btn btn-outline vf-mat-btn" data-mat="SCM420">
-                                <strong>SCM420</strong> <span style="font-size: 11px; opacity: 0.8;">(HB &lt; 200 Thép mềm)</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- 2. CHIỀU DÀY PHÔI H -->
-                    <div class="form-group">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                            <label class="form-label" for="vf-input-h" style="margin-bottom: 0;">2. Chiều Dày Phôi H (mm):</label>
-                            <div style="display: flex; align-items: center; gap: 4px;">
-                                <input type="number" id="vf-input-h" min="1" max="500" value="40" style="width: 70px; padding: 4px 8px; text-align: right; font-family: var(--font-mono); font-weight: 700; background: var(--bg-input); border: 1px solid var(--border-color); color: var(--accent-cyan); border-radius: var(--radius-sm);">
-                                <span style="font-size: 12px; color: var(--text-secondary);">mm</span>
-                            </div>
-                        </div>
-                        <input type="range" id="vf-slider-h" min="5" max="300" step="1" value="40" style="width: 100%; accent-color: var(--accent-cyan);">
-                    </div>
-
-                    <!-- 3. BỘ ĐIỆN: TON, PO, IP -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px;">
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label" for="vf-input-ton" style="font-size: 12px;">3. Pon (μs):</label>
-                            <input type="number" id="vf-input-ton" min="2" max="250" value="36" style="width: 100%; padding: 6px 10px; font-family: var(--font-mono); font-weight: 700; background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; border-radius: var(--radius-sm);">
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label" for="vf-input-po" style="font-size: 12px;">4. Poff (Po):</label>
-                            <input type="number" id="vf-input-po" min="1" max="30" value="5" style="width: 100%; padding: 6px 10px; font-family: var(--font-mono); font-weight: 700; background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; border-radius: var(--radius-sm);">
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label" for="vf-input-ip" style="font-size: 12px;">5. IP (Sò):</label>
-                            <input type="number" id="vf-input-ip" min="1" max="10" value="4" style="width: 100%; padding: 6px 10px; font-family: var(--font-mono); font-weight: 700; background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; border-radius: var(--radius-sm);">
-                        </div>
-                    </div>
-
-                    <!-- 4. ĐIỆN ÁP VOLT & ĐIỆN ÁP THEO DÕI VF -->
-                    <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 12px; margin-bottom: 14px;">
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label" style="font-size: 12px;">6. Điện Áp (Volt):</label>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;" id="vf-volt-selector">
-                                <button type="button" class="btn btn-outline vf-volt-btn active" data-volt="High">High (27V)</button>
-                                <button type="button" class="btn btn-outline vf-volt-btn" data-volt="Low">Low (22V)</button>
-                            </div>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                <label class="form-label" for="vf-input-vf" style="font-size: 12px; margin-bottom: 0; color: var(--accent-amber); font-weight: 700;">7. VF (Tracking):</label>
-                                <div style="display: flex; align-items: center; gap: 4px;">
-                                    <input type="number" id="vf-input-vf" min="10" max="99" value="65" style="width: 60px; padding: 4px 6px; text-align: right; font-family: var(--font-mono); font-weight: 700; background: var(--bg-input); border: 1px solid var(--accent-amber); color: var(--accent-amber); border-radius: var(--radius-sm);">
-                                </div>
-                            </div>
-                            <input type="range" id="vf-slider-vf" min="20" max="85" step="1" value="65" style="width: 100%; accent-color: var(--accent-amber);">
-                        </div>
-                    </div>
-
-                    <!-- 5. BÁN KÍNH DÂY MOLY -->
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <label class="form-label" style="font-size: 12px; margin-bottom: 0;">8. Bán kính dây Moly R (mm):</label>
-                            <span style="font-family: var(--font-mono); font-weight: 700; color: var(--text-secondary);">R = 0.090 mm (Dây Φ0.18)</span>
-                        </div>
-                    </div>
-
-                    <!-- 6. ĐỘNG LỰC HỌC XUNG THEO CÔNG THỨC TOFF MỚI -->
-                    <div style="background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: var(--radius-sm); padding: 10px 12px; margin-top: 14px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                            <strong style="color: var(--accent-purple); font-size: 12px;">⚡ Động Lực Học Xung &amp; Năng Suất (Chuẩn Poff mới):</strong>
-                            <span class="tag" id="vf-pulse-duty-tag" style="font-size: 11px; background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); border: 1px solid rgba(139, 92, 246, 0.4); font-weight: 700;">η = 14.3%</span>
-                        </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; font-size: 11px;">
-                            <div>• Poff thực tế: <strong style="color: #fff; font-family: var(--font-mono);" id="vf-out-toff">216 μs</strong></div>
-                            <div>• Tổng chu kỳ T: <strong style="color: #fff; font-family: var(--font-mono);" id="vf-out-cycle">252 μs</strong></div>
-                            <div>• Tần số xung f: <strong style="color: var(--accent-cyan); font-family: var(--font-mono);" id="vf-out-freq">3.97 kHz</strong></div>
-                            <div>• Dòng Ampe dự tính: <strong style="color: var(--accent-amber); font-family: var(--font-mono);" id="vf-out-ampe">~1.8 A</strong></div>
-                            <div style="grid-column: 1 / -1; border-top: 1px dashed rgba(139, 92, 246, 0.3); padding-top: 5px; display: flex; justify-content: space-between; align-items: center;">
-                                <span>• Năng suất lý thuyết (Fc):</span>
-                                <strong style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 12px;" id="vf-out-fc">~112 mm²/p</strong>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- CỘT PHẢI: KẾT QUẢ SO SÁNH SONG SONG 2 CÔNG THỨC -->
-                <section class="result-panel card">
-                    <h2 class="section-title"><span class="badge-num" style="background: var(--accent-cyan); color: #000;">⚡</span> Kết Quả Tính Toán So Sánh (1 Pass)</h2>
-
-                    <!-- 2 THẺ KẾT QUẢ SONG SONG -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
-                        <!-- KẾT QUẢ 1: CÔNG THỨC GỐC XƯỞNG (KHÔNG VF) -->
-                        <div style="background: var(--bg-card-alt); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px; position: relative;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <span class="tag" style="background: rgba(56, 189, 248, 0.15); color: var(--border-highlight); border: 1px solid rgba(56, 189, 248, 0.3); font-weight: 700;">1. CÔNG THỨC GỐC XƯỞNG</span>
-                                <span style="font-size: 11px; color: var(--text-muted);">Tab Xưởng hiện tại</span>
-                            </div>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">Chỉ phụ thuộc (H, Pon, IP, Volt), chưa tính độ trễ VF</p>
-
-                            <div style="margin-bottom: 10px;">
-                                <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Lượng cào phôi bề mặt (δ):</span>
-                                <div style="font-family: var(--font-mono); font-size: 22px; font-weight: 800; color: #fff;" id="vf-out-gap-base">0.0061 mm</div>
-                                <span style="font-size: 12px; color: var(--text-secondary);" id="vf-out-gap-base-um">(6.10 μm)</span>
-                            </div>
-
-                            <div style="padding-top: 10px; border-top: 1px dashed var(--border-color);">
-                                <span style="font-size: 11px; text-transform: uppercase; color: var(--accent-cyan); font-weight: 700;">Offset Bù Dao 1 Pass (O_1P):</span>
-                                <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--accent-cyan);" id="vf-out-offset-base">0.0961 mm</div>
-                                <span style="font-size: 11px; color: var(--text-muted);" id="vf-out-kerf-base">Rãnh cắt W = 0.1922 mm</span>
-                            </div>
-                        </div>
-
-                        <!-- KẾT QUẢ 2: CÔNG THỨC MỚI (TÍCH HỢP VF) -->
-                        <div style="background: rgba(245, 158, 11, 0.05); border: 1px solid var(--accent-amber); border-radius: var(--radius-md); padding: 14px; position: relative;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <span class="tag" style="background: rgba(245, 158, 11, 0.2); color: var(--accent-amber); border: 1px solid var(--accent-amber); font-weight: 700;">2. CÔNG THỨC MỚI (VF &amp; CHU KỲ PO)</span>
-                                <span style="font-size: 11px; color: var(--accent-amber); font-weight: 700;" id="vf-tag-dvf">+2.55 μm</span>
-                            </div>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">Đã cộng hưởng bù trừ độ trễ VF và chu kỳ xả xỉ Po</p>
-
-                            <div style="margin-bottom: 10px;">
-                                <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Lượng cào phôi bề mặt (δ_vf):</span>
-                                <div style="font-family: var(--font-mono); font-size: 22px; font-weight: 800; color: #fff;" id="vf-out-gap-new">0.0086 mm</div>
-                                <span style="font-size: 12px; color: var(--accent-amber); font-weight: 700;" id="vf-out-gap-new-um">(8.65 μm)</span>
-                            </div>
-
-                            <div style="padding-top: 10px; border-top: 1px dashed rgba(245, 158, 11, 0.3);">
-                                <span style="font-size: 11px; text-transform: uppercase; color: var(--accent-amber); font-weight: 700;">Offset Bù Dao 1 Pass (O_1P VF):</span>
-                                <div style="font-family: var(--font-mono); font-size: 26px; font-weight: 800; color: var(--accent-amber);" id="vf-out-offset-new">0.0986 mm</div>
-                                <span style="font-size: 11px; color: var(--text-muted);" id="vf-out-kerf-new">Rãnh cắt W = 0.1973 mm</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- THẺ ĐÁNH GIÁ CHÊNH LỆCH & Ý NGHĨA VẬT LÝ -->
-                    <div style="background: #0f172a; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                            <strong style="color: var(--accent-cyan); font-size: 13px;">🔍 Đánh Giá Sai Lệch &amp; Tác Động Của VF:</strong>
-                            <span class="tag" id="vf-diff-badge" style="font-family: var(--font-mono); font-weight: 700;">Δ = +2.55 μm</span>
-                        </div>
-                        <p id="vf-insight-text" style="font-size: 13px; line-height: 1.5; color: var(--text-primary); margin: 0;">
-                            <!-- Injected by JS -->
-                        </p>
-                    </div>
-
-                    <!-- BẢNG BÓC TÁCH CHI TIẾT TỪNG THÀNH PHẦN VẬT LÝ -->
-                    <div style="border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden;">
-                        <div style="background: var(--bg-card-alt); padding: 8px 12px; font-weight: 700; font-size: 12px; color: var(--text-secondary); border-bottom: 1px solid var(--border-color);">
-                            📐 Bóc Tách Từng Thành Phần Vi Mô Cấu Thành Lượng Cào Phôi (μm):
-                        </div>
-                        <div class="table-responsive" style="margin: 0;">
-                            <table class="table" style="width: 100%; margin: 0; font-size: 12px;">
-                                <thead>
-                                    <tr style="background: rgba(0,0,0,0.2);">
-                                        <th style="padding: 6px 10px; text-align: left;">Thành phần vật lý</th>
-                                        <th style="padding: 6px 10px; text-align: left;">Cơ chế sinh ra</th>
-                                        <th style="padding: 6px 10px; text-align: right; color: var(--border-highlight);">Công thức Gốc</th>
-                                        <th style="padding: 6px 10px; text-align: right; color: var(--accent-amber);">Công thức mới (VF &amp; Po)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="vf-breakdown-tbody">
-                                    <!-- Injected by JS -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
-            </main>
-        </div>
-
-        <!-- PHÂN HỆ 3: KIẾN THỨC EDM -->
+        <!-- PHÂN HỆ 2: KIẾN THỨC EDM -->
         <div class="tab-content" id="tab-knowledge">
             <div class="knowledge-container card">
                 <div class="knowledge-header">
@@ -935,7 +731,7 @@
         <footer class="app-footer">
             <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
             <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">
-                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.62 (Mô Hình Fc Thực &amp; Fc Máy Vòng 6 Tối Ưu Hội Tụ 7.8%)</strong> &bull; 
+                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.63 (Bảng 2 Vùng Pon-Offset, Mũi Tên Mở Rộng &amp; Mobile UX)</strong> &bull; 
                 <a href="javascript:void(0)" id="link-force-update" style="color: var(--accent-amber); text-decoration: underline;">🔄 Cưỡng bức làm mới dữ liệu</a>
             </p>
         </footer>
@@ -973,6 +769,6 @@
     </div>
 
         <!-- INLINE APPLICATION SCRIPT (Chống kẹt cache 100% trên mọi trình duyệt) -->
-    <script src="app.js?v=3.5.62"></script>
+    <script src="app.js?v=3.5.63"></script>
 </body>
 </html>

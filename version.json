@@ -1,6 +1,6 @@
 {
-  "version": "3.5.62",
-  "buildTimestamp": 1793984000000,
-  "releaseDate": "2026-11-06",
-  "description": "Nâng cấp Mô hình Toán - Vật lý Nhiệt động học Vòng 6 Tối Ưu Hội Tụ cho Fc thực & Fc máy (H40) dựa trên 3 số đo cứng (L, H, t) xưởng, khơi thông biến Pon, đưa sai số MAPE 14 bài chuẩn xuống 5.84%."
+  "version": "3.5.63",
+  "buildTimestamp": 1794019200000,
+  "releaseDate": "2026-11-07",
+  "description": "Tối ưu hóa bảng kết quả 2 vùng (Vùng 1: Pon đến OFFSET; Vùng 2: Động học máy), biểu tượng mũi tên 6 Chế Độ Cắt, loại bỏ hoàn toàn Tab 2 cũ và tối ưu trải nghiệm Mobile Web App toàn diện."
 }

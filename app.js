@@ -1,4 +1,4 @@
-/**
+﻿/**
  * AUTOCUT EDM SERVO - PARAMETER CALCULATION & ANALYSIS ENGINE
  * Hệ thống tính toán, phân tích và tra cứu chế độ cắt EDM AutoCut Servo
  * © 2026 AutoCut EDM Master
@@ -171,9 +171,7 @@ function initApp() {
             tab.classList.add('active');
             const target = tab.dataset.tab;
             document.getElementById(target).classList.add('active');
-            if (target === 'tab-vf-research' && typeof updateTab1SyncPreview === 'function') {
-                updateTab1SyncPreview();
-            }
+
         });
     });
 
@@ -433,9 +431,7 @@ function initApp() {
         wsBtnResetParams.addEventListener('click', () => {
             state.wsCustomOverrides = {};
             render();
-            if (typeof updateTab1SyncPreview === 'function') {
-                updateTab1SyncPreview();
-            }
+
             showToast('🔄 Đã khôi phục thông số mặc định của App!');
         });
     }
@@ -3777,18 +3773,18 @@ function initApp() {
                             <option value="3" ${dyn.wireVal == '3' ? 'selected' : ''}>3</option>
                         </select>
                     </td>
+                    <td class="val-offset fw-bold col-offset-cell" style="color:var(--accent-amber); font-size:14px; background: rgba(245, 158, 11, 0.08); text-align: right;"><strong id="ws-dyn-offset-${idx}">${dyn.offsetDisplay}</strong> mm</td>
                 </tr>
                 `;
             }).join('');
 
-            // Render VÙNG 2: Kết quả đầu ra (OFFSET, Năng suất & Động học máy)
+            // Render VÙNG 2: Kết quả động học máy (Năng suất, Tần số & Dòng Ampe)
             wsTableBodyVung2.innerHTML = wsRowsList.map((r, idx) => {
                 const ov = state.wsCustomOverrides[idx] || {};
                 const dyn = computeRowDynamics(r, idx, ov);
                 return `
                 <tr>
                     <td class="pass-cell sticky-col"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
-                    <td class="val-offset fw-bold col-offset-cell" style="color:var(--accent-amber); font-size:14px; background: rgba(245, 158, 11, 0.08);"><strong id="ws-dyn-offset-${idx}">${dyn.offsetDisplay}</strong> mm</td>
                     <td><span id="ws-dyn-fc-${idx}" style="color:var(--accent-cyan); font-weight:600;">${dyn.speedArea}</span></td>
                     <td><strong id="ws-dyn-fch40-${idx}" style="color:var(--accent-cyan);">${dyn.speedAreaH40}</strong></td>
                     <td><strong id="ws-dyn-hz-${idx}" style="color:var(--text-primary);">${dyn.hz} Hz</strong></td>
@@ -3837,9 +3833,7 @@ function initApp() {
                         if (off2El) off2El.textContent = p2dyn.offsetDisplay;
                     }
 
-                    if (typeof updateTab1SyncPreview === 'function') {
-                        updateTab1SyncPreview();
-                    }
+
                 };
                 field.addEventListener('input', onFieldChange);
                 field.addEventListener('change', onFieldChange);
@@ -4034,7 +4028,7 @@ function initApp() {
         });
     }
 
-    const CURRENT_VERSION = "3.5.62";
+    const CURRENT_VERSION = "3.5.63";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -4450,7 +4444,7 @@ function initApp() {
                     <div class="workshop-lib-header" id="ws-lib-toggle-btn" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 10px 15px; border-radius: 6px; border-left: 4px solid var(--accent);">
                         <h4 style="margin: 0; color: var(--accent); font-size: 1.1em; display: flex; align-items: center; gap: 8px;"><i class="fa fa-book"></i> THƯ VIỆN THÔNG SỐ CẮT THỰC TẾ XƯỞNG (BENCHMARK GROUND TRUTH)</h4>
                         <div style="display: flex; gap: 10px; align-items: center;">
-                            <span class="lib-offline-badge" style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 10px; border-radius: 14px; background: rgba(192, 132, 252, 0.18); border: 1px solid rgba(192, 132, 252, 0.45); color: #d8b4fe; font-weight: 600; font-size: 11px;"><span>6 Ch&#7871; &#272;&#7897; C&#7855;t</span><svg id="ws-lib-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform: rotate(0deg); color: #c084fc; display: inline-block;"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                            <span class="lib-offline-badge" id="ws-lib-badge-pill" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; padding: 4px 12px; border-radius: 14px; background: rgba(192, 132, 252, 0.18); border: 1px solid rgba(192, 132, 252, 0.45); color: #d8b4fe; font-weight: 700; font-size: 11.5px;"><span>6 Cháº¿ Äá»™ Cáº¯t</span><span id="ws-lib-toggle-arrow" style="display: inline-block; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform: rotate(0deg); font-size: 11px; color: #c084fc; font-weight: 800;">â–¼</span></span>
                         </div>
                     </div>
                     <div id="ws-lib-content" style="margin-top: 15px; display: none;">
@@ -4475,14 +4469,17 @@ function initApp() {
                 const toggleBtn = document.getElementById('ws-lib-toggle-btn');
                 const libContent = document.getElementById('ws-lib-content');
                 const libIcon = document.getElementById('ws-lib-toggle-icon');
-                if (toggleBtn && libContent && libIcon) {
+                const libArrow = document.getElementById('ws-lib-toggle-arrow');
+                if (toggleBtn && libContent) {
                     toggleBtn.addEventListener('click', () => {
                         if (libContent.style.display === 'none') {
                             libContent.style.display = '';
-                            libIcon.style.transform = 'rotate(180deg)';
+                            if (libArrow) libArrow.style.transform = 'rotate(180deg)';
+                            if (libIcon) libIcon.style.transform = 'rotate(180deg)';
                         } else {
                             libContent.style.display = 'none';
-                            libIcon.style.transform = 'rotate(0deg)';
+                            if (libArrow) libArrow.style.transform = 'rotate(0deg)';
+                            if (libIcon) libIcon.style.transform = 'rotate(0deg)';
                         }
                     });
                 }
@@ -4620,369 +4617,11 @@ function initApp() {
         };
     }
 
-    function renderResearchVF() {
-        const H = parseFloat(vfResearchState.H) || 40;
-        const Ton = parseFloat(vfResearchState.Ton) || 36;
-        const Po = parseFloat(vfResearchState.Po) || 5;
-        const IP = parseFloat(vfResearchState.IP) || 4;
-        const Volt = vfResearchState.Volt || 'High';
-        const VF = parseFloat(vfResearchState.VF) || 65;
-        const material = vfResearchState.material || 'SCM440';
-        const isHard = (material === 'SCM440' || material === '30HRC');
-
-        const res = calcVFSparkGap(H, Ton, IP, Volt, VF, Po, material);
-
-        // 0. CẬP NHẬT THẺ ĐỘNG LỰC HỌC XUNG (CHUẨN TOFF MỚI)
-        const elDutyTag = document.getElementById('vf-pulse-duty-tag');
-        const elOutToff = document.getElementById('vf-out-toff');
-        const elOutCycle = document.getElementById('vf-out-cycle');
-        const elOutFreq = document.getElementById('vf-out-freq');
-        const elOutAmpe = document.getElementById('vf-out-ampe');
-        const elOutFc = document.getElementById('vf-out-fc');
-
-        if (elDutyTag) elDutyTag.textContent = 'η = ' + res.duty_pct + '%';
-        if (elOutToff) elOutToff.textContent = res.toff + ' μs';
-        if (elOutCycle) elOutCycle.textContent = res.cycle + ' μs';
-        if (elOutFreq) elOutFreq.textContent = res.freq_khz + ' kHz';
-        if (elOutAmpe) elOutAmpe.textContent = '~' + res.ampe_est + ' A';
-        if (elOutFc) elOutFc.textContent = '~' + res.fc_est + ' mm²/p';
-
-        // 1. CÔNG THỨC VẬT LÝ (KHÔNG VF, PO CHUẨN = 5)
-        const elGapBase = document.getElementById('vf-out-gap-base');
-        const elGapBaseUm = document.getElementById('vf-out-gap-base-um');
-        const elOffBase = document.getElementById('vf-out-offset-base');
-        const elKerfBase = document.getElementById('vf-out-kerf-base');
-
-        if (elGapBase) elGapBase.textContent = res.gap.toFixed(4) + ' mm';
-        if (elGapBaseUm) elGapBaseUm.textContent = '(' + (res.gap * 1000.0).toFixed(2) + ' μm)';
-        if (elOffBase) elOffBase.textContent = res.offset.toFixed(4) + ' mm';
-        if (elKerfBase) elKerfBase.textContent = 'Rãnh cắt W = ' + res.kerf.toFixed(4) + ' mm';
-
-        // 2. CÔNG THỨC MỚI (TÍCH HỢP VF & CHU KỲ PO)
-        const elTagDvf = document.getElementById('vf-tag-dvf');
-        const elGapNew = document.getElementById('vf-out-gap-new');
-        const elGapNewUm = document.getElementById('vf-out-gap-new-um');
-        const elOffNew = document.getElementById('vf-out-offset-new');
-        const elKerfNew = document.getElementById('vf-out-kerf-new');
-
-        const signStr = res.diff_um >= 0 ? '+' : '';
-        if (elTagDvf) elTagDvf.textContent = signStr + res.diff_um.toFixed(2) + ' μm';
-        if (elGapNew) elGapNew.textContent = res.gap_vf.toFixed(4) + ' mm';
-        if (elGapNewUm) elGapNewUm.textContent = '(' + (res.gap_vf * 1000.0).toFixed(2) + ' μm)';
-        if (elOffNew) elOffNew.textContent = res.offset_vf.toFixed(4) + ' mm';
-        if (elKerfNew) elKerfNew.textContent = 'Rãnh cắt W = ' + res.kerf_vf.toFixed(4) + ' mm';
-
-        // 3. THẺ ĐÁNH GIÁ CHÊNH LỆCH & Ý NGHĨA VẬT LÝ
-        const elDiffBadge = document.getElementById('vf-diff-badge');
-        const elInsightText = document.getElementById('vf-insight-text');
-
-        if (elDiffBadge) {
-            elDiffBadge.textContent = 'Δ = ' + signStr + res.diff_um.toFixed(2) + ' μm';
-            if (Math.abs(res.diff_um) < 0.05) {
-                elDiffBadge.style.background = 'rgba(16, 185, 129, 0.2)';
-                elDiffBadge.style.color = '#10b981';
-                elDiffBadge.style.border = '1px solid #10b981';
-            } else if (res.diff_um > 0) {
-                elDiffBadge.style.background = 'rgba(245, 158, 11, 0.2)';
-                elDiffBadge.style.color = '#f59e0b';
-                elDiffBadge.style.border = '1px solid #f59e0b';
-            } else {
-                elDiffBadge.style.background = 'rgba(56, 189, 248, 0.2)';
-                elDiffBadge.style.color = '#38bdf8';
-                elDiffBadge.style.border = '1px solid #38bdf8';
-            }
-        }
-
-        if (elInsightText) {
-            let insightHtml = '';
-            // Phân tích thành phần VF:
-            if (Math.abs(res.d_vf * 1000.0) < 0.05) {
-                insightHtml += '<strong>⚡ VF = 55 (Mốc trung bình tham chiếu 50-55):</strong> Bước tiến Servo hài hòa lý tưởng ($d_{\\text{vf}} = 0.00\\,\\mu\\text{m}$).';
-            } else if (res.d_vf > 0) {
-                insightHtml += '<strong>⚡ VF = ' + VF + ' &gt; 55 (Bàn tiến chậm / Dây ngâm tia lửa):</strong> Servo dè dặt ngâm dây lâu $\\implies$ nhiệt tích tụ khoét sâu thêm <strong style="color: var(--accent-amber);">+' + (res.d_vf * 1000).toFixed(2) + ' μm</strong>.';
-            } else {
-                insightHtml += '<strong>⚡ VF = ' + VF + ' &lt; 55 (Bàn tiến nhanh / Ép Servo):</strong> Dây lướt nhanh làm giảm thời gian truyền nhiệt $\\implies$ lớp cào hụt đi <strong style="color: var(--accent-cyan);">' + Math.abs(res.d_vf * 1000).toFixed(2) + ' μm</strong>.';
-            }
-
-            // Phân tích thành phần Po / Chu kỳ xung:
-            if (Math.abs(res.d_po * 1000.0) < 0.05) {
-                insightHtml += '<br><strong>🔄 Po = 5 (Chuẩn xưởng):</strong> Chu kỳ xả xỉ đạt trạng thái cân bằng lý tưởng ($d_{\\text{po}} = 0.00\\,\\mu\\text{m}$, Poff = ' + res.toff + ' μs).';
-            } else if (res.d_po > 0) {
-                insightHtml += '<br><strong>🔄 Po = ' + Po + ' &lt; 5 (Poff ngắn = ' + res.toff + ' μs / f = ' + res.freq_khz + ' kHz):</strong> Nước chưa kịp thổi sạch xỉ $\\implies$ mạt sắt gây <strong>đánh lửa thứ cấp</strong> làm nở rãnh cắt thêm <strong style="color: #f43f5e;">+' + (res.d_po * 1000).toFixed(2) + ' μm</strong> (nguy cơ sọc vách &amp; đứt dây tăng).';
-            } else {
-                insightHtml += '<br><strong>🔄 Po = ' + Po + ' &gt; 5 (Poff dài = ' + res.toff + ' μs / f = ' + res.freq_khz + ' kHz):</strong> Xối xỉ cực sạch, tia lửa êm không phóng bạt $\\implies$ rãnh cắt co gọn lại <strong style="color: var(--accent-cyan);">' + (res.d_po * 1000).toFixed(2) + ' μm</strong> (bề mặt mịn hơn, nhưng tốc độ cắt giảm còn ~' + res.fc_est + ' mm²/p).';
-            }
-
-            if (res.d_sec_vf > 0.0005) {
-                insightHtml += '<br><strong>🔥 Đánh lửa thứ cấp do nén mùn xỉ (+' + (res.d_sec_vf * 1000).toFixed(2) + ' μm):</strong> Khe hẹp tích tụ mùn xỉ kích nổ phóng điện vách phụ, hệ thống đã tự động bù vào Offset để triệt tiêu sai số âm.';
-            }
-
-            if (res.d_low > 0) {
-                insightHtml += '<br><strong>🔹 Chế độ Volt Low (22V):</strong> Bổ sung màng điện môi êm dịu $+4.50\\,\\mu\\text{m}$, bảo toàn kích thước không bị hụt khi cắt hạ áp.';
-            }
-
-            if (H > 170) {
-                insightHtml += '<br><strong>🏔️ Phân vùng Phôi siêu dày (H > 170mm):</strong> Áp dụng cơ chế hội tụ xưởng Rule 17, triệt tiêu sai số rung uốn dây mất kiểm soát, đưa Offset bám sát chuẩn $0.1150\\,\\text{mm}$.';
-            }
-
-            insightHtml += '<br><strong>🎯 Tổng sai lệch: $\\Delta = ' + signStr + res.diff_um.toFixed(2) + '\\,\\mu\\text{m} \\implies$ Offset đề xuất: <span style="color: var(--accent-amber);">' + res.offset_vf.toFixed(4) + ' mm</span>.</strong>';
-            elInsightText.innerHTML = insightHtml;
-        }
-
-        // 4. BẢNG BÓC TÁCH CHI TIẾT TỪNG THÀNH PHẦN VẬT LÝ
-        const tbody = document.getElementById('vf-breakdown-tbody');
-        if (tbody) {
-            const isHigh = (Volt === 'High' || Volt === 'H');
-            const signVf = res.d_vf >= 0 ? '+' : '';
-            const signPo = res.d_po >= 0 ? '+' : '';
-            tbody.innerHTML = `
-                <tr>
-                    <td><strong>C<sub>0</sub></strong> (Màng cách điện ban đầu)</td>
-                    <td>Điện trở suất dung dịch nhũ tương &amp; ion hóa ban đầu</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--border-highlight);">+${(res.c0 * 1000).toFixed(2)} μm</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber);">+${(res.c0 * 1000).toFixed(2)} μm</td>
-                </tr>
-                <tr>
-                    <td><strong>d<sub>elec</sub></strong> (Bộc phá xung điện theo Volt)</td>
-                    <td>Năng lượng đơn xung: K<sub>elec</sub> &times; &radic;(Ton &times; IP) &times; U<sub>ratio</sub> (${isHigh ? 'Volt High 27V (1.0x)' : 'Volt Low 22V (0.815x) co tia lửa'})</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--border-highlight);">+${(res.d_elec * 1000).toFixed(2)} μm</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber);">+${(res.d_elec * 1000).toFixed(2)} μm</td>
-                </tr>
-                <tr>
-                    <td><strong>d<sub>h_conf</sub></strong> (Khả năng bung tia lửa phôi cao)</td>
-                    <td>Áp lực thủy tĩnh &amp; nén xỉ rãnh sâu giam hãm plasma: -K<sub>h_conf</sub> &times; (H/100)</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: #f43f5e;">${(res.d_h_conf * 1000).toFixed(2)} μm</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: #f43f5e;">${(res.d_h_conf * 1000).toFixed(2)} μm</td>
-                </tr>
-                <tr>
-                    <td><strong>d<sub>vibr</sub></strong> (Rung uốn cơ học dây Moly)</td>
-                    <td>${H <= 170 ? 'Xung lực nổ plasma làm võng dây: K_vibr &times; (H/100)² &times; (IP/5)' : 'Kiến trúc Phân vùng Kép Rule 17: Hội tụ êm về chuẩn xưởng 0.1150 mm'}</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--border-highlight);">+${(res.d_vibr * 1000).toFixed(2)} μm</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber);">+${(res.d_vibr * 1000).toFixed(2)} μm</td>
-                </tr>
-                <tr style="background: rgba(244, 63, 94, 0.06);">
-                    <td><strong style="color: #f43f5e;">d<sub>sec</sub></strong> (Đánh lửa thứ cấp do nghẽn xỉ dẻo)</td>
-                    <td>Kích hoạt khi H &gt; 63mm (lõi đói áp lực xả) và Po &le; 7: K<sub>sec</sub> &times; (h<sub>starve</sub>)<sup>0.65</sup> &times; po<sub>shortage</sub> &times; K<sub>mat</sub></td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: #f43f5e;">+${(res.d_sec * 1000).toFixed(2)} μm</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: #f43f5e; font-weight: 700;">+${(res.d_sec_vf * 1000).toFixed(2)} μm</td>
-                </tr>
-                <tr style="background: rgba(245, 158, 11, 0.08); border-top: 1px dashed var(--accent-amber);">
-                    <td><strong style="color: var(--accent-amber);">d<sub>vf</sub></strong> (Hiệu ứng trễ bước tiến VF)</td>
-                    <td>Thời gian ngâm tia lửa do tốc độ tiến bàn máy: K<sub>vf</sub> &times; (VF - 55)/10</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--text-muted);">0.00 μm (VF chuẩn 55)</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber); font-weight: 700;">${signVf + (res.d_vf * 1000).toFixed(2)} μm</td>
-                </tr>
-                <tr style="font-weight: 700; background: rgba(0,0,0,0.3); border-top: 2px solid var(--border-color);">
-                    <td>TỔNG LƯỢNG CÀO PHÔI (&delta;)</td>
-                    <td>Khoảng cách từ mép dây Moly đến vách phôi thép đặc</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--border-highlight); font-size: 13px;">${(res.gap * 1000).toFixed(2)} μm<br><span style="font-size: 11px; font-weight: 400; color: var(--text-secondary);">${res.gap.toFixed(4)} mm</span></td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber); font-size: 13px;">${(res.gap_vf * 1000).toFixed(2)} μm<br><span style="font-size: 11px; font-weight: 400; color: var(--text-secondary);">${res.gap_vf.toFixed(4)} mm</span></td>
-                </tr>
-                <tr style="font-weight: 800; background: rgba(0, 240, 255, 0.08); border-top: 1px solid var(--accent-cyan);">
-                    <td style="color: var(--accent-cyan);">OFFSET BÙ DAO 1 PASS (O<sub>1P</sub>)</td>
-                    <td>R<sub>dây</sub> (0.090 mm) + Lượng cào phôi (&delta;)</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-cyan); font-size: 15px;">${res.offset.toFixed(4)} mm</td>
-                    <td style="text-align: right; font-family: var(--font-mono); color: var(--accent-amber); font-size: 15px;">${res.offset_vf.toFixed(4)} mm</td>
-                </tr>
-            `;
-        }
-    }
-
-    function bindResearchVFEvents() {
-        const inputH = document.getElementById('vf-input-h');
-        const sliderH = document.getElementById('vf-slider-h');
-        const inputTon = document.getElementById('vf-input-ton');
-        const inputPo = document.getElementById('vf-input-po');
-        const inputIP = document.getElementById('vf-input-ip');
-        const inputVF = document.getElementById('vf-input-vf');
-        const sliderVF = document.getElementById('vf-slider-vf');
-        const matBtns = document.querySelectorAll('#vf-mat-selector .vf-mat-btn');
-        const voltBtns = document.querySelectorAll('#vf-volt-selector .vf-volt-btn');
-
-        if (inputH && sliderH) {
-            inputH.addEventListener('input', () => {
-                const val = parseFloat(inputH.value) || 40;
-                vfResearchState.H = val;
-                sliderH.value = Math.min(300, Math.max(5, val));
-                renderResearchVF();
-            });
-            sliderH.addEventListener('input', () => {
-                const val = parseFloat(sliderH.value) || 40;
-                vfResearchState.H = val;
-                inputH.value = val;
-                renderResearchVF();
-            });
-        }
-
-        if (inputTon) {
-            inputTon.addEventListener('input', () => {
-                vfResearchState.Ton = parseFloat(inputTon.value) || 36;
-                renderResearchVF();
-            });
-        }
-
-        if (inputPo) {
-            inputPo.addEventListener('input', () => {
-                vfResearchState.Po = parseFloat(inputPo.value) || 5;
-                renderResearchVF();
-            });
-        }
-
-        if (inputIP) {
-            inputIP.addEventListener('input', () => {
-                vfResearchState.IP = parseFloat(inputIP.value) || 4;
-                renderResearchVF();
-            });
-        }
-
-        if (inputVF && sliderVF) {
-            inputVF.addEventListener('input', () => {
-                const val = parseFloat(inputVF.value) || 65;
-                vfResearchState.VF = val;
-                sliderVF.value = Math.min(85, Math.max(20, val));
-                renderResearchVF();
-        updateTab1SyncPreview();
-            });
-            sliderVF.addEventListener('input', () => {
-                const val = parseFloat(sliderVF.value) || 65;
-                vfResearchState.VF = val;
-                inputVF.value = val;
-                renderResearchVF();
-        updateTab1SyncPreview();
-            });
-        }
-
-        matBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                matBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                vfResearchState.material = btn.dataset.mat;
-                renderResearchVF();
-        updateTab1SyncPreview();
-            });
-        });
-
-        voltBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                voltBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                vfResearchState.Volt = btn.dataset.volt;
-                renderResearchVF();
-        updateTab1SyncPreview();
-            });
-        });
-
-                // NÚT LẤY THÔNG SỐ ĐẦU VÀO TỪ TAB 1 (TRA CỨU THÔNG SỐ CẮT)
-        const btnSyncTab1 = document.getElementById('btn-sync-from-tab1');
-        if (btnSyncTab1) {
-            btnSyncTab1.addEventListener('click', () => {
-                const wsRows = generateWorkshopRows(state);
-                if (!wsRows || wsRows.length === 0) return;
-                const r1 = wsRows[0];
-                const ov = (state.wsCustomOverrides && state.wsCustomOverrides[0]) || {};
-
-                const H = state.thickness || 40;
-                const material = (state.wsMaterial === 'SCM420') ? 'SCM420' : 'SCM440';
-                const Pon = ov.ti !== undefined ? parseFloat(ov.ti) : (parseFloat(r1.ti) || 36);
-                const Poff = ov.Po !== undefined ? parseFloat(ov.Po) : (parseFloat(r1.Po) || 5);
-                const IP = ov.IP !== undefined ? parseFloat(ov.IP) : (parseFloat(r1.IP) || 4);
-                const Volt = ov.Voltage !== undefined ? ov.Voltage : ((r1.Voltage === 'Low' || r1.Voltage === 'L') ? 'Low' : 'High');
-                const VF = ov.VF !== undefined ? parseFloat(ov.VF) : (parseFloat(r1.VF) || 55);
-
-                // 1. Cập nhật state nội bộ của Tab 2
-                vfResearchState.material = material;
-                vfResearchState.H = H;
-                vfResearchState.Ton = Pon;
-                vfResearchState.Po = Poff;
-                vfResearchState.IP = IP;
-                vfResearchState.Volt = Volt;
-                vfResearchState.VF = VF;
-
-                // 2. Cập nhật các ô input & slider trên giao diện Tab 2
-                if (inputH) inputH.value = H;
-                if (sliderH) sliderH.value = Math.min(300, Math.max(5, H));
-                if (inputTon) inputTon.value = Pon;
-                if (inputPo) inputPo.value = Poff;
-                if (inputIP) inputIP.value = IP;
-                if (inputVF) inputVF.value = VF;
-                if (sliderVF) sliderVF.value = Math.min(85, Math.max(20, VF));
-
-                // Cập nhật nút Vật Liệu
-                if (matBtns) {
-                    matBtns.forEach(btn => {
-                        if (btn.dataset.mat === material) {
-                            btn.classList.add('active');
-                        } else {
-                            btn.classList.remove('active');
-                        }
-                    });
-                }
-
-                // Cập nhật nút Volt
-                if (voltBtns) {
-                    voltBtns.forEach(btn => {
-                        if (btn.dataset.volt === Volt) {
-                            btn.classList.add('active');
-                        } else {
-                            btn.classList.remove('active');
-                        }
-                    });
-                }
-
-                // 3. Tính toán và hiển thị ngay lập tức kết quả Bù dao Offset
-                renderResearchVF();
-
-                // 4. Hiệu ứng phản hồi trên nút
-                const origHtml = btnSyncTab1.innerHTML;
-                btnSyncTab1.innerHTML = '<span>✅ Đã Nạp Thông Số!</span>';
-                btnSyncTab1.style.background = '#10b981';
-                setTimeout(() => {
-                    btnSyncTab1.innerHTML = origHtml;
-                    btnSyncTab1.style.background = '';
-                }, 1800);
-
-                // Cập nhật dòng preview
-                updateTab1SyncPreview();
-
-                // Hiển thị toast thông báo
-                const matText = material === 'SCM420' ? 'SCM420 (Thép mềm)' : 'SCM440 (Thép cứng)';
-                showToast(`✅ Đã nạp từ Tab Tra Cứu: ${matText} | H=${H}mm | Pon=${Pon} | Poff=${Poff} | IP=${IP} | ${Volt} | VF=${VF}`);
-            });
-        }
-    }
-
-    // Cập nhật dòng preview thông số hiện tại của Tab 1 ở nút đồng bộ Tab 2
-    function updateTab1SyncPreview() {
-        const previewEl = document.getElementById('vf-sync-preview-text');
-        if (!previewEl) return;
-        const wsRows = generateWorkshopRows(state);
-        if (!wsRows || wsRows.length === 0) return;
-        const r1 = wsRows[0];
-        const ov = (state.wsCustomOverrides && state.wsCustomOverrides[0]) || {};
-        const H = state.thickness || 40;
-        const material = (state.wsMaterial === 'SCM420') ? 'SCM420' : 'SCM440';
-        const Pon = ov.ti !== undefined ? ov.ti : r1.ti;
-        const Poff = ov.Po !== undefined ? ov.Po : r1.Po;
-        const IP = ov.IP !== undefined ? ov.IP : r1.IP;
-        const Volt = ov.Voltage !== undefined ? ov.Voltage : r1.Voltage;
-        const VF = ov.VF !== undefined ? ov.VF : r1.VF;
-        previewEl.innerHTML = `Hiện tại ở Tab 1: <strong style="color:var(--accent-amber)">${material} | H=${H}mm | Pon=${Pon} | Poff=${Poff} | IP=${IP} | ${Volt} | VF=${VF}</strong> (Bấm nút bên để nạp)`;
-    }
-
-
-    function initResearchVF() {
-        bindResearchVFEvents();
-        renderResearchVF();
-        updateTab1SyncPreview();
-    }
-
     // INITIAL RENDER
     updateStrategyDisplay(state.strategyLevel);
     updateWsStrategyDisplay(state.wsStrategyLevel);
     render();
-    initResearchVF();
 }
-
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initApp);
 } else {

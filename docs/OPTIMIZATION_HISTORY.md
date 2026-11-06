@@ -573,3 +573,26 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
   - **Kiểm định thực thi trình duyệt thật (`verify_browser_render.py`):** PASSED 100%.
   - **Đồng bộ phiên bản 5 file:** Khớp chính xác `v3.5.60`.
 
+
+
+### 🚀 ĐỢT 63: CHUẨN HÓA BẢNG 2 VÙNG (VÙNG 1: PON ĐẾN OFFSET; VÙNG 2: ĐỘNG HỌC MÁY), BỔ SUNG MŨI TÊN MỞ RỘNG 6 CHẾ ĐỘ CẮT, LOẠI BỎ TAB 2 CŨ & TỐI ƯU MOBILE UX (v3.5.63)
+* **Thời gian:** 2026-11-07 01:45 (GMT+7)
+* **Bối cảnh & Chỉ thị từ SirPhuong:**
+  - Chuẩn hóa cấu trúc kết quả tính toán Tab 1 thành 2 vùng xếp dọc:
+    + VÙNG 1: Từ `Pon` đến `OFFSET` (`P`, `Pon`, `Poff`, `IP`, `Volt`, `VF`, `Wire`, `OFFSET`). Các ô `Pon`, `Poff`, `IP`, `Volt`, `VF`, `Wire` cho phép người dùng tùy chỉnh trực tiếp. `OFFSET` hiển thị nổi bật ở cuối Vùng 1 và tự động cập nhật khi thay đổi bất kỳ thông số nào.
+    + VÙNG 2: Các thông số còn lại (`P`, `Fc thực`, `Fc máy H40`, `Giới hạn Hz`, `Ampe kế`, `Ra`). Tự động phản ứng và tính toán theo Vùng 1.
+    + Nút "🔄 Trở Về Mặc Định" giúp khôi phục các giá trị ban đầu.
+  - Ô "6 Chế Độ Cắt": Bổ sung biểu tượng mũi tên hướng xuống `▼` (`#ws-lib-toggle-arrow`) rõ nét, có hiệu ứng xoay 180° khi mở rộng.
+  - Loại bỏ hoàn toàn Tab 2 cũ ("Nhập thông số cắt"). Web App hiện tại tinh gọn còn đúng 2 Tab: "Tra Cứu Thông Số Cắt" và "Kiến Thức EDM".
+  - Tối ưu hóa trải nghiệm Mobile Web App toàn diện: Segmented control 2 tab, vật liệu xếp ngang 2 cột, chips cuộn ngang, nút pass 2 hàng, slider thumb 26px, bỏ spinner số.
+  - Phát hiện và khôi phục lệnh gọi khởi động `render()` trong `initApp()` bị khuyết trong lần dọn dẹp trước.
+* **Các thay đổi đã triển khai:**
+  - `index.html`: Cập nhật cấu trúc bảng Vùng 1 có `OFFSET`, Vùng 2 không còn `OFFSET`, cập nhật gợi ý và tiêu đề. Đồng bộ phiên bản `v3.5.63`.
+  - `app.js`: Render Vùng 1 chứa `col-offset-cell` với `ws-dyn-offset-${idx}`, Vùng 2 bắt đầu từ `ws-dyn-fc-${idx}`. Thêm ký tự `▼` và logic xoay toggle cho "6 Chế Độ Cắt". Khôi phục lời gọi `render()` khởi động. Nâng `CURRENT_VERSION = "3.5.63"`.
+  - `style.css`: Thêm bộ stylesheet Expanded Mobile UX & Touch Controls (`.nav-tabs`, `#ws-material-selector`, `#ws-quick-chips`, `.pass-grid`, sliders, sticky column).
+  - `sw.js`: Đổi `CACHE_NAME = 'autocut-v3.5.63'`.
+  - `version.json`: Nâng cấp version `3.5.63`.
+* **Kết quả nghiệm thu kỹ thuật:**
+  - **Kiểm định cú pháp & AST (`verify_integrity.ps1`):** PASSED 100%.
+  - **Kiểm định cân bằng thẻ HTML (`check_dom_balance.ps1`):** PASSED 100% (122 open / 122 close divs).
+  - **Kiểm định render trình duyệt thật Edge Headless (`verify_edge_render.ps1`):** PASSED 100% (104,884 ký tự DOM, xác nhận đầy đủ Pass 1, Vùng 1 có OFFSET, Vùng 2, mũi tên 6 Chế Độ Cắt, Tab 2 cũ không còn).
