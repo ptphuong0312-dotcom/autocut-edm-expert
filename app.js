@@ -167,6 +167,9 @@ function initApp() {
             tab.classList.add('active');
             const target = tab.dataset.tab;
             document.getElementById(target).classList.add('active');
+            if (target === 'tab-vf-research' && typeof updateTab1SyncPreview === 'function') {
+                updateTab1SyncPreview();
+            }
         });
     });
 
@@ -3732,8 +3735,9 @@ function initApp() {
         if (typeof renderLectureKnowledge === 'function') {
             renderLectureKnowledge();
         }
-
-    // ==========================================
+        if (typeof updateTab1SyncPreview === 'function') {
+            updateTab1SyncPreview();
+        }
     }
 
     // 6. COPY TABLE TO CLIPBOARD
@@ -3795,7 +3799,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.5.56";
+    const CURRENT_VERSION = "3.5.57";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -4602,12 +4606,14 @@ function initApp() {
                 vfResearchState.VF = val;
                 sliderVF.value = Math.min(85, Math.max(20, val));
                 renderResearchVF();
+        updateTab1SyncPreview();
             });
             sliderVF.addEventListener('input', () => {
                 const val = parseFloat(sliderVF.value) || 65;
                 vfResearchState.VF = val;
                 inputVF.value = val;
                 renderResearchVF();
+        updateTab1SyncPreview();
             });
         }
 
@@ -4617,6 +4623,7 @@ function initApp() {
                 btn.classList.add('active');
                 vfResearchState.material = btn.dataset.mat;
                 renderResearchVF();
+        updateTab1SyncPreview();
             });
         });
 
@@ -4626,13 +4633,104 @@ function initApp() {
                 btn.classList.add('active');
                 vfResearchState.Volt = btn.dataset.volt;
                 renderResearchVF();
+        updateTab1SyncPreview();
             });
         });
+
+        // NÃšT Láº¤Y THÃ”NG Sá» Äáº¦U VÃ€O Tá»ª TAB 1 (TRA Cá»¨U THÃ”NG Sá» Cáº®T)
+        const btnSyncTab1 = document.getElementById('btn-sync-from-tab1');
+        if (btnSyncTab1) {
+            btnSyncTab1.addEventListener('click', () => {
+                const wsRows = generateWorkshopRows(state);
+                if (!wsRows || wsRows.length === 0) return;
+                const r1 = wsRows[0];
+
+                const H = state.thickness || 40;
+                const material = (state.wsMaterial === 'SCM420') ? 'SCM420' : 'SCM440';
+                const Pon = parseFloat(r1.ti) || 36;
+                const Poff = parseFloat(r1.Po) || 5;
+                const IP = parseFloat(r1.IP) || 4;
+                const Volt = (r1.Voltage === 'Low' || r1.Voltage === 'L') ? 'Low' : 'High';
+                const VF = parseFloat(r1.VF) || 55;
+
+                // 1. Cáº­p nháº­t state ná»™i bá»™ cá»§a Tab 2
+                vfResearchState.material = material;
+                vfResearchState.H = H;
+                vfResearchState.Ton = Pon;
+                vfResearchState.Po = Poff;
+                vfResearchState.IP = IP;
+                vfResearchState.Volt = Volt;
+                vfResearchState.VF = VF;
+
+                // 2. Cáº­p nháº­t cÃ¡c Ã´ input & slider trÃªn giao diá»‡n
+                if (inputH) inputH.value = H;
+                if (sliderH) sliderH.value = Math.min(300, Math.max(5, H));
+                if (inputTon) inputTon.value = Pon;
+                if (inputPo) inputPo.value = Poff;
+                if (inputIP) inputIP.value = IP;
+                if (inputVF) inputVF.value = VF;
+                if (sliderVF) sliderVF.value = Math.min(85, Math.max(20, VF));
+
+                // Cáº­p nháº­t nÃºt Váº­t Liá»‡u
+                if (matBtns) {
+                    matBtns.forEach(btn => {
+                        if (btn.dataset.mat === material) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+                }
+
+                // Cáº­p nháº­t nÃºt Volt
+                if (voltBtns) {
+                    voltBtns.forEach(btn => {
+                        if (btn.dataset.volt === Volt) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+                }
+
+                // 3. TÃ­nh toÃ¡n vÃ  hiá»ƒn thá»‹ ngay láº­p tá»©c káº¿t quáº£ BÃ¹ dao Offset
+                renderResearchVF();
+
+                // 4. Hiá»‡u á»©ng pháº£n há»“i trÃªn nÃºt
+                const origHtml = btnSyncTab1.innerHTML;
+                btnSyncTab1.innerHTML = '<span>âœ… ÄÃ£ Náº¡p ThÃ´ng Sá»‘!</span>';
+                btnSyncTab1.style.background = '#10b981';
+                setTimeout(() => {
+                    btnSyncTab1.innerHTML = origHtml;
+                    btnSyncTab1.style.background = '';
+                }, 1800);
+
+                // Cáº­p nháº­t dÃ²ng preview
+                updateTab1SyncPreview();
+
+                // Hiá»ƒn thá»‹ toast thÃ´ng bÃ¡o
+                const matText = material === 'SCM420' ? 'SCM420 (ThÃ©p má»m)' : 'SCM440 (ThÃ©p cá»©ng)';
+                showToast(`âœ… ÄÃ£ náº¡p tá»« Tab Tra Cá»©u: ${matText} | H=${H}mm | Pon=${Pon} | Poff=${Poff} | IP=${IP} | ${Volt} | VF=${VF}`);
+            });
+        }
+    }
+
+    // Cáº­p nháº­t dÃ²ng preview thÃ´ng sá»‘ hiá»‡n táº¡i cá»§a Tab 1 á»Ÿ nÃºt Ä‘á»“ng bá»™ Tab 2
+    function updateTab1SyncPreview() {
+        const previewEl = document.getElementById('vf-sync-preview-text');
+        if (!previewEl) return;
+        const wsRows = generateWorkshopRows(state);
+        if (!wsRows || wsRows.length === 0) return;
+        const r1 = wsRows[0];
+        const H = state.thickness || 40;
+        const material = (state.wsMaterial === 'SCM420') ? 'SCM420' : 'SCM440';
+        previewEl.innerHTML = `Hiá»‡n táº¡i á»Ÿ Tab 1: <strong style="color:var(--accent-amber)">${material} | H=${H}mm | Pon=${r1.ti} | Poff=${r1.Po} | IP=${r1.IP} | ${r1.Voltage} | VF=${r1.VF}</strong> (Báº¥m nÃºt bÃªn Ä‘á»ƒ náº¡p)`;
     }
 
     function initResearchVF() {
         bindResearchVFEvents();
         renderResearchVF();
+        updateTab1SyncPreview();
     }
 
     // INITIAL RENDER

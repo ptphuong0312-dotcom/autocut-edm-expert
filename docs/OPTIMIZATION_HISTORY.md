@@ -13,6 +13,20 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
 
 ## 📌 DANH SÁCH CÁC ĐỢT TỐI ƯU HÓA & NGHIỆM THU KỸ THUẬT
 
+### 🚀 ĐỢT 57: TÍNH NĂNG NẠP THÔNG SỐ ĐẦU VÀO TỪ TAB 1 SANG TAB 2 (v3.5.57)
+* **Thời gian:** 2026-11-06 14:38 (GMT+7)
+* **Môi trường:** Máy tính Ở Nhà
+* **Chỉ thị từ SirPhuong:**
+  - *"vì tab2 là nhập thông số cắt để tính thông số offset, tôi muốn ở tab2 có thêm nút chức năng nhập các thông số hiện tại của tab1 sang (nhập nhưng thông số đầu vào)"*
+* **Các thay đổi đã triển khai:**
+  - `index.html`: Thêm khối điều khiển và nút `[📥 Nạp Thông Số Từ Tab 1]` cùng dòng xem trước `vf-sync-preview-text`.
+  - `app.js`: Xây dựng hàm `syncParamsFromTab1ToTab2()` tự động đọc các biến đầu vào Pass 1 từ Tab 1 (`Vật liệu, H, Pon, Poff, IP, Volt, VF`), điền đồng bộ vào các input/slider của Tab 2 và tự động tính toán lại Lượng cào phôi $\delta$, Bù dao Offset ($0.090+\delta$) và Dòng Ampe kế.
+  - Cập nhật phiên bản lên `v3.5.57` trên 5 file hệ thống.
+* **Kết quả nghiệm thu:**
+  - `verify_integrity.ps1`: AST bracket balance, Anti-Lookup-Table law, Version synchronization (3.5.57) PASSED 100%.
+  - `check_dom_balance.ps1`: Open 164 / Close 164 PERFECT!
+
+
 ### 🚀 ĐỢT 56: TRIỆT TIÊU TAB 1, TÁI CẤU TRÚC 3 TAB, ĐẠI TU KIẾN THỨC EDM & AMPE MODEL VÒNG 5 (v3.5.56)
 * **Thời gian:** 2026-11-06 11:05 (GMT+7)
 * **Môi trường:** Máy tính Ở Nhà
