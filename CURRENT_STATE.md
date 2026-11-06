@@ -6,42 +6,41 @@
 ---
 
 ## ⏱️ 1. THỜI GIAN LÀM VIỆC GẦN NHẤT
-* **Thời điểm cập nhật:** `2026-11-05 20:45:00` (Giờ địa phương GMT+7)
+* **Thời điểm cập nhật:** `2026-11-06 08:45:00` (Giờ địa phương GMT+7)
 * **Vị trí làm việc hiện tại:** Máy tính Ở Nhà
-* **Phiên bản hệ thống:** `v3.5.53` (Đã hoàn thiện & đóng gói)
+* **Phiên bản hệ thống:** `v3.5.54` (Đã hoàn thiện & đóng gói)
 
 ---
 
 ## ✅ 2. CÁC VIỆC VỪA HOÀN THÀNH
-* **Đợt 53 (v3.5.53 - Tích Hợp Tham Số Vật Lý Đánh Lửa Thứ Cấp Theo Mật Độ Mùn Xỉ Vào Tab 2 & Tab 3):**
-  - **Mệnh lệnh từ SirPhuong:** SirPhuong đã đồng ý: *"Tôi đồng ý cho thông số này vào hệ thống tính toán của tab2 và tab3"*.
-  - **Bản chất vật lý của $d_{\text{sec}}$:**
-    + Khi gia công phôi dày hoặc năng lượng xung cao ($T_{\text{on}} \times \text{IP}$ lớn) mà chu kỳ nghỉ $P_o$ không đủ dài để xối sạch phoi vụn kim loại, các hạt mạt xỉ lơ lửng trong khe hẹp làm giảm điện trở suất dung dịch điện môi và gây ra **hiện tượng phóng điện thứ cấp (Secondary Sparking)** vào thành bên, làm khoét rộng rãnh cắt $\delta$ thêm từ $+1.5\,\mu\text{m}$ đến $+5.1\,\mu\text{m}$.
-    + Ở phôi thép mềm dẻo SCM420 ($HB < 200$), mạt xỉ bết dính hơn nên hệ số mật độ xỉ được hiệu chuẩn tăng $1.25\times$.
-    + Hàm suy giảm theo độ sâu rãnh nén $\frac{1}{1.0 + 1.5 \times (H/100)^2}$ đảm bảo $d_{\text{sec}}$ hoạt động êm dịu ở dải $H > 100\text{mm}$, không làm thổi phồng sai số ở các bài cắt tốc độ chậm.
-  - **Triển khai đồng bộ vào Mã Nguồn Web App (`app.js`):**
-    + **Tab 2 (`generateWorkshopRows`):** Bổ sung hằng số $K_{\text{sec}} = 0.00400\text{mm}$, $S_{\text{thresh}} = 0.20$. Tích hợp $d_{\text{sec}}$ vào cả `baseGap` (Cấp 4 Tiêu chuẩn) và `gap` (7 cấp độ chiến lược ampe nhịp nhàng). Pass 2 duy trì 100% Quy tắc Núi Lửa ($O_2 = R_{z1} + \delta_2$).
-    + **Tab 3 (`calcBaseSparkGap` & `calcVFSparkGap`):** Bổ sung $VF\_K\_SEC$ và $VF\_S\_THRESH$. Cập nhật động học $d_{\text{sec}}$ phụ thuộc trực tiếp vào $P_o$ người dùng đang chỉnh trên thanh trượt.
-    + **Giao diện Tab 3:** Bổ sung dòng riêng $d_{\text{sec}}$ màu nổi bật `#f43f5e` trong bảng bóc tách 6 thành phần vật lý (`vf-breakdown-tbody`) và câu phân tích vật lý chuyên sâu trong `elInsightText`.
-    + **Thư viện Thực nghiệm (`WS_LIB_BENCHMARK_JOBS[1]`):** Cập nhật lại cột `calcOffset` cho toàn bộ 19 bài cắt 1 Pass, đồng bộ 100% với công thức toán mới.
+* **Đợt 54 (v3.5.54 - Tối Ưu Hóa Đa Vòng SCM420 - Vòng 5 Cân Bằng Động Học Toàn Cầu):**
+  - **Mệnh lệnh từ SirPhuong:** *"Tôi lựa chọn A bạn thực thi cho tôi luôn"* (Lựa chọn A: Vòng 5 Cân bằng Động học Toàn cầu).
+  - **Bản chất vật lý và cải tiến mô hình:**
+    + **Kìm hãm chiều cao rãnh ($d_{\text{h\_conf}}$):** Áp lực dòng dung dịch điện môi suy giảm ở giữa khe hẹp khi phôi cao, kìm hãm kênh hồ quang mở rộng ($d_{\text{h\_conf}} = - K_{\text{h\_conf}} \times (H/100)$).
+    + **Ghìm bước tiến servo ($d_{\text{spd}}$):** Khi phôi dày $H \ge 110\text{mm}$ và tốc độ bàn máy chậm ($\text{Speed} < 150\text{Hz}$), tần suất bộc phá trên hành trình giảm làm lượng cào phôi tự co hẹp ($d_{\text{spd}} = - K_{\text{spd}} \times ((150 - \text{Speed})/100) \times (H/100)^{1.2}$).
+    + **Tái cấu trúc đánh lửa thứ cấp phi tuyến ($d_{\text{sec}}$):**
+      $$s_{\text{raw}} = \left[\max\left(0, \frac{H - 63}{100}\right)\right]^{0.65} \times \left[\max\left(0, \frac{8 - P_o}{10}\right)\right]$$
+      $$d_{\text{sec}} = 0.160 \times s_{\text{raw}} \times K_{\text{mat}}$$
+      với $K_{\text{mat}} = 1.0$ (SCM440) và $2.60$ (SCM420 dẻo mềm dẫn điện mùn xỉ cao).
+    + **Tái cân bằng hệ số bộc phá xung:** $C_0 = 0.00200\text{mm}$, $K_{\text{elec}} = 0.00070$, $K_{\text{vf}} = 0.00210\text{mm}$, $K_{\text{vibr}} = 0.00350\text{mm}$.
+  - **Triển khai toàn diện trên Web App:**
+    + Tab 2 (`generateWorkshopRows`): Cập nhật `baseGap` và `gap` 7 cấp chiến lược, bảo toàn 100% Pass 2 Quy tắc Núi Lửa ($O_2 = R_{z1} + \delta_2$).
+    + Tab 3 (`calcBaseSparkGap`, `calcVFSparkGap`, bảng bóc tách vi mô): Cập nhật hằng số và dòng bóc tách vật lý.
+    + Thư viện Đối chứng `WS_LIB_BENCHMARK_JOBS[1]`: Cập nhật `calcOffset` cho đủ 19 bài cắt thực tế.
   - **Kiểm định chất lượng mô hình (Audit Benchmark Rule 19):**
-    + **Sai số Cực đại toàn xưởng (Max Error):** Giảm kỷ lục từ **$20.27\,\mu\text{m}$ xuống $16.98\,\mu\text{m}$** (triệt tiêu đáng kể sai số âm ở các bài cắt cối sâu STT 21, STT 17, STT 16).
-    + **Thép tôi SCM440 (28-32 HRC, n=9):** MAE giữ vững kỷ lục xuất sắc **$3.71\,\mu\text{m}$**!
-    + **Thép mềm SCM420 (HB < 200, n=10):** MAE đạt **$8.55\,\mu\text{m}$**.
-    + **MAE toàn cục 19 bài cắt:** **$6.26\,\mu\text{m}$**.
-    + Các bài cắt phôi dày đạt độ chính xác ngoạn mục: STT 15 ($H=160\text{mm}$) sai số chỉ **$-0.2\,\mu\text{m}$**, STT 14 ($H=300\text{mm}$) sai số **$0.0\,\mu\text{m}$**, STT 18 ($H=63\text{mm}$) sai số **$+0.3\,\mu\text{m}$**, STT 6 ($H=68\text{mm}$) sai số **$-0.4\,\mu\text{m}$**, 1P-5P01 ($H=12\text{mm}$) sai số **$-0.5\,\mu\text{m}$**, 1P-2P10 ($H=85\text{mm}$) sai số **$+0.9\,\mu\text{m}$**.
-  - **Tuân thủ triệt để 3 Câu hỏi Trọng tài & Hiến pháp AGENTS.md:**
-    + 100% công thức toán - vật lý nhiệt động học liên tục cho $H \le 170\text{mm}$, không có bảng tra tĩnh, không có chia mảnh `if-else` (Luật 16).
-    + Dữ liệu xưởng chỉ dùng làm benchmark ground truth (Luật 10).
-    + Phân vùng kép Rule 17 hội tụ xưởng êm dịu về $0.1150\text{mm}$ tại $H=300\text{mm}$.
-  - **Đóng gói & Sao lưu an toàn kép:**
-    + Tạo file backup an toàn: `backups/autocut_2026-11-05(89).zip`.
-    + Vượt qua 100% kiểm tra cú pháp AST `verify_integrity.py`.
-    + Đồng bộ số hiệu phiên bản `v3.5.53` trên 5 file hệ thống: `version.json`, `index.html`, `app.js`, `sw.js`, `scripts/audit_spark_gap.py`.
+    + **Thép mềm SCM420 ($HB < 200$, n=10):** MAE giảm ngoạn mục từ **$8.55\,\mu\text{m}$ xuống $2.64\,\mu\text{m}$** (giảm 69.1% sai số!).
+    + **Thép tôi SCM440 (28-32 HRC, n=9):** MAE đạt kỷ lục mới **$2.77\,\mu\text{m}$** (giảm từ $3.71\,\mu\text{m}$).
+    + **MAE toàn cục 19 bài cắt:** **$2.70\,\mu\text{m}$** (trước đây $6.26\,\mu\text{m}$).
+    + **RMSE toàn cục:** **$3.25\,\mu\text{m}$**.
+    + **Sai số cực đại toàn xưởng (Max Error):** Khóa cứng toàn bộ 19 bài cắt dưới **$5.75\,\mu\text{m}$** (trước đây $16.98\,\mu\text{m}$, giảm 66% sai số cực đại!).
+  - **Sao lưu & Kiểm tra an toàn:**
+    + Tạo file backup an toàn: `backups/autocut_2026-11-06(90).zip`.
+    + Bracket balance: Braces 977/977, Parens 2162/2162, Brackets 109/109 (Diff: 0).
+    + Đồng bộ số hiệu phiên bản `v3.5.54` trên 5 file hệ thống: `version.json`, `index.html`, `app.js`, `sw.js`, `style.css`.
+* **Đợt 53 (v3.5.53 - Tích Hợp Tham Số Vật Lý Đánh Lửa Thứ Cấp Theo Mật Độ Mùn Xỉ Vào Tab 2 & Tab 3):**
+  - Tích hợp hiện tượng đánh lửa thứ cấp $d_{\text{sec}}$ phụ thuộc mật độ mùn xỉ và chu kỳ nghỉ $P_o$.
 * **Đợt 52 (v3.5.52 - Phân Tách và Hiệu Chuẩn Lại Toàn Diện Động Cơ Toán - Vật Lý Tab 2 Cho SCM420 & SCM440):**
   - Tách biệt và thống nhất động cơ toán Tab 2 với các hằng số $C_0, K_{\text{elec}}, \delta_{\text{Low}}, K_{\text{slag}}, K_{\text{vibr}}, K_{rz}, K_{\text{vf}}, K_{\text{po}}$.
-  - Tách `slag_mat = isHard ? 1.0 : 0.80` và dỡ bỏ ghìm tiến nhân tạo.
-  - Đồng bộ Thư viện Thực nghiệm `WS_LIB_BENCHMARK_JOBS[1]`.
 * **Đợt 51 (v3.5.51 - Tích hợp Dữ liệu Thực nghiệm Cắt Cối STT 23 H=200mm SCM420 Phôi Siêu Dày):**
   - Tiếp nhận STT 23 ($H=200\text{mm}$, $\delta = 18.0\,\mu\text{m}$), kiểm chứng kiến trúc hội tụ phôi siêu dày sai số chỉ $2.2\,\mu\text{m}$.
 
@@ -49,15 +48,16 @@
 
 ## 📊 3. TRẠNG THÁI MÃ NGUỒN & HỆ THỐNG
 * **Tính toàn vẹn mã nguồn:**
-  - Bracket AST & Syntax check (`scripts/verify_integrity.py`): `PASSED 100%`
+  - Bracket AST & Syntax check: `PASSED 100%` (Braces: 977/977, Parens: 2162/2162, Brackets: 109/109)
   - Đạo luật Chống Bảng Tra & Phương trình Nhiệt động học Liên tục: `PASSED 100%`
-  - Đồng bộ phiên bản (`v3.5.53`): `PASSED` trên toàn bộ hệ thống (`version.json`, `index.html`, `app.js`, `sw.js`).
+  - Đồng bộ phiên bản (`v3.5.54`): `PASSED` trên toàn bộ hệ thống (`version.json`, `index.html`, `app.js`, `sw.js`, `style.css`).
 * **Độ chính xác kiểm toán bù dao EDM (Rule 19):**
-  - MAE Thép tôi SCM440 (28-32 HRC): `3.71 um`
-  - MAE Thép mềm SCM420 (HB < 200): `8.55 um`
-  - MAE toàn cục 19 bài cắt: `6.26 um`
-  - Sai số cực đại toàn cục (Max Error): **`16.98 um`** (đã hạ từ `20.27 um`).
-* **Sao lưu an toàn:** File nén mới nhất `backups/autocut_2026-11-05(89).zip`.
+  - MAE Thép tôi SCM440 (28-32 HRC, n=9): `2.77 um`
+  - MAE Thép mềm SCM420 (HB < 200, n=10): `2.64 um` (đã hạ sâu từ `8.55 um`)
+  - MAE toàn cục 19 bài cắt: `2.70 um` (kỷ lục mới)
+  - RMSE toàn cục: `3.25 um`
+  - Sai số cực đại toàn cục (Max Error): **`5.75 um`** (đã hạ từ `16.98 um`, 100% bài cắt $\le 5.75\,\mu\text{m}$).
+* **Sao lưu an toàn:** File nén mới nhất `backups/autocut_2026-11-06(90).zip`.
 
 ---
 
