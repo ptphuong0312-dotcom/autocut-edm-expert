@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AUTOCUT EDM SERVO - PARAMETER CALCULATION & ANALYSIS ENGINE
  * Hệ thống tính toán, phân tích và tra cứu chế độ cắt EDM AutoCut Servo
  * © 2026 AutoCut EDM Master
@@ -78,7 +78,8 @@ function initApp() {
         compactMetrics: true, // Mặc định thu gọn ký hiệu (Ẩn tên dài theo phương ngang)
         workshopExpanded: false, // Mặc định ẩn bảng thực tế xưởng
         isCustomUserEdited: false, // Đánh dấu nếu người dùng đã tự chỉnh thông số nhập riêng
-        compareMode: 'custom' // 'custom' (Nhập Chế độ Riêng - Mặc định) | 'theory' (TT Lý thuyết theo tailieu.txt)
+        compareMode: 'custom',
+        wsCustomOverrides: {}
     };
 
     // DOM ELEMENTS
@@ -122,6 +123,9 @@ function initApp() {
     const wsTotalTimeText = document.getElementById('ws-total-time-text');
     const wsConfigSummary = document.getElementById('ws-config-summary');
     const wsTableBody = document.getElementById("ws-table-body");
+    const wsTableBodyVung1 = document.getElementById("ws-table-body-vung1");
+    const wsTableBodyVung2 = document.getElementById("ws-table-body-vung2");
+    const wsBtnResetParams = document.getElementById("ws-btn-reset-params");
     const wsBtnCopyTable = document.getElementById('ws-btn-copy-table');
 
 
@@ -425,6 +429,17 @@ function initApp() {
     if (btnCopyTable) btnCopyTable.addEventListener('click', () => {
         copyTableToClipboard();
     });
+    if (wsBtnResetParams) {
+        wsBtnResetParams.addEventListener('click', () => {
+            state.wsCustomOverrides = {};
+            render();
+            if (typeof updateTab1SyncPreview === 'function') {
+                updateTab1SyncPreview();
+            }
+            showToast('🔄 Đã khôi phục thông số mặc định của App!');
+        });
+    }
+
     if (wsBtnCopyTable) wsBtnCopyTable.addEventListener('click', () => {
         copyWorkshopTableToClipboard();
     });
@@ -3628,7 +3643,162 @@ function initApp() {
         }
 
         // Render Workshop Table Body (Tab 2)
-        if (typeof wsTableBody !== 'undefined' && wsTableBody) {
+                // Render Dual-Zone Workshop Tables (Tab 1: Thông Số Cắt & Bù Dao Offset)
+        if (wsTableBodyVung1 && wsTableBodyVung2) {
+            const wsRowsList = generateWorkshopRows(state);
+            state.wsCustomOverrides = state.wsCustomOverrides || {};
+
+            // Helper tính toán động học từng dòng khi người dùng can thiệp
+            function computeRowDynamics(r, idx, cur) {
+                const tiVal = cur.ti !== undefined ? cur.ti : r.ti;
+                const poVal = cur.Po !== undefined ? cur.Po : r.Po;
+                const ipVal = cur.IP !== undefined ? cur.IP : r.IP;
+                const voltVal = cur.Voltage !== undefined ? cur.Voltage : r.Voltage;
+                const vfVal = cur.VF !== undefined ? cur.VF : r.VF;
+                const wireVal = cur.Wire !== undefined ? cur.Wire : r.Wire;
+
+                let offsetDisplay = r.offsetText;
+                let ampeDisplay = r.ampe;
+                let speedArea = r.speedArea;
+                let speedAreaH40 = r.speedAreaH40;
+                let hz = r.hz;
+                let Ra = r.Ra;
+
+                if (cur.ti !== undefined || cur.Po !== undefined || cur.IP !== undefined || cur.Voltage !== undefined || cur.VF !== undefined) {
+                    if (idx === 0) {
+                        const dyn = calcVFSparkGap(state.thickness, tiVal, ipVal, voltVal, vfVal, poVal, state.wsMaterial);
+                        offsetDisplay = (0.090 + dyn.gap_vf).toFixed(3);
+                        ampeDisplay = dyn.ampe_est;
+
+                        const isHard = (state.wsMaterial === 'SCM440');
+                        let eta_eff = (isHard ? 0.85 : 0.78) * Math.pow(Math.max(1, tiVal) / 50, 0.38);
+                        if (tiVal > 80) eta_eff = Math.min(0.92, eta_eff);
+                        if (isHard) {
+                            if (state.thickness > 80) eta_eff *= Math.max(0.65, 1.0 - (state.thickness - 80) * 0.0010);
+                        } else {
+                            if (state.thickness > 50) eta_eff *= Math.max(0.55, 1.0 - (state.thickness - 50) * 0.0016);
+                        }
+                        const u_arc = voltVal === 'Low' ? 22 : 27;
+                        const i_peak = ipVal * 2.8;
+                        const duty = tiVal / (tiVal * (poVal + 2));
+                        const power_watts = u_arc * i_peak * duty;
+                        const Cm = 0.0140;
+                        const B = 0.23;
+                        speedArea = Math.round((60 * Cm * power_watts * eta_eff) / B);
+                        const feedRate = (speedArea / state.thickness).toFixed(2);
+                        speedAreaH40 = Math.round(parseFloat(feedRate) * 40);
+                    } else if (idx === 1) {
+                        if (state.thickness > 170) {
+                            offsetDisplay = '0.015';
+                        } else {
+                            const p1ov = state.wsCustomOverrides[0] || {};
+                            const p1_ton = p1ov.ti !== undefined ? p1ov.ti : wsRowsList[0].ti;
+                            const p1_ip = p1ov.IP !== undefined ? p1ov.IP : wsRowsList[0].IP;
+                            const rz1 = 0.00120 * Math.sqrt(p1_ton * p1_ip);
+                            const u_ratio = voltVal === 'High' ? 1.0 : 0.815;
+                            const delta2 = 0.00070 * Math.sqrt(tiVal * ipVal) * u_ratio;
+                            offsetDisplay = (rz1 + delta2).toFixed(3);
+                        }
+                        ampeDisplay = (voltVal === 'Low') ? '< 0.2' : calcTheoreticalAmpe(ipVal, poVal, state.thickness, voltVal).toFixed(1);
+                    } else {
+                        ampeDisplay = calcTheoreticalAmpe(ipVal, poVal, state.thickness, voltVal).toFixed(1);
+                    }
+                }
+                return { tiVal, poVal, ipVal, voltVal, vfVal, wireVal, offsetDisplay, ampeDisplay, speedArea, speedAreaH40, hz, Ra };
+            }
+
+            // Render VÙNG 1: Thông số điện xung & Bù dao Offset
+            wsTableBodyVung1.innerHTML = wsRowsList.map((r, idx) => {
+                const ov = state.wsCustomOverrides[idx] || {};
+                const dyn = computeRowDynamics(r, idx, ov);
+                return `
+                <tr>
+                    <td class="pass-cell sticky-col"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
+                    <td><input type="number" class="ws-cell-input ws-edit-field" data-pass="${idx}" data-field="ti" min="1" max="250" value="${dyn.tiVal}" title="Pon (μs)"></td>
+                    <td><input type="number" class="ws-cell-input ws-edit-field" data-pass="${idx}" data-field="Po" min="1" max="40" value="${dyn.poVal}" title="Poff (Po)"></td>
+                    <td><input type="number" class="ws-cell-input ws-edit-field" data-pass="${idx}" data-field="IP" min="1" max="10" value="${dyn.ipVal}" title="IP (Sò)"></td>
+                    <td>
+                        <select class="ws-cell-select ws-edit-field" data-pass="${idx}" data-field="Voltage" title="Điện áp">
+                            <option value="High" ${dyn.voltVal === 'High' ? 'selected' : ''}>High</option>
+                            <option value="Low" ${dyn.voltVal === 'Low' ? 'selected' : ''}>Low</option>
+                        </select>
+                    </td>
+                    <td><input type="number" class="ws-cell-input ws-edit-field" data-pass="${idx}" data-field="VF" min="1" max="99" value="${dyn.vfVal}" title="VF"></td>
+                    <td>
+                        <select class="ws-cell-select ws-edit-field" data-pass="${idx}" data-field="Wire" title="Tốc độ dây">
+                            <option value="1" ${dyn.wireVal == '1' ? 'selected' : ''}>1</option>
+                            <option value="2" ${dyn.wireVal == '2' ? 'selected' : ''}>2</option>
+                            <option value="3" ${dyn.wireVal == '3' ? 'selected' : ''}>3</option>
+                        </select>
+                    </td>
+                    <td class="val-offset fw-bold" style="color:var(--accent-amber); font-size:13.5px;"><span id="ws-dyn-offset-${idx}">${dyn.offsetDisplay}</span> mm</td>
+                </tr>
+                `;
+            }).join('');
+
+            // Render VÙNG 2: Năng suất & Động học máy
+            wsTableBodyVung2.innerHTML = wsRowsList.map((r, idx) => {
+                const ov = state.wsCustomOverrides[idx] || {};
+                const dyn = computeRowDynamics(r, idx, ov);
+                return `
+                <tr>
+                    <td class="pass-cell sticky-col"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
+                    <td><span id="ws-dyn-fc-${idx}" style="color:var(--accent-amber); font-weight:600;">${dyn.speedArea}</span></td>
+                    <td><strong id="ws-dyn-fch40-${idx}" style="color:var(--accent-amber);">${dyn.speedAreaH40}</strong></td>
+                    <td><strong id="ws-dyn-hz-${idx}" style="color:var(--accent-amber);">${dyn.hz} Hz</strong></td>
+                    <td><strong id="ws-dyn-ampe-${idx}" style="color:var(--accent-amber); font-size:13px;">${dyn.ampeDisplay}</strong></td>
+                    <td class="val-ra"><span id="ws-dyn-ra-${idx}">${dyn.Ra}</span></td>
+                </tr>
+                `;
+            }).join('');
+
+            // Gắn lắng nghe sự kiện can thiệp trực tiếp vào Vùng 1
+            const editFields = wsTableBodyVung1.querySelectorAll('.ws-edit-field');
+            editFields.forEach(field => {
+                const onFieldChange = () => {
+                    const passIdx = parseInt(field.dataset.pass, 10);
+                    const row1Inputs = wsTableBodyVung1.querySelectorAll(`.ws-edit-field[data-pass="${passIdx}"]`);
+                    let cur = {};
+                    row1Inputs.forEach(el => {
+                        const f = el.dataset.field;
+                        if (f === 'Voltage' || f === 'Wire') {
+                            cur[f] = el.value;
+                        } else {
+                            cur[f] = parseFloat(el.value) || 0;
+                        }
+                    });
+                    state.wsCustomOverrides[passIdx] = cur;
+                    const r = wsRowsList[passIdx];
+                    const dyn = computeRowDynamics(r, passIdx, cur);
+
+                    // Cập nhật giao diện trực tiếp không làm mất tiêu điểm chuột
+                    const offEl = document.getElementById(`ws-dyn-offset-${passIdx}`);
+                    if (offEl) offEl.textContent = dyn.offsetDisplay;
+                    const fcEl = document.getElementById(`ws-dyn-fc-${passIdx}`);
+                    if (fcEl) fcEl.textContent = dyn.speedArea;
+                    const fch40El = document.getElementById(`ws-dyn-fch40-${passIdx}`);
+                    if (fch40El) fch40El.textContent = dyn.speedAreaH40;
+                    const ampeEl = document.getElementById(`ws-dyn-ampe-${passIdx}`);
+                    if (ampeEl) ampeEl.textContent = dyn.ampeDisplay;
+                    const raEl = document.getElementById(`ws-dyn-ra-${passIdx}`);
+                    if (raEl) raEl.textContent = dyn.Ra;
+
+                    // Nếu đổi Pass 1, Pass 2 có thể đổi theo (Rz1 phụ thuộc Ton1, IP1)
+                    if (passIdx === 0 && wsRowsList.length > 1) {
+                        const p2ov = state.wsCustomOverrides[1] || {};
+                        const p2dyn = computeRowDynamics(wsRowsList[1], 1, p2ov);
+                        const off2El = document.getElementById('ws-dyn-offset-1');
+                        if (off2El) off2El.textContent = p2dyn.offsetDisplay;
+                    }
+
+                    if (typeof updateTab1SyncPreview === 'function') {
+                        updateTab1SyncPreview();
+                    }
+                };
+                field.addEventListener('input', onFieldChange);
+                field.addEventListener('change', onFieldChange);
+            });
+        } else if (typeof wsTableBody !== 'undefined' && wsTableBody) {
             const wsRowsList = generateWorkshopRows(state);
             wsTableBody.innerHTML = wsRowsList.map((r, idx) => `
                 <tr>
@@ -3648,6 +3818,7 @@ function initApp() {
                 </tr>
             `).join('');
         }
+
         // Render Notices
         if (typeof noticeList !== 'undefined' && noticeList) {
             noticeList.innerHTML = notices.map(n => `<li>${n}</li>`).join('');
@@ -3799,7 +3970,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.5.57";
+    const CURRENT_VERSION = "3.5.58";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -4637,23 +4808,24 @@ function initApp() {
             });
         });
 
-        // NÃšT Láº¤Y THÃ”NG Sá» Äáº¦U VÃ€O Tá»ª TAB 1 (TRA Cá»¨U THÃ”NG Sá» Cáº®T)
+                // NÚT LẤY THÔNG SỐ ĐẦU VÀO TỪ TAB 1 (TRA CỨU THÔNG SỐ CẮT)
         const btnSyncTab1 = document.getElementById('btn-sync-from-tab1');
         if (btnSyncTab1) {
             btnSyncTab1.addEventListener('click', () => {
                 const wsRows = generateWorkshopRows(state);
                 if (!wsRows || wsRows.length === 0) return;
                 const r1 = wsRows[0];
+                const ov = (state.wsCustomOverrides && state.wsCustomOverrides[0]) || {};
 
                 const H = state.thickness || 40;
                 const material = (state.wsMaterial === 'SCM420') ? 'SCM420' : 'SCM440';
-                const Pon = parseFloat(r1.ti) || 36;
-                const Poff = parseFloat(r1.Po) || 5;
-                const IP = parseFloat(r1.IP) || 4;
-                const Volt = (r1.Voltage === 'Low' || r1.Voltage === 'L') ? 'Low' : 'High';
-                const VF = parseFloat(r1.VF) || 55;
+                const Pon = ov.ti !== undefined ? parseFloat(ov.ti) : (parseFloat(r1.ti) || 36);
+                const Poff = ov.Po !== undefined ? parseFloat(ov.Po) : (parseFloat(r1.Po) || 5);
+                const IP = ov.IP !== undefined ? parseFloat(ov.IP) : (parseFloat(r1.IP) || 4);
+                const Volt = ov.Voltage !== undefined ? ov.Voltage : ((r1.Voltage === 'Low' || r1.Voltage === 'L') ? 'Low' : 'High');
+                const VF = ov.VF !== undefined ? parseFloat(ov.VF) : (parseFloat(r1.VF) || 55);
 
-                // 1. Cáº­p nháº­t state ná»™i bá»™ cá»§a Tab 2
+                // 1. Cập nhật state nội bộ của Tab 2
                 vfResearchState.material = material;
                 vfResearchState.H = H;
                 vfResearchState.Ton = Pon;
@@ -4662,7 +4834,7 @@ function initApp() {
                 vfResearchState.Volt = Volt;
                 vfResearchState.VF = VF;
 
-                // 2. Cáº­p nháº­t cÃ¡c Ã´ input & slider trÃªn giao diá»‡n
+                // 2. Cập nhật các ô input & slider trên giao diện Tab 2
                 if (inputH) inputH.value = H;
                 if (sliderH) sliderH.value = Math.min(300, Math.max(5, H));
                 if (inputTon) inputTon.value = Pon;
@@ -4671,7 +4843,7 @@ function initApp() {
                 if (inputVF) inputVF.value = VF;
                 if (sliderVF) sliderVF.value = Math.min(85, Math.max(20, VF));
 
-                // Cáº­p nháº­t nÃºt Váº­t Liá»‡u
+                // Cập nhật nút Vật Liệu
                 if (matBtns) {
                     matBtns.forEach(btn => {
                         if (btn.dataset.mat === material) {
@@ -4682,7 +4854,7 @@ function initApp() {
                     });
                 }
 
-                // Cáº­p nháº­t nÃºt Volt
+                // Cập nhật nút Volt
                 if (voltBtns) {
                     voltBtns.forEach(btn => {
                         if (btn.dataset.volt === Volt) {
@@ -4693,39 +4865,46 @@ function initApp() {
                     });
                 }
 
-                // 3. TÃ­nh toÃ¡n vÃ  hiá»ƒn thá»‹ ngay láº­p tá»©c káº¿t quáº£ BÃ¹ dao Offset
+                // 3. Tính toán và hiển thị ngay lập tức kết quả Bù dao Offset
                 renderResearchVF();
 
-                // 4. Hiá»‡u á»©ng pháº£n há»“i trÃªn nÃºt
+                // 4. Hiệu ứng phản hồi trên nút
                 const origHtml = btnSyncTab1.innerHTML;
-                btnSyncTab1.innerHTML = '<span>âœ… ÄÃ£ Náº¡p ThÃ´ng Sá»‘!</span>';
+                btnSyncTab1.innerHTML = '<span>✅ Đã Nạp Thông Số!</span>';
                 btnSyncTab1.style.background = '#10b981';
                 setTimeout(() => {
                     btnSyncTab1.innerHTML = origHtml;
                     btnSyncTab1.style.background = '';
                 }, 1800);
 
-                // Cáº­p nháº­t dÃ²ng preview
+                // Cập nhật dòng preview
                 updateTab1SyncPreview();
 
-                // Hiá»ƒn thá»‹ toast thÃ´ng bÃ¡o
-                const matText = material === 'SCM420' ? 'SCM420 (ThÃ©p má»m)' : 'SCM440 (ThÃ©p cá»©ng)';
-                showToast(`âœ… ÄÃ£ náº¡p tá»« Tab Tra Cá»©u: ${matText} | H=${H}mm | Pon=${Pon} | Poff=${Poff} | IP=${IP} | ${Volt} | VF=${VF}`);
+                // Hiển thị toast thông báo
+                const matText = material === 'SCM420' ? 'SCM420 (Thép mềm)' : 'SCM440 (Thép cứng)';
+                showToast(`✅ Đã nạp từ Tab Tra Cứu: ${matText} | H=${H}mm | Pon=${Pon} | Poff=${Poff} | IP=${IP} | ${Volt} | VF=${VF}`);
             });
         }
     }
 
-    // Cáº­p nháº­t dÃ²ng preview thÃ´ng sá»‘ hiá»‡n táº¡i cá»§a Tab 1 á»Ÿ nÃºt Ä‘á»“ng bá»™ Tab 2
+    // Cập nhật dòng preview thông số hiện tại của Tab 1 ở nút đồng bộ Tab 2
     function updateTab1SyncPreview() {
         const previewEl = document.getElementById('vf-sync-preview-text');
         if (!previewEl) return;
         const wsRows = generateWorkshopRows(state);
         if (!wsRows || wsRows.length === 0) return;
         const r1 = wsRows[0];
+        const ov = (state.wsCustomOverrides && state.wsCustomOverrides[0]) || {};
         const H = state.thickness || 40;
         const material = (state.wsMaterial === 'SCM420') ? 'SCM420' : 'SCM440';
-        previewEl.innerHTML = `Hiá»‡n táº¡i á»Ÿ Tab 1: <strong style="color:var(--accent-amber)">${material} | H=${H}mm | Pon=${r1.ti} | Poff=${r1.Po} | IP=${r1.IP} | ${r1.Voltage} | VF=${r1.VF}</strong> (Báº¥m nÃºt bÃªn Ä‘á»ƒ náº¡p)`;
+        const Pon = ov.ti !== undefined ? ov.ti : r1.ti;
+        const Poff = ov.Po !== undefined ? ov.Po : r1.Po;
+        const IP = ov.IP !== undefined ? ov.IP : r1.IP;
+        const Volt = ov.Voltage !== undefined ? ov.Voltage : r1.Voltage;
+        const VF = ov.VF !== undefined ? ov.VF : r1.VF;
+        previewEl.innerHTML = `Hiện tại ở Tab 1: <strong style="color:var(--accent-amber)">${material} | H=${H}mm | Pon=${Pon} | Poff=${Poff} | IP=${IP} | ${Volt} | VF=${VF}</strong> (Bấm nút bên để nạp)`;
     }
+
 
     function initResearchVF() {
         bindResearchVFEvents();

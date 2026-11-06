@@ -1,6 +1,6 @@
 {
-  "version": "3.5.57",
-  "buildTimestamp": 1793936000000,
+  "version": "3.5.58",
+  "buildTimestamp": 1793960000000,
   "releaseDate": "2026-11-06",
-  "description": "Đợt 57: Bổ sung nút chức năng Nạp Thông Số Từ Tab 1 sang Tab 2, tự động điền nhanh toàn bộ thông số đầu vào (Vật liệu, H, Pon, Poff, IP, Volt, VF) và tính toán ngay lập tức."
+  "description": "Đợt 58: Tách đôi bảng thông số cắt Tab 1 thành 2 vùng xếp dọc (Vùng 1: Pon, Poff, IP, Volt, VF, Wire, Offset - cho phép chỉnh trực tiếp và tính lại tức thì; Vùng 2: Fc, Fc H40, Hz, Ampe, Ra phản ứng tự động); Bổ sung nút Trở Về Mặc Định; Tích hợp nút Nạp Thông Số Từ Tab 1 sang Tab 2 hoàn chỉnh."
 }

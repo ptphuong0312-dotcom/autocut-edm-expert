@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=3.5.57">
+    <link rel="stylesheet" href="style.css?v=3.5.58">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -180,45 +180,71 @@
 
                 <!-- OUTPUT RESULTS PANEL 2 (CỘT PHẢI CHO TAB HIỆU CHỈNH XƯỞNG) -->
                 <section class="results-panel card">
-                    <div class="results-header">
+                    <div class="results-header" style="margin-bottom: 12px;">
                         <div>
-                            <h2 class="section-title"><span class="badge-num" style="background: var(--accent-amber); color: #000;">2</span> Tra Cứu Thông Số Cắt &amp; Bù Dao Offset</h2>
-                            <p class="summary-line" id="ws-config-summary">Hiệu chuẩn theo máy thực tế xưởng | SCM420 | H = 40 mm | 1 Pass</p>
+                            <h2 class="section-title" style="margin-bottom: 0;"><span class="badge-num" style="background: var(--accent-amber); color: #000;">2</span> Thông Số Cắt &amp; Bù Dao Offset</h2>
                         </div>
-                        <button class="btn btn-sm btn-copy" id="ws-btn-copy-table">📋 Copy Bảng</button>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button type="button" class="btn btn-sm btn-outline" id="ws-btn-reset-params" style="border-color: rgba(251, 191, 36, 0.5); color: var(--accent-amber); font-size: 11.5px; padding: 5px 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; cursor: pointer;" title="Khôi phục lại toàn bộ thông số tính toán chuẩn ban đầu của App">
+                                <span>🔄 Trở Về Mặc Định</span>
+                            </button>
+                            <button class="btn btn-sm btn-copy" id="ws-btn-copy-table">📋 Copy Bảng</button>
+                        </div>
                     </div>
 
-                    <div id="ws-notice-box" class="workshop-notice-box" style="margin-top: 10px; margin-bottom: 14px;">
-                        📌 <strong>Vùng Hiệu Chuẩn Đặc Quyền Xưởng:</strong> Tính toán đồng hồ Ampe I_tb = (6.4 × IP) / (1 + P_o) (k_ampe=2.2857/2.8571), năng suất bóc phôi $F_c$, tốc độ tiến bàn $F_t$ và lượng bù dao $Offset$ hiệu chỉnh chuẩn theo kết quả chạy máy thực tế tại xưởng.
+                    <!-- VÙNG 1: THÔNG SỐ ĐIỆN XUNG & BÙ DAO OFFSET (XẾP DỌC) -->
+                    <div style="margin-bottom: 16px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(14, 165, 233, 0.25); border-radius: var(--radius-sm); padding: 12px 14px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
+                            <h3 style="font-size: 13px; color: var(--accent-cyan); margin: 0; display: flex; align-items: center; gap: 6px;">
+                                <span>⚡</span> VÙNG 1: THÔNG SỐ ĐIỆN XUNG &amp; BÙ DAO OFFSET <span style="font-size: 11px; color: var(--text-secondary); font-weight: 400;">(Có thể thay đổi trực tiếp)</span>
+                            </h3>
+                            <span style="font-size: 11px; color: var(--accent-amber);">💡 Chỉnh Pon, Poff, IP, Volt, VF &rarr; Offset &amp; Vùng 2 tự tính lại</span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="edm-table workshop-table" id="ws-edm-table-vung1">
+                                <thead>
+                                    <tr>
+                                        <th class="sticky-col">P</th>
+                                        <th>Pon (μs)</th>
+                                        <th>Poff (Po)</th>
+                                        <th>IP (Sò)</th>
+                                        <th>Volt</th>
+                                        <th>VF</th>
+                                        <th>Wire</th>
+                                        <th style="color: var(--accent-amber); font-size: 13px;">OFFSET (mm)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ws-table-body-vung1">
+                                    <!-- Injected by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
-                    <!-- MOBILE SCROLL HINT -->
-                    <div class="mobile-scroll-hint">👉 Vuốt ngang để xem đủ 12 cột thông số 👈</div>
-
-                    <!-- MAIN PARAMETER TABLE FOR WORKSHOP -->
-                    <div class="table-responsive">
-                        <table class="edm-table workshop-table" id="ws-edm-result-table">
-                            <thead>
-                                <tr>
-                                    <th class="sticky-col">P</th>
-                                    <th>Pon</th>
-                                    <th>Poff</th>
-                                    <th>IP</th>
-                                    <th>V</th>
-                                    <th>VF</th>
-                                    <th>Wire</th>
-                                    <th>OFFSET</th>
-                                    <th>Fc thực (mm²/p)</th>
-                                    <th>Fc máy (H40)</th>
-                                    <th>Giới hạn (Hz)</th>
-                                    <th>Ampe kế (A)</th>
-                                    <th>Ra</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ws-table-body">
-                                <!-- Injected by JavaScript -->
-                            </tbody>
-                        </table>
+                    <!-- VÙNG 2: NĂNG SUẤT BỀ MẶT & ĐỘNG HỌC MÁY (XẾP DỌC BÊN DƯỚI) -->
+                    <div style="margin-bottom: 16px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(139, 92, 246, 0.25); border-radius: var(--radius-sm); padding: 12px 14px;">
+                        <div style="margin-bottom: 8px;">
+                            <h3 style="font-size: 13px; color: var(--accent-purple); margin: 0; display: flex; align-items: center; gap: 6px;">
+                                <span>📊</span> VÙNG 2: NĂNG SUẤT &amp; ĐỘNG HỌC MÁY <span style="font-size: 11px; color: var(--text-secondary); font-weight: 400;">(Tự động tính toán phản ứng theo Vùng 1)</span>
+                            </h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="edm-table workshop-table" id="ws-edm-table-vung2">
+                                <thead>
+                                    <tr>
+                                        <th class="sticky-col">P</th>
+                                        <th>Fc thực (mm²/p)</th>
+                                        <th>Fc máy (H40)</th>
+                                        <th>Giới hạn (Hz)</th>
+                                        <th>Ampe kế (A)</th>
+                                        <th>Ra (μm)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ws-table-body-vung2">
+                                    <!-- Injected by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                                         <!-- THƯ VIỆN THÔNG SỐ THỰC NGHIỆM XƯỞNG -->
@@ -252,6 +278,20 @@
                         <span class="tag" style="background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); border: 1px solid var(--accent-purple); white-space: nowrap;">Mô Phỏng 1 Pass</span>
                     </div>
 
+
+                    <!-- NÚT LẤY THÔNG SỐ TỪ TAB TRA CỨU (TAB 1) -->
+                    <div style="margin-bottom: 16px; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: var(--radius-sm); padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 22px;">⚡</span>
+                            <div>
+                                <strong style="font-size: 13px; color: var(--accent-cyan); display: block;">Lấy Thông Số Đầu Vào Từ Tab Tra Cứu:</strong>
+                                <span style="font-size: 11.5px; color: var(--text-secondary);" id="vf-sync-preview-text">Nạp nhanh toàn bộ H, Pon, Poff, IP, Volt, VF đang tính ở Tab Tra Cứu sang đây</span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="btn-sync-from-tab1" style="background: linear-gradient(135deg, #0284c7, #7c3aed); border: 1px solid rgba(255, 255, 255, 0.2); padding: 8px 16px; font-weight: 700; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 10px rgba(14, 165, 233, 0.4); cursor: pointer; border-radius: 6px; color: #fff; transition: all 0.2s ease;">
+                            <span>📥 Nạp Thông Số Từ Tab 1</span>
+                        </button>
+                    </div>
 
                     <!-- 1. VẬT LIỆU -->
                     <div class="form-group">
@@ -876,14 +916,14 @@
                     <div class="kb-card">
                         <div class="kb-card-header">
                             <span class="kb-badge" style="background: var(--accent-green); color: #000;">14</span>
-                            <h3>Quy Luáº­t Báº­c Thang Ampe 7 Cáº¥p Äá»™ Äá»‘i Xá»©ng (Tab Tra Cá»©u)</h3>
+                            <h3>Quy Luật Bậc Thang Ampe 7 Cấp Độ Đối Xứng (Tab Tra Cứu)</h3>
                         </div>
                         <div class="kb-body">
-                            <p><strong>Chuáº©n hÃ³a 7 cáº¥p Ä‘á»™ chiáº¿n lÆ°á»£c gia cÃ´ng Ä‘á»‘i xá»©ng quanh Cáº¥p 4 (TiÃªu chuáº©n):</strong></p>
+                            <p><strong>Chuẩn hóa 7 cấp độ chiến lược gia công đối xứng quanh Cấp 4 (Tiêu chuẩn):</strong></p>
                             <ul>
-                                <li><strong>Cáº¥p 1 - Cáº¥p 3 (ChuyÃªn cáº¯t má»‹n &amp; siÃªu má»‹n):</strong> Háº¡ IP (1-2 sÃ²), Poff kÃ©o dÃ i, Volt Low. DÃ²ng Ampe giáº£m Ä‘á»u Ä‘áº·n -1.8A, -1.2A, -0.6A so vá»›i chuáº©n. Bá» máº·t siÃªu má»‹n Ra &le; 1.0 - 2.2 Î¼m.</li>
-                                <li><strong>Cáº¥p 4 (â­ TiÃªu Chuáº©n Chuáº©n XÆ°á»Ÿng):</strong> CÃ¢n báº±ng tá»‘i Æ°u giá»¯a tá»‘c Ä‘á»™, Ä‘á»™ nhÃ¡m vÃ  Ä‘á»™ bá»n dÃ¢y Molypden. TuÃ¢n thá»§ nghiÃªm ngáº·t 4 dáº£i Ampe Rule 12.</li>
-                                <li><strong>Cáº¥p 5 - Cáº¥p 7 (TÄƒng tá»‘c &amp; Bá»©t phÃ¡ nÄƒng suáº¥t):</strong> RÃºt ngáº¯n Poff, tÄƒng Pon vÃ  VF, giá»¯ IP an toÃ n. DÃ²ng Ampe tÄƒng Ä‘á»u Ä‘áº·n +0.6A, +1.2A, +1.8A so vá»›i chuáº©n. NÄƒng suáº¥t tÄƒng 25% - 60%.</li>
+                                <li><strong>Cấp 1 - Cấp 3 (Chuyên cắt mịn &amp; siêu mịn):</strong> Hạ IP (1-2 sò), Poff kéo dài, Volt Low. Dòng Ampe giảm đều đặn -1.8A, -1.2A, -0.6A so với chuẩn. Bề mặt siêu mịn Ra &le; 1.0 - 2.2 μm.</li>
+                                <li><strong>Cấp 4 (⭐ Tiêu Chuẩn Chuẩn Xưởng):</strong> Cân bằng tối ưu giữa tốc độ, độ nhám và độ bền dây Molypden. Tuân thủ nghiêm ngặt 4 dải Ampe Rule 12.</li>
+                                <li><strong>Cấp 5 - Cấp 7 (Tăng tốc &amp; Bứt phá năng suất):</strong> Rút ngắn Poff, tăng Pon và VF, giữ IP an toàn. Dòng Ampe tăng đều đặn +0.6A, +1.2A, +1.8A so với chuẩn. Năng suất tăng 25% - 60%.</li>
                             </ul>
                         </div>
                     </div>
@@ -894,7 +934,7 @@
         <footer class="app-footer">
             <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
             <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">
-                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.55 (Chuẩn Hóa Đường Cong VF &amp; Thuật Ngữ Pon/Poff)</strong> &bull; 
+                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.58 (Bảng Cắt 2 Vùng Dọc &amp; Bù Dao Offset Can Thiệp Trực Tiếp)</strong> &bull; 
                 <a href="javascript:void(0)" id="link-force-update" style="color: var(--accent-amber); text-decoration: underline;">🔄 Cưỡng bức làm mới dữ liệu</a>
             </p>
         </footer>
@@ -932,6 +972,6 @@
     </div>
 
         <!-- INLINE APPLICATION SCRIPT (Chống kẹt cache 100% trên mọi trình duyệt) -->
-    <script src="app.js?v=3.5.57"></script>
+    <script src="app.js?v=3.5.58"></script>
 </body>
 </html>

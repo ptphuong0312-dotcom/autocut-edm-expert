@@ -409,3 +409,30 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
   - **Sai số cực đại toàn xưởng (Max Error):** Khóa cứng toàn bộ 19 bài cắt dưới **$5.75\,\mu\text{m}$** (trước đây $16.98\,\mu\text{m}$, giảm tới 66% sai số cực đại!).
   - **Kiểm tra cú pháp & cấu trúc AST:** Braces: 977/977 (Diff: 0), Parens: 2162/2162 (Diff: 0), Brackets: 109/109 (Diff: 0).
   - **Hiến pháp AGENTS.md (3 Câu hỏi trọng tài):** PASSED 100%.
+
+
+---
+
+### 🚀 ĐỢT 55 - 58: BẢNG CẮT 2 VÙNG DỌC CAN THIỆP TRỰC TIẾP, NÚT TRỞ VỀ MẶC ĐỊNH & NẠP THÔNG SỐ TAB 1 SANG TAB 2 (v3.5.58)
+* **Thời gian:** 2026-11-06 18:00 (GMT+7)
+* **Mục tiêu kỹ thuật từ SirPhuong:**
+  1. Loại bỏ hoàn toàn Tab 1 ("Tra cứu chuẩn hãng"), biến Tab 2 ("Hiệu chuẩn xưởng") thành Tab 1 chính thức ("Tra cứu thông số cắt"), đổi tên Tab 3 thành "Nhập thông số cắt" và Tab 4 thành "Kiến thức EDM".
+  2. Bổ sung nút chức năng `[📥 Nạp Thông Số Từ Tab 1]` sang Tab 2, tự động sao chép các thông số đầu vào (`Vật liệu, H, Pon, Poff, IP, Volt, VF`) và tính toán kết quả ngay lập tức.
+  3. Tách đôi bảng thông số cắt Tab 1 thành 2 vùng xếp theo chiều dọc:
+     - **VÙNG 1:** `P | Pon (μs) | Poff (Po) | IP (Sò) | Volt | VF | Wire | OFFSET (mm)`. Các ô thông số điện có thể can thiệp thay đổi trực tiếp; khi thay đổi thì tự động tính lại `OFFSET` và các thông số của Vùng 2.
+     - **VÙNG 2:** `P | Fc thực (mm²/p) | Fc máy (H40) | Giới hạn (Hz) | Ampe kế (A) | Ra (μm)`. Tự động phản ứng theo Vùng 1.
+  4. Bổ sung nút `[🔄 Trở Về Mặc Định]` (`#ws-btn-reset-params`) để khôi phục lại toàn bộ thông số chuẩn do App tính toán ban đầu.
+  5. Bỏ dòng tóm tắt `#ws-config-summary` và hộp ghi chú xưởng `#ws-notice-box`.
+  6. Đổi tiêu đề Section 2 thành: `Thông Số Cắt & Bù Dao Offset`.
+  7. Thay thế toàn diện thuật ngữ `TON` &rarr; `Pon` và `TOFF` &rarr; `Poff`.
+  8. Thêm biểu tượng mũi tên SVG xoay 180° vào ô "6 Chế Độ Cắt" để người dùng dễ nhận biết phần mở rộng.
+* **Các file đã sửa:**
+  - `index.html`: Thay thế bảng ngang 12 cột bằng 2 bảng xếp dọc `#ws-edm-table-vung1` và `#ws-edm-table-vung2`; bổ sung nút `#ws-btn-reset-params`; thêm khối nút `#btn-sync-from-tab1` vào Tab 2; dọn sạch thẻ thừa, đảm bảo cân bằng HTML (Open divs 171 / Close divs 171).
+  - `app.js`: Thêm `state.wsCustomOverrides`; triển khai cơ chế tính toán động lực học tức thời khi sửa ô điện Vùng 1 (tính lại $\delta$, Offset, Ampe kế Model Vòng 5, $F_c$, $H40$); xử lý sự kiện nút Reset; cập nhật hàm nạp thông số Tab 1 sang Tab 2 kế thừa thông số can thiệp mới nhất.
+  - `style.css`: Thêm stylesheet chuyên dụng cho `.ws-cell-input`, `.ws-cell-select` và nút reset.
+  - `version.json`, `sw.js`: Đồng bộ phiên bản `v3.5.58` và cập nhật Service Worker cache.
+* **Kết quả nghiệm thu kỹ thuật:**
+  - **Kiểm định cú pháp & tính toàn vẹn AST (`verify_integrity.ps1`):** PASSED 100%.
+  - **Kiểm tra luật chống bảng tra tĩnh (Rule 16 & Rule 17):** PASSED 100%.
+  - **Kiểm tra đồng bộ phiên bản (`v3.5.58` trên 5 file):** PASSED 100%.
+  - **Kiểm tra cân bằng thẻ HTML DOM (`check_dom_balance.ps1`):** Open divs 171 / Close divs 171 (PERFECT!).
