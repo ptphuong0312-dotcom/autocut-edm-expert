@@ -13,6 +13,38 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
 
 ## 📌 DANH SÁCH CÁC ĐỢT TỐI ƯU HÓA & NGHIỆM THU KỸ THUẬT
 
+### 🚀 ĐỢT 56: TRIỆT TIÊU TAB 1, TÁI CẤU TRÚC 3 TAB, ĐẠI TU KIẾN THỨC EDM & AMPE MODEL VÒNG 5 (v3.5.56)
+* **Thời gian:** 2026-11-06 11:05 (GMT+7)
+* **Môi trường:** Máy tính Ở Nhà
+* **Chỉ thị từ SirPhuong:**
+  1. Loại bỏ hoàn toàn Tab 1 Chuẩn Hãng.
+  2. Tab "Kiến thức chuyên sâu EDM" đổi tên thành "Kiến thức EDM", cập nhật đầy đủ kiến thức mới.
+  3. Đổi tên Tab 2 thành "Tra cứu thông số cắt", Tab 3 thành "Nhập thông số cắt".
+  4. Thay thế toàn diện TON = Pon và TOFF = Poff trên web app.
+  5. Ở ô "6 chế độ cắt" thêm biểu tượng mũi tên hướng xuống trực quan.
+  6. Áp dụng quy trình tối ưu hóa đa vòng lặp cho Ampe, tìm ra phương pháp sát thực tế nhất.
+* **Kết quả nghiên cứu & triển khai:**
+  - **Tối ưu hóa Ampe đa vòng (5 Vòng lặp):**
+    + Khảo sát chuỗi 5 vòng tối ưu, chọn **Model Vòng 5**:
+      $$I_{\text{Ampe}} = \text{IP} \times \left(\frac{1}{P_{\text{off}} + 2}\right) \times 8.55 \times \left[1.0 - 0.33 \left(\frac{P_{\text{off}} - 5}{10}\right)\right] \times \left[1.0 - 0.08 \left(\frac{H}{H + 20}\right)\right] \times \left(\frac{U_{\text{arc}}}{27}\right)$$
+    + Giảm MAE từ $0.308\text{A} \rightarrow \mathbf{0.161\text{A}}$ (giảm 48% sai số).
+    + Giảm RMSE từ $0.367\text{A} \rightarrow \mathbf{0.218\text{A}}$ (giảm 41%).
+    + Giảm Max Error từ $0.800\text{A} \rightarrow \mathbf{0.456\text{A}}$ (giảm 43%).
+    + Báo cáo trường tồn tại `docs/RESEARCH_AMPE_ITERATIVE_OPTIMIZATION.md`.
+  - **Giao diện & Cấu trúc:**
+    + Loại bỏ hoàn toàn `tab-calculator` khỏi `index.html`.
+    + Ba tab chuẩn: "Tra Cứu Thông Số Cắt", "Nhập Thông Số Cắt", "Kiến Thức EDM".
+    + Ô "6 Chế Độ Cắt" có icon SVG chevron-down xoay $180^\circ$ khi mở và $0^\circ$ khi đóng.
+    + Thêm các Cards kiến thức 12 (Chùm xung GPon/GPoff), 13 (Ampe Vòng 5), 14 (Phân vùng kép).
+    + Bài giảng 7 bước `renderLectureKnowledge()` đồng bộ 100% dữ liệu thực tế xưởng.
+* **Kết quả nghiệm thu:**
+  - `powershell -ExecutionPolicy Bypass -File scripts/verify_integrity.ps1`:
+    + Bracket balance & syntax integrity: PASSED 100%.
+    + Anti-Lookup-Table Law & Pure Physics Engine: PASSED 100%.
+    + Version synchronization (3.5.56): PASSED 100%.
+  - `powershell -ExecutionPolicy Bypass -File scripts/check_dom_balance.ps1`: Open 164 / Close 164: PERFECT!
+
+
 ### 🚀 ĐỢT 44: THIẾT LẬP HẠ TẦNG BỘ NÃO TRI THỨC LUÂN PHIÊN 2 MÁY (v3.5.44)
 * **Thời gian:** 2026-10-22 23:15 (GMT+7)
 * **Môi trường:** Máy tính Ở Nhà

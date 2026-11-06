@@ -1,6 +1,6 @@
 {
-  "version": "3.5.55",
-  "buildTimestamp": 1793910000000,
+  "version": "3.5.56",
+  "buildTimestamp": 1793933000000,
   "releaseDate": "2026-11-06",
-  "description": "Đợt 55: Chuẩn hóa đường cong VF thuận chiều vật lý (mỏng 50-52 -> dày 70-75), cập nhật thuật ngữ chuẩn AutoCut Pon/Poff toàn diện, bổ sung biểu tượng mở rộng thư viện thực nghiệm."
+  "description": "Đợt 56: Triệt tiêu hoàn toàn Tab 1 Chuẩn Hãng, đổi tên 3 Tab (Tra Cứu Thông Số Cắt, Nhập Thông Số Cắt, Kiến Thức EDM), đại tu toàn diện bài giảng và cẩm nang kiến thức, cập nhật icon SVG chevron-down cho ô 6 Chế Độ Cắt, triển khai động cơ Ampe Model Vòng 5 đạt MAE=0.161A chuẩn thực nghiệm xưởng."
 }
