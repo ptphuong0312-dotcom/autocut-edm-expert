@@ -467,3 +467,35 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
   - **Kiểm tra đồng bộ phiên bản (`v3.5.59` trên 5 file):** PASSED 100%.
   - **Kiểm tra cân bằng thẻ HTML DOM:** Open divs 171 / Close divs 171 (PERFECT!).
   - **Độ chính xác mô hình vật lý EDM (Model Vòng 5):** MAE toàn cục `2.70 um` (SCM440 `2.77 um`, SCM420 `2.64 um`, Max Error `5.75 um`).
+
+---
+
+### 🚀 ĐỢT 60: KHẮC PHỤC TRIỆT ĐỂ LỖI CÚ PHÁP JAVASCRIPT HÀM SAO CHÉP, BỔ SUNG BROWSER HEADLESS TESTING & NÂNG CẤP v3.5.60 (v3.5.60)
+* **Thời gian:** 2026-11-06 20:30 (GMT+7)
+* **Bối cảnh & Phát hiện sự cố từ SirPhuong:**
+  - Ngay sau khi nâng cấp `v3.5.59`, SirPhuong phản ánh Web App bị lỗi không hoạt động (UI freeze / màn hình không load dữ liệu).
+  - **Phân tích nguyên nhân gốc rễ (Root Cause):** Trong script Python xử lý thay thế hàm `copyWorkshopTableToClipboard` ở `app.js`, các chuỗi template literals (backtick) bị strip vô tình tạo thành chuỗi không trích dẫn (`let text = AUTOCUT EDM SERVO...;\n`). Khi trình duyệt tải `app.js`, engine JavaScript báo lỗi cú pháp nghiêm trọng `SyntaxError: Unexpected identifier 'EDM'` ngay lúc phân tích cú pháp, làm chặn đứng hàm `initApp()` và toàn bộ logic giao diện của ứng dụng.
+  - Script `verify_integrity.py` trước đó chỉ kiểm tra cân bằng ngoặc `()`, `{}`, `[]` và chuỗi version chứ chưa thực thi toàn diện qua AST Parser của JavaScript.
+* **Các biện pháp khắc phục & cải tiến kỹ thuật:**
+  1. **Khắc phục triệt để lỗi cú pháp trong `app.js`:**
+     - Chuẩn hóa toàn bộ cấu trúc chuỗi của hàm `copyWorkshopTableToClipboard` sang nối chuỗi có dấu nháy kép rõ ràng (`"..." + ... + "\n"`), triệt tiêu hoàn toàn rủi ro mất backtick.
+  2. **Bổ sung công cụ kiểm chứng trình duyệt thật (`scripts/verify_browser_render.py`):**
+     - Xây dựng script kiểm tra tự động chạy Microsoft Edge Headless (`--headless=new --dump-dom`).
+     - Script kiểm tra thực tế: DOM có parse thành công `app.js` không, có render đầy đủ các hàng bảng ở Vùng 1 (`#ws-table-body-vung1`) và Vùng 2 (`#ws-table-body-vung2`) không, cột `OFFSET (mm)` có hiển thị chuẩn ở đầu Vùng 2 không.
+     - Kết quả kiểm chứng Edge: **100% SUCCESSFUL! NO JAVASCRIPT ERRORS!**
+  3. **Nâng cấp phiên bản đồng bộ `v3.5.60` để làm mới Service Worker PWA:**
+     - Nâng cấp `CACHE_NAME = 'autocut-v3.5.60'` trong `sw.js` để tự động kích hoạt cơ chế xóa cache cũ và nạp ngay mã nguồn chuẩn cho các trình duyệt PWA (cả trên Mobile và Desktop).
+     - Đồng bộ phiên bản `v3.5.60` trên cả 5 file: `version.json`, `sw.js`, `index.html`, `app.js`, `style.css`.
+* **Các file đã sửa:**
+  - `app.js`: Sửa dứt điểm hàm `copyWorkshopTableToClipboard`, nâng `CURRENT_VERSION = "3.5.60"`.
+  - `sw.js`: Đổi `CACHE_NAME = 'autocut-v3.5.60'`.
+  - `version.json`: Nâng cấp version `3.5.60`, build timestamp `1793972000000`.
+  - `index.html`: Cập nhật query `?v=3.5.60` cho css, js và nhãn hiển thị phiên bản `v3.5.60`.
+  - `style.css`: Cập nhật chú thích header `v3.5.60`.
+  - `scripts/verify_browser_render.py`: Tạo mới công cụ kiểm thử Engine trình duyệt thật.
+  - `backups/autocut_2026-11-06(96).zip`: Tạo bản sao lưu an toàn độc lập.
+* **Kết quả nghiệm thu kỹ thuật:**
+  - **Kiểm định tính toàn vẹn cú pháp (`verify_integrity.py`):** PASSED 100%.
+  - **Kiểm định thực thi trình duyệt thật (`verify_browser_render.py`):** PASSED 100%.
+  - **Đồng bộ phiên bản 5 file:** Khớp chính xác `v3.5.60`.
+

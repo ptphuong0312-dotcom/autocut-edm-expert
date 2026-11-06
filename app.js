@@ -3949,22 +3949,22 @@ function initApp() {
         };
         const matLabel = matNames[state.wsMaterial] || matNames['SCM420'];
         const wsPassNum = state.wsPassCount || 1;
-        let text = AUTOCUT EDM SERVO - THÔNG SỐ CẮT & BÙ DAO OFFSET (TAB 1)\n;
-        text += Vật liệu:  | Chiều dày H: mm | Quy trình:  Pass | Chế độ: \n\n;
-        text += P\tPon(μs)\tPoff(Po)\tIP(Sò)\tVolt\tVF\tWire\tOFFSET(mm)\tFc thực(mm2/p)\tFc máy H40\tGiới hạn(Hz)\tAmpe(A)\tRa\n;
+        let text = "AUTOCUT EDM SERVO - THÔNG SỐ CẮT & BÙ DAO OFFSET (TAB 1)\n";
+        text += "Vật liệu: " + matLabel + " | Chiều dày H: " + state.thickness + "mm | Quy trình: " + wsPassNum + " Pass | Chế độ: " + strat.name + "\n\n";
+        text += "P\tPon(μs)\tPoff(Po)\tIP(Sò)\tVolt\tVF\tWire\tOFFSET(mm)\tFc thực(mm2/p)\tFc máy H40\tGiới hạn(Hz)\tAmpe(A)\tRa\n";
         
         wsRows.forEach((r, idx) => {
-            const offEl = document.getElementById(ws-dyn-offset-);
+            const offEl = document.getElementById("ws-dyn-offset-" + idx);
             const offsetVal = offEl ? offEl.textContent.trim() : r.offsetText;
-            const fcEl = document.getElementById(ws-dyn-fc-);
+            const fcEl = document.getElementById("ws-dyn-fc-" + idx);
             const fcVal = fcEl ? fcEl.textContent.trim() : r.speedArea;
-            const fch40El = document.getElementById(ws-dyn-fch40-);
+            const fch40El = document.getElementById("ws-dyn-fch40-" + idx);
             const fch40Val = fch40El ? fch40El.textContent.trim() : r.speedAreaH40;
-            const ampeEl = document.getElementById(ws-dyn-ampe-);
+            const ampeEl = document.getElementById("ws-dyn-ampe-" + idx);
             const ampeVal = ampeEl ? ampeEl.textContent.trim() : r.ampe;
-            const hzEl = document.getElementById(ws-dyn-hz-);
+            const hzEl = document.getElementById("ws-dyn-hz-" + idx);
             const hzVal = hzEl ? hzEl.textContent.trim() : (r.hz || '--');
-            const raEl = document.getElementById(ws-dyn-ra-);
+            const raEl = document.getElementById("ws-dyn-ra-" + idx);
             const raVal = raEl ? raEl.textContent.trim() : r.Ra;
 
             const ov = (state.wsCustomOverrides && state.wsCustomOverrides[idx]) || {};
@@ -3975,7 +3975,7 @@ function initApp() {
             const vf = ov.VF !== undefined ? ov.VF : r.VF;
             const wire = ov.Wire !== undefined ? ov.Wire : r.Wire;
 
-            text += ${r.passName}\t\t\t\t\t\t\t\t\t\t\t\t\n;
+            text += r.passName + "\t" + ti + "\t" + po + "\t" + ip + "\t" + volt + "\t" + vf + "\t" + wire + "\t" + offsetVal + "\t" + fcVal + "\t" + fch40Val + "\t" + hzVal + "\t" + ampeVal + "\t" + raVal + "\n";
         });
 
         navigator.clipboard.writeText(text).then(() => {
@@ -3988,10 +3988,7 @@ function initApp() {
         });
     }
 
-    // ==========================================
-    // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
-    // ==========================================
-    const CURRENT_VERSION = "3.5.59";
+    const CURRENT_VERSION = "3.5.60";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {

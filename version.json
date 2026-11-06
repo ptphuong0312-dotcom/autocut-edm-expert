@@ -1,6 +1,6 @@
 {
-  "version": "3.5.59",
-  "buildTimestamp": 1793970000000,
+  "version": "3.5.60",
+  "buildTimestamp": 1793972000000,
   "releaseDate": "2026-11-06",
-  "description": "Chuyển cột OFFSET xuống đầu Vùng 2 để phân chuẩn rạch ròi Đầu Vào (Vùng 1) vs Đầu Ra (Vùng 2); tối ưu hóa giao diện và trải nghiệm bảng thông số trên thiết bị di động Mobile."
+  "description": "Khắc phục lỗi cú pháp JavaScript hàm sao chép, làm mới bộ nhớ đệm Service Worker PWA; Hoàn thiện hiển thị 2 Vùng Đầu Vào vs Đầu Ra (Offset đứng đầu Vùng 2) và tối ưu hóa xem trên Mobile."
 }
