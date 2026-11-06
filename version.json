@@ -1,6 +1,6 @@
 {
-  "version": "3.5.61",
-  "buildTimestamp": 1793980000000,
+  "version": "3.5.62",
+  "buildTimestamp": 1793984000000,
   "releaseDate": "2026-11-06",
-  "description": "Tích hợp Mô hình Toán - Vật lý Nhiệt động học Vòng 5 Siêu Tinh Chỉnh cho Fc thực & Fc máy (H40), bám tải VF phi tuyến 2 nhánh, chặn trần Hz động cơ bước, đưa sai số thời gian cắt xuống 8.9%."
+  "description": "Nâng cấp Mô hình Toán - Vật lý Nhiệt động học Vòng 6 Tối Ưu Hội Tụ cho Fc thực & Fc máy (H40) dựa trên 3 số đo cứng (L, H, t) xưởng, khơi thông biến Pon, đưa sai số MAPE 14 bài chuẩn xuống 5.84%."
 }

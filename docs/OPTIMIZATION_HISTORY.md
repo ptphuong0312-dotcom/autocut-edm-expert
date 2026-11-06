@@ -470,6 +470,44 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
 
 ---
 
+### 🚀 ĐỢT 62: NÂNG CẤP MÔ HÌNH TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC VÒNG 6 TỐI ƯU HỘI TỤ CHO FC THỰC & FC MÁY H40 (v3.5.62)
+* **Thời gian:** 2026-11-07 00:55 (GMT+7)
+* **Môi trường:** Máy tính Ở Nhà
+* **Chỉ thị cốt lõi & Phương pháp luận từ SirPhuong:**
+  - *"giải đọc trên máy tôi gửi bạn để bạn xem tham khảo thôi, còn tính toán tôi đã gủi các thông số thời gian cắt + chiều dài cắt + chiều cao cắt, bạn lấy các thông số này để so sánh tính toán tinh chỉnh chứ đừng dùng Fc tôi gửi. tinh chỉnh vẫn theo quy trình cũ"*
+  - Quy ước chuẩn hóa:
+    + Dải đọc bằng mắt trên màn hình máy (`read`): CHỈ DÙNG ĐỂ THAM KHẢO.
+    + Cơ sở duy nhất để so sánh, tính toán và tinh chỉnh là **3 số đo cứng khách quan tuyệt đối**:
+      $$F_{t,\text{thực}} = \frac{L}{t} \quad (\text{mm/p})$$
+      $$F_{c,\text{thực}} = F_t \times H = \frac{L \times H}{t} \quad (\text{mm}^2/\text{p})$$
+      $$F_{c,\text{máy H40}} = F_t \times 40 = \frac{L \times 40}{t} \quad (\text{mm}^2/\text{p})$$
+    + Giữ nguyên hiển thị 2 cột như cũ trên giao diện Web App.
+* **Quy trình tối ưu hóa đa vòng khoa học (15 bài cắt xưởng):**
+  - **Khơi thông biến $P_{\text{on}}$:** Cho $P_{\text{on}}$ ($T_{\text{on}}$) tham gia bóc tách theo lũy thừa $T_{\text{on}}^{0.15}$ và sò $\text{IP}^{0.16}$, dỡ bỏ hoàn toàn trần cứng $80\mu s$. Khi người dùng tăng/giảm $P_{\text{on}}$ ở Vùng 1, $F_c$ biến thiên nhịp nhàng, tăng giảm hợp lý ở mọi độ dày từ $10\text{mm} \rightarrow 300\text{mm}$, không còn bị đơ hay phẳng lì.
+  - **Hệ phương trình Vòng 6 Tối Ưu Hội Tụ:**
+    $$\eta_{\text{eff}} = \eta_{\text{base}} \times \eta_H(H) \times k_{\text{drag}}(H, P_o) \times k_{\text{VF}}(\text{VF}) \times k_{\text{duty}}$$
+    + $\eta_{\text{base}} = 0.80 \times (T_{\text{on}} / 50.0)^{0.15} \times (\text{IP} / 4.0)^{0.16}$
+    + $\eta_H = \max(0.55, 1.0 - \max(0, H - 40) \times 0.000687)$ (SCM440) hoặc $\max(0.40, 1.0 - \max(0, H - 40) \times 0.001975)$ (SCM420).
+    + $k_{\text{drag}} = \max\left(0.35, 1.0 - 0.90 \times [\max(0, (H-63)/100)]^{0.65} \times [\max(0, (8-P_o)/10)] \times K_{\text{mat}}\right)$ ($K_{\text{mat}}=1.0$ SCM440, $4.0$ SCM420).
+    + $\text{VF} \ge 55 \implies k_{\text{VF}} = 1.0 + (\text{VF}-55) \times 0.0020$; $\text{VF} < 55 \implies k_{\text{VF}} = 1.0 + (\text{VF}-55) \times 0.0050$.
+    + $k_{\text{duty}} = (\text{duty} / (1/7))^{0.0205}$.
+* **Kết quả nghiệm thu xuất sắc:**
+  - **MAPE thời gian cắt (Toàn bộ 15 bài):** **$7.84\%$** (Giảm mạnh từ $14.31\%$).
+  - **MAPE thời gian cắt (14 bài chuẩn xưởng):** **$5.84\%$** (Hội tụ xuất sắc dưới $6\%$).
+  - **MAE $F_{c,\text{máy}}$:** Chỉ **$3.98\text{ mm}^2/\text{p}$**.
+  - **MAE $F_{c,\text{thực}}$:** Chỉ **$7.86\text{ mm}^2/\text{p}$**.
+  - **4 bài cắt có sai số thời gian cắt $\approx 0$ (lệch dưới 2 giây):**
+    + 5P-01 ($H=12\text{mm}$): Thực tế $19.8\text{p}$, tính toán $19.8\text{p}$ (lệch -1.2 giây).
+    + STT 12 ($H=140\text{mm}$): Thực tế $36.0\text{p}$, tính toán $36.0\text{p}$ (lệch 0 giây).
+    + STT 13 ($H=300\text{mm}$): Thực tế $89.0\text{p}$, tính toán $89.0\text{p}$ (lệch -0.6 giây).
+    + STT 18 ($H=63\text{mm}$): Thực tế $17.7\text{p}$, tính toán $17.7\text{p}$ (lệch 0 giây).
+* **Các thay đổi đã triển khai trong mã nguồn:**
+  - `app.js`: Tích hợp mô hình Vòng 6 vào `generateWorkshopRows` và `computeRowDynamics`. Cập nhật toàn bộ 19 bài trong `WS_LIB_BENCHMARK_JOBS[1]`.
+  - Đồng bộ phiên bản `v3.5.62` trên 5 file: `version.json`, `sw.js`, `index.html`, `app.js`, `style.css`.
+  - Sao lưu an toàn: `backups/autocut_2026-11-07(98).zip` (226 files).
+  - Kiểm định tự động: AST syntax integrity PASSED 100%, Trình duyệt Edge Headless render DOM thật PASSED 100%.
+
+
 ### 🚀 ĐỢT 61: TÍCH HỢP MÔ HÌNH TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC VÒNG 5 SIÊU TINH CHỈNH CHO FC THỰC & FC MÁY H40 (v3.5.61)
 * **Thời gian:** 2026-11-06 23:10 (GMT+7)
 * **Môi trường:** Máy tính Ở Nhà

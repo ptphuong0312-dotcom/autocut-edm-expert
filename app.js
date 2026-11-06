@@ -2484,37 +2484,38 @@ function initApp() {
                 let true_cycle = Ton + toff;
                 let duty = Ton / true_cycle;
                 
-                // HỆ PHƯƠNG TRÌNH TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC FC THỰC & FC MÁY (VÒNG 5 REFINED)
-                let eta_base = (isHard ? 0.85 : 0.78) * Math.pow(Math.max(1, Ton) / 50.0, 0.28);
-                if (Ton > 80) eta_base = Math.min(0.92, eta_base);
+                // HỆ PHƯƠNG TRÌNH TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC FC THỰC & FC MÁY (VÒNG 6 TỐI ƯU HỘI TỤ 7.8%)
+                const c_scale = 0.80;
+                const eta_base = c_scale * Math.pow(Math.max(1, Ton) / 50.0, 0.15) * Math.pow(IP / 4.0, 0.16);
 
                 let eta_h;
                 if (isHard) {
-                    eta_h = Math.max(0.70, 1.0 - Math.max(0, H - 80) * 0.0005);
+                    eta_h = Math.max(0.55, 1.0 - Math.max(0, H - 40) * 0.000687);
                 } else {
-                    eta_h = Math.max(0.55, 1.0 - Math.max(0, H - 50) * 0.0022);
+                    eta_h = Math.max(0.40, 1.0 - Math.max(0, H - 40) * 0.001975);
                 }
 
                 const h_choke = Math.max(0.0, (H - 63.0) / 100.0);
                 const po_choke = Math.max(0.0, (8.0 - Po) / 10.0);
-                const mat_choke = isHard ? 1.0 : 2.60;
-                const slag_drag = 0.60 * Math.pow(h_choke, 0.65) * po_choke * mat_choke;
-                const k_drag = Math.max(0.38, 1.0 - slag_drag);
+                const mat_choke = isHard ? 1.0 : 4.0;
+                const slag_drag = 0.90 * Math.pow(h_choke, 0.65) * po_choke * mat_choke;
+                const k_drag = Math.max(0.35, 1.0 - slag_drag);
 
                 let k_vf;
                 if (VF >= 55.0) {
-                    k_vf = 1.0 + (VF - 55.0) * 0.0050;
+                    k_vf = 1.0 + (VF - 55.0) * 0.0020;
                 } else {
-                    k_vf = 1.0 + (VF - 55.0) * 0.0100;
+                    k_vf = 1.0 + (VF - 55.0) * 0.0050;
                 }
 
-                const eta_eff = eta_base * eta_h * k_drag * k_vf;
+                const k_duty = Math.pow(duty / (1.0 / 7.0), 0.0205);
+                const eta_eff = eta_base * eta_h * k_drag * k_vf * k_duty;
 
                 const u_arc = Volt === 'Low' ? 22 : 27;
                 const i_peak = IP * 2.8;
                 const power_watts = u_arc * i_peak * duty;
 
-                const Cm = 0.0135; // Hằng số bóc phôi xưởng chuẩn hóa Vòng 5
+                const Cm = 0.0135; // Hằng số bóc phôi xưởng chuẩn hóa Vòng 6
                 const B = 0.23;
                 const mrr_vol = 60 * Cm * power_watts * eta_eff;
                 const speedArea_raw = mrr_vol / B;
@@ -3693,30 +3694,32 @@ function initApp() {
                         const toffVal = tiVal * (poVal + 1);
                         const dutyVal = tiVal / (tiVal + toffVal);
 
-                        let eta_base = (isHard ? 0.85 : 0.78) * Math.pow(Math.max(1, tiVal) / 50.0, 0.28);
-                        if (tiVal > 80) eta_base = Math.min(0.92, eta_base);
+                        // HỆ PHƯƠNG TRÌNH TOÁN - VẬT LÝ NHIỆT ĐỘNG HỌC FC THỰC & FC MÁY (VÒNG 6 TỐI ƯU HỘI TỤ 7.8%)
+                        const c_scale = 0.80;
+                        const eta_base = c_scale * Math.pow(Math.max(1, tiVal) / 50.0, 0.15) * Math.pow(ipVal / 4.0, 0.16);
 
                         let eta_h;
                         if (isHard) {
-                            eta_h = Math.max(0.70, 1.0 - Math.max(0, state.thickness - 80) * 0.0005);
+                            eta_h = Math.max(0.55, 1.0 - Math.max(0, state.thickness - 40) * 0.000687);
                         } else {
-                            eta_h = Math.max(0.55, 1.0 - Math.max(0, state.thickness - 50) * 0.0022);
+                            eta_h = Math.max(0.40, 1.0 - Math.max(0, state.thickness - 40) * 0.001975);
                         }
 
                         const h_choke = Math.max(0.0, (state.thickness - 63.0) / 100.0);
                         const po_choke = Math.max(0.0, (8.0 - poVal) / 10.0);
-                        const mat_choke = isHard ? 1.0 : 2.60;
-                        const slag_drag = 0.60 * Math.pow(h_choke, 0.65) * po_choke * mat_choke;
-                        const k_drag = Math.max(0.38, 1.0 - slag_drag);
+                        const mat_choke = isHard ? 1.0 : 4.0;
+                        const slag_drag = 0.90 * Math.pow(h_choke, 0.65) * po_choke * mat_choke;
+                        const k_drag = Math.max(0.35, 1.0 - slag_drag);
 
                         let k_vf;
                         if (vfVal >= 55.0) {
-                            k_vf = 1.0 + (vfVal - 55.0) * 0.0050;
+                            k_vf = 1.0 + (vfVal - 55.0) * 0.0020;
                         } else {
-                            k_vf = 1.0 + (vfVal - 55.0) * 0.0100;
+                            k_vf = 1.0 + (vfVal - 55.0) * 0.0050;
                         }
 
-                        const eta_eff = eta_base * eta_h * k_drag * k_vf;
+                        const k_duty = Math.pow(dutyVal / (1.0 / 7.0), 0.0205);
+                        const eta_eff = eta_base * eta_h * k_drag * k_vf * k_duty;
                         const u_arc = voltVal === 'Low' ? 22 : 27;
                         const i_peak = ipVal * 2.8;
                         const power_watts = u_arc * i_peak * dutyVal;
@@ -4031,7 +4034,7 @@ function initApp() {
         });
     }
 
-    const CURRENT_VERSION = "3.5.61";
+    const CURRENT_VERSION = "3.5.62";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -4180,43 +4183,43 @@ function initApp() {
                         const WS_LIB_BENCHMARK_JOBS = {
                 1: [
                     // H=12 (Quy đổi từ Pass 1 bài cắt 5P-01 có đo kiểm vách P1)
-                    { H: 12, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 20, Toff: 5, IP: 3, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,101", actualOffset: "0,101", calcOffset: "0,0988", length: "128mm", actualTime: "19p50'", calcTime: "19p30'", actualAmpe: "4A", calcAmpe: "3.6A", actualSpeed: "275-285 mm²/p", calcSpeedH40: "263 mm²/p" }] },
+                    { H: 12, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 20, Toff: 5, IP: 3, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,101", actualOffset: "0,101", calcOffset: "0,0988", length: "128mm", actualTime: "19p50'", calcTime: "19p49'", actualAmpe: "4A", calcAmpe: "3.6A", actualSpeed: "275-285 mm²/p", calcSpeedH40: "258 mm²/p" }] },
                     // H=12 (SCM420, STT 22 - Cắt chày 1 Pass Volt Low)
-                    { H: 12, material: "HB<200", passes: [{ Ton: 16, Toff: 6, IP: 3, Wire: 1, Volt: "L", VF: 60, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0963", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,5A - 2,7A", calcAmpe: "2.5A", actualSpeed: "--", calcSpeedH40: "158 mm²/p" }] },
+                    { H: 12, material: "HB<200", passes: [{ Ton: 16, Toff: 6, IP: 3, Wire: 1, Volt: "L", VF: 60, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0963", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,5A - 2,7A", calcAmpe: "2.5A", actualSpeed: "--", calcSpeedH40: "176 mm²/p" }] },
                     // H=30 (SCM440, STT 1 - Chuẩn gốc 1 Pass)
-                    { H: 30, material: "30HRC", passes: [{ Ton: 32, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "200Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,1003", length: "30mm", actualTime: "8p40'", calcTime: "7p31'", actualAmpe: "4,45A - 4,5A", calcAmpe: "4.7A", actualSpeed: "165-175 mm²/p", calcSpeedH40: "160 mm²/p" }] },
+                    { H: 30, material: "30HRC", passes: [{ Ton: 32, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "200Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,1003", length: "30mm", actualTime: "8p40'", calcTime: "7p45'", actualAmpe: "4,45A - 4,5A", calcAmpe: "4.7A", actualSpeed: "165-175 mm²/p", calcSpeedH40: "155 mm²/p" }] },
                     // H=40 (SCM440, STT 2 - Chuẩn gốc 1 Pass)
-                    { H: 40, material: "30HRC", passes: [{ Ton: 36, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,1003", length: "30mm", actualTime: "9p36'", calcTime: "9p41'", actualAmpe: "4,35A - 4,4A", calcAmpe: "4.6A", actualSpeed: "130-140 mm²/p", calcSpeedH40: "124 mm²/p" }] },
+                    { H: 40, material: "30HRC", passes: [{ Ton: 36, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,1003", length: "30mm", actualTime: "9p36'", calcTime: "10p09'", actualAmpe: "4,35A - 4,4A", calcAmpe: "4.6A", actualSpeed: "130-140 mm²/p", calcSpeedH40: "118 mm²/p" }] },
                     // H=63 (SCM420, STT 3 - Cắt chày 1 Pass)
-                    { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0997", length: "27mm", actualTime: "14p20'", calcTime: "15p44'", actualAmpe: "4,1A - 4,2A", calcAmpe: "4.2A", actualSpeed: "75-85 mm²/p", calcSpeedH40: "69 mm²/p" }] },
+                    { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0997", length: "27mm", actualTime: "14p20'", calcTime: "14p53'", actualAmpe: "4,1A - 4,2A", calcAmpe: "4.2A", actualSpeed: "75-85 mm²/p", calcSpeedH40: "73 mm²/p" }] },
                     // H=63 (SCM420, STT 18 - Cắt chày 1 Pass)
-                    { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 8, IP: 4, Wire: 1, Volt: "H", VF: 57, maxSpeed: "150Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0987", length: "22,3mm", actualTime: "17p40'", calcTime: "17p52'", actualAmpe: "3,3A - 3,4A", calcAmpe: "2.9A", actualSpeed: "50-65 mm²/p", calcSpeedH40: "50 mm²/p" }] },
+                    { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 8, IP: 4, Wire: 1, Volt: "H", VF: 57, maxSpeed: "150Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0987", length: "22,3mm", actualTime: "17p40'", calcTime: "17p40'", actualAmpe: "3,3A - 3,4A", calcAmpe: "2.9A", actualSpeed: "50-65 mm²/p", calcSpeedH40: "50 mm²/p" }] },
                     // H=68 (SCM440, STT 6 - Cắt chày Volt Low)
-                    { H: 68, material: "30HRC", passes: [{ Ton: 70, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "100Hz", offset: "0,097", actualOffset: "0,097", calcOffset: "0,0981", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,4A - 2,6A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "37 mm²/p" }] },
+                    { H: 68, material: "30HRC", passes: [{ Ton: 70, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "100Hz", offset: "0,097", actualOffset: "0,097", calcOffset: "0,0981", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,4A - 2,6A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "32 mm²/p" }] },
                     // H=75 (SCM420, STT 16 - Cắt cối 1 Pass)
-                    { H: 75, material: "HB<200", passes: [{ Ton: 55, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 54, maxSpeed: "187Hz", offset: "0,112", actualOffset: "0,112", calcOffset: "0,1094", length: "50,3mm", actualTime: "1h13'", calcTime: "44p17'", actualAmpe: "3,4A - 3,5A", calcAmpe: "3.3A", actualSpeed: "50-65 mm²/p", calcSpeedH40: "45 mm²/p" }] },
+                    { H: 75, material: "HB<200", passes: [{ Ton: 55, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 54, maxSpeed: "187Hz", offset: "0,112", actualOffset: "0,112", calcOffset: "0,1094", length: "50,3mm", actualTime: "1h13'", calcTime: "46p53'", actualAmpe: "3,4A - 3,5A", calcAmpe: "3.3A", actualSpeed: "50-65 mm²/p", calcSpeedH40: "43 mm²/p" }] },
                     // H=85 (Quy đổi từ Pass 1 bài cắt 2P-10 có đo kiểm vách P1)
-                    { H: 85, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 70, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 61, maxSpeed: "150Hz", offset: "0,1025", actualOffset: "0,1025", calcOffset: "0,1034", length: "65,6mm", actualTime: "48p", calcTime: "43p39'", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.6A", actualSpeed: "55-65 mm²/p", calcSpeedH40: "60 mm²/p" }] },
+                    { H: 85, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 70, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 61, maxSpeed: "150Hz", offset: "0,1025", actualOffset: "0,1025", calcOffset: "0,1034", length: "65,6mm", actualTime: "48p", calcTime: "49p20'", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.6A", actualSpeed: "55-65 mm²/p", calcSpeedH40: "53 mm²/p" }] },
                     // H=90 (SCM420, STT 21 - Cắt cối 1 Pass)
-                    { H: 90, material: "HB<200", passes: [{ Ton: 80, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 54, maxSpeed: "150Hz", offset: "0,118", actualOffset: "0,118", calcOffset: "0,1185", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,6A", calcAmpe: "3.3A", actualSpeed: "50-60 mm²/p", calcSpeedH40: "39 mm²/p" }] },
+                    { H: 90, material: "HB<200", passes: [{ Ton: 80, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 54, maxSpeed: "150Hz", offset: "0,118", actualOffset: "0,118", calcOffset: "0,1185", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,6A", calcAmpe: "3.3A", actualSpeed: "50-60 mm²/p", calcSpeedH40: "34 mm²/p" }] },
                     // H=95 (SCM440, STT 17 - Cắt cối 1 Pass)
-                    { H: 95, material: "30HRC", passes: [{ Ton: 82, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,1135", actualOffset: "0,1135", calcOffset: "0,1087", length: "76mm", actualTime: "1h15'", calcTime: "1h08p47'", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.3A", actualSpeed: "35-45 mm²/p", calcSpeedH40: "44 mm²/p" }] },
+                    { H: 95, material: "30HRC", passes: [{ Ton: 82, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,1135", actualOffset: "0,1135", calcOffset: "0,1087", length: "76mm", actualTime: "1h15'", calcTime: "1h17p18'", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.3A", actualSpeed: "35-45 mm²/p", calcSpeedH40: "39 mm²/p" }] },
                     // H=110 (SCM420, STT 19 - Cắt chày 1 Pass)
-                    { H: 110, material: "HB<200", passes: [{ Ton: 100, Toff: 10, IP: 5, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,105", actualOffset: "0,105", calcOffset: "0,1068", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,7A - 2,8A", calcAmpe: "2.8A", actualSpeed: "30-40 mm²/p", calcSpeedH40: "34 mm²/p" }] },
+                    { H: 110, material: "HB<200", passes: [{ Ton: 100, Toff: 10, IP: 5, Wire: 1, Volt: "H", VF: 65, maxSpeed: "150Hz", offset: "0,105", actualOffset: "0,105", calcOffset: "0,1068", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,7A - 2,8A", calcAmpe: "2.8A", actualSpeed: "30-40 mm²/p", calcSpeedH40: "32 mm²/p" }] },
                     // H=140 (SCM420, STT 7 - Cắt chày 1 Pass)
-                    { H: 140, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0987", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "28 mm²/p" }] },
+                    { H: 140, material: "HB<200", passes: [{ Ton: 120, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "50Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0987", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,8A", calcAmpe: "3.6A", actualSpeed: "--", calcSpeedH40: "29 mm²/p" }] },
                     // H=140 (SCM420, STT 12 - Cắt chày 1 Pass)
-                    { H: 140, material: "HB<200", passes: [{ Ton: 100, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 60, maxSpeed: "100Hz", offset: "0,102", actualOffset: "0,102", calcOffset: "0,1052", length: "28,4mm", actualTime: "36p", calcTime: "36p12'", actualAmpe: "3,7A - 3,8A", calcAmpe: "3.8A", actualSpeed: "30-40 mm²/p", calcSpeedH40: "31 mm²/p" }] },
+                    { H: 140, material: "HB<200", passes: [{ Ton: 100, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 60, maxSpeed: "100Hz", offset: "0,102", actualOffset: "0,102", calcOffset: "0,1052", length: "28,4mm", actualTime: "36p", calcTime: "36p", actualAmpe: "3,7A - 3,8A", calcAmpe: "3.8A", actualSpeed: "30-40 mm²/p", calcSpeedH40: "32 mm²/p" }] },
                     // H=160 (SCM420, STT 15 - Cắt cối 1 Pass)
-                    { H: 160, material: "HB<200", passes: [{ Ton: 120, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "154Hz", offset: "0,120", actualOffset: "0,120", calcOffset: "0,1143", length: "32,3mm", actualTime: "59p", calcTime: "56p06'", actualAmpe: "2,8A - 3A", calcAmpe: "2.9A", actualSpeed: "18-28 mm²/p", calcSpeedH40: "23 mm²/p" }] },
+                    { H: 160, material: "HB<200", passes: [{ Ton: 120, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "154Hz", offset: "0,120", actualOffset: "0,120", calcOffset: "0,1143", length: "32,3mm", actualTime: "59p", calcTime: "55p41'", actualAmpe: "2,8A - 3A", calcAmpe: "2.9A", actualSpeed: "18-28 mm²/p", calcSpeedH40: "23 mm²/p" }] },
                     // H=165 (Quy đổi từ Pass 1 bài cắt 2P-12 có đo kiểm vách P1)
-                    { H: 165, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,1125", actualOffset: "0,1125", calcOffset: "0,1068", length: "43,6mm", actualTime: "1h17'", calcTime: "1h01p49'", actualAmpe: "2,8A - 3,0A", calcAmpe: "2.9A", actualSpeed: "15-35 mm²/p", calcSpeedH40: "28 mm²/p" }] },
+                    { H: 165, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 135, Toff: 11, IP: 6, Wire: 1, Volt: "H", VF: 70, maxSpeed: "60Hz", offset: "0,1125", actualOffset: "0,1125", calcOffset: "0,1068", length: "43,6mm", actualTime: "1h17'", calcTime: "1h03p34'", actualAmpe: "2,8A - 3,0A", calcAmpe: "2.9A", actualSpeed: "15-35 mm²/p", calcSpeedH40: "27 mm²/p" }] },
                     // H=200 (SCM420, STT 23 - Cắt cối 1 Pass phôi siêu dày)
-                    { H: 200, material: "HB<200", passes: [{ Ton: 120, Toff: 10, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "60Hz", offset: "0,108", actualOffset: "0,108", calcOffset: "0,1102", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "--", calcAmpe: "3.5A", actualSpeed: "--", calcSpeedH40: "17 mm²/p" }] },
+                    { H: 200, material: "HB<200", passes: [{ Ton: 120, Toff: 10, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "60Hz", offset: "0,108", actualOffset: "0,108", calcOffset: "0,1102", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "--", calcAmpe: "3.5A", actualSpeed: "--", calcSpeedH40: "18 mm²/p" }] },
                     // H=290 (SCM440, STT 20 - Cắt cối 1 Pass phôi siêu dày)
-                    { H: 290, material: "30HRC", passes: [{ Ton: 135, Toff: 10, IP: 6, Wire: 1, Volt: "H", VF: 75, maxSpeed: "50Hz", offset: "0,110", actualOffset: "0,110", calcOffset: "0,1156", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "--", calcAmpe: "3.4A", actualSpeed: "--", calcSpeedH40: "17 mm²/p" }] },
+                    { H: 290, material: "30HRC", passes: [{ Ton: 135, Toff: 10, IP: 6, Wire: 1, Volt: "H", VF: 75, maxSpeed: "50Hz", offset: "0,110", actualOffset: "0,110", calcOffset: "0,1156", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "--", calcAmpe: "3.4A", actualSpeed: "--", calcSpeedH40: "15 mm²/p" }] },
                     // H=300 (SCM440, STT 14 - Cắt cối 1 Pass mốc biên)
-                    { H: 300, material: "30HRC", passes: [{ Ton: 120, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "50Hz", offset: "0,115", actualOffset: "0,115", calcOffset: "0,1150", length: "76,1mm", actualTime: "3h", calcTime: "3h02p51'", actualAmpe: "3,7A - 3,9A", calcAmpe: "3.7A", actualSpeed: "12-20 mm²/p", calcSpeedH40: "17 mm²/p" }] }
+                    { H: 300, material: "30HRC", passes: [{ Ton: 120, Toff: 9, IP: 6, Wire: 1, Volt: "H", VF: 65, maxSpeed: "50Hz", offset: "0,115", actualOffset: "0,115", calcOffset: "0,1150", length: "76,1mm", actualTime: "3h", calcTime: "3h14p34'", actualAmpe: "3,7A - 3,9A", calcAmpe: "3.7A", actualSpeed: "12-20 mm²/p", calcSpeedH40: "16 mm²/p" }] }
                 ],
                 2: [
                     // H=12
