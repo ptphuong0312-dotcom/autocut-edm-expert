@@ -10,19 +10,19 @@ function initApp() {
         1: {
             name: 'Cực hạn siêu mịn (Bóng gương)',
             badge: 'Gương (Cấp 1)',
-            desc: 'Vi xung nano, hạ IP tối thiểu (1 sò), Po dài, Volt Low, triệt tiêu hố rỗ tia lửa. Ampe giảm ~1.8A so với chuẩn, Ra ≤ 1.0 - 1.2µm.',
+            desc: 'Vi xung nano, hạ IP tối thiểu (1 sò), Poff dài, Volt Low, triệt tiêu hố rỗ tia lửa. Ampe giảm ~1.8A so với chuẩn, Ra ≤ 1.0 - 1.2µm.',
             Wire: '2', RaStr: '≤ 1.2'
         },
         2: {
             name: 'Siêu mịn (Gương mờ)',
             badge: 'Siêu Mịn (Cấp 2)',
-            desc: 'Dập xung cực ngắn, hạ IP 1-2 sò, chuyển Volt Low, tăng Po xối rửa sạch xỉ. Ampe giảm ~1.2A so với chuẩn, Ra ≤ 1.4 - 1.8µm.',
+            desc: 'Dập xung cực ngắn, hạ IP 1-2 sò, chuyển Volt Low, tăng Poff xối rửa sạch xỉ. Ampe giảm ~1.2A so với chuẩn, Ra ≤ 1.4 - 1.8µm.',
             Wire: '2', RaStr: '1.4 - 1.8'
         },
         3: {
             name: 'Bề mặt mịn (Satin mờ)',
             badge: 'Mịn (Cấp 3)',
-            desc: 'Kéo dài thời gian nghỉ Po, giảm nhẹ Ton, triệt tiêu đánh lửa thứ cấp gây sọc gân. Ampe giảm ~0.6A (2.0 - 2.2A tại H30), Ra ≤ 1.8 - 2.2µm.',
+            desc: 'Kéo dài thời gian nghỉ Poff, giảm nhẹ Pon, triệt tiêu đánh lửa thứ cấp gây sọc gân. Ampe giảm ~0.6A (2.0 - 2.2A tại H30), Ra ≤ 1.8 - 2.2µm.',
             Wire: '2', RaStr: '1.8 - 2.2'
         },
         4: {
@@ -34,19 +34,19 @@ function initApp() {
         5: {
             name: 'Năng suất (Cắt nhanh)',
             badge: 'Nhanh (Cấp 5)',
-            desc: 'Rút ngắn Po 1 nấc tăng tần số xung, tăng nhẹ Ton và VF, giữ IP an toàn. Ampe tăng ~0.6A (3.2 - 3.4A tại H30), tốc độ tăng 20-30%.',
+            desc: 'Rút ngắn Poff 1 nấc tăng tần số xung, tăng nhẹ Pon và VF, giữ IP an toàn. Ampe tăng ~0.6A (3.2 - 3.4A tại H30), tốc độ tăng 20-30%.',
             Wire: '1', RaStr: '3.2 - 3.8'
         },
         6: {
             name: 'Năng suất cao (Rất nhanh)',
             badge: 'Rất Nhanh (Cấp 6)',
-            desc: 'Rút ngắn Po 2 nấc, nâng cao VF bám sát phôi, tăng thêm Ton bóc tách phoi mạnh mẽ. Ampe tăng ~1.2A (3.8 - 4.0A tại H30).',
+            desc: 'Rút ngắn Poff 2 nấc, nâng cao VF bám sát phôi, tăng thêm Pon bóc tách phoi mạnh mẽ. Ampe tăng ~1.2A (3.8 - 4.0A tại H30).',
             Wire: '1', RaStr: '3.8 - 4.5'
         },
         7: {
             name: 'Siêu năng suất (Phá thô)',
             badge: 'Siêu Tốc (Cấp 7)',
-            desc: 'Ép tốc độ cực đại: Rút ngắn Po tối đa, ép servo VF bám sát, tăng Ton cực đại. Ampe tăng ~1.8A (4.3 - 4.6A tại H30). Yêu cầu nước xối mạnh.',
+            desc: 'Ép tốc độ cực đại: Rút ngắn Poff tối đa, ép servo VF bám sát, tăng Pon cực đại. Ampe tăng ~1.8A (4.3 - 4.6A tại H30). Yêu cầu nước xối mạnh.',
             Wire: '1', RaStr: '4.5 - 5.5'
         }
     };
@@ -618,28 +618,28 @@ function initApp() {
         else if (H <= 100) IP_1 = 5;
         else IP_1 = 6;
 
-        // Base VF calculation
+        // Base VF calculation (Thuận lý công nghệ: phôi mỏng xối thoáng VF vừa phải 50-52; phôi dày rãnh sâu tăng VF 65-75 chống đâm sầm đứt dây)
         if (isAlu) {
-            if (H <= 20) VF_1 = 75;
-            else if (H <= 60) VF_1 = 70;
-            else if (H <= 100) VF_1 = 65;
-            else if (H <= 180) VF_1 = 60;
-            else if (H <= 300) VF_1 = 55;
-            else VF_1 = 50;
+            if (H <= 30) VF_1 = 52;
+            else if (H <= 70) VF_1 = 58;
+            else if (H <= 120) VF_1 = 64;
+            else if (H <= 180) VF_1 = 68;
+            else if (H <= 300) VF_1 = 72;
+            else VF_1 = 75;
         } else if (isCopper) {
-            if (H <= 20) VF_1 = 68;
-            else if (H <= 60) VF_1 = 62;
-            else if (H <= 100) VF_1 = 58;
-            else if (H <= 180) VF_1 = 52;
-            else if (H <= 300) VF_1 = 48;
-            else VF_1 = 42;
+            if (H <= 30) VF_1 = 48;
+            else if (H <= 70) VF_1 = 54;
+            else if (H <= 120) VF_1 = 60;
+            else if (H <= 180) VF_1 = 65;
+            else if (H <= 300) VF_1 = 70;
+            else VF_1 = 72;
         } else {
-            if (H <= 20) VF_1 = isHard ? 70 : 65;
-            else if (H <= 60) VF_1 = isHard ? 65 : 60;
-            else if (H <= 100) VF_1 = isHard ? 60 : 55;
-            else if (H <= 180) VF_1 = isHard ? 55 : 50;
-            else if (H <= 300) VF_1 = isHard ? 50 : 45;
-            else VF_1 = isHard ? 45 : 40;
+            if (H <= 30) VF_1 = isHard ? 52 : 50;
+            else if (H <= 70) VF_1 = isHard ? 56 : 54;
+            else if (H <= 120) VF_1 = isHard ? 62 : 60;
+            else if (H <= 180) VF_1 = isHard ? 68 : 65;
+            else if (H <= 300) VF_1 = isHard ? 72 : 70;
+            else VF_1 = isHard ? 75 : 72;
         }
 
         Volt_1 = 'High';
@@ -2281,12 +2281,10 @@ function initApp() {
                 }
             }
 
-            const vfMax = isHard ? 65 : 60;
-            const vfMin = isHard ? 55 : 50;
-            if (H <= 40) baseVF = vfMax;
-            else if (H <= 100) baseVF = Math.round(vfMax - (H - 40) * (vfMax - vfMin) / (100 - 40));
-            else if (H <= 160) baseVF = Math.round(vfMin + (H - 100) * (70 - vfMin) / (160 - 100));
-            else baseVF = 70;
+            // Duong cong VF thuan chieu vat ly: phoi mong H<=20mm VF trung binh (50-52), tang dan em diu len 70 tai H=170mm
+            const vf_start = isHard ? 52 : 50;
+            if (H <= 20) baseVF = vf_start;
+            else baseVF = Math.round(vf_start + (H - 20) * (70 - vf_start) / (170 - 20));
 
             // Tinh toan gioi han tan so p1_hz de ap dung he so giam toc phoi sau d_spd
             let p1_hz;
@@ -2311,7 +2309,7 @@ function initApp() {
             baseTon = isHard ? 135 : 120;
             baseIP = 6;
             basePo = Math.round(11 + (H - 170) * (12 - 11) / (300 - 170));
-            baseVF = Math.min(72, Math.round(70 + (H - 170) * (72 - 70) / (300 - 170)));
+            baseVF = Math.min(75, Math.round(70 + (H - 170) * (75 - 70) / (300 - 170)));
             baseGap = 0.0187 + (H - 170) * (0.0250 - 0.0187) / (300 - 170);
         }
 
@@ -3009,12 +3007,12 @@ function initApp() {
 
         // Danh mục Tiêu chí (Khi ở chế độ Ẩn: chỉ hiển thị ký hiệu ngắn gọn, loại bỏ giải thích trong ngoặc)
         const isCompact = state.compactMetrics;
-        const m_ti = isCompact ? 'Ton' : 'Thời gian mở xung (Ton)';
-        const m_po = isCompact ? 'Toff' : 'Thời gian nghỉ xả xỉ (Toff)';
-        const m_cycle = isCompact ? 'T' : 'Tổng thời gian 1 chu kỳ (T = Ton + Toff)';
+        const m_ti = isCompact ? 'Pon' : 'Thời gian mở xung (Pon)';
+        const m_po = isCompact ? 'Poff' : 'Thời gian nghỉ xả xỉ (Poff)';
+        const m_cycle = isCompact ? 'T' : 'Tổng thời gian 1 chu kỳ (T = Pon + Poff)';
         const m_freq = isCompact ? 'f' : 'Tần số phát xung (Frequency - f)';
         const m_duty = isCompact ? 'η' : 'Tỷ lệ mở van MOSFET (Duty Factor - η)';
-        const m_we = isCompact ? 'We' : 'NĂNG LƯỢNG 1 TIA ĐƠN (We ∝ Ton × IP)';
+        const m_we = isCompact ? 'We' : 'NĂNG LƯỢNG 1 TIA ĐƠN (We ∝ Pon × IP)';
         const m_ptb = isCompact ? 'Ptb' : 'NĂNG LƯỢNG PHÁT TRONG 1S (Công suất trung bình Ptb)';
         const m_itb = isCompact ? 'Itb' : 'Dòng điện chỉ thị Ampe kế (Itb thực tế)';
         const m_fc = isCompact ? 'Fc' : 'Tốc độ cắt diện tích ước tính Fc';
@@ -3622,7 +3620,7 @@ function initApp() {
     // ==========================================
     // 7. PWA OFFLINE MODE & AUTO-SYNC ENGINE
     // ==========================================
-    const CURRENT_VERSION = "3.5.54";
+    const CURRENT_VERSION = "3.5.55";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -4005,8 +4003,8 @@ function initApp() {
                                 <tr>
                                     <th>Vật Liệu</th>
                                     <th>H</th>
-                                    <th>Ton</th>
-                                    <th>Toff</th>
+                                    <th>Pon</th>
+                                    <th>Poff</th>
                                     <th>IP</th>
                                     <th>Wire</th>
                                     <th>Volt</th>
@@ -4038,8 +4036,7 @@ function initApp() {
                     <div class="workshop-lib-header" id="ws-lib-toggle-btn" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 10px 15px; border-radius: 6px; border-left: 4px solid var(--accent);">
                         <h4 style="margin: 0; color: var(--accent); font-size: 1.1em; display: flex; align-items: center; gap: 8px;"><i class="fa fa-book"></i> THƯ VIỆN THÔNG SỐ CẮT THỰC TẾ XƯỞNG (BENCHMARK GROUND TRUTH)</h4>
                         <div style="display: flex; gap: 10px; align-items: center;">
-                            <span class="lib-offline-badge">6 Chế Độ Cắt</span>
-                            <i id="ws-lib-toggle-icon" class="fa fa-chevron-down" style="color: var(--accent); transition: transform 0.3s; transform: rotate(0deg);"></i>
+                            <span class="lib-offline-badge" style="display: inline-flex; align-items: center; gap: 6px;">6 Chế Độ Cắt <span id="ws-lib-toggle-icon" style="color: var(--accent-cyan); font-size: 11px; transition: transform 0.3s; transform: rotate(0deg); display: inline-block;">▼</span></span>
                         </div>
                     </div>
                     <div id="ws-lib-content" style="margin-top: 15px; display: none;">
@@ -4286,7 +4283,7 @@ function initApp() {
             let insightHtml = '';
             // Phân tích thành phần VF:
             if (Math.abs(res.d_vf * 1000.0) < 0.05) {
-                insightHtml += '<strong>⚡ VF = 55 (Cân bằng chuẩn xưởng):</strong> Bước tiến Servo hài hòa lý tưởng ($d_{\\text{vf}} = 0.00\\,\\mu\\text{m}$).';
+                insightHtml += '<strong>⚡ VF = 55 (Mốc trung bình tham chiếu 50-55):</strong> Bước tiến Servo hài hòa lý tưởng ($d_{\\text{vf}} = 0.00\\,\\mu\\text{m}$).';
             } else if (res.d_vf > 0) {
                 insightHtml += '<strong>⚡ VF = ' + VF + ' &gt; 55 (Bàn tiến chậm / Dây ngâm tia lửa):</strong> Servo dè dặt ngâm dây lâu $\\implies$ nhiệt tích tụ khoét sâu thêm <strong style="color: var(--accent-amber);">+' + (res.d_vf * 1000).toFixed(2) + ' μm</strong>.';
             } else {
@@ -4295,11 +4292,11 @@ function initApp() {
 
             // Phân tích thành phần Po / Chu kỳ xung:
             if (Math.abs(res.d_po * 1000.0) < 0.05) {
-                insightHtml += '<br><strong>🔄 Po = 5 (Chuẩn xưởng):</strong> Chu kỳ xả xỉ đạt trạng thái cân bằng lý tưởng ($d_{\\text{po}} = 0.00\\,\\mu\\text{m}$, Toff = ' + res.toff + ' μs).';
+                insightHtml += '<br><strong>🔄 Po = 5 (Chuẩn xưởng):</strong> Chu kỳ xả xỉ đạt trạng thái cân bằng lý tưởng ($d_{\\text{po}} = 0.00\\,\\mu\\text{m}$, Poff = ' + res.toff + ' μs).';
             } else if (res.d_po > 0) {
-                insightHtml += '<br><strong>🔄 Po = ' + Po + ' &lt; 5 (Toff ngắn = ' + res.toff + ' μs / f = ' + res.freq_khz + ' kHz):</strong> Nước chưa kịp thổi sạch xỉ $\\implies$ mạt sắt gây <strong>đánh lửa thứ cấp</strong> làm nở rãnh cắt thêm <strong style="color: #f43f5e;">+' + (res.d_po * 1000).toFixed(2) + ' μm</strong> (nguy cơ sọc vách &amp; đứt dây tăng).';
+                insightHtml += '<br><strong>🔄 Po = ' + Po + ' &lt; 5 (Poff ngắn = ' + res.toff + ' μs / f = ' + res.freq_khz + ' kHz):</strong> Nước chưa kịp thổi sạch xỉ $\\implies$ mạt sắt gây <strong>đánh lửa thứ cấp</strong> làm nở rãnh cắt thêm <strong style="color: #f43f5e;">+' + (res.d_po * 1000).toFixed(2) + ' μm</strong> (nguy cơ sọc vách &amp; đứt dây tăng).';
             } else {
-                insightHtml += '<br><strong>🔄 Po = ' + Po + ' &gt; 5 (Toff dài = ' + res.toff + ' μs / f = ' + res.freq_khz + ' kHz):</strong> Xối xỉ cực sạch, tia lửa êm không phóng bạt $\\implies$ rãnh cắt co gọn lại <strong style="color: var(--accent-cyan);">' + (res.d_po * 1000).toFixed(2) + ' μm</strong> (bề mặt mịn hơn, nhưng tốc độ cắt giảm còn ~' + res.fc_est + ' mm²/p).';
+                insightHtml += '<br><strong>🔄 Po = ' + Po + ' &gt; 5 (Poff dài = ' + res.toff + ' μs / f = ' + res.freq_khz + ' kHz):</strong> Xối xỉ cực sạch, tia lửa êm không phóng bạt $\\implies$ rãnh cắt co gọn lại <strong style="color: var(--accent-cyan);">' + (res.d_po * 1000).toFixed(2) + ' μm</strong> (bề mặt mịn hơn, nhưng tốc độ cắt giảm còn ~' + res.fc_est + ' mm²/p).';
             }
 
             if (res.d_sec_vf > 0.0005) {
@@ -4475,3 +4472,8 @@ if (document.readyState === 'loading') {
 } else {
     initApp();
 }
+
+
+
+
+

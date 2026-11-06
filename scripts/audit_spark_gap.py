@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # ==============================================================================
 # AUDIT SPARK GAP & OFFSET BENCHMARK (RULE 17 & RULE 19)
@@ -18,11 +18,11 @@ H_THRESH = 63.0
 PO_THRESH = 8.0
 S_EXP = 0.65
 
-def calc_gap(H, Ton, Po, IP, Volt, VF, speed=150, mat='SCM440'):
+def calc_gap(H, Pon, Po, IP, Volt, VF, speed=150, mat='SCM440'):
     isHard = (mat == 'SCM440' or mat == '30HRC')
     if H <= 170:
         u_ratio = 1.0 if (Volt == 'High' or Volt == 'H') else 0.815
-        d_elec = K_ELEC * math.sqrt(Ton * IP) * u_ratio
+        d_elec = K_ELEC * math.sqrt(Pon * IP) * u_ratio
         d_vf = K_VF * ((VF - 55.0) / 10.0)
         d_vibr = K_VIBR * math.pow(H / 100.0, 2) * (IP / 5.0)
         d_h_conf = - K_H_CONF * (H / 100.0)
@@ -64,7 +64,7 @@ dataset = [
 print("=" * 115)
 print("BẢNG KIỂM ĐỊNH LƯỢNG CÀO PHÔI: CÔNG THỨC TOÁN - VẬT LÝ VS THỰC NGHIỆM XƯỞNG (v3.5.54 - VÒNG 5)")
 print("=" * 115)
-print(f"| {'STT':<8} | {'Nhóm':<20} | {'H':>3} | {'Thép':<6} | {'Ton':>3} | {'Po':>2} | {'IP':>2} | {'Volt':<4} | {'VF':>2} | {'delta_thực':>10} | {'delta_tính':>10} | {'Sai lệch':>10} | {'O_chuẩn':>8} |")
+print(f"| {'STT':<8} | {'Nhóm':<20} | {'H':>3} | {'Thép':<6} | {'Pon':>3} | {'Po':>2} | {'IP':>2} | {'Volt':<4} | {'VF':>2} | {'delta_thực':>10} | {'delta_tính':>10} | {'Sai lệch':>10} | {'O_chuẩn':>8} |")
 print("|" + "-"*10 + "|" + "-"*22 + "|" + "-"*5 + "|" + "-"*8 + "|" + "-"*5 + "|" + "-"*4 + "|" + "-"*4 + "|" + "-"*6 + "|" + "-"*4 + "|" + "-"*12 + "|" + "-"*12 + "|" + "-"*12 + "|" + "-"*10 + "|")
 
 errors = []
@@ -72,8 +72,8 @@ errors_440 = []
 errors_420 = []
 
 for item in dataset:
-    name, grp, H, Ton, Po, IP, Volt, VF, speed, mat, actual_gap, actual_O1 = item
-    calc = calc_gap(H, Ton, Po, IP, Volt, VF, speed, mat)
+    name, grp, H, Pon, Po, IP, Volt, VF, speed, mat, actual_gap, actual_O1 = item
+    calc = calc_gap(H, Pon, Po, IP, Volt, VF, speed, mat)
     diff = (calc - actual_gap) * 1000
     abs_err = abs(diff)
     errors.append(abs_err)
@@ -82,7 +82,7 @@ for item in dataset:
     else:
         errors_420.append(abs_err)
     sign = '+' if diff >= 0 else ''
-    print(f"| {name:<8} | {grp:<20} | {H:3d} | {mat:<6} | {Ton:3d} | {Po:2d} | {IP:2d} | {Volt:<4} | {VF:2d} | {actual_gap*1000:7.1f} um | {calc*1000:7.1f} um | {sign}{diff:6.1f} um | {actual_O1:8.4f} |")
+    print(f"| {name:<8} | {grp:<20} | {H:3d} | {mat:<6} | {Pon:3d} | {Po:2d} | {IP:2d} | {Volt:<4} | {VF:2d} | {actual_gap*1000:7.1f} um | {calc*1000:7.1f} um | {sign}{diff:6.1f} um | {actual_O1:8.4f} |")
 
 mae = sum(errors) / len(errors)
 mae_440 = sum(errors_440) / len(errors_440)
@@ -97,3 +97,4 @@ print(f"  * MAE Thép mềm SCM420 (HB < 200, n=10): {mae_420:.2f} um")
 print(f"  * Sai số trung bình tuyệt đối toàn cục (MAE): {mae:.2f} um")
 print(f"  * Sai số hiệu dụng toàn cục (RMSE): {rmse:.2f} um")
 print(f"  * Sai số cực đại (Max Error): {max_err:.2f} um")
+

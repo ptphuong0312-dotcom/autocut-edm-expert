@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=3.5.54">
+    <link rel="stylesheet" href="style.css?v=3.5.55">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -216,8 +216,8 @@
                             <thead>
                                 <tr>
                                     <th class="sticky-col">P</th>
-                                    <th>Ton</th>
-                                    <th>Toff</th>
+                                    <th>Pon</th>
+                                    <th>Poff</th>
                                     <th>IP</th>
                                     <th>V</th>
                                     <th>VF</th>
@@ -249,11 +249,11 @@
                         </div>
                         <div class="custom-fields-grid">
                             <div class="field-item">
-                                <label>Ton (μs):</label>
+                                <label>Pon (μs):</label>
                                 <input type="number" id="custom-ti" value="70" min="1" max="250" step="1">
                             </div>
                             <div class="field-item">
-                                <label>Toff:</label>
+                                <label>Poff (Po):</label>
                                 <input type="number" id="custom-po" value="7" min="1" max="30" step="1">
                             </div>
                             <div class="field-item">
@@ -475,8 +475,8 @@
                             <thead>
                                 <tr>
                                     <th class="sticky-col">P</th>
-                                    <th>Ton</th>
-                                    <th>Toff</th>
+                                    <th>Pon</th>
+                                    <th>Poff</th>
                                     <th>IP</th>
                                     <th>V</th>
                                     <th>VF</th>
@@ -555,11 +555,11 @@
                     <!-- 3. BỘ ĐIỆN: TON, PO, IP -->
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px;">
                         <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label" for="vf-input-ton" style="font-size: 12px;">3. Ton (μs):</label>
+                            <label class="form-label" for="vf-input-ton" style="font-size: 12px;">3. Pon (μs):</label>
                             <input type="number" id="vf-input-ton" min="2" max="250" value="36" style="width: 100%; padding: 6px 10px; font-family: var(--font-mono); font-weight: 700; background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; border-radius: var(--radius-sm);">
                         </div>
                         <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label" for="vf-input-po" style="font-size: 12px;">4. Po (Toff):</label>
+                            <label class="form-label" for="vf-input-po" style="font-size: 12px;">4. Poff (Po):</label>
                             <input type="number" id="vf-input-po" min="1" max="30" value="5" style="width: 100%; padding: 6px 10px; font-family: var(--font-mono); font-weight: 700; background: var(--bg-input); border: 1px solid var(--border-color); color: #fff; border-radius: var(--radius-sm);">
                         </div>
                         <div class="form-group" style="margin-bottom: 0;">
@@ -599,11 +599,11 @@
                     <!-- 6. ĐỘNG LỰC HỌC XUNG THEO CÔNG THỨC TOFF MỚI -->
                     <div style="background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: var(--radius-sm); padding: 10px 12px; margin-top: 14px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                            <strong style="color: var(--accent-purple); font-size: 12px;">⚡ Động Lực Học Xung &amp; Năng Suất (Chuẩn Toff mới):</strong>
+                            <strong style="color: var(--accent-purple); font-size: 12px;">⚡ Động Lực Học Xung &amp; Năng Suất (Chuẩn Poff mới):</strong>
                             <span class="tag" id="vf-pulse-duty-tag" style="font-size: 11px; background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); border: 1px solid rgba(139, 92, 246, 0.4); font-weight: 700;">η = 14.3%</span>
                         </div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; font-size: 11px;">
-                            <div>• Toff thực tế: <strong style="color: #fff; font-family: var(--font-mono);" id="vf-out-toff">216 μs</strong></div>
+                            <div>• Poff thực tế: <strong style="color: #fff; font-family: var(--font-mono);" id="vf-out-toff">216 μs</strong></div>
                             <div>• Tổng chu kỳ T: <strong style="color: #fff; font-family: var(--font-mono);" id="vf-out-cycle">252 μs</strong></div>
                             <div>• Tần số xung f: <strong style="color: var(--accent-cyan); font-family: var(--font-mono);" id="vf-out-freq">3.97 kHz</strong></div>
                             <div>• Dòng Ampe dự tính: <strong style="color: var(--accent-amber); font-family: var(--font-mono);" id="vf-out-ampe">~1.8 A</strong></div>
@@ -627,7 +627,7 @@
                                 <span class="tag" style="background: rgba(56, 189, 248, 0.15); color: var(--border-highlight); border: 1px solid rgba(56, 189, 248, 0.3); font-weight: 700;">1. CÔNG THỨC GỐC XƯỞNG</span>
                                 <span style="font-size: 11px; color: var(--text-muted);">Tab Xưởng hiện tại</span>
                             </div>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">Chỉ phụ thuộc (H, Ton, IP, Volt), chưa tính độ trễ VF</p>
+                            <p style="font-size: 11px; color: var(--text-secondary); margin-bottom: 12px;">Chỉ phụ thuộc (H, Pon, IP, Volt), chưa tính độ trễ VF</p>
 
                             <div style="margin-bottom: 10px;">
                                 <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">Lượng cào phôi bề mặt (δ):</span>
@@ -1111,7 +1111,7 @@
         <footer class="app-footer">
             <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
             <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">
-                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.54 (Tối Ưu Hóa Đa Vòng SCM420 - Vòng 5 Cân Bằng Toàn Cầu)</strong> &bull; 
+                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.55 (Chuẩn Hóa Đường Cong VF &amp; Thuật Ngữ Pon/Poff)</strong> &bull; 
                 <a href="javascript:void(0)" id="link-force-update" style="color: var(--accent-amber); text-decoration: underline;">🔄 Cưỡng bức làm mới dữ liệu</a>
             </p>
         </footer>
@@ -1132,7 +1132,7 @@
                         <li>Trên thanh menu AutoCut, chọn <strong>Create multiple process track (Tạo quỹ đạo cắt nhiều lần)</strong>.</li>
                         <li>Chọn số lần cắt (<strong>Cut times</strong>) từ 1 đến 6.</li>
                         <li>Nhập giá trị <strong>Offset</strong> của Pass 1 từ bảng trên.</li>
-                        <li>Bấm nút <strong>Edit Process Path</strong> (Hình 4.8 / 4.10) và điền lần lượt các thông số <code>Ton</code>, <code>Toff</code>, <code>IP</code>, <code>V</code>, <code>VF</code>, <code>Wire</code> và <code>Remain (Lượng bào)</code> của từng pass.</li>
+                        <li>Bấm nút <strong>Edit Process Path</strong> (Hình 4.8 / 4.10) và điền lần lượt các thông số <code>Pon</code>, <code>Poff</code>, <code>IP</code>, <code>V</code>, <code>VF</code>, <code>Wire</code> và <code>Remain (Lượng bào)</code> của từng pass.</li>
                     </ol>
                 </div>
                 <div class="guide-step">
@@ -1149,6 +1149,6 @@
     </div>
 
         <!-- INLINE APPLICATION SCRIPT (Chống kẹt cache 100% trên mọi trình duyệt) -->
-    <script src="app.js?v=3.5.54"></script>
+    <script src="app.js?v=3.5.55"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-# THƯ VIỆN DỮ LIỆU THỰC NGHIỆM XƯỞNG & NGUYÊN LÝ NỘI SUY NGƯỢC
+﻿# THƯ VIỆN DỮ LIỆU THỰC NGHIỆM XƯỞNG & NGUYÊN LÝ NỘI SUY NGƯỢC
 # (WORKSHOP RAW DATA BANK & REVERSE INTERPOLATION ENGINE)
 
 ---
@@ -22,7 +22,7 @@
 
 Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên máy cắt dây AutoCut DK77 (Dây Moly $\Phi 0.18\text{mm} \implies R_{\text{dây}} = 0.090\text{mm}$):
 
-| STT | Số lần cắt | Vật Liệu | H (mm) | Ton ($\mu s$) | Toff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập Test (mm) | Thời gian cắt | Chiều dài L (mm) | Đồng hồ Ampe (A) | Tốc độ thực (mm²/p) | Kích thước đo sau cắt (Ghi chú gốc) |
+| STT | Số lần cắt | Vật Liệu | H (mm) | Pon ($\mu s$) | Poff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập Test (mm) | Thời gian cắt | Chiều dài L (mm) | Đồng hồ Ampe (A) | Tốc độ thực (mm²/p) | Kích thước đo sau cắt (Ghi chú gốc) |
 |:---:|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|
 | **1** | 1 Lần | SCM440 (28-32HRC) | 30 | 32 | 5 | 4 | 1 | High | 65 | 200Hz | **0,115** | 8p40' | 30mm | 4,45A - 4,5A | 165 - 175 | cắt lấy chày : kích thước to hơn lập trình 0,034 |
 | **2** | 1 Lần | SCM440 (28-32HRC) | 40 | 36 | 5 | 4 | 1 | High | 65 | 180Hz | **0,115** | 9p36' | 30mm | 4,35A - 4,4A | 130 - 140 | cắt lấy chày : kích thước to hơn lập trình 0,034 |
@@ -53,7 +53,7 @@ Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên
 ### BẢNG DỮ LIỆU 1 PASS QUY ĐỔI TỪ PASS 1 CẮT NHIỀU PASS (RULE 15):
 *(Các bài cắt nhiều Pass có đo đạc kích thước phôi trung gian ngay sau khi hoàn thành Pass 1 được quy đổi thành dữ liệu 1 Pass tương đương với lượng cào thép đặc $\delta_1$, phục vụ đối chứng trên Thư viện 1 Pass)*
 
-| STT Quy Đổi | Nguồn Gốc | Số lần cắt | Vật Liệu | H (mm) | Ton (μs) | Toff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập P1 (mm) | Thời gian cắt | Chiều dài L (mm) | Đồng hồ Ampe (A) | Tốc độ thực (mm²/p) | Kích thước đo sau Pass 1 | Lượng cào phôi thép đặc δ1 | Offset 1P Quy Đổi Chuẩn |
+| STT Quy Đổi | Nguồn Gốc | Số lần cắt | Vật Liệu | H (mm) | Pon (μs) | Poff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập P1 (mm) | Thời gian cắt | Chiều dài L (mm) | Đồng hồ Ampe (A) | Tốc độ thực (mm²/p) | Kích thước đo sau Pass 1 | Lượng cào phôi thép đặc δ1 | Offset 1P Quy Đổi Chuẩn |
 |:---:|:---:|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---:|:---:|
 | **1P-5P01** | **5P-01** | 1 Pass (Quy đổi) | SCM440 (28-32HRC) | **12** | 20 | 5 | 3 | 1 | High | 65 | 150Hz | **0,108** | 19p50' | 128mm | 4A | 275 - 285 | Sau P1 đo: 54.08mm (chày chừa 0.040mm/bên) | **0.0110 mm** | **0.1010 mm** |
 | **1P-2P10** | **2P-10** | 1 Pass (Quy đổi) | SCM440 (28-32HRC) | **85** | 70 | 8 | 5 | 1 | High | 61 | 150Hz | **0,095** | 48p | 65,6mm | 3,6A - 3,7A | 55 - 65 | Sau P1 đo: 19.94 - 19.95mm (cối chừa 0.0275mm/bên) | **0.0125 mm** | **0.1025 mm** |
@@ -379,7 +379,7 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 > 3. **Lý do tách khỏi tính toán:** Vì Pass 2 của Mẫu 1 không ăn phôi nên số liệu không đại diện cho động lực học 2 Pass hoàn chỉnh. Do đó tách riêng vào vùng này để lưu trữ kinh nghiệm thực chiến.
 
 ### Bài cắt Tham khảo STT 9 (H=63mm SCM420 1 Lần - Chế độ xung yếu, dây tì dính phôi):
-| STT | Số lần | Vật Liệu | H (mm) | Ton (μs) | Toff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập thực tế | Thời gian | Chiều dài L | Đồng hồ Ampe | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset chuẩn hiệu chỉnh | Lượng cào phôi δ | Hiện tượng & Rút kinh nghiệm |
+| STT | Số lần | Vật Liệu | H (mm) | Pon (μs) | Poff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập thực tế | Thời gian | Chiều dài L | Đồng hồ Ampe | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset chuẩn hiệu chỉnh | Lượng cào phôi δ | Hiện tượng & Rút kinh nghiệm |
 |:---:|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---:|:---:|:---:|:---|
 | **STT 9** *(Tham khảo)* | 1 Lần | SCM420 (HB<200) | 63 | 24 | 7 | 4 | 1 | High | 43 | 150Hz | **0,116** | 21p | -- | 4A | 55 - 65 mm²/p | cắt lấy chày : kích thước to hơn lập trình 0,07 | -0.035 mm | **0.081 mm** | **-0.009 mm** | Ton=24 quá non cho phôi H=63mm Volt High; dây tì đè kéo lê gây khe hở âm |
 
@@ -389,7 +389,7 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 > 3. **Lý do loại khỏi Thư viện Tab 2 và dữ liệu tính toán:** Do khe hở phóng điện bị âm giả tạo ($\delta = -0.009\text{mm}$) do dây kéo lê cơ học chứ không phải bản chất phóng điện tia lửa tự nhiên. Mẫu này hoàn toàn bị loại khỏi Thư viện thực nghiệm Tab 2 và mọi mô hình toán học / thuật toán hiệu chuẩn, chỉ lưu giữ tại Vùng tham khảo này để cảnh báo thợ vận hành tránh dùng xung quá non cho phôi dày trung bình.
 
 ### Bài cắt Tham khảo STT 13 (H=300mm SCM440 1 Lần - Giai đoạn 1 chạy rà đầu phôi):
-| STT | Số lần | Vật Liệu | H (mm) | Ton (μs) | Toff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập thực tế | Thời gian | Chiều dài L | Đồng hồ Ampe | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset chuẩn hiệu chỉnh | Lượng cào phôi δ | Hiện tượng & Rút kinh nghiệm |
+| STT | Số lần | Vật Liệu | H (mm) | Pon (μs) | Poff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập thực tế | Thời gian | Chiều dài L | Đồng hồ Ampe | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset chuẩn hiệu chỉnh | Lượng cào phôi δ | Hiện tượng & Rút kinh nghiệm |
 |:---:|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---:|:---:|:---:|:---|
 | **STT 13** *(Tham khảo)* | 1 Lần | SCM440 (28-32HRC) | 300 | 80 | 9 | 6 | 1 | High | 50 | 50Hz | **0,120** | 1h29p | 31,3mm | 3,8A - 3,9A | 12 - 20 mm²/p | GĐ 1 : cắt lấy cối : kích thước lớn hơn lập trình 0,01 | -0.005 mm | **0.115 mm** | **0.025 mm** | Giai đoạn 1 chạy rà đầu phôi 31.3mm; sau đó xưởng tối ưu nâng lên Ton=120 VF=65 (STT 14) |
 
@@ -399,7 +399,7 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 > 3. **Lý do tách khỏi Thư viện Tab 2:** Để tránh trùng lặp 2 dòng cùng chiều dày $H=300\text{mm}$ gây phân vân cho người vận hành, Thư viện Tab 2 chỉ giữ lại duy nhất 1 bài chuẩn công nghệ hoàn chỉnh nhất là **STT 14** ($\text{Ton}=120, \text{VF}=65$). STT 13 được chuyển sang Vùng tham khảo này để làm tư liệu kinh nghiệm hữu ích về giai đoạn tiếp cận phôi ban đầu.
 
 ### Bài cắt Tham khảo STT 4 (H=12mm SCM440 1 Lần - Dữ liệu ước lượng định tính ban đầu, thiếu thông số thời gian & Ampe):
-| STT | Số lần | Vật Liệu | H (mm) | Ton (μs) | Toff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập thực tế | Thời gian | Chiều dài L | Đồng hồ Ampe | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset chuẩn hiệu chỉnh | Lượng cào phôi δ | Hiện tượng & Rút kinh nghiệm |
+| STT | Số lần | Vật Liệu | H (mm) | Pon (μs) | Poff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập thực tế | Thời gian | Chiều dài L | Đồng hồ Ampe | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset chuẩn hiệu chỉnh | Lượng cào phôi δ | Hiện tượng & Rút kinh nghiệm |
 |:---:|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---:|:---:|:---:|:---|
 | **STT 4** *(Tham khảo)* | 1 Lần | SCM440 (28-32HRC) | 12 | 20 | 7 | 2 | 2 | Low | 50 | 200Hz | **0,105** | -- | -- | -- | -- | cắt lấy chày : kích thước offset chuẩn luôn | 0.000 mm | **0.105 mm** | **0.015 mm** | Dữ liệu định tính ước lượng ban đầu, thiếu thông số đo kiểm chi tiết |
 
@@ -409,7 +409,7 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 > 3. **Lý do loại khỏi Thư viện Tab 2 và dữ liệu tính toán:** Để chuẩn hóa chất lượng Thư viện thực nghiệm chỉ lưu giữ các bài cắt có số đo kiểm chứng khép kín và đáng tin cậy nhất, mẫu STT 4 được tách khỏi dữ liệu tính toán và chuyển sang Vùng tham khảo này để lưu trữ lịch sử vận hành xưởng.
 
 ### Bài cắt Tham khảo STT 5 (H=45mm SCM420 1 Lần - Dữ liệu ước lượng định tính, thiếu thông số thời gian & Ampe):
-| STT | Số lần | Vật Liệu | H (mm) | Ton (μs) | Toff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập thực tế | Thời gian | Chiều dài L | Đồng hồ Ampe | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset chuẩn hiệu chỉnh | Lượng cào phôi δ | Hiện tượng & Rút kinh nghiệm |
+| STT | Số lần | Vật Liệu | H (mm) | Pon (μs) | Poff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập thực tế | Thời gian | Chiều dài L | Đồng hồ Ampe | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset chuẩn hiệu chỉnh | Lượng cào phôi δ | Hiện tượng & Rút kinh nghiệm |
 |:---:|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---:|:---:|:---:|:---|
 | **STT 5** *(Tham khảo)* | 1 Lần | SCM420 (HB<200) | 45 | 50 | 7 | 3 | 1 | Low | 50 | 150Hz | **0,105** | -- | -- | 2,2A - 2,5A | -- | cắt lấy chày : kích thước offset chuẩn luôn | 0.000 mm | **0.105 mm** | **0.015 mm** | Dữ liệu định tính ước lượng ban đầu, thiếu thông số đo kiểm chi tiết |
 
@@ -419,7 +419,7 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 > 3. **Lý do loại khỏi Thư viện Tab 2 và dữ liệu tính toán:** Để chuẩn hóa chất lượng Thư viện thực nghiệm chỉ lưu giữ các bài cắt có số đo kiểm chứng khép kín và đáng tin cậy nhất, mẫu STT 5 được tách khỏi dữ liệu tính toán và chuyển sang Vùng tham khảo này để lưu trữ lịch sử vận hành xưởng.
 
 ### Bài cắt Tham khảo STT 8 (H=160mm SCM420 1 Lần - Chế độ IP=5 dưới ngưỡng tối ưu, thiếu dữ liệu đo kiểm chi tiết):
-| STT | Số lần | Vật Liệu | H (mm) | Ton (μs) | Toff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập thực tế | Thời gian | Chiều dài L | Đồng hồ Ampe | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset chuẩn hiệu chỉnh | Lượng cào phôi δ | Hiện tượng & Rút kinh nghiệm |
+| STT | Số lần | Vật Liệu | H (mm) | Pon (μs) | Poff (Po) | IP | Wire | Volt | VF | Tần số Max | Offset Nhập thực tế | Thời gian | Chiều dài L | Đồng hồ Ampe | Tốc độ thực | Kích thước đo sau cắt (Ghi chú gốc) | Sai lệch mỗi bên | Offset chuẩn hiệu chỉnh | Lượng cào phôi δ | Hiện tượng & Rút kinh nghiệm |
 |:---:|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|:---:|:---:|:---:|:---|
 | **STT 8** *(Tham khảo)* | 1 Lần | SCM420 (HB<200) | 160 | 120 | 8 | 5 | 1 | High | 55 | 50Hz | **0,110** | -- | -- | 3,5A - 3,8A | -- | cắt lấy chày : kích thước offset chuẩn luôn | 0.000 mm | **0.110 mm** | **0.020 mm** | Phôi cực dày IP=5 dưới công suất tối ưu IP=6, thiếu thông số đo kiểm chi tiết |
 
@@ -427,3 +427,4 @@ Khi người dùng yêu cầu chế độ điện tiêu chuẩn (hoặc khi ph�
 > 1. **Bản chất dữ liệu:** Mẫu STT 8 cắt phôi dày $H=160	ext{mm}$ nhưng cài đặt $	ext{IP}=5$, $	ext{Ton}=120$, $	ext{VF}=55$, thiếu chiều dài $L$ và thời gian cắt. Ở phôi dày $H \ge 160	ext{mm}$, chạy $	ext{IP}=5$ là dưới ngưỡng công suất thoát phoi tối ưu ($	ext{IP}=6$).
 > 2. **Dữ liệu chuẩn thay thế toàn diện (Mẫu 1P-2P12):** Bài cắt thực nghiệm khép kín **2P-12 Pass 1** ($H=165	ext{mm}$, SCM440, $	ext{Ton}=135, 	ext{Po}=11, 	ext{IP}=6, 	ext{Volt}=	ext{High}, 	ext{VF}=70$) đã được đo đạc bằng Panme chính xác đến $0.001	ext{mm}$, chu vi $43.6	ext{mm}$, thời gian $1	ext{h}17'$, Ampe $2.8-3.0	ext{A}$, tốc độ $15-35	ext{ mm}^2/	ext{p}$, lượng cào thép đặc $\delta_1 = 0.0225	ext{mm} \implies 	ext{Offset 1P} = 0.1125	ext{mm}$.
 > 3. **Lý do loại khỏi Thư viện Tab 2 và dữ liệu tính toán:** STT 8 tạo độ lệch giả $+12.16\mu m$ do chế độ xung dưới chuẩn. Khi thay thế bằng bài đo kiểm chuẩn 1P-2P12 ($H=165	ext{mm}$, IP=6), sai số cực đại của toàn bộ thư viện 1-Pass lập tức co hẹp từ $12.16\mu m$ xuống chỉ còn $4.18\mu m$, mô hình đạt độ chính xác gần như hoàn hảo.
+

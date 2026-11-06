@@ -1,4 +1,4 @@
-# ==============================================================================
+﻿# ==============================================================================
 # AUDIT SPARK GAP & OFFSET BENCHMARK (RULE 17 & RULE 19 - POWERSHELL NATIVE)
 # DU AN: AUTOCUT SERVO EDM EXPERT (DK77 WIRE EDM) - v3.5.54 (VONG 5 CAN BANG TOAN CAU)
 # ==============================================================================
@@ -63,7 +63,7 @@ $dataset = @(
 )
 
 Write-Host ("=" * 115)
-Write-Host "BANG KIEM DINH LUONG CAO PHOI: CONG THUC TOAN - VAT LY VS THUC NGHIEM XUONG (v3.5.54 - VONG 5)"
+Write-Host "BANG KIEM DINH LUONG CAO PHOI: CONG THUC TOAN - VAT LY VS THUC NGHIEM XUONG (v3.5.55 - Pon/Poff & VF Curve)"
 Write-Host ("=" * 115)
 Write-Host ("| {0,-8} | {1,-20} | {2,3} | {3,-6} | {4,3} | {5,2} | {6,2} | {7,-4} | {8,2} | {9,10} | {10,10} | {11,10} | {12,8} |" -f "STT", "Nhom", "H", "Thep", "Ton", "Po", "IP", "Volt", "VF", "delta_thuc", "delta_tinh", "Sai lech", "O_chuan")
 Write-Host ("|" + ("-" * 10) + "|" + ("-" * 22) + "|" + ("-" * 5) + "|" + ("-" * 8) + "|" + ("-" * 5) + "|" + ("-" * 4) + "|" + ("-" * 4) + "|" + ("-" * 6) + "|" + ("-" * 4) + "|" + ("-" * 12) + "|" + ("-" * 12) + "|" + ("-" * 12) + "|" + ("-" * 10) + "|")
@@ -95,3 +95,4 @@ Write-Host ("  * MAE Thep mem SCM420 (HB < 200, n=10): {0:F2} um" -f $mae420)
 Write-Host ("  * Sai so trung binh tuyet doi toan cuc (MAE): {0:F2} um" -f $mae)
 Write-Host ("  * Sai so hieu dung toan cuc (RMSE): {0:F2} um" -f $rmse)
 Write-Host ("  * Sai so cuc dai (Max Error): {0:F2} um" -f $maxErr)
+

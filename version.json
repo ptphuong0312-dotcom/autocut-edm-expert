@@ -1,6 +1,6 @@
 {
-  "version": "3.5.54",
-  "buildTimestamp": 1793906400000,
+  "version": "3.5.55",
+  "buildTimestamp": 1793910000000,
   "releaseDate": "2026-11-06",
-  "description": "Đợt 54: Tối ưu hóa đa vòng Vòng 5 Cân bằng Toàn cầu - Triệt tiêu sai số thép dẻo SCM420 (HB < 200) từ 8.55 μm xuống 2.64 μm, khóa cứng sai số cực đại toàn xưởng dưới 5.75 μm, MAE toàn cục đạt 2.70 μm."
+  "description": "Đợt 55: Chuẩn hóa đường cong VF thuận chiều vật lý (mỏng 50-52 -> dày 70-75), cập nhật thuật ngữ chuẩn AutoCut Pon/Poff toàn diện, bổ sung biểu tượng mở rộng thư viện thực nghiệm."
 }

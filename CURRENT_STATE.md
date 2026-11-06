@@ -6,13 +6,25 @@
 ---
 
 ## ⏱️ 1. THỜI GIAN LÀM VIỆC GẦN NHẤT
-* **Thời điểm cập nhật:** `2026-11-06 08:45:00` (Giờ địa phương GMT+7)
+* **Thời điểm cập nhật:** `2026-11-06 09:45:00` (Giờ địa phương GMT+7)
 * **Vị trí làm việc hiện tại:** Máy tính Ở Nhà
-* **Phiên bản hệ thống:** `v3.5.54` (Đã hoàn thiện & đóng gói)
+* **Phiên bản hệ thống:** `v3.5.55` (Đã hoàn thiện & đóng gói)
 
 ---
 
 ## ✅ 2. CÁC VIỆC VỪA HOÀN THÀNH
+* **Đợt 55 (v3.5.55 - Chuẩn Hóa Đường Cong VF Thuận Lý, Thay Toàn Diện TON/TOFF = Pon/Poff & Bổ Sung Mũi Tên Mở Rộng Thư Viện):**
+  - **Chuẩn hóa đường cong xuất VF theo chiều cao $H$:**
+    + Khắc phục triệt để lỗi nghịch đảo: $H$ mỏng ($\le 20-30\text{mm}$) xuất $\text{VF} = 50 \sim 52$ vừa phải giúp máy tiến thanh thoát, không ngâm dây; $H$ tăng dần đều đặn lên $\text{VF} = 70$ tại $H=165-170\text{mm}$ và $\text{VF} = 75$ tại $H=290-300\text{mm}$ để tăng độ nhạy dò dây, chống đâm sầm đứt dây.
+    + Cập nhật đồng bộ trên cả Tab 1 và Tab 2.
+  - **Đổi tên toàn diện TON = Pon và TOFF = Poff trên Web App:**
+    + Cập nhật toàn bộ các tiêu đề cột bảng (`Pon`, `Poff`), nhãn nhập liệu (`Pon (μs)`, `Poff (Po)`), mô tả chiến lược và bảng `WORKSHOP_DATA_BANK.md`.
+    + Ghim nguyên tắc tiếp nhận dữ liệu tương lai: TON ngầm hiểu là Pon, TOFF ngầm hiểu là Poff.
+  - **Bổ sung biểu tượng mũi tên xuống `▼` cạnh ô "6 Chế Độ Cắt":**
+    + Thêm ký hiệu `▼` màu cyan trực quan ngay trong nút badge: `6 Chế Độ Cắt ▼`, tự động xoay $180^\circ$ thành `▲` khi mở rộng.
+  - **Nghiên cứu mô hình tinh chỉnh Ampe xưởng:**
+    + Hoàn thành kiểm toán dòng Ampe 19 bài cắt xưởng, phát hiện cơ chế bão hòa tiếp xúc $\alpha_{\text{immersion}}(H)$ giúp triệt tiêu sai số $+1.5\text{A}$ ở dải phôi mỏng.
+  - **Sao lưu & Đóng gói:** Bản backup `backups/autocut_2026-11-06(91).zip`, AST balance PASSED 100%.
 * **Đợt 54 (v3.5.54 - Tối Ưu Hóa Đa Vòng SCM420 - Vòng 5 Cân Bằng Động Học Toàn Cầu):**
   - **Mệnh lệnh từ SirPhuong:** *"Tôi lựa chọn A bạn thực thi cho tôi luôn"* (Lựa chọn A: Vòng 5 Cân bằng Động học Toàn cầu).
   - **Bản chất vật lý và cải tiến mô hình:**
