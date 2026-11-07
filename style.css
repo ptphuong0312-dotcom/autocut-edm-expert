@@ -2055,7 +2055,7 @@ body {
         display: none !important;
     }
 
-    .control-panel, .header-actions, .app-footer, #btn-copy-table, .nav-tabs, .custom-input-box, .analysis-section, .modal-overlay {
+    .control-panel, .header-actions, .results-header-actions, .app-footer, #btn-copy-table, #ws-btn-copy-table, #ws-btn-reset-params, .nav-tabs, .custom-input-box, .analysis-section, .modal-overlay {
         display: none !important;
     }
 
@@ -2569,7 +2569,7 @@ body {
 }
 
 /* ====================================================
-   WORKSHOP DUAL-ZONE CONTAINER & TABLE STYLES (v3.5.66)
+   WORKSHOP DUAL-ZONE CONTAINER & TABLE STYLES (v3.5.67)
    ==================================================== */
 .ws-zone-card {
     margin-bottom: 14px;
@@ -2750,7 +2750,7 @@ body {
 
 
 /* ====================================================
-   EXPANDED MOBILE UX & TOUCH CONTROLS (v3.5.66)
+   EXPANDED MOBILE UX & TOUCH CONTROLS (v3.5.67)
    ==================================================== */
 @media (max-width: 768px) {
     /* 1. 2-Tab Native Segmented Navigation */

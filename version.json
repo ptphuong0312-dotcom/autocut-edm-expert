@@ -1,6 +1,6 @@
-{
-  "version": "3.5.66",
-  "buildTimestamp": 1794026000000,
+﻿{
+  "version": "3.5.67",
+  "buildTimestamp": 1794027500000,
   "releaseDate": "2026-11-07",
-  "description": "Bổ sung dòng trống cách biệt giữa các Pass khi xuất/copy thông số cắt nhiều Pass theo yêu cầu."
+  "description": "NÃ¢ng cáº¥p Há»‡ thá»‘ng Bá»™ NÃ£o Tri Thá»©c Master, Sá»• tay Quy chuáº©n docs/rules, KhÃ³a cÆ¡ há»c [SPEC-LOCK], tÃ­nh Ä‘á»™ng Hz VÃ¹ng 2 vÃ  PWA Offline hoÃ n háº£o."
 }

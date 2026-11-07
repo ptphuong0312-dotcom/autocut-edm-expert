@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'autocut-v3.5.66';
+const CACHE_NAME = 'autocut-v3.5.67';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -6,13 +6,11 @@ const ASSETS_TO_CACHE = [
   './app.js',
   './version.json',
   './manifest.json',
-  './tailieu.txt',
-  './PROJECT_RULES.md',
   './AGENTS.md',
   'https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap'
 ];
 
-// 1. CÀI ĐẶT SERVICE WORKER & LƯU BẢN CACHE ĐẦU TIÊN
+// 1. CÀI ĐẶT SERVICE WORKER & LƯU BẢN CACHE ĐẦU TIÊN (PRE-CACHE HOÀN HẢO 100%)
 self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(

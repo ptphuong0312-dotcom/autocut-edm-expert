@@ -1,4 +1,4 @@
-# 📜 NHẬT KÝ LỊCH SỬ TIẾN HÓA DỰ ÁN (PROJECT HISTORY)
+﻿# 📜 NHẬT KÝ LỊCH SỬ TIẾN HÓA DỰ ÁN (PROJECT HISTORY)
 # DỰ ÁN: AUTOCUT SERVO EDM EXPERT (DK77 WIRE EDM)
 *Chủ sở hữu tối cao: **SirPhuong***
 
@@ -105,3 +105,15 @@ Dự án **AutoCut Servo EDM Expert** được khởi xướng bởi **SirPhuong
 | **v3.5.46** | 2026-10-24 | Bổ sung Thẻ 11 Cẩm nang EDM Tab 4: Giải mã vi xử lý AutoCut (Ton, Toff, T, f) và Công nghệ Chùm xung (GPon, GPoff) | `autocut_2026-10-24(86).zip` |
 | **v3.5.47** | 2026-10-24 | Hiệu chỉnh thông số bài cắt STT 20 (H=290mm VF=75 MaxSpeed=50Hz) theo ảnh bảng dữ liệu xưởng | `autocut_2026-10-24(87).zip` |
 | **v3.5.48** | 2026-10-31 | Tích hợp bài cắt thực nghiệm STT 21 (H=90mm SCM420 cối, Offset chuẩn 0.118mm, Ampe 3.5-3.6A, Fc 50-60mm2/p) | `autocut_2026-10-31(88).zip` |
+| **v3.5.49** | 2026-10-31 | PhÃ¢n tÃ¡ch tÃ­nh riÃªng thÃ©p SCM420 & SCM440 trong Tab 3 | utocut_2026-10-31(89).zip |
+| **v3.5.50** | 2026-11-01 | TÃ­ch há»£p bÃ i cáº¯t STT 22 (H=12mm SCM420 chÃ y Volt Low, Offset 0.095mm) | utocut_2026-11-01(90).zip |
+| **v3.5.51** | 2026-11-02 | TÃ­ch há»£p bÃ i cáº¯t STT 23 (H=200mm SCM420 cá»‘i, Offset 0.108mm) | utocut_2026-11-02(91).zip |
+| **v3.5.54** | 2026-11-03 | Tá»‘i Æ°u hÃ³a Ä‘a vÃ²ng SCM420 VÃ²ng 5 cÃ¢n báº±ng Ä‘á»™ng há»c toÃ n cáº§u | utocut_2026-11-03(92).zip |
+| **v3.5.56** | 2026-11-05 | Loáº¡i bá» Tab 1 cÅ©, tÃ¡i cáº¥u trÃºc 3 Tab, nÃ¢ng cáº¥p Cáº©m nang EDM & Ampe VÃ²ng 5 | utocut_2026-11-05(93).zip |
+| **v3.5.58** | 2026-11-06 | Chia báº£ng 2 VÃ¹ng dá»c can thiá»‡p trá»±c tiáº¿p, nÃºt Trá»Ÿ Vá» Máº·c Äá»‹nh & náº¡p thÃ´ng sá»‘ | utocut_2026-11-06(94).zip |
+| **v3.5.60** | 2026-11-06 | Kháº¯c phá»¥c cÃº phÃ¡p hÃ m sao chÃ©p, bá»• sung kiá»ƒm thá»­ Browser Headless | utocut_2026-11-06(95).zip |
+| **v3.5.62** | 2026-11-06 | MÃ´ hÃ¬nh toÃ¡n - váº­t lÃ½ nhiá»‡t Ä‘á»™ng há»c VÃ²ng 6 tá»‘i Æ°u há»™i tá»¥ Fc thá»±c & Fc mÃ¡y | utocut_2026-11-06(96).zip |
+| **v3.5.63** | 2026-11-07 | Tinh gá»n 2 Tab hiá»‡n hÃ nh, loáº¡i bá» Tab 2 cÅ© (nháº­p thÃ´ng sá»‘), tá»‘i Æ°u Mobile | utocut_2026-11-07(97).zip |
+| **v3.5.64** | 2026-11-07 | Tinh gá»n 2 khung thÃ´ng sá»‘, chuyá»ƒn Offset vá» VÃ¹ng 2, phÃ­m chá»n nhanh 200mm | utocut_2026-11-07(98).zip |
+| **v3.5.66** | 2026-11-07 | Chuáº©n hÃ³a Ä‘á»‹nh dáº¡ng xuáº¥t / copy thÃ´ng sá»‘ cÃ³ dÃ²ng trá»‘ng giá»¯a cÃ¡c Pass | utocut_2026-11-07(99).zip |
+| **v3.5.67** | 2026-11-07 | NÃ¢ng cáº¥p Bá»™ NÃ£o Master, 6 Sá»• tay docs/rules, KhÃ³a cÆ¡ há»c [SPEC-LOCK], Hz Ä‘á»™ng & Gatekeeper | utocut_2026-11-07(100).zip |

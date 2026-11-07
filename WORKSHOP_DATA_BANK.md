@@ -18,6 +18,37 @@
 
 ---
 
+## 📌 BẢNG TỔNG HỢP CHỈ MỤC GROUND TRUTH (19 BÀI CẮT THỰC NGHIỆM CHUẨN XƯỞNG)
+> [!NOTE]
+> Bảng chỉ mục này tóm tắt toàn bộ 19 bài cắt thực nghiệm hợp lệ tại xưởng SirPhuong (Dây Molypden $\Phi 0.18\text{mm} \implies R_{\text{wire}} = 0.090\text{mm}$). AI chỉ cần đọc bảng này là nắm 100% dữ liệu gốc để kiểm toán hoặc hiệu chuẩn:
+
+| Mã Bài | Nhóm / Kiểu | H (mm) | Vật Liệu | Ton | Po | IP | Volt | VF | Hz | $\delta_{\text{thực}}$ (mm) | Offset Chuẩn $O_1$ (mm) | Ampe Đo (A) |
+|:---|:---|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|
+| **1P-5P01** | 1P Quy đổi 5P-01 | 12 | SCM440 | 20 | 5 | 3 | High | 65 | 150 | 0.0110 | **0.1010** | 4.0A |
+| **STT 22** | Chày Volt Low | 12 | SCM420 | 16 | 6 | 3 | Low | 60 | 150 | 0.0050 | **0.0950** | 2.5A - 2.7A |
+| **STT 1** | Chuẩn gốc 1P | 30 | SCM440 | 32 | 5 | 4 | High | 65 | 200 | 0.0080 | **0.0980** | 4.45A - 4.5A |
+| **STT 2** | Chuẩn gốc 1P | 40 | SCM440 | 36 | 5 | 4 | High | 65 | 180 | 0.0080 | **0.0980** | 4.35A - 4.4A |
+| **STT 3** | Cắt chày | 63 | SCM420 | 44 | 7 | 5 | High | 55 | 150 | 0.0050 | **0.0950** | 4.1A - 4.2A |
+| **STT 18** | Cắt chày | 63 | SCM420 | 44 | 8 | 4 | High | 57 | 150 | 0.0080 | **0.0980** | 3.3A - 3.4A |
+| **STT 6** | Chày Volt Low | 68 | SCM440 | 70 | 7 | 3 | Low | 50 | 100 | 0.0070 | **0.0970** | 2.4A - 2.6A |
+| **STT 16** | Cắt cối | 75 | SCM420 | 55 | 7 | 4 | High | 54 | 187 | 0.0220 | **0.1120** | 3.4A - 3.5A |
+| **1P-2P10** | 1P Quy đổi 2P-10 | 85 | SCM440 | 70 | 8 | 5 | High | 61 | 150 | 0.0125 | **0.1025** | 3.6A - 3.7A |
+| **STT 21** | Cắt cối | 90 | SCM420 | 80 | 7 | 4 | High | 54 | 150 | 0.0280 | **0.1180** | 3.5A - 3.6A |
+| **STT 17** | Cắt cối | 95 | SCM440 | 82 | 7 | 4 | High | 55 | 150 | 0.0235 | **0.1135** | 3.6A - 3.7A |
+| **STT 19** | Cắt chày | 110 | SCM420 | 100 | 10 | 5 | High | 65 | 150 | 0.0150 | **0.1050** | 2.7A - 2.8A |
+| **STT 7** | Cắt chày | 140 | SCM420 | 120 | 8 | 5 | High | 55 | 50 | 0.0050 | **0.0950** | 3.5A - 3.8A |
+| **STT 12** | Cắt chày | 140 | SCM420 | 100 | 9 | 6 | High | 60 | 100 | 0.0120 | **0.1020** | 3.7A - 3.8A |
+| **STT 15** | Cắt cối | 160 | SCM420 | 120 | 11 | 6 | High | 70 | 100 | 0.0300 | **0.1200** | 3.6A - 3.8A |
+| **1P-2P12** | 1P Quy đổi 2P-12 | 165 | SCM440 | 135 | 11 | 6 | High | 70 | 50 | 0.0225 | **0.1125** | 3.6A - 3.7A |
+| **STT 23** | Phôi siêu dày | 200 | SCM420 | 120 | 10 | 6 | High | 65 | 50 | 0.0180 | **0.1080** | 3.5A - 3.7A |
+| **STT 20** | Cắt cối siêu dày | 290 | SCM440 | 135 | 10 | 6 | High | 75 | 50 | 0.0200 | **0.1100** | 3.8A - 4.0A |
+| **STT 14** | Mốc chuẩn biên | 300 | SCM440 | 120 | 9 | 6 | High | 65 | 50 | 0.0250 | **0.1150** | 3.7A - 3.9A |
+
+*Vùng tham khảo C (Cách ly - chỉ xem khi cần): STT 4, STT 5, STT 8, STT 9, STT 13, STT 2P-11 (Xem chi tiết ở Phần C cuối tài liệu).*
+
+---
+
+
 ## PHẦN 1: BẢNG DỮ LIỆU NGUYÊN BẢN 14 BÀI CẮT THỰC NGHIỆM (RAW DATA BANK)
 
 Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên máy cắt dây AutoCut DK77 (Dây Moly $\Phi 0.18\text{mm} \implies R_{\text{dây}} = 0.090\text{mm}$):

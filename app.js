@@ -3678,6 +3678,7 @@ function initApp() {
                 let speedArea = r.speedArea;
                 let speedAreaH40 = r.speedAreaH40;
                 let hz = r.hz;
+                if (cur.ti !== undefined && cur.Po !== undefined && cur.ti > 0 && cur.Po >= 0) { hz = Math.round(1000000 / (cur.ti * (cur.Po + 2))); }
                 let Ra = r.Ra;
 
                 if (cur.ti !== undefined || cur.Po !== undefined || cur.IP !== undefined || cur.Voltage !== undefined || cur.VF !== undefined) {
@@ -3822,6 +3823,7 @@ function initApp() {
                     if (fch40El) fch40El.textContent = dyn.speedAreaH40;
                     const ampeEl = document.getElementById(`ws-dyn-ampe-${passIdx}`);
                     if (ampeEl) ampeEl.textContent = dyn.ampeDisplay;
+                    const hzEl = document.getElementById("ws-dyn-hz-" + passIdx); if (hzEl) hzEl.textContent = dyn.hz + " Hz";
                     const raEl = document.getElementById(`ws-dyn-ra-${passIdx}`);
                     if (raEl) raEl.textContent = dyn.Ra;
 
@@ -3983,6 +3985,7 @@ function initApp() {
         });
     }
 
+    // [SPEC-LOCK: CLIPBOARD_EXPORT_CONTRACT_V66] - Do not change output format: 1 Pass: Pon..OFFSET, Multi-Pass: newline between passes
     function copyWorkshopTableToClipboard() {
         const wsRows = generateWorkshopRows(state);
         const wsPassNum = state.wsPassCount || 1;
@@ -4023,7 +4026,7 @@ function initApp() {
         });
     }
 
-    const CURRENT_VERSION = "3.5.66";
+    const CURRENT_VERSION = "3.5.67";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
