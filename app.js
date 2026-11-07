@@ -3956,57 +3956,44 @@ function initApp() {
 
     function copyTableToClipboard() {
         const { rows } = calculateEDM(state);
-        const strat = STRATEGY_CONFIGS[state.strategyLevel] || STRATEGY_CONFIGS[6];
-        const matNames = {
-            'SCM420': 'Thép SCM420',
-            'SCM440': 'Thép tôi SCM440',
-            'COPPER': 'Đồng (Cu/Thau)',
-            'ALUMINUM': 'Nhôm (Al 6061/7075)'
-        };
-        const matLabel = matNames[state.material] || state.material;
-        let text = `AUTOCUT EDM SERVO - BẢNG THÔNG SỐ CẮT (TAB 1 CHUẨN HÃNG)\n`;
-        text += `Vật liệu: ${matLabel} | Chiều dày H: ${state.thickness}mm | Quy trình: ${state.passCount} Pass | Chiến lược: ${strat.name}\n\n`;
-        text += `P\tTon\tToff\tIP\tV\tVF\tWire\tOFFSET\tFc(mm2/p)\tRa\tSai số\n`;
-        
-        rows.forEach(r => {
-            text += `${r.passName}\t${r.ti}\t${r.Po}\t${r.IP}\t${r.Voltage}\t${r.VF}\t${r.Wire}\t${r.offsetText}\t${r.speedArea}\t${r.Ra}\t${r.tolerance}\n`;
+        const passNum = state.passCount || 1;
+        let lines = [];
+        lines.push(`Quy trình: ${passNum} Pass`);
+        lines.push('');
+
+        rows.forEach((r, idx) => {
+            const voltCode = (r.Voltage === 'Low' || r.Voltage === 'L') ? 'L' : 'H';
+            const cleanOffset = (parseFloat(r.offsetText) || 0).toFixed(3);
+            const paramStr = `Pon = ${r.ti} , Poff = ${r.Po} , IP = ${r.IP} , Volt = ${voltCode} , VF = ${r.VF} , Wire = ${r.Wire} , OFFSET = ${cleanOffset}`;
+
+            if (passNum === 1) {
+                lines.push(paramStr);
+            } else {
+                lines.push(`Pass${idx + 1} : ${paramStr}`);
+            }
         });
 
+        const text = lines.join('\n');
+
         navigator.clipboard.writeText(text).then(() => {
-            btnCopyTable.textContent = '✅ Đã Copy!';
-            setTimeout(() => {
-                btnCopyTable.textContent = '📋 Copy Bảng';
-            }, 2000);
+            if (btnCopyTable) {
+                btnCopyTable.textContent = '✅ Đã Copy!';
+                setTimeout(() => {
+                    btnCopyTable.textContent = '📋 Copy Thông Số';
+                }, 2000);
+            }
         });
     }
 
     function copyWorkshopTableToClipboard() {
         const wsRows = generateWorkshopRows(state);
-        const strat = WS_STRATEGY_CONFIGS[state.wsStrategyLevel] || WS_STRATEGY_CONFIGS[4];
-        const matNames = {
-            'SCM420': 'Thép mềm SCM420 (HB<200)',
-            'SCM440': 'Thép tôi SCM440 (28-32HRC)'
-        };
-        const matLabel = matNames[state.wsMaterial] || matNames['SCM420'];
         const wsPassNum = state.wsPassCount || 1;
-        let text = "AUTOCUT EDM SERVO - THÔNG SỐ CẮT & BÙ DAO OFFSET (TAB 1)\n";
-        text += "Vật liệu: " + matLabel + " | Chiều dày H: " + state.thickness + "mm | Quy trình: " + wsPassNum + " Pass | Chế độ: " + strat.name + "\n\n";
-        text += "P\tPon(μs)\tPoff(Po)\tIP(Sò)\tVolt\tVF\tWire\tOFFSET(mm)\tFc thực(mm2/p)\tFc máy H40\tGiới hạn(Hz)\tAmpe(A)\tRa\n";
         
-        wsRows.forEach((r, idx) => {
-            const offEl = document.getElementById("ws-dyn-offset-" + idx);
-            const offsetVal = offEl ? offEl.textContent.trim() : r.offsetText;
-            const fcEl = document.getElementById("ws-dyn-fc-" + idx);
-            const fcVal = fcEl ? fcEl.textContent.trim() : r.speedArea;
-            const fch40El = document.getElementById("ws-dyn-fch40-" + idx);
-            const fch40Val = fch40El ? fch40El.textContent.trim() : r.speedAreaH40;
-            const ampeEl = document.getElementById("ws-dyn-ampe-" + idx);
-            const ampeVal = ampeEl ? ampeEl.textContent.trim() : r.ampe;
-            const hzEl = document.getElementById("ws-dyn-hz-" + idx);
-            const hzVal = hzEl ? hzEl.textContent.trim() : (r.hz || '--');
-            const raEl = document.getElementById("ws-dyn-ra-" + idx);
-            const raVal = raEl ? raEl.textContent.trim() : r.Ra;
+        let lines = [];
+        lines.push(`Quy trình: ${wsPassNum} Pass`);
+        lines.push('');
 
+        wsRows.forEach((r, idx) => {
             const ov = (state.wsCustomOverrides && state.wsCustomOverrides[idx]) || {};
             const ti = ov.ti !== undefined ? ov.ti : r.ti;
             const po = ov.Po !== undefined ? ov.Po : r.Po;
@@ -4015,20 +4002,33 @@ function initApp() {
             const vf = ov.VF !== undefined ? ov.VF : r.VF;
             const wire = ov.Wire !== undefined ? ov.Wire : r.Wire;
 
-            text += r.passName + "\t" + ti + "\t" + po + "\t" + ip + "\t" + volt + "\t" + vf + "\t" + wire + "\t" + offsetVal + "\t" + fcVal + "\t" + fch40Val + "\t" + hzVal + "\t" + ampeVal + "\t" + raVal + "\n";
+            const offEl = document.getElementById("ws-dyn-offset-" + idx);
+            const rawOffset = offEl ? offEl.textContent.trim() : r.offsetText;
+            const cleanOffset = (parseFloat(rawOffset) || 0).toFixed(3);
+            const voltCode = (volt === 'Low' || volt === 'L') ? 'L' : 'H';
+
+            const paramStr = `Pon = ${ti} , Poff = ${po} , IP = ${ip} , Volt = ${voltCode} , VF = ${vf} , Wire = ${wire} , OFFSET = ${cleanOffset}`;
+
+            if (wsPassNum === 1) {
+                lines.push(paramStr);
+            } else {
+                lines.push(`Pass${idx + 1} : ${paramStr}`);
+            }
         });
+
+        const text = lines.join('\n');
 
         navigator.clipboard.writeText(text).then(() => {
             if (wsBtnCopyTable) {
                 wsBtnCopyTable.textContent = '✅ Đã Copy!';
                 setTimeout(() => {
-                    wsBtnCopyTable.textContent = '📋 Copy Bảng';
+                    wsBtnCopyTable.textContent = '📋 Copy Thông Số';
                 }, 2000);
             }
         });
     }
 
-    const CURRENT_VERSION = "3.5.64";
+    const CURRENT_VERSION = "3.5.65";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {

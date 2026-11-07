@@ -1,6 +1,6 @@
 {
-  "version": "3.5.64",
-  "buildTimestamp": 1794022800000,
+  "version": "3.5.65",
+  "buildTimestamp": 1794025200000,
   "releaseDate": "2026-11-07",
-  "description": "Tinh gọn 2 khung thông số (Khung 1: Pon đến Wire; Khung 2: P, OFFSET đến Ra), phím chọn nhanh chiều dày wrap gọn gàng đến 200mm trên mọi thiết bị, sửa triệt để lỗi font chữ biểu tượng 6 Chế Độ Cắt."
+  "description": "Nâng cấp định dạng xuất/copy dữ liệu cắt chuẩn hóa theo yêu cầu: Quy trình X Pass, Pon, Poff, IP, Volt (H/L), VF, Wire, OFFSET từng Pass."
 }

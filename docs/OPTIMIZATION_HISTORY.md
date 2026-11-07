@@ -627,3 +627,39 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
   - **Kiểm định cặp dấu backtick (`check_backticks.ps1`):** PASSED 100% (144 dấu khớp chuẩn).
   - **Kiểm định thẻ HTML DOM (`check_dom_balance.ps1`):** PASSED 100% (120 mở / 120 đóng).
   - **Kiểm định render trình duyệt thật Edge Headless:** PASSED 100% (Xác nhận `ws-dyn-offset-0` nằm trong Khung 2, hiển thị đầy đủ chip 200mm, nhãn "6 Chế Độ Cắt" sạch đẹp không lỗi font).
+
+
+### 🚀 ĐỢT 65: CHUẨN HÓA ĐỊNH DẠNG XUẤT / COPY DỮ LIỆU CẮT THEO ĐÚNG MẪU SIRPHUONG YÊU CẦU (v3.5.65)
+* **Thời gian:** 2026-11-07 10:50 (GMT+7)
+* **Bối cảnh & Chỉ thị từ SirPhuong:**
+  - Chuyển đổi định dạng xuất/sao chép thông số cắt từ dạng bảng text sang dạng cấu trúc dòng chuẩn hóa:
+    + 1 Pass:
+      ```
+      Quy trình: 1 Pass
+
+      Pon = 33 , Poff = 8 , IP = 4 , Volt = H , VF = 53 , Wire = 1 , OFFSET = 0.097
+      ```
+    + 2 Pass (và 3, 4, 5, 6 Pass tương tự):
+      ```
+      Quy trình: 2 Pass
+
+      Pass1 : Pon = 33 , Poff = 8 , IP = 4 , Volt = H , VF = 53 , Wire = 1 , OFFSET = 0.097
+      Pass2 : Pon = 14 , Poff = 6 , IP = 2 , Volt = L , VF = 36 , Wire = 2 , OFFSET = 0.019
+      ```
+* **Các thay đổi đã triển khai:**
+  - `app.js`:
+    + Cập nhật hàm `copyWorkshopTableToClipboard()` và `copyTableToClipboard()` xuất đúng cấu trúc dòng.
+    + Nhận diện Volt: `High` -> `H`, `Low` -> `L`.
+    + Đảm bảo đồng bộ với cả các giá trị người dùng chỉnh sửa trong Khung 1 (`wsCustomOverrides`).
+    + Nâng `CURRENT_VERSION = "3.5.65"`.
+  - `index.html`:
+    + Đổi tên nút thành `📋 Copy Thông Số`.
+    + Đồng bộ phiên bản `v3.5.65`.
+  - `style.css`: Đồng bộ phiên bản `v3.5.65`.
+  - `sw.js`: Đổi `CACHE_NAME = 'autocut-v3.5.65'`.
+  - `version.json`: Nâng cấp version `3.5.65`.
+* **Kết quả nghiệm thu kỹ thuật:**
+  - **Kiểm định cú pháp & AST (`find_unclosed_brackets.ps1`):** PASSED 100% (0 lỗi).
+  - **Kiểm định cặp dấu backtick (`check_backticks.ps1`):** PASSED 100% (148 dấu khớp chuẩn).
+  - **Kiểm định thẻ HTML DOM (`check_dom_balance.ps1`):** PASSED 100% (120 mở / 120 đóng).
+  - **Kiểm định render trình duyệt thật Edge Headless:** PASSED 100%.
