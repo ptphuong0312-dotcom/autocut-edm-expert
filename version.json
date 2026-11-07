@@ -1,6 +1,6 @@
 {
-  "version": "3.5.65",
-  "buildTimestamp": 1794025200000,
+  "version": "3.5.66",
+  "buildTimestamp": 1794026000000,
   "releaseDate": "2026-11-07",
-  "description": "Nâng cấp định dạng xuất/copy dữ liệu cắt chuẩn hóa theo yêu cầu: Quy trình X Pass, Pon, Poff, IP, Volt (H/L), VF, Wire, OFFSET từng Pass."
+  "description": "Bổ sung dòng trống cách biệt giữa các Pass khi xuất/copy thông số cắt nhiều Pass theo yêu cầu."
 }

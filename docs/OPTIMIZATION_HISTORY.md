@@ -663,3 +663,27 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
   - **Kiểm định cặp dấu backtick (`check_backticks.ps1`):** PASSED 100% (148 dấu khớp chuẩn).
   - **Kiểm định thẻ HTML DOM (`check_dom_balance.ps1`):** PASSED 100% (120 mở / 120 đóng).
   - **Kiểm định render trình duyệt thật Edge Headless:** PASSED 100%.
+
+
+### 🚀 ĐỢT 66: BỔ SUNG DÒNG TRỐNG CÁCH BIỆT GIỮA CÁC PASS KHI XUẤT THÔNG SỐ CẮT (v3.5.66)
+* **Thời gian:** 2026-11-07 10:55 (GMT+7)
+* **Bối cảnh & Chỉ thị từ SirPhuong:**
+  - Thêm dòng trống cách biệt giữa các Pass khi xuất dữ liệu cắt nhiều Pass (2 Pass đến 6 Pass) để nội dung thông số thoáng và dễ đọc:
+    ```text
+    Quy trình: 2 Pass
+
+    Pass1 : Pon = 33 , Poff = 8 , IP = 4 , Volt = H , VF = 53 , Wire = 1 , OFFSET = 0.097
+
+    Pass2 : Pon = 14 , Poff = 6 , IP = 2 , Volt = L , VF = 36 , Wire = 2 , OFFSET = 0.019
+    ```
+* **Các thay đổi đã triển khai:**
+  - `app.js`: Cập nhật logic ghép dòng của `copyWorkshopTableToClipboard()` và `copyTableToClipboard()` sử dụng `\n\n` giữa các Pass. Nâng `CURRENT_VERSION = "3.5.66"`.
+  - `index.html`: Đồng bộ phiên bản `v3.5.66`.
+  - `style.css`: Đồng bộ phiên bản `v3.5.66`.
+  - `sw.js`: Đổi `CACHE_NAME = 'autocut-v3.5.66'`.
+  - `version.json`: Nâng cấp version `3.5.66`.
+* **Kết quả nghiệm thu kỹ thuật:**
+  - **Kiểm định cú pháp & AST (`find_unclosed_brackets.ps1`):** PASSED 100% (0 lỗi).
+  - **Kiểm định cặp dấu backtick (`check_backticks.ps1`):** PASSED 100% (148 dấu khớp chuẩn).
+  - **Kiểm định thẻ HTML DOM (`check_dom_balance.ps1`):** PASSED 100% (120 mở / 120 đóng).
+  - **Kiểm định render trình duyệt thật Edge Headless:** PASSED 100%.

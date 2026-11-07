@@ -3957,9 +3957,7 @@ function initApp() {
     function copyTableToClipboard() {
         const { rows } = calculateEDM(state);
         const passNum = state.passCount || 1;
-        let lines = [];
-        lines.push(`Quy trình: ${passNum} Pass`);
-        lines.push('');
+        let passLines = [];
 
         rows.forEach((r, idx) => {
             const voltCode = (r.Voltage === 'Low' || r.Voltage === 'L') ? 'L' : 'H';
@@ -3967,13 +3965,13 @@ function initApp() {
             const paramStr = `Pon = ${r.ti} , Poff = ${r.Po} , IP = ${r.IP} , Volt = ${voltCode} , VF = ${r.VF} , Wire = ${r.Wire} , OFFSET = ${cleanOffset}`;
 
             if (passNum === 1) {
-                lines.push(paramStr);
+                passLines.push(paramStr);
             } else {
-                lines.push(`Pass${idx + 1} : ${paramStr}`);
+                passLines.push(`Pass${idx + 1} : ${paramStr}`);
             }
         });
 
-        const text = lines.join('\n');
+        const text = `Quy trình: ${passNum} Pass\n\n` + passLines.join('\n\n');
 
         navigator.clipboard.writeText(text).then(() => {
             if (btnCopyTable) {
@@ -3988,10 +3986,7 @@ function initApp() {
     function copyWorkshopTableToClipboard() {
         const wsRows = generateWorkshopRows(state);
         const wsPassNum = state.wsPassCount || 1;
-        
-        let lines = [];
-        lines.push(`Quy trình: ${wsPassNum} Pass`);
-        lines.push('');
+        let passLines = [];
 
         wsRows.forEach((r, idx) => {
             const ov = (state.wsCustomOverrides && state.wsCustomOverrides[idx]) || {};
@@ -4010,13 +4005,13 @@ function initApp() {
             const paramStr = `Pon = ${ti} , Poff = ${po} , IP = ${ip} , Volt = ${voltCode} , VF = ${vf} , Wire = ${wire} , OFFSET = ${cleanOffset}`;
 
             if (wsPassNum === 1) {
-                lines.push(paramStr);
+                passLines.push(paramStr);
             } else {
-                lines.push(`Pass${idx + 1} : ${paramStr}`);
+                passLines.push(`Pass${idx + 1} : ${paramStr}`);
             }
         });
 
-        const text = lines.join('\n');
+        const text = `Quy trình: ${wsPassNum} Pass\n\n` + passLines.join('\n\n');
 
         navigator.clipboard.writeText(text).then(() => {
             if (wsBtnCopyTable) {
@@ -4028,7 +4023,7 @@ function initApp() {
         });
     }
 
-    const CURRENT_VERSION = "3.5.65";
+    const CURRENT_VERSION = "3.5.66";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
