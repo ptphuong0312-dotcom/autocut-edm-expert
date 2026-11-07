@@ -392,6 +392,9 @@
   - **Kiểm định cặp dấu backtick (`check_backticks.ps1`):** PASSED 100% (148 dấu khớp chuẩn).
   - **Kiểm định thẻ HTML DOM (`check_dom_balance.ps1`):** PASSED 100% (120 mở / 120 đóng).
   - **Kiểm định render trình duyệt thật Edge Headless:** PASSED 100%.
+
+---
+
 ### ðŸš€ Äá»¢T 67: NÃ‚NG Cáº¤P Há»† THá»NG Bá»˜ NÃƒO TRI THá»¨C MASTER, KHÃ“A CÆ  Há»ŒC [SPEC-LOCK], HZ Äá»˜NG & GATEKEEPER TOÃ€N NÄ‚NG (v3.5.67)
 * **Thá»i gian:** 2026-11-07 11:20 (GMT+7)
 * **Bá»‘i cáº£nh & Chá»‰ thá»‹ tá»« SirPhuong:**
@@ -403,16 +406,40 @@
      - Ban hÃ nh 6 Sá»• tay Quy chuáº©n chuyÃªn sÃ¢u trong docs/rules/01..06.md (má»—i file < 5 KB).
      - Bá»• sung Báº£ng Chá»‰ Má»¥c Ground Truth (19 bÃ i cáº¯t xÆ°á»Ÿng) vÃ o Ä‘áº§u WORKSHOP_DATA_BANK.md.
   2. **Dá»n dáº¹p rÃ¡c & PhÃ¢n táº§ng lÆ°u trá»¯ an toÃ n:**
-     - Di chuyá»ƒn 68 script nhÃ¡p má»™t láº§n vÃ o rchive/scripts_archive/.
-     - Di chuyá»ƒn code cÅ© (pp_backup.js, debug3.txt) vÃ o rchive/code_legacy/.
+     - Di chuyá»ƒn 68 script nhÃ¡p má»™t láº§n vÃ o archive/scripts_archive/.
+     - Di chuyá»ƒn code cÅ© (app_backup.js, debug3.txt) vÃ o archive/code_legacy/.
      - LÆ°u trá»¯ Äá»£t 1-50 vÃ o docs/archive/OPTIMIZATION_HISTORY_LEGACY.md.
   3. **Sá»­a cÃ¡c lá»—i vi mÃ´ cá»‘t tá»­:**
-     - sw.js: XÃ³a bá» 2 file phantom 404 (	ailieu.txt, PROJECT_RULES.md) Ä‘á»ƒ báº£o Ä‘áº£m Service Worker pre-cache 100% offline hoÃ n háº£o.
-     - pp.js: Tá»± Ä‘á»™ng tÃ­nh Ä‘á»™ng Táº§n sá»‘ mÃ¡y  = 10^6 / T$ vÃ  cáº­p nháº­t ws-dyn-hz tá»©c thÃ¬ khi ngÆ°á»i dÃ¹ng sá»­a Pon/Poff á»Ÿ VÃ¹ng 1.
+     - sw.js: XÃ³a bá» 2 file phantom 404 (tailieu.txt, PROJECT_RULES.md) Ä‘á»ƒ báº£o Ä‘áº£m Service Worker pre-cache 100% offline hoÃ n háº£o.
+     - app.js: Tá»± Ä‘á»™ng tÃ­nh Ä‘á»™ng Táº§n sá»‘ mÃ¡y $f = 10^6 / T$ vÃ  cáº­p nháº­t ws-dyn-hz tá»©c thÃ¬ khi ngÆ°á»i dÃ¹ng sá»­a Pon/Poff á»Ÿ VÃ¹ng 1.
      - style.css: áº¨n .results-header-actions trong @media print Ä‘á»ƒ báº£n in A4 sáº¡ch Ä‘áº¹p, khÃ´ng bá»‹ rÃ² rá»‰ nÃºt báº¥m.
   4. **Thiáº¿t láº­p KhÃ³a CÆ¡ Há»c [SPEC-LOCK] & Cá»•ng GÃ¡c Gatekeeper:**
      - Gáº¯n [SPEC-LOCK: CLIPBOARD_EXPORT_CONTRACT_V66] báº£o vá»‡ Ä‘á»‹nh dáº¡ng xuáº¥t clipboard cÃ³ dÃ²ng trá»‘ng.
      - XÃ¢y dá»±ng scripts/verify_gatekeeper.ps1 (cháº¡y PowerShell thuáº§n tÃºy 0 dependency) quÃ©t 7 chá»‘t an toÃ n trong 1.5 giÃ¢y.
 * **Káº¿t quáº£ nghiá»‡m thu ká»¹ thuáº­t:**
-  - **Pre-flight Gatekeeper (erify_gatekeeper.ps1):** ALL 7 GATES PASSED [100%].
-  - **Äá»“ng bá»™ phiÃªn báº£n:** 3.5.67 trÃªn 5 tá»‡p (ersion.json, index.html, pp.js, style.css, sw.js).
+  - **Pre-flight Gatekeeper (verify_gatekeeper.ps1):** ALL 7 GATES PASSED [100%].
+  - **Äá»“ng bá»™ phiÃªn báº£n:** v3.5.67 trÃªn 5 tá»‡p (version.json, index.html, app.js, style.css, sw.js).
+
+---
+
+### ðŸš€ Äá»¢T 68: TINH Gá»ŒN HEADER VÃ€ FOOTER CHUáº¨N Â© 2026 & Tá»I Æ¯U GIAO DIá»†N DI Äá»˜NG (v3.5.68)
+* **Thá»i gian:** 2026-11-07 12:10 (GMT+7)
+* **Bá»‘i cáº£nh & YÃªu cáº§u tá»« SirPhuong:**
+  - Loáº¡i bá» hoÃ n toÃ n 2 nÃºt "ðŸ“– HÆ°á»›ng dáº«n" vÃ  "ðŸ–¨ï¸ In phiáº¿u" trÃªn thanh tiÃªu Ä‘á».
+  - ChÃ¢n trang (Footer) chá»‰ giá»¯ láº¡i duy nháº¥t dÃ²ng chá»¯ báº£n quyá»n tá»‘i giáº£n: AutoCut Servo EDM Database Engine Â© 2026.
+  - NÃºt "ðŸ”„ Táº£i báº£n má»›i" trÃªn tiÃªu Ä‘á» Ä‘á»•i tÃªn thÃ nh "ðŸ”„ Cáº­p nháº­t" (Ä‘áº£m nhiá»‡m vai trÃ² cÆ°á»¡ng bá»©c lÃ m má»›i dá»¯ liá»‡u cho toÃ n bá»™ á»©ng dá»¥ng).
+  - Loáº¡i bá» hoÃ n toÃ n dÃ²ng chá»¯ phá»¥ Ä‘á» vÃ  tráº¡ng thÃ¡i máº¡ng á»Ÿ thanh tiÃªu Ä‘á» ("Tra cá»©u, PhÃ¢n tÃ­ch Cháº¿ Ä‘á»™ Ä‘iá»‡n & BÃ¹ dao AutoCut Servo â€¢ ðŸŸ¢ Online").
+* **CÃ¡c thay Ä‘á»•i Ä‘Ã£ triá»ƒn khai:**
+  1. **index.html:**
+     - Thanh tiÃªu Ä‘á»: XÃ³a tháº» <p class="subtitle">... vÃ  2 nÃºt #btn-show-guide, #btn-print.
+     - Äá»•i text nÃºt #btn-force-update thÃ nh ðŸ”„ Cáº­p nháº­t.
+     - ChÃ¢n trang: RÃºt gá»n chá»‰ cÃ²n <p>AutoCut Servo EDM Database Engine &copy; 2026</p>.
+     - NÃ¢ng phiÃªn báº£n cache lÃªn 3.5.68 cho style.css vÃ  pp.js.
+  2. **style.css:**
+     - Tá»‘i Æ°u hÃ³a @media (max-width: 640px): Chuyá»ƒn .app-header sang bá»‘ cá»¥c hÃ ng ngang Ä‘Æ¡n giáº£n (lex-direction: row; justify-content: space-between; align-items: center;), tiáº¿t kiá»‡m chiá»u cao mÃ n hÃ¬nh di Ä‘á»™ng.
+     - NÃ¢ng phiÃªn báº£n comment 3.5.68.
+  3. **sw.js, app.js, version.json, GEMINI.md:**
+     - Äá»“ng bá»™ phiÃªn báº£n há»‡ thá»‘ng lÃªn 3.5.68.
+* **Káº¿t quáº£ nghiá»‡m thu ká»¹ thuáº­t:**
+  - **Pre-flight Gatekeeper (scripts/verify_gatekeeper.ps1):** ALL 7 GATES PASSED [100%].
+  - **Giao diá»‡n:** SiÃªu tinh gá»n, thoÃ¡ng Ä‘Ã£ng, sang trá»ng, tÆ°Æ¡ng thÃ­ch hoÃ n háº£o cáº£ desktop vÃ  mobile.

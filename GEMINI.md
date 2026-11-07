@@ -1,6 +1,6 @@
 # 🧠 GEMINI.md - BẢN ĐỒ TRI THỨC MASTER & BẢNG ĐỊNH TUYẾN TÁC VỤ
 # DỰ ÁN: AUTOCUT SERVO EDM EXPERT (DK77 WIRE EDM) - SIRPHUONG
-*Phiên bản kiến trúc: Anti-Amnesia Master Map v3.5.67*
+*Phiên bản kiến trúc: Anti-Amnesia Master Map v3.5.68*
 
 ---
 

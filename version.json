@@ -1,6 +1,6 @@
-﻿{
-  "version": "3.5.67",
-  "buildTimestamp": 1794027500000,
+{
+  "version": "3.5.68",
+  "buildTimestamp": 1794028500000,
   "releaseDate": "2026-11-07",
-  "description": "NÃ¢ng cáº¥p Há»‡ thá»‘ng Bá»™ NÃ£o Tri Thá»©c Master, Sá»• tay Quy chuáº©n docs/rules, KhÃ³a cÆ¡ há»c [SPEC-LOCK], tÃ­nh Ä‘á»™ng Hz VÃ¹ng 2 vÃ  PWA Offline hoÃ n háº£o."
+  "description": "Tinh gọn giao diện Header và Footer: Bỏ nút Hướng dẫn, In phiếu, bỏ dòng trạng thái phụ đề, đổi 'Tải bản mới' thành 'Cập nhật', giữ chân trang chuẩn © 2026."
 }

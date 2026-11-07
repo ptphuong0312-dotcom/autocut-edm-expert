@@ -1,4 +1,4 @@
-﻿/**
+/**
  * AUTOCUT EDM SERVO - PARAMETER CALCULATION & ANALYSIS ENGINE
  * Hệ thống tính toán, phân tích và tra cứu chế độ cắt EDM AutoCut Servo
  * © 2026 AutoCut EDM Master
@@ -4026,7 +4026,7 @@ function initApp() {
         });
     }
 
-    const CURRENT_VERSION = "3.5.67";
+    const CURRENT_VERSION = "3.5.68";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
