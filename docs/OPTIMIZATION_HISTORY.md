@@ -596,3 +596,34 @@ Khi luân chuyển giữa Máy Nhà và Máy Công Ty, AI chỉ cần đọc tà
   - **Kiểm định cú pháp & AST (`verify_integrity.ps1`):** PASSED 100%.
   - **Kiểm định cân bằng thẻ HTML (`check_dom_balance.ps1`):** PASSED 100% (122 open / 122 close divs).
   - **Kiểm định render trình duyệt thật Edge Headless (`verify_edge_render.ps1`):** PASSED 100% (104,884 ký tự DOM, xác nhận đầy đủ Pass 1, Vùng 1 có OFFSET, Vùng 2, mũi tên 6 Chế Độ Cắt, Tab 2 cũ không còn).
+
+
+### 🚀 ĐỢT 64: TINH GỌN 2 KHUNG THÔNG SỐ, CHUYỂN OFFSET VỀ VÙNG 2, PHÍM CHỌN NHANH ĐẾN 200MM & KHẮC PHỤC TRIỆT ĐỂ LỖI FONT CHỮ (v3.5.64)
+* **Thời gian:** 2026-11-07 08:15 (GMT+7)
+* **Bối cảnh & Chỉ thị từ SirPhuong:**
+  - 1. "Lỗi font": Sửa lỗi font chữ (mojibake) hiển thị méo mó ở nhãn "6 Chế Độ Cắt ▼", Modal Bài giảng động lực học 7 bước và Thẻ kiến thức EDM 12 & 13.
+  - 2. "Thêm chọn nhanh đến kích thước 200": Bẻ dòng các phím chọn nhanh chiều dày để hiển thị trọn vẹn và bấm chọn được đến 200mm trên mọi thiết bị.
+  - 3. "Bỏ nội dung vùng 1 và vùng 2 chỉ để lại 2 khung thông số ngoài ra đưa thông số offset về lại vùng 2 cũ":
+    + Xóa bỏ các dòng tiêu đề rườm rà `.ws-zone-header`, chỉ giữ lại 2 khung bảng thông số tối giản.
+    + Chuyển cột OFFSET từ Bảng 1 về lại vị trí đầu tiên của Bảng 2 (sau cột Pass).
+* **Các thay đổi đã triển khai:**
+  - `index.html`:
+    + Loại bỏ `.ws-zone-header` ở cả 2 khối bảng thông số.
+    + Chuyển thẻ `<th>` của OFFSET từ Khung 1 sang Khung 2 ngay sau cột `P`.
+    + Khắc phục triệt để lỗi font trong các thẻ kiến thức số 12 và 13.
+    + Đồng bộ phiên bản `v3.5.64`.
+  - `app.js`:
+    + Dùng mã HTML Entity `6 Ch&#7871; &#272;&#7897; C&#7855;t` và mũi tên `&#x25BC;` cho pill button để miễn nhiễm 100% với lỗi mã hóa ANSI.
+    + Chuyển ô `<td>` của OFFSET từ `wsTableBodyVung1` sang `wsTableBodyVung2` ngay sau cột Pass.
+    + Sửa sạch toàn bộ ký tự méo trong hàm `renderLectureKnowledge()`.
+    + Nâng `CURRENT_VERSION = "3.5.64"`.
+  - `style.css`:
+    + Chuyển `#ws-quick-chips` sang `flex-wrap: wrap !important;` với `gap: 6px`, giúp toàn bộ 20 phím chọn nhanh (10-200mm) hiển thị rõ ràng trên cả mobile và desktop.
+    + Đồng bộ phiên bản `v3.5.64`.
+  - `sw.js`: Đổi `CACHE_NAME = 'autocut-v3.5.64'`.
+  - `version.json`: Nâng cấp version `3.5.64`.
+* **Kết quả nghiệm thu kỹ thuật:**
+  - **Kiểm định cú pháp & AST (`find_unclosed_brackets.ps1`):** PASSED 100% (0 unclosed brackets).
+  - **Kiểm định cặp dấu backtick (`check_backticks.ps1`):** PASSED 100% (144 dấu khớp chuẩn).
+  - **Kiểm định thẻ HTML DOM (`check_dom_balance.ps1`):** PASSED 100% (120 mở / 120 đóng).
+  - **Kiểm định render trình duyệt thật Edge Headless:** PASSED 100% (Xác nhận `ws-dyn-offset-0` nằm trong Khung 2, hiển thị đầy đủ chip 200mm, nhãn "6 Chế Độ Cắt" sạch đẹp không lỗi font).

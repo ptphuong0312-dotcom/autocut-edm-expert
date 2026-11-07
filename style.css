@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --bg-main: #0b0f19;
     --bg-card: #131b2e;
     --bg-card-alt: #1a253c;
@@ -2569,7 +2569,7 @@ body {
 }
 
 /* ====================================================
-   WORKSHOP DUAL-ZONE CONTAINER & TABLE STYLES (v3.5.63)
+   WORKSHOP DUAL-ZONE CONTAINER & TABLE STYLES (v3.5.64)
    ==================================================== */
 .ws-zone-card {
     margin-bottom: 14px;
@@ -2750,7 +2750,7 @@ body {
 
 
 /* ====================================================
-   EXPANDED MOBILE UX & TOUCH CONTROLS (v3.5.63)
+   EXPANDED MOBILE UX & TOUCH CONTROLS (v3.5.64)
    ==================================================== */
 @media (max-width: 768px) {
     /* 1. 2-Tab Native Segmented Navigation */
@@ -2786,24 +2786,18 @@ body {
         min-height: 52px !important;
     }
 
-    /* 3. Quick thickness chips horizontal swipe */
+    /* 3. Quick thickness chips wrap cleanly up to 200mm */
     #ws-quick-chips {
         display: flex !important;
-        gap: 5px !important;
-        overflow-x: auto !important;
-        flex-wrap: nowrap !important;
-        -webkit-overflow-scrolling: touch !important;
+        gap: 6px !important;
+        flex-wrap: wrap !important;
         padding: 4px 2px 8px 2px !important;
-        scrollbar-width: none !important;
-    }
-    #ws-quick-chips::-webkit-scrollbar {
-        display: none !important;
     }
     #ws-quick-chips .chip {
-        flex-shrink: 0 !important;
-        padding: 6px 10px !important;
+        flex: 0 0 auto !important;
+        padding: 5px 8px !important;
         font-size: 11.5px !important;
-        min-height: 32px !important;
+        min-height: 30px !important;
     }
 
     /* 4. Pass count buttons: 2 rows of 3 */

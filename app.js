@@ -518,10 +518,10 @@ function initApp() {
         btnToggleCompact.addEventListener('click', () => {
             state.compactMetrics = !state.compactMetrics;
             if (state.compactMetrics) {
-                compactText.innerHTML = 'KÃ½ hiá»‡u viáº¿t táº¯t: <strong>Báº¬T</strong>';
+                compactText.innerHTML = 'K&yacute; hi&#7879;u vi&#7871;t t&#7855;t: <strong>B&#7852;T</strong>';
                 comparisonTableElement.classList.add('compact-mode');
             } else {
-                compactText.innerHTML = 'KÃ½ hiá»‡u viáº¿t táº¯t: <strong>Táº®T (Hiá»‡n Ä‘á»§)</strong>';
+                compactText.innerHTML = 'K&yacute; hi&#7879;u vi&#7871;t t&#7855;t: <strong>T&#7855;T (Hi&#7879;n &#273;&#7847;y &#273;&#7891;)</strong>';
                 comparisonTableElement.classList.remove('compact-mode');
             }
             runCustomAnalysis(false);
@@ -3451,7 +3451,7 @@ function initApp() {
     // ==========================================
 
     // =========================================================================
-    // HÃ€M RENDER BÃ€I GIáº¢NG Äá»˜NG Lá»°C Há»ŒC 7 BÆ¯á»šC (Äá»’NG Bá»˜ 100% THEO THÃ”NG Sá» XÆ¯á»žNG)
+    // HAM RENDER BAI GIANG DONG LUC HOC 7 BUOC (DONG BO 100% THEO THONG SO XUONG)
     // =========================================================================
     function renderLectureKnowledge() {
         if (!lectureKnowledgeBody) return;
@@ -3484,7 +3484,7 @@ function initApp() {
         const speedArea = r1.speedArea;
         const feedRate = r1.feedRate;
         const timeMin = ((L * H) / Math.max(1, speedArea));
-        const timeStr = timeMin < 60 ? `${timeMin.toFixed(1)} phÃºt` : `${Math.floor(timeMin/60)}h ${Math.round(timeMin%60)}p`;
+        const timeStr = timeMin < 60 ? `${timeMin.toFixed(1)} phút` : `${Math.floor(timeMin/60)}h ${Math.round(timeMin%60)}p`;
 
         const offset_1p = r1.offsetText;
         const delta_1p = (parseFloat(offset_1p) - 0.090).toFixed(4);
@@ -3494,116 +3494,116 @@ function initApp() {
 
         lectureKnowledgeBody.innerHTML = `
             <div style="background: rgba(14, 165, 233, 0.08); border: 1px solid rgba(14, 165, 233, 0.3); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 16px;">
-                <span style="color: var(--accent-cyan); font-weight: 700;">âš™ï¸ ThÃ´ng sá»‘ Ä‘ang kháº£o sÃ¡t:</span> 
-                <strong>${matName} | H = ${H}mm | ${strat.name} (Cáº¥p ${state.wsStrategyLevel}/7) | Pon = ${Pon}Î¼s, Poff = ${Poff}, IP = ${IP}, Volt = ${Volt}, VF = ${VF}</strong>
+                <span style="color: var(--accent-cyan); font-weight: 700;">⚙️ Thông số đang khảo sát:</span> 
+                <strong>${matName} | H = ${H}mm | ${strat.name} (Cấp ${state.wsStrategyLevel}/7) | Pon = ${Pon}μs, Poff = ${Poff}, IP = ${IP}, Volt = ${Volt}, VF = ${VF}</strong>
             </div>
 
-            <!-- BÆ¯á»šC 1 -->
+            <!-- BƯỚC 1 -->
             <div class="lecture-step">
-                <div class="lecture-step-title"><span class="lecture-step-num">BÆ¯á»šC 1</span> Thá»i gian nghá»‰ xáº£ xá»‰ (Poff) &amp; Tá»•ng chu ká»³ 1 xung (T)</div>
-                <p><strong>Báº£n cháº¥t:</strong> <code>Pon</code> lÃ  thá»i gian má»Ÿ van MOSFET phÃ³ng Ä‘iá»‡n. <code>Poff</code> (Po) lÃ  há»‡ sá»‘ thá»i gian ngáº¯t xung Ä‘á»ƒ nÆ°á»›c khá»­ ion hÃ³a vÃ  Ä‘áº©y máº¡t xá»‰ ra ngoÃ i.</p>
+                <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 1</span> Thời gian nghỉ xả xỉ (Poff) &amp; Tổng chu kỳ 1 xung (T)</div>
+                <p><strong>Bản chất:</strong> <code>Pon</code> là thời gian mở van MOSFET phóng điện. <code>Poff</code> (Po) là hệ số thời gian ngắt xung để nước khử ion hóa và đẩy mạt xỉ ra ngoài.</p>
                 <div class="lecture-formula-box">
-                    â€¢ Poff (thá»±c táº¿) = Pon Ã— (Poff + 1) [Î¼s]<br>
-                    â€¢ Tá»•ng chu ká»³ T = Pon + Poff(thá»±c) = Pon Ã— (Poff + 2) [Î¼s]
+                    • Poff (thực tế) = Pon × (Poff + 1) [μs]<br>
+                    • Tổng chu kỳ T = Pon + Poff(thực) = Pon × (Poff + 2) [μs]
                 </div>
                 <div class="lecture-calc-grid">
                     <div class="lecture-calc-col std-col" style="grid-column: 1 / -1;">
-                        â€¢ Poff thá»±c = ${Pon} Ã— (${Poff} + 1) = <strong>${toff_us} Î¼s</strong><br>
-                        â€¢ Tá»•ng chu ká»³ T = ${Pon} + ${toff_us} = <strong>${cycle_us} Î¼s</strong> (${cycle_ms} ms)
+                        • Poff thực = ${Pon} × (${Poff} + 1) = <strong>${toff_us} μs</strong><br>
+                        • Tổng chu kỳ T = ${Pon} + ${toff_us} = <strong>${cycle_us} μs</strong> (${cycle_ms} ms)
                     </div>
                 </div>
             </div>
 
-            <!-- BÆ¯á»šC 2 -->
+            <!-- BƯỚC 2 -->
             <div class="lecture-step">
-                <div class="lecture-step-title"><span class="lecture-step-num">BÆ¯á»šC 2</span> Táº§n sá»‘ phÃ¡t xung cao táº§n (Frequency - f)</div>
-                <p><strong>Ã nghÄ©a:</strong> Sá»‘ chu ká»³ xung phÃ³ng Ä‘iá»‡n bá»™c phÃ¡t qua khe rÃ£nh trong 1 giÃ¢y.</p>
+                <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 2</span> Tần số phát xung cao tần (Frequency - f)</div>
+                <p><strong>Ý nghĩa:</strong> Số chu kỳ xung phóng điện bộc phát qua khe rãnh trong 1 giây.</p>
                 <div class="lecture-formula-box">
-                    f = 10â¶ / T [Hz] = 1000 / T [kHz]
+                    f = 10⁶ / T [Hz] = 1000 / T [kHz]
                 </div>
                 <div class="lecture-calc-grid">
                     <div class="lecture-calc-col std-col" style="grid-column: 1 / -1;">
-                        f = 10â¶ / ${cycle_us} = <strong>${freq_khz} kHz</strong> (${freq_hz.toLocaleString()} tia lá»­a/giÃ¢y)
+                        f = 10⁶ / ${cycle_us} = <strong>${freq_khz} kHz</strong> (${freq_hz.toLocaleString()} tia lửa/giây)
                     </div>
                 </div>
             </div>
 
-            <!-- BÆ¯á»šC 3 -->
+            <!-- BƯỚC 3 -->
             <div class="lecture-step">
-                <div class="lecture-step-title"><span class="lecture-step-num">BÆ¯á»šC 3</span> Tá»· lá»‡ má»Ÿ van MOSFET (Duty Factor - Î·)</div>
-                <p><strong>Báº£n cháº¥t:</strong> Tá»· lá»‡ pháº§n trÄƒm thá»i gian van MOSFET dáº«n dÃ²ng Ä‘iá»‡n thá»±c táº¿ trong 1 chu ká»³.</p>
+                <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 3</span> Tỷ lệ mở van MOSFET (Duty Factor - η)</div>
+                <p><strong>Bản chất:</strong> Tỷ lệ phần trăm thời gian van MOSFET dẫn dòng điện thực tế trong 1 chu kỳ.</p>
                 <div class="lecture-formula-box">
-                    Î· = Pon / T = 1 / (Poff + 2) Ã— 100%
+                    η = Pon / T = 1 / (Poff + 2) × 100%
                 </div>
                 <div class="lecture-calc-grid">
                     <div class="lecture-calc-col std-col" style="grid-column: 1 / -1;">
-                        Î· = 1 / (${Poff} + 2) = <strong>${duty_pct}%</strong> (1 xung má»Ÿ : ${Poff + 1} xung nghá»‰)
+                        η = 1 / (${Poff} + 2) = <strong>${duty_pct}%</strong> (1 xung mở : ${Poff + 1} xung nghỉ)
                     </div>
                 </div>
             </div>
 
-            <!-- BÆ¯á»šC 4 -->
+            <!-- BƯỚC 4 -->
             <div class="lecture-step">
-                <div class="lecture-step-title"><span class="lecture-step-num">BÆ¯á»šC 4</span> NÄƒng lÆ°á»£ng 1 tia Ä‘Æ¡n (Single Spark Energy - We)</div>
-                <p><strong>Báº£n cháº¥t:</strong> Nhiá»‡t lÆ°á»£ng bá»™c phÃ¡ Joule cá»§a 1 xung Ä‘iá»‡n Ä‘á»ƒ nung cháº£y kim loáº¡i phÃ´i.</p>
+                <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 4</span> Năng lượng 1 tia đơn (Single Spark Energy - We)</div>
+                <p><strong>Bản chất:</strong> Nhiệt lượng bộc phá Joule của 1 xung điện để nung chảy kim loại phôi.</p>
                 <div class="lecture-formula-box">
-                    â€¢ We = (Uarc Ã— Ipeak Ã— Pon) / 1000 [mJ]<br>
-                    â€¢ Trong Ä‘Ã³: Uarc = 27V (High) / 22V (Low); Ipeak = IP Ã— 2.8A (má»—i sÃ² MOSFET)
+                    • We = (Uarc × Ipeak × Pon) / 1000 [mJ]<br>
+                    • Trong đó: Uarc = 27V (High) / 22V (Low); Ipeak = IP × 2.8A (mỗi sò MOSFET)
                 </div>
                 <div class="lecture-calc-grid">
                     <div class="lecture-calc-col std-col" style="grid-column: 1 / -1;">
-                        â€¢ Ipeak = ${IP} Ã— 2.8A = <strong>${i_peak.toFixed(1)} A</strong><br>
-                        â€¢ We = (${u_arc}V Ã— ${i_peak.toFixed(1)}A Ã— ${Pon}Î¼s) / 1000 = <strong>${we_mj} mJ</strong>
+                        • Ipeak = ${IP} × 2.8A = <strong>${i_peak.toFixed(1)} A</strong><br>
+                        • We = (${u_arc}V × ${i_peak.toFixed(1)}A × ${Pon}μs) / 1000 = <strong>${we_mj} mJ</strong>
                     </div>
                 </div>
             </div>
 
-            <!-- BÆ¯á»šC 5 -->
+            <!-- BƯỚC 5 -->
             <div class="lecture-step">
-                <div class="lecture-step-title"><span class="lecture-step-num">BÆ¯á»šC 5</span> CÃ´ng suáº¥t Ä‘iá»‡n phÃ¡t (Ptb) &amp; DÃ²ng kim Ampe káº¿ (Model VÃ²ng 5)</div>
-                <p><strong>Quy chuáº©n Ampe Model VÃ²ng 5:</strong> MÃ´ hÃ¬nh toÃ¡n nhiá»‡t Ä‘á»™ng há»c tÃ­nh toÃ¡n dÃ²ng ampe cÆ¡ liÃªn tá»¥c, kháº¯c phá»¥c trá»“i sá»¥t ampe khi Po lá»›n vÃ  phÃ´i siÃªu dÃ y.</p>
+                <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 5</span> Công suất điện phát (Ptb) &amp; Dòng kim Ampe kế (Model Vòng 5)</div>
+                <p><strong>Quy chuẩn Ampe Model Vòng 5:</strong> Mô hình toán nhiệt động học tính toán dòng ampe cơ liên tục, khắc phục trồi sụt ampe khi Po lớn và phôi siêu dày.</p>
                 <div class="lecture-formula-box">
-                    â€¢ CÃ´ng suáº¥t: Ptb = Î· Ã— Uarc Ã— Ipeak [Watts]<br>
-                    â€¢ Kim Ampe: I = IP Ã— [1/(Poff + 2)] Ã— 8.55 Ã— [1 - 0.33(Poff - 5)/10] Ã— [1 - 0.08Â·H/(H + 20)] Ã— (Uarc/27) [A]
+                    • Công suất: Ptb = η × Uarc × Ipeak [Watts]<br>
+                    • Kim Ampe: I = IP × [1/(Poff + 2)] × 8.55 × [1 - 0.33(Poff - 5)/10] × [1 - 0.08·H/(H + 20)] × (Uarc/27) [A]
                 </div>
                 <div class="lecture-calc-grid">
                     <div class="lecture-calc-col std-col" style="grid-column: 1 / -1;">
-                        â€¢ CÃ´ng suáº¥t trung bÃ¬nh Ptb = <strong>${power_watts} W</strong><br>
-                        â€¢ Äá»“ng há»“ Ampe káº¿ chá»‰ thá»‹: <strong>â‰ˆ ${calculatedAmpe} A</strong> (Äá»™ chÃ­nh xÃ¡c MAE = 0.161A, chuáº©n xÆ°á»Ÿng)
+                        • Công suất trung bình Ptb = <strong>${power_watts} W</strong><br>
+                        • Đồng hồ Ampe kế chỉ thị: <strong>≈ ${calculatedAmpe} A</strong> (Độ chính xác MAE = 0.161A, chuẩn xưởng)
                     </div>
                 </div>
             </div>
 
-            <!-- BÆ¯á»šC 6 -->
+            <!-- BƯỚC 6 -->
             <div class="lecture-step">
-                <div class="lecture-step-title"><span class="lecture-step-num">BÆ¯á»šC 6</span> NÄƒng suáº¥t cáº¯t diá»‡n tÃ­ch (Fc), Tá»‘c Ä‘á»™ tiáº¿n bÃ n (Ft) &amp; Thá»i gian cáº¯t</div>
-                <p><strong>Äá»™ng há»c Servo:</strong> NÄƒng suáº¥t cáº¯t diá»‡n tÃ­ch káº¿t há»£p Ä‘iá»‡n Ã¡p bÃ¡m táº£i VF vÃ  chiá»u dÃ y phÃ´i.</p>
+                <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 6</span> Năng suất cắt diện tích (Fc), Tốc độ tiến bàn (Ft) &amp; Thời gian cắt</div>
+                <p><strong>Động học Servo:</strong> Năng suất cắt diện tích kết hợp điện áp bám tải VF và chiều dày phôi.</p>
                 <div class="lecture-formula-box">
-                    â€¢ Tá»‘c Ä‘á»™ tiáº¿n bÃ n: Ft = Fc / H [mm/phÃºt]<br>
-                    â€¢ Thá»i gian cáº¯t (vá»›i L = ${L}mm): t = (L Ã— H) / Fc [phÃºt]
+                    • Tốc độ tiến bàn: Ft = Fc / H [mm/phút]<br>
+                    • Thời gian cắt (với L = ${L}mm): t = (L × H) / Fc [phút]
                 </div>
                 <div class="lecture-calc-grid">
                     <div class="lecture-calc-col std-col" style="grid-column: 1 / -1;">
-                        â€¢ NÄƒng suáº¥t thá»±c táº¿: Fc = <strong>${speedArea} mmÂ²/phÃºt</strong> (Fc quy Ä‘á»•i H40 = ${r1.speedAreaH40} mmÂ²/p)<br>
-                        â€¢ Tá»‘c Ä‘á»™ tiáº¿n bÃ n mÃ¡y: Ft = <strong>${feedRate} mm/phÃºt</strong> (Giá»›i háº¡n bÃ n: ${r1.hz || '--'} Hz)<br>
-                        â€¢ Thá»i gian cáº¯t dá»± kiáº¿n: <strong>${timeStr}</strong>
+                        • Năng suất thực tế: Fc = <strong>${speedArea} mm²/phút</strong> (Fc quy đổi H40 = ${r1.speedAreaH40} mm²/p)<br>
+                        • Tốc độ tiến bàn máy: Ft = <strong>${feedRate} mm/phút</strong> (Giới hạn bàn: ${r1.hz || '--'} Hz)<br>
+                        • Thời gian cắt dự kiến: <strong>${timeStr}</strong>
                     </div>
                 </div>
             </div>
 
-            <!-- BÆ¯á»šC 7 -->
+            <!-- BƯỚC 7 -->
             <div class="lecture-step">
-                <div class="lecture-step-title"><span class="lecture-step-num">BÆ¯á»šC 7</span> Khe há»Ÿ tia lá»­a (Î´) &amp; BÃ¹ dao Offset (Quy táº¯c NÃºi Lá»­a Panme &amp; PhÃ¢n VÃ¹ng KÃ©p)</div>
-                <p><strong>NguyÃªn lÃ½:</strong> DÃ¢y Molypden Î¦0.18mm (R = 0.090mm). BÃ¹ dao Pass 1: O1 = 0.090 + Î´1. Pass 2 pháº¡t Ä‘á»‰nh nÃºi lá»­a: O2 = Rz1 + Î´2 (H â‰¤ 170mm) vÃ  khÃ³a 0.0150mm (H > 170mm).</p>
+                <div class="lecture-step-title"><span class="lecture-step-num">BƯỚC 7</span> Khe hở tia lửa (δ) &amp; Bù dao Offset (Quy tắc Núi Lửa Panme &amp; Phân Vùng Kép)</div>
+                <p><strong>Nguyên lý:</strong> Dây Molypden Φ0.18mm (R = 0.090mm). Bù dao Pass 1: O1 = 0.090 + δ1. Pass 2 phạt đỉnh núi lửa: O2 = Rz1 + δ2 (H ≤ 170mm) và khóa 0.0150mm (H > 170mm).</p>
                 <div class="lecture-formula-box">
-                    â€¢ LÆ°á»£ng cÃ o phÃ´i 1 Pass: Î´ = ${delta_1p} mm (${(delta_1p*1000).toFixed(1)} Î¼m)<br>
-                    â€¢ BÃ¹ dao Offset 1 Pass: Offset = RdÃ¢y + Î´ = 0.090 + ${delta_1p} = <strong>${offset_1p} mm</strong>
+                    • Lượng cào phôi 1 Pass: δ = ${delta_1p} mm (${(delta_1p*1000).toFixed(1)} μm)<br>
+                    • Bù dao Offset 1 Pass: Offset = Rdây + δ = 0.090 + ${delta_1p} = <strong>${offset_1p} mm</strong>
                 </div>
                 <div class="lecture-calc-grid">
                     <div class="lecture-calc-col std-col" style="grid-column: 1 / -1;">
-                        â€¢ BÃ¹ dao Pass 1: <strong>${offset_1p} mm</strong><br>
-                        â€¢ Äá»™ nhÃ¡m bá» máº·t: <strong>Ra â‰ˆ ${r1.Ra} Î¼m</strong><br>
-                        â€¢ Kiá»ƒm soÃ¡t Ä‘á»™ chÃ­nh xÃ¡c: PhÃ¢n vÃ¹ng kÃ©p Ä‘áº£m báº£o sai sá»‘ &lt; 0.003mm cho phÃ´i H â‰¤ 170mm vÃ  há»™i tá»¥ 0.1150mm táº¡i H=300mm.
+                        • Bù dao Pass 1: <strong>${offset_1p} mm</strong><br>
+                        • Độ nhám bề mặt: <strong>Ra ≈ ${r1.Ra} μm</strong><br>
+                        • Kiểm soát độ chính xác: Phân vùng kép đảm bảo sai số &lt; 0.003mm cho phôi H ≤ 170mm và hội tụ 0.1150mm tại H=300mm.
                     </div>
                 </div>
             </div>
@@ -3749,7 +3749,7 @@ function initApp() {
                 return { tiVal, poVal, ipVal, voltVal, vfVal, wireVal, offsetDisplay, ampeDisplay, speedArea, speedAreaH40, hz, Ra };
             }
 
-            // Render VÙNG 1: Thông số đầu vào (Điện xung & Bước tiến)
+                        // Render VÙNG 1: Thông số đầu vào (Điện xung & Bước tiến)
             wsTableBodyVung1.innerHTML = wsRowsList.map((r, idx) => {
                 const ov = state.wsCustomOverrides[idx] || {};
                 const dyn = computeRowDynamics(r, idx, ov);
@@ -3773,7 +3773,6 @@ function initApp() {
                             <option value="3" ${dyn.wireVal == '3' ? 'selected' : ''}>3</option>
                         </select>
                     </td>
-                    <td class="val-offset fw-bold col-offset-cell" style="color:var(--accent-amber); font-size:14px; background: rgba(245, 158, 11, 0.08); text-align: right;"><strong id="ws-dyn-offset-${idx}">${dyn.offsetDisplay}</strong> mm</td>
                 </tr>
                 `;
             }).join('');
@@ -3785,6 +3784,7 @@ function initApp() {
                 return `
                 <tr>
                     <td class="pass-cell sticky-col"><span class="pass-badge ${r.badgeClass}">${r.passName}</span></td>
+                    <td class="val-offset fw-bold col-offset-cell" style="color:var(--accent-amber); font-size:14px; background: rgba(245, 158, 11, 0.08); text-align: right;"><strong id="ws-dyn-offset-${idx}">${dyn.offsetDisplay}</strong> mm</td>
                     <td><span id="ws-dyn-fc-${idx}" style="color:var(--accent-cyan); font-weight:600;">${dyn.speedArea}</span></td>
                     <td><strong id="ws-dyn-fch40-${idx}" style="color:var(--accent-cyan);">${dyn.speedAreaH40}</strong></td>
                     <td><strong id="ws-dyn-hz-${idx}" style="color:var(--text-primary);">${dyn.hz} Hz</strong></td>
@@ -4028,7 +4028,7 @@ function initApp() {
         });
     }
 
-    const CURRENT_VERSION = "3.5.63";
+    const CURRENT_VERSION = "3.5.64";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -4444,7 +4444,7 @@ function initApp() {
                     <div class="workshop-lib-header" id="ws-lib-toggle-btn" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: var(--bg-card); padding: 10px 15px; border-radius: 6px; border-left: 4px solid var(--accent);">
                         <h4 style="margin: 0; color: var(--accent); font-size: 1.1em; display: flex; align-items: center; gap: 8px;"><i class="fa fa-book"></i> THƯ VIỆN THÔNG SỐ CẮT THỰC TẾ XƯỞNG (BENCHMARK GROUND TRUTH)</h4>
                         <div style="display: flex; gap: 10px; align-items: center;">
-                            <span class="lib-offline-badge" id="ws-lib-badge-pill" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; padding: 4px 12px; border-radius: 14px; background: rgba(192, 132, 252, 0.18); border: 1px solid rgba(192, 132, 252, 0.45); color: #d8b4fe; font-weight: 700; font-size: 11.5px;"><span>6 Cháº¿ Äá»™ Cáº¯t</span><span id="ws-lib-toggle-arrow" style="display: inline-block; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform: rotate(0deg); font-size: 11px; color: #c084fc; font-weight: 800;">â–¼</span></span>
+                            <span class="lib-offline-badge" id="ws-lib-badge-pill" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; padding: 4px 12px; border-radius: 14px; background: rgba(192, 132, 252, 0.18); border: 1px solid rgba(192, 132, 252, 0.45); color: #d8b4fe; font-weight: 700; font-size: 11.5px;"><span>6 Ch&#7871; &#272;&#7897; C&#7855;t</span><span id="ws-lib-toggle-arrow" style="display: inline-block; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); transform: rotate(0deg); font-size: 11px; color: #c084fc; font-weight: 800;">&#x25BC;</span></span>
                         </div>
                     </div>
                     <div id="ws-lib-content" style="margin-top: 15px; display: none;">

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <title>AutoCut EDM Servo - Tra cứu & Phân tích Chế độ cắt Thông minh</title>
-    <link rel="stylesheet" href="style.css?v=3.5.63">
+    <link rel="stylesheet" href="style.css?v=3.5.64">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -191,14 +191,8 @@
                         </div>
                     </div>
 
-                    <!-- VÙNG 1: THÔNG SỐ ĐẦU VÀO & BÙ DAO OFFSET (XẾP DỌC) -->
+                    <!-- KHUNG 1: THÔNG SỐ ĐẦU VÀO (XẾP DỌC) -->
                     <div class="ws-zone-card ws-zone-vung1">
-                        <div class="ws-zone-header">
-                            <h3 class="ws-zone-title ws-title-vung1">
-                                <span>⚡</span> VÙNG 1: THÔNG SỐ ĐẦU VÀO &amp; BÙ DAO OFFSET <span class="ws-zone-subtitle">(Điện xung, Bước tiến &amp; Offset - Có thể sửa trực tiếp)</span>
-                            </h3>
-                            <span class="ws-zone-hint">💡 Chỉnh Pon, Poff, IP, Volt, VF, Wire &rarr; OFFSET &amp; Vùng 2 tự tính lại</span>
-                        </div>
                         <div class="table-responsive">
                             <table class="edm-table workshop-table" id="ws-edm-table-vung1">
                                 <thead>
@@ -210,7 +204,6 @@
                                         <th>Volt</th>
                                         <th>VF</th>
                                         <th>Wire</th>
-                                        <th class="col-offset-header" style="color: var(--accent-amber); font-size: 13px; font-weight: 800;">OFFSET (mm)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="ws-table-body-vung1">
@@ -220,19 +213,14 @@
                         </div>
                     </div>
 
-                    <!-- VÙNG 2: KẾT QUẢ ĐỘNG HỌC MÁY (XẾP DỌC) -->
+                    <!-- KHUNG 2: KẾT QUẢ ĐẦU RA & BÙ DAO OFFSET (XẾP DỌC) -->
                     <div class="ws-zone-card ws-zone-vung2">
-                        <div class="ws-zone-header">
-                            <h3 class="ws-zone-title ws-title-vung2">
-                                <span>📊</span> VÙNG 2: KẾT QUẢ ĐỘNG HỌC MÁY <span class="ws-zone-subtitle">(Năng suất, Tần số &amp; Dòng Ampe)</span>
-                            </h3>
-                            <span class="ws-zone-hint ws-hint-vung2">⚡ Tự động tính toán phản ứng theo Vùng 1</span>
-                        </div>
                         <div class="table-responsive">
                             <table class="edm-table workshop-table" id="ws-edm-table-vung2">
                                 <thead>
                                     <tr>
                                         <th class="sticky-col">P</th>
+                                        <th class="col-offset-header" style="color: var(--accent-amber); font-size: 13px; font-weight: 800;">OFFSET (mm)</th>
                                         <th>Fc thực (mm²/p)</th>
                                         <th>Fc máy (H40)</th>
                                         <th>Giới hạn (Hz)</th>
@@ -669,23 +657,23 @@
                     </div>
                 </div>
 
-                    <!-- 12. DONG DIEN AMPE DONG HOC VONG 5 -->
+                                        <!-- 12. DONG DIEN AMPE DONG HOC VONG 5 -->
                     <div class="kb-card">
                         <div class="kb-card-header">
                             <span class="kb-badge" style="background: var(--accent-amber); color: #000;">12</span>
-                            <h3>Äá»™ng Lá»±c Há»c Äá»“ng Há»“ Ampe &amp; MÃ´ HÃ¬nh Nhiá»‡t Äiá»‡n VÃ²ng 5</h3>
+                            <h3>Động Lực Học Đồng Hồ Ampe &amp; Mô Hình Nhiệt Điện Vòng 5</h3>
                         </div>
                         <div class="kb-body">
-                            <p><strong>Báº£n cháº¥t:</strong> Kim Ä‘á»“ng há»“ Ampe lÃ  cáº£m á»©ng tá»« Ä‘o dÃ²ng Ä‘iá»‡n trung bÃ¬nh tÃ­ch phÃ¢n cá»§a toÃ n bá»™ xung phÃ³ng trong rÃ£nh cáº¯t.</p>
+                            <p><strong>Bản chất:</strong> Kim đồng hồ Ampe là cảm ứng từ đo dòng điện trung bình tích phân của toàn bộ xung phóng trong rãnh cắt.</p>
                             <div class="formula-box" style="border-left-color: var(--accent-amber);">
-                                I<sub>Ampe</sub> = IP Ã— [1 / (Poff + 2)] Ã— 8.55 Ã— Î·<sub>po</sub> Ã— Î·<sub>h</sub> Ã— (U<sub>arc</sub> / 27)<br>
-                                â€¢ Î·<sub>po</sub> = 1.0 - 0.33 Ã— [(Poff - 5) / 10] (Hiá»‡u á»©ng khá»­ ion hÃ³a láº¡nh khi Poff kÃ©o dÃ i)<br>
-                                â€¢ Î·<sub>h</sub> = 1.0 - 0.08 Ã— [H / (H + 20)] (Äá»™ bÃ£o hÃ²a thá»§y lá»±c rÃ£nh sÃ¢u theo chiá»u dÃ y phÃ´i)
+                                I<sub>Ampe</sub> = IP × [1 / (Poff + 2)] × 8.55 × η<sub>po</sub> × η<sub>h</sub> × (U<sub>arc</sub> / 27)<br>
+                                • η<sub>po</sub> = 1.0 - 0.33 × [(Poff - 5) / 10] (Hiệu ứng khử ion hóa lạnh khi Poff kéo dài)<br>
+                                • η<sub>h</sub> = 1.0 - 0.08 × [H / (H + 20)] (Độ bão hòa thủy lực rãnh sâu theo chiều dày phôi)
                             </div>
                             <ul>
-                                <li><strong>Táº¡i phÃ´i má»ng H &le; 40mm:</strong> Dung dá»‹ch xá»‘i máº¡nh, má»“i xung liÃªn tá»¥c, dÃ²ng kim Ä‘áº¡t <strong>4.3A - 4.7A</strong>.</li>
-                                <li><strong>Táº¡i phÃ´i dÃ y H=160-165mm (Poff=11):</strong> Thá»i gian nghá»‰ dÃ i lÃ m mÃ ng ion nguá»™i hoÃ n toÃ n, dÃ²ng kim tá»¥t Ãªm dá»‹u vá» Ä‘Ãºng <strong>2.8A - 3.0A</strong> (khá»›p 100% sá»‘ Ä‘o thá»±c táº¿ xÆ°á»Ÿng).</li>
-                                <li><strong>Táº¡i phÃ´i siÃªu dÃ y H=300mm:</strong> Nhá» cÆ¡ cháº¿ bÃ£o hÃ²a thá»§y lá»±c Langmuir, dÃ²ng kim duy trÃ¬ vá»¯ng vÃ ng <strong>3.7A - 3.9A</strong>, khÃ´ng bá»‹ sá»¥t Ã¡p Ä‘á»™t ngá»™t.</li>
+                                <li><strong>Tại phôi mỏng H &le; 40mm:</strong> Dung dịch xối mạnh, mồi xung liên tục, dòng kim đạt <strong>4.3A - 4.7A</strong>.</li>
+                                <li><strong>Tại phôi dày H=160-165mm (Poff=11):</strong> Thời gian nghỉ dài làm màng ion nguội hoàn toàn, dòng kim tụt êm dịu về đúng <strong>2.8A - 3.0A</strong> (khớp 100% số đo thực tế xưởng).</li>
+                                <li><strong>Tại phôi siêu dày H=300mm:</strong> Nhờ cơ chế bão hòa thủy lực Langmuir, dòng kim duy trì vững vàng <strong>3.7A - 3.9A</strong>, không bị sụt áp đột ngột.</li>
                             </ul>
                         </div>
                     </div>
@@ -694,17 +682,17 @@
                     <div class="kb-card">
                         <div class="kb-card-header">
                             <span class="kb-badge" style="background: var(--accent-cyan); color: #000;">13</span>
-                            <h3>Kiáº¿n TrÃºc BÃ¹ Dao PhÃ¢n VÃ¹ng KÃ©p (H &le; 170mm vs H &gt; 170mm)</h3>
+                            <h3>Kiến Trúc Bù Dao Phân Vùng Kép (H &le; 170mm vs H &gt; 170mm)</h3>
                         </div>
                         <div class="kb-body">
-                            <p><strong>TuÃ¢n thá»§ Hiáº¿n phÃ¡p AGENTS.md (Rule 16 &amp; 17):</strong></p>
+                            <p><strong>Tuân thủ Hiến pháp AGENTS.md (Rule 16 &amp; 17):</strong></p>
                             <div class="formula-box" style="border-left-color: var(--accent-cyan);">
-                                â€¢ <strong>PhÃ¢n vÃ¹ng 1 (H &le; 170mm):</strong> Váº­n hÃ nh 100% báº±ng PhÆ°Æ¡ng trÃ¬nh ToÃ¡n - Váº­t lÃ½ Nhiá»‡t Ä‘á»™ng há»c liÃªn tá»¥c Î´ = f(H, Pon, IP, Volt). Tuyá»‡t Ä‘á»‘i cáº¥m chia máº£nh if-else hay báº£ng tra tÄ©nh!<br>
-                                â€¢ <strong>PhÃ¢n vÃ¹ng 2 (H &gt; 170mm):</strong> MÃ´ hÃ¬nh Thá»‘ng kÃª Há»™i tá»¥ Thá»±c nghiá»‡m XÆ°á»Ÿng, há»™i tá»¥ Ãªm Ã¡i vá» O1 = 0.1150 mm táº¡i H=300mm vÃ  khÃ³a O2 = 0.0150 mm.
+                                • <strong>Phân vùng 1 (H &le; 170mm):</strong> Vận hành 100% bằng Phương trình Toán - Vật lý Nhiệt động học liên tục &delta; = f(H, Pon, IP, Volt). Tuyệt đối cấm chia mảnh if-else hay bảng tra tĩnh!<br>
+                                • <strong>Phân vùng 2 (H &gt; 170mm):</strong> Mô hình Thống kê Hội tụ Thực nghiệm Xưởng, hội tụ êm ái về O1 = 0.1150 mm tại H=300mm và khóa O2 = 0.0150 mm.
                             </div>
                             <ul>
-                                <li><strong>5 thÃ nh pháº§n vi mÃ´ cáº¥u thÃ nh lÆ°á»£ng cÃ o Î´ (H &le; 170mm):</strong> C0 (mÃ ng ion) + d<sub>elec</sub> (bá»™c phÃ¡ xung Ä‘Æ¡n) + d<sub>vf</sub> (trá»… servo) + d<sub>vibr</sub> (rung vÃµng dÃ¢y Moly) + d<sub>h_conf</sub> (Ã¡p suáº¥t thá»§y tÄ©nh rÃ£nh sÃ¢u) + d<sub>sec</sub> (Ä‘Ã¡nh lá»­a thá»© cáº¥p do máº¡t xá»‰ dáº»o).</li>
-                                <li>Äáº£m báº£o há»‡ thá»‘ng thÃ­ch á»©ng chÃ­nh xÃ¡c vá»›i má»i váº­t liá»‡u (SCM440, SCM420) vÃ  má»i cháº¿ Ä‘á»™ xung.</li>
+                                <li><strong>5 thành phần vi mô cấu thành lượng cào &delta; (H &le; 170mm):</strong> C0 (màng ion) + d<sub>elec</sub> (bộc phá xung đơn) + d<sub>vf</sub> (trễ servo) + d<sub>vibr</sub> (rung võng dây Moly) + d<sub>h_conf</sub> (áp suất thủy tĩnh rãnh sâu) + d<sub>sec</sub> (đánh lửa thứ cấp do mạt xỉ dẻo).</li>
+                                <li>Đảm bảo hệ thống thích ứng chính xác với mọi vật liệu (SCM440, SCM420) và mọi chế độ xung.</li>
                             </ul>
                         </div>
                     </div>
@@ -731,7 +719,7 @@
         <footer class="app-footer">
             <p>AutoCut Servo EDM Database Engine &copy; 2026. Chuẩn hoá theo Tủ nguồn số ADP0106 &amp; Động cơ Servo CNC.</p>
             <p style="margin-top: 6px; font-size: 11px; color: var(--text-secondary);">
-                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.63 (Bảng 2 Vùng Pon-Offset, Mũi Tên Mở Rộng &amp; Mobile UX)</strong> &bull; 
+                Phiên bản hệ thống: <strong style="color: var(--accent-cyan);" id="app-version-display">v3.5.64 (Bảng 2 Vùng Pon-Offset, Mũi Tên Mở Rộng &amp; Mobile UX)</strong> &bull; 
                 <a href="javascript:void(0)" id="link-force-update" style="color: var(--accent-amber); text-decoration: underline;">🔄 Cưỡng bức làm mới dữ liệu</a>
             </p>
         </footer>
@@ -769,6 +757,6 @@
     </div>
 
         <!-- INLINE APPLICATION SCRIPT (Chống kẹt cache 100% trên mọi trình duyệt) -->
-    <script src="app.js?v=3.5.63"></script>
+    <script src="app.js?v=3.5.64"></script>
 </body>
 </html>
