@@ -4026,7 +4026,7 @@ function initApp() {
         });
     }
 
-    const CURRENT_VERSION = "3.5.69";
+    const CURRENT_VERSION = "3.5.70";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -4453,12 +4453,12 @@ function initApp() {
                     </div>
                     <div id="ws-lib-content" style="margin-top: 15px; display: none;">
                         <div class="ws-lib-tabs-nav">
-                            <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">15 bài</span></button>
-                            <button class="ws-lib-tab-btn" data-tab-pass="2">2 Pass <span class="ws-lib-tab-count">9 bài</span></button>
-                            <button class="ws-lib-tab-btn" data-tab-pass="3">3 Pass <span class="ws-lib-tab-count">0</span></button>
-                            <button class="ws-lib-tab-btn" data-tab-pass="4">4 Pass <span class="ws-lib-tab-count">0</span></button>
-                            <button class="ws-lib-tab-btn" data-tab-pass="5">5 Pass <span class="ws-lib-tab-count">1 bài</span></button>
-                            <button class="ws-lib-tab-btn" data-tab-pass="6">6 Pass <span class="ws-lib-tab-count">0</span></button>
+                            <button class="ws-lib-tab-btn active" data-tab-pass="1">1 Pass <span class="ws-lib-tab-count">${(WS_LIB_BENCHMARK_JOBS[1] || []).length > 0 ? (WS_LIB_BENCHMARK_JOBS[1] || []).length + ' bài' : '0'}</span></button>
+                            <button class="ws-lib-tab-btn" data-tab-pass="2">2 Pass <span class="ws-lib-tab-count">${(WS_LIB_BENCHMARK_JOBS[2] || []).length > 0 ? (WS_LIB_BENCHMARK_JOBS[2] || []).length + ' bài' : '0'}</span></button>
+                            <button class="ws-lib-tab-btn" data-tab-pass="3">3 Pass <span class="ws-lib-tab-count">${(WS_LIB_BENCHMARK_JOBS[3] || []).length > 0 ? (WS_LIB_BENCHMARK_JOBS[3] || []).length + ' bài' : '0'}</span></button>
+                            <button class="ws-lib-tab-btn" data-tab-pass="4">4 Pass <span class="ws-lib-tab-count">${(WS_LIB_BENCHMARK_JOBS[4] || []).length > 0 ? (WS_LIB_BENCHMARK_JOBS[4] || []).length + ' bài' : '0'}</span></button>
+                            <button class="ws-lib-tab-btn" data-tab-pass="5">5 Pass <span class="ws-lib-tab-count">${(WS_LIB_BENCHMARK_JOBS[5] || []).length > 0 ? (WS_LIB_BENCHMARK_JOBS[5] || []).length + ' bài' : '0'}</span></button>
+                            <button class="ws-lib-tab-btn" data-tab-pass="6">6 Pass <span class="ws-lib-tab-count">${(WS_LIB_BENCHMARK_JOBS[6] || []).length > 0 ? (WS_LIB_BENCHMARK_JOBS[6] || []).length + ' bài' : '0'}</span></button>
                         </div>
                         <div id="ws-lib-subtab-content">
                             <!-- Injected by JavaScript -->

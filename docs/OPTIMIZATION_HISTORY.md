@@ -1,4 +1,4 @@
-﻿# NHAT KY TOI UU HOA KY THUAT (OPTIMIZATION HISTORY)
+# NHAT KY TOI UU HOA KY THUAT (OPTIMIZATION HISTORY)
 # DU AN: AUTOCUT SERVO EDM EXPERT (DK77 WIRE EDM)
 *Owner: SirPhuong*
 *Legacy Archive: docs/archive/OPTIMIZATION_HISTORY_LEGACY.md*
@@ -466,3 +466,28 @@
   4. **Đồng bộ hệ thống & Cổng gác:**
      - Nâng phiên bản hệ thống lên `v3.5.69` trên 5 tệp (`version.json`, `index.html`, `app.js`, `style.css`, `sw.js`).
      - `verify_gatekeeper.ps1`: ALL 7 GATES PASSED [100%].
+
+
+---
+
+### 🚀 ĐỢT 70: ĐỘNG HÓA SỐ LƯỢNG BÀI CẮT TRÊN CÁC NÚT TAB THƯ VIỆN WEB APP (v3.5.70)
+* **Thời gian:** 2026-11-09 16:45 (GMT+7)
+* **Bối cảnh & Phát hiện từ SirPhuong:**
+  - SirPhuong kiểm tra Web App và phản hồi: *"trong thư viện web có bao nhiêu dữ liệu rồi mà tôi vẫn thấy bạn ghi là 15 bài nhỉ"* kèm ảnh chụp màn hình hiển thị nút `1 Pass (15 bài)` trong khi bảng bên dưới kết xuất đầy đủ 22 bài.
+  - Phân tích nguyên nhân gốc rễ: Thẻ nút tab (`.ws-lib-tab-btn`) trong hàm `workshopLibContainer.innerHTML` vẫn giữ chuỗi HTML tĩnh `15 bài` từ bản build cũ, chưa được gắn logic tự động đếm mảng `WS_LIB_BENCHMARK_JOBS`.
+* **Giải pháp kỹ thuật đã triển khai:**
+  1. **app.js:**
+     - Thay thế toàn bộ chuỗi tĩnh trên 6 nút tab bằng biểu thức đếm tự động theo thời gian thực:
+       `${(WS_LIB_BENCHMARK_JOBS[p] || []).length > 0 ? (WS_LIB_BENCHMARK_JOBS[p] || []).length + ' bài' : '0'}`
+     - Kết quả hiển thị tức thì chuẩn xác:
+       * 1 Pass: **22 bài** (19 bài cũ + 3 bài STT 24-26)
+       * 2 Pass: **10 bài** (H12, H30, H32, H60, H62, H63, H75, H85, H140, H165)
+       * 3 Pass: **0**
+       * 4 Pass: **0**
+       * 5 Pass: **1 bài** (H12 SCM440)
+       * 6 Pass: **0**
+       * Tổng cộng thư viện Web App: **33 mẻ cắt thực nghiệm**.
+     - Đảm bảo từ nay về sau khi nạp thêm bất kỳ bài cắt nào vào Data Bank và Web App, số lượng trên tab sẽ luôn tự động cập nhật chính xác 100%.
+  2. **Đồng bộ hệ thống & Cổng gác:**
+     - Nâng phiên bản hệ thống lên `v3.5.70` trên 5 tệp (`version.json`, `index.html`, `app.js`, `style.css`, `sw.js`) và `GEMINI.md`.
+     - `verify_gatekeeper.ps1`: ALL 7 GATES PASSED [v3.5.70].

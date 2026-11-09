@@ -2561,7 +2561,7 @@ body {
 }
 
 /* ====================================================
-   WORKSHOP DUAL-ZONE CONTAINER & TABLE STYLES (v3.5.69)
+   WORKSHOP DUAL-ZONE CONTAINER & TABLE STYLES (v3.5.70)
    ==================================================== */
 .ws-zone-card {
     margin-bottom: 14px;
@@ -2742,7 +2742,7 @@ body {
 
 
 /* ====================================================
-   EXPANDED MOBILE UX & TOUCH CONTROLS (v3.5.69)
+   EXPANDED MOBILE UX & TOUCH CONTROLS (v3.5.70)
    ==================================================== */
 @media (max-width: 768px) {
     /* 1. 2-Tab Native Segmented Navigation */

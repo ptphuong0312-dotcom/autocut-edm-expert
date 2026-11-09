@@ -1,6 +1,6 @@
 {
-  "version": "3.5.69",
-  "buildTimestamp": 1794210000000,
+  "version": "3.5.70",
+  "buildTimestamp": 1794217200000,
   "releaseDate": "2026-11-09",
-  "description": "Tích hợp 3 bài cắt thực nghiệm xưởng chuẩn SCM420 (H=40, H=70, H=90) vào Data Bank (STT 24-26) và Thư viện Web App, nâng tổng tập mẫu lên 22 bài chuẩn."
+  "description": "Đồng bộ động số lượng bài cắt thực tế trên các Tab Thư viện Benchmark Web App (22 bài 1 Pass, 10 bài 2 Pass, 1 bài 5 Pass)."
 }
