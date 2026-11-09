@@ -1,4 +1,4 @@
-﻿# ==============================================================================
+# ==============================================================================
 # AUDIT SPARK GAP & OFFSET BENCHMARK (RULE 17 & RULE 19 - POWERSHELL NATIVE)
 # DU AN: AUTOCUT SERVO EDM EXPERT (DK77 WIRE EDM) - v3.5.54 (VONG 5 CAN BANG TOAN CAU)
 # ==============================================================================
@@ -40,17 +40,20 @@ function Calc-Gap($H, $Ton, $Po, $IP, $Volt, $VF, $speed = 150, $mat = 'SCM440')
 }
 
 $dataset = @(
-    # 1-Pass Benchmark cuts (19 bai thuc nghiem)
+    # 1-Pass Benchmark cuts (22 bai thuc nghiem)
     @{ name='1P-5P01'; grp='1P Quy doi 5P-01'; H=12;  Ton=20;  Po=5;  IP=3; Volt='High'; VF=65; speed=150; mat='SCM440'; actual_gap=0.0110; actual_O1=0.1010 },
     @{ name='STT 22';  grp='1P SCM420 chay L'; H=12;  Ton=16;  Po=6;  IP=3; Volt='Low';  VF=60; speed=150; mat='SCM420'; actual_gap=0.0050; actual_O1=0.0950 },
     @{ name='STT 1';   grp='1P Chuan goc';     H=30;  Ton=32;  Po=5;  IP=4; Volt='High'; VF=65; speed=200; mat='SCM440'; actual_gap=0.0080; actual_O1=0.0980 },
     @{ name='STT 2';   grp='1P Chuan goc';     H=40;  Ton=36;  Po=5;  IP=4; Volt='High'; VF=65; speed=180; mat='SCM440'; actual_gap=0.0080; actual_O1=0.0980 },
+    @{ name='STT 26';  grp='1P SCM420 chay';   H=40;  Ton=33;  Po=8;  IP=4; Volt='High'; VF=53; speed=150; mat='SCM420'; actual_gap=0.0120; actual_O1=0.1020 },
     @{ name='STT 3';   grp='1P SCM420 chay';   H=63;  Ton=44;  Po=7;  IP=5; Volt='High'; VF=55; speed=150; mat='SCM420'; actual_gap=0.0050; actual_O1=0.0950 },
     @{ name='STT 18';  grp='1P SCM420 chay';   H=63;  Ton=44;  Po=8;  IP=4; Volt='High'; VF=57; speed=150; mat='SCM420'; actual_gap=0.0080; actual_O1=0.0980 },
     @{ name='STT 6';   grp='1P SCM440 chay L'; H=68;  Ton=70;  Po=7;  IP=3; Volt='Low';  VF=50; speed=100; mat='SCM440'; actual_gap=0.0070; actual_O1=0.0970 },
+    @{ name='STT 25';  grp='1P SCM420 chay';   H=70;  Ton=51;  Po=7;  IP=4; Volt='High'; VF=57; speed=150; mat='SCM420'; actual_gap=0.0150; actual_O1=0.1050 },
     @{ name='STT 16';  grp='1P SCM420 coi';    H=75;  Ton=55;  Po=7;  IP=4; Volt='High'; VF=54; speed=187; mat='SCM420'; actual_gap=0.0220; actual_O1=0.1120 },
     @{ name='1P-2P10'; grp='1P Quy doi 2P-10'; H=85;  Ton=70;  Po=8;  IP=5; Volt='High'; VF=61; speed=150; mat='SCM440'; actual_gap=0.0125; actual_O1=0.1025 },
     @{ name='STT 21';  grp='1P SCM420 coi';    H=90;  Ton=80;  Po=7;  IP=4; Volt='High'; VF=54; speed=150; mat='SCM420'; actual_gap=0.0280; actual_O1=0.1180 },
+    @{ name='STT 24';  grp='1P SCM420 chay';   H=90;  Ton=65;  Po=7;  IP=4; Volt='High'; VF=59; speed=150; mat='SCM420'; actual_gap=0.0130; actual_O1=0.1030 },
     @{ name='STT 17';  grp='1P SCM440 coi';    H=95;  Ton=82;  Po=7;  IP=4; Volt='High'; VF=55; speed=150; mat='SCM440'; actual_gap=0.0235; actual_O1=0.1135 },
     @{ name='STT 19';  grp='1P SCM420 chay';   H=110; Ton=100; Po=10; IP=5; Volt='High'; VF=65; speed=150; mat='SCM420'; actual_gap=0.0150; actual_O1=0.1050 },
     @{ name='STT 7';   grp='1P SCM420 chay';   H=140; Ton=120; Po=8;  IP=5; Volt='High'; VF=55; speed=50;  mat='SCM420'; actual_gap=0.0050; actual_O1=0.0950 },
@@ -89,9 +92,9 @@ $maxErr = ($errors | Measure-Object -Maximum).Maximum
 $rmse = [Math]::Sqrt((($errors | ForEach-Object { $_ * $_ } | Measure-Object -Average).Average))
 
 Write-Host ("=" * 115)
-Write-Host "TONG KET THONG KE TOAN DIEN (19 bai cat thuc nghiem xuong):"
+Write-Host "TONG KET THONG KE TOAN DIEN (22 bai cat thuc nghiem xuong):"
 Write-Host ("  * MAE Thep toi SCM440 (28-32 HRC, n=9): {0:F2} um" -f $mae440)
-Write-Host ("  * MAE Thep mem SCM420 (HB < 200, n=10): {0:F2} um" -f $mae420)
+Write-Host ("  * MAE Thep mem SCM420 (HB < 200, n=13): {0:F2} um" -f $mae420)
 Write-Host ("  * Sai so trung binh tuyet doi toan cuc (MAE): {0:F2} um" -f $mae)
 Write-Host ("  * Sai so hieu dung toan cuc (RMSE): {0:F2} um" -f $rmse)
 Write-Host ("  * Sai so cuc dai (Max Error): {0:F2} um" -f $maxErr)

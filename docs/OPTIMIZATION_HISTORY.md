@@ -421,25 +421,48 @@
   - **Äá»“ng bá»™ phiÃªn báº£n:** v3.5.67 trÃªn 5 tá»‡p (version.json, index.html, app.js, style.css, sw.js).
 
 ---
-
-### ðŸš€ Äá»¢T 68: TINH Gá»ŒN HEADER VÃ€ FOOTER CHUáº¨N Â© 2026 & Tá»I Æ¯U GIAO DIá»†N DI Äá»˜NG (v3.5.68)
-* **Thá»i gian:** 2026-11-07 12:10 (GMT+7)
-* **Bá»‘i cáº£nh & YÃªu cáº§u tá»« SirPhuong:**
-  - Loáº¡i bá» hoÃ n toÃ n 2 nÃºt "ðŸ“– HÆ°á»›ng dáº«n" vÃ  "ðŸ–¨ï¸ In phiáº¿u" trÃªn thanh tiÃªu Ä‘á».
-  - ChÃ¢n trang (Footer) chá»‰ giá»¯ láº¡i duy nháº¥t dÃ²ng chá»¯ báº£n quyá»n tá»‘i giáº£n: AutoCut Servo EDM Database Engine Â© 2026.
-  - NÃºt "ðŸ”„ Táº£i báº£n má»›i" trÃªn tiÃªu Ä‘á» Ä‘á»•i tÃªn thÃ nh "ðŸ”„ Cáº­p nháº­t" (Ä‘áº£m nhiá»‡m vai trÃ² cÆ°á»¡ng bá»©c lÃ m má»›i dá»¯ liá»‡u cho toÃ n bá»™ á»©ng dá»¥ng).
-  - Loáº¡i bá» hoÃ n toÃ n dÃ²ng chá»¯ phá»¥ Ä‘á» vÃ  tráº¡ng thÃ¡i máº¡ng á»Ÿ thanh tiÃªu Ä‘á» ("Tra cá»©u, PhÃ¢n tÃ­ch Cháº¿ Ä‘á»™ Ä‘iá»‡n & BÃ¹ dao AutoCut Servo â€¢ ðŸŸ¢ Online").
-* **CÃ¡c thay Ä‘á»•i Ä‘Ã£ triá»ƒn khai:**
+### 🚀 ĐỢT 68: TINH GỌN HEADER VÀ FOOTER CHUẨN © 2026 & TỐI ƯU GIAO DIỆN DI ĐỘNG (v3.5.68)
+* **Thời gian:** 2026-11-07 12:10 (GMT+7)
+* **Bối cảnh & Yêu cầu từ SirPhuong:**
+  - Loại bỏ hoàn toàn 2 nút "📖 Hướng dẫn" và "🖨️ In phiếu" trên thanh tiêu đề.
+  - Chân trang (Footer) chỉ giữ lại duy nhất dòng chữ bản quyền tối giản: AutoCut Servo EDM Database Engine © 2026.
+  - Nút "🔄 Tải bản mới" trên tiêu đề đổi tên thành "🔄 Cập nhật" (đảm nhiệm vai trò cưỡng bức làm mới dữ liệu cho toàn bộ ứng dụng).
+  - Loại bỏ hoàn toàn dòng chữ phụ đề và trạng thái mạng ở thanh tiêu đề ("Tra cứu, Phân tích Chế độ điện & Bù dao AutoCut Servo • 🟢 Online").
+* **Các thay đổi đã triển khai:**
   1. **index.html:**
-     - Thanh tiÃªu Ä‘á»: XÃ³a tháº» <p class="subtitle">... vÃ  2 nÃºt #btn-show-guide, #btn-print.
-     - Äá»•i text nÃºt #btn-force-update thÃ nh ðŸ”„ Cáº­p nháº­t.
-     - ChÃ¢n trang: RÃºt gá»n chá»‰ cÃ²n <p>AutoCut Servo EDM Database Engine &copy; 2026</p>.
-     - NÃ¢ng phiÃªn báº£n cache lÃªn 3.5.68 cho style.css vÃ  pp.js.
+     - Thanh tiêu đề: Xóa thẻ `<p class="subtitle">...` và 2 nút `#btn-show-guide`, `#btn-print`.
+     - Đổi text nút `#btn-force-update` thành `🔄 Cập nhật`.
+     - Chân trang: Rút gọn chỉ còn `<p>AutoCut Servo EDM Database Engine &copy; 2026</p>`.
+     - Nâng phiên bản cache lên `v3.5.68` cho `style.css` và `app.js`.
   2. **style.css:**
-     - Tá»‘i Æ°u hÃ³a @media (max-width: 640px): Chuyá»ƒn .app-header sang bá»‘ cá»¥c hÃ ng ngang Ä‘Æ¡n giáº£n (lex-direction: row; justify-content: space-between; align-items: center;), tiáº¿t kiá»‡m chiá»u cao mÃ n hÃ¬nh di Ä‘á»™ng.
-     - NÃ¢ng phiÃªn báº£n comment 3.5.68.
+     - Tối ưu hóa `@media (max-width: 640px)`: Chuyển `.app-header` sang bố cục hàng ngang đơn giản (`flex-direction: row; justify-content: space-between; align-items: center;`), tiết kiệm chiều cao màn hình di động.
+     - Nâng phiên bản comment `v3.5.68`.
   3. **sw.js, app.js, version.json, GEMINI.md:**
-     - Äá»“ng bá»™ phiÃªn báº£n há»‡ thá»‘ng lÃªn 3.5.68.
-* **Káº¿t quáº£ nghiá»‡m thu ká»¹ thuáº­t:**
-  - **Pre-flight Gatekeeper (scripts/verify_gatekeeper.ps1):** ALL 7 GATES PASSED [100%].
-  - **Giao diá»‡n:** SiÃªu tinh gá»n, thoÃ¡ng Ä‘Ã£ng, sang trá»ng, tÆ°Æ¡ng thÃ­ch hoÃ n háº£o cáº£ desktop vÃ  mobile.
+     - Đồng bộ phiên bản hệ thống lên `v3.5.68`.
+* **Kết quả nghiệm thu kỹ thuật:**
+  - **Pre-flight Gatekeeper (`scripts/verify_gatekeeper.ps1`):** ALL 7 GATES PASSED [100%].
+  - **Giao diện:** Siêu tinh gọn, thoáng đãng, sang trọng, tương thích hoàn hảo cả desktop và mobile.
+
+---
+
+### 🚀 ĐỢT 69: TÍCH HỢP 3 BÀI CẮT THỰC NGHIỆM SCM420 CHUẨN XƯỞNG (H=40, 70, 90) VÀO DATA BANK (v3.5.69)
+* **Thời gian:** 2026-11-09 14:55 (GMT+7)
+* **Bối cảnh & Dữ liệu thực tế do SirPhuong cung cấp:**
+  - Ba bài cắt 1 Pass lấy chày trên thép dẻo SCM420 ($HB < 200$), chiều dài mẫu $L=57\text{mm}$, kết quả đo kiểm đạt chuẩn tuyệt đối ($\Delta = 0.000$):
+    + **STT 24:** $H=90\text{mm}$: $\text{Ton}=65, \text{Po}=7, \text{IP}=4, \text{VF}=59, 150\text{Hz}$, Offset $0.103\text{mm}$, thời gian $46\text{p}$, Ampe $3.9-4.0\text{A}$, tốc độ $45-60\text{ mm}^2/\text{p} \implies \text{Offset Chuẩn} = 0.103\text{mm}, \delta = 0.0130\text{mm}$ ($13.0\mu m$).
+    + **STT 25:** $H=70\text{mm}$: $\text{Ton}=51, \text{Po}=7, \text{IP}=4, \text{VF}=57, 150\text{Hz}$, Offset $0.105\text{mm}$, thời gian $34\text{p}$, Ampe $3.9-4.0\text{A}$, tốc độ $65-75\text{ mm}^2/\text{p} \implies \text{Offset Chuẩn} = 0.105\text{mm}, \delta = 0.0150\text{mm}$ ($15.0\mu m$).
+    + **STT 26:** $H=40\text{mm}$: $\text{Ton}=33, \text{Po}=8, \text{IP}=4, \text{VF}=53, 150\text{Hz}$, Offset $0.102\text{mm}$, thời gian $28\text{p} \implies \text{Offset Chuẩn} = 0.102\text{mm}, \delta = 0.0120\text{mm}$ ($12.0\mu m$).
+* **Các thay đổi đã triển khai:**
+  1. **WORKSHOP_DATA_BANK.md:**
+     - Cập nhật Bảng Chỉ Mục Ground Truth (nâng tổng số lên 22 bài cắt hợp lệ).
+     - Bổ sung STT 24, 25, 26 vào Bảng Dữ Liệu Thô (Phần 1) và Bảng Lượng Cào Phôi $\delta$ (Phần 3).
+     - Bổ sung 3 Hộp Phân Tích Động Học & Hình Học Đo Kiểm chuyên sâu cho từng bài.
+  2. **app.js:**
+     - Bổ sung 3 mẫu benchmark vào mảng `WS_LIB_BENCHMARK_JOBS[1]` (Thư viện thực tế xưởng 1 Pass).
+  3. **scripts/audit_spark_gap.ps1:**
+     - Cập nhật tập dữ liệu đối chứng kiểm toán 22 bài.
+     - Kết quả kiểm toán: MAE SCM440 = $2.77\mu m$, MAE SCM420 = $3.68\mu m$, MAE toàn cục = $3.31\mu m$, RMSE = $4.56\mu m$.
+     - Khớp nối xuất sắc: Tại $H=70\text{mm}$, lý thuyết tính $0.1066\text{mm}$ so với thực tế $0.1050\text{mm}$ chỉ lệch $1.6\mu m$!
+  4. **Đồng bộ hệ thống & Cổng gác:**
+     - Nâng phiên bản hệ thống lên `v3.5.69` trên 5 tệp (`version.json`, `index.html`, `app.js`, `style.css`, `sw.js`).
+     - `verify_gatekeeper.ps1`: ALL 7 GATES PASSED [100%].

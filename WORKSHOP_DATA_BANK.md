@@ -1,4 +1,4 @@
-﻿# THƯ VIỆN DỮ LIỆU THỰC NGHIỆM XƯỞNG & NGUYÊN LÝ NỘI SUY NGƯỢC
+# THƯ VIỆN DỮ LIỆU THỰC NGHIỆM XƯỞNG & NGUYÊN LÝ NỘI SUY NGƯỢC
 # (WORKSHOP RAW DATA BANK & REVERSE INTERPOLATION ENGINE)
 
 ---
@@ -18,9 +18,9 @@
 
 ---
 
-## 📌 BẢNG TỔNG HỢP CHỈ MỤC GROUND TRUTH (19 BÀI CẮT THỰC NGHIỆM CHUẨN XƯỞNG)
+## 📌 BẢNG TỔNG HỢP CHỈ MỤC GROUND TRUTH (22 BÀI CẮT THỰC NGHIỆM CHUẨN XƯỞNG)
 > [!NOTE]
-> Bảng chỉ mục này tóm tắt toàn bộ 19 bài cắt thực nghiệm hợp lệ tại xưởng SirPhuong (Dây Molypden $\Phi 0.18\text{mm} \implies R_{\text{wire}} = 0.090\text{mm}$). AI chỉ cần đọc bảng này là nắm 100% dữ liệu gốc để kiểm toán hoặc hiệu chuẩn:
+> Bảng chỉ mục này tóm tắt toàn bộ 22 bài cắt thực nghiệm hợp lệ tại xưởng SirPhuong (Dây Molypden $\Phi 0.18\text{mm} \implies R_{\text{wire}} = 0.090\text{mm}$). AI chỉ cần đọc bảng này là nắm 100% dữ liệu gốc để kiểm toán hoặc hiệu chuẩn:
 
 | Mã Bài | Nhóm / Kiểu | H (mm) | Vật Liệu | Ton | Po | IP | Volt | VF | Hz | $\delta_{\text{thực}}$ (mm) | Offset Chuẩn $O_1$ (mm) | Ampe Đo (A) |
 |:---|:---|:---:|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|
@@ -28,12 +28,15 @@
 | **STT 22** | Chày Volt Low | 12 | SCM420 | 16 | 6 | 3 | Low | 60 | 150 | 0.0050 | **0.0950** | 2.5A - 2.7A |
 | **STT 1** | Chuẩn gốc 1P | 30 | SCM440 | 32 | 5 | 4 | High | 65 | 200 | 0.0080 | **0.0980** | 4.45A - 4.5A |
 | **STT 2** | Chuẩn gốc 1P | 40 | SCM440 | 36 | 5 | 4 | High | 65 | 180 | 0.0080 | **0.0980** | 4.35A - 4.4A |
+| **STT 26** | Chày chuẩn xưởng | 40 | SCM420 | 33 | 8 | 4 | High | 53 | 150 | 0.0120 | **0.1020** | -- |
 | **STT 3** | Cắt chày | 63 | SCM420 | 44 | 7 | 5 | High | 55 | 150 | 0.0050 | **0.0950** | 4.1A - 4.2A |
 | **STT 18** | Cắt chày | 63 | SCM420 | 44 | 8 | 4 | High | 57 | 150 | 0.0080 | **0.0980** | 3.3A - 3.4A |
 | **STT 6** | Chày Volt Low | 68 | SCM440 | 70 | 7 | 3 | Low | 50 | 100 | 0.0070 | **0.0970** | 2.4A - 2.6A |
+| **STT 25** | Chày chuẩn xưởng | 70 | SCM420 | 51 | 7 | 4 | High | 57 | 150 | 0.0150 | **0.1050** | 3.9A - 4.0A |
 | **STT 16** | Cắt cối | 75 | SCM420 | 55 | 7 | 4 | High | 54 | 187 | 0.0220 | **0.1120** | 3.4A - 3.5A |
 | **1P-2P10** | 1P Quy đổi 2P-10 | 85 | SCM440 | 70 | 8 | 5 | High | 61 | 150 | 0.0125 | **0.1025** | 3.6A - 3.7A |
 | **STT 21** | Cắt cối | 90 | SCM420 | 80 | 7 | 4 | High | 54 | 150 | 0.0280 | **0.1180** | 3.5A - 3.6A |
+| **STT 24** | Chày chuẩn xưởng | 90 | SCM420 | 65 | 7 | 4 | High | 59 | 150 | 0.0130 | **0.1030** | 3.9A - 4.0A |
 | **STT 17** | Cắt cối | 95 | SCM440 | 82 | 7 | 4 | High | 55 | 150 | 0.0235 | **0.1135** | 3.6A - 3.7A |
 | **STT 19** | Cắt chày | 110 | SCM420 | 100 | 10 | 5 | High | 65 | 150 | 0.0150 | **0.1050** | 2.7A - 2.8A |
 | **STT 7** | Cắt chày | 140 | SCM420 | 120 | 8 | 5 | High | 55 | 50 | 0.0050 | **0.0950** | 3.5A - 3.8A |
@@ -78,6 +81,9 @@ Dưới đây là 14 bài cắt do người dùng đo đạc trực tiếp trên
 | **21** | 1 Lần | SCM420 (HB<200) | 90 | 80 | 7 | 4 | 1 | High | 54 | 150Hz | **0,118** | -- | -- | 3,5A - 3,6A | 50 - 60 | cắt lấy cối : kích thước chuẩn luôn |
 | **22** | 1 Lần | SCM420 (HB<200) | 12 | 16 | 6 | 3 | 1 | Low | 60 | 150Hz | **0,095** | -- | -- | 2,5A - 2,7A | -- | cắt lấy chày : kích thước chuẩn luôn |
 | **23** | 1 Lần | SCM420 (HB<200) | 200 | 120 | 10 | 6 | 1 | High | 65 | 60Hz | **0,108** | -- | -- | -- | -- | cắt lấy cối : kích thước chuẩn luôn |
+| **24** | 1 Lần | SCM420 (HB<200) | 90 | 65 | 7 | 4 | 1 | High | 59 | 150Hz | **0,103** | 46p | 57mm | 3,9A - 4,0A | 45 - 60 | cắt lấy chày : kích thước chuẩn luôn |
+| **25** | 1 Lần | SCM420 (HB<200) | 70 | 51 | 7 | 4 | 1 | High | 57 | 150Hz | **0,105** | 34p | 57mm | 3,9A - 4,0A | 65 - 75 | cắt lấy chày : kích thước chuẩn luôn |
+| **26** | 1 Lần | SCM420 (HB<200) | 40 | 33 | 8 | 4 | 1 | High | 53 | 150Hz | **0,102** | 28p | 57mm | -- | -- | cắt lấy chày : kích thước chuẩn luôn |
 
 ---
 
@@ -144,6 +150,9 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 | **21**| **H = 90mm** | Ton=80, Po=7, IP=4, Volt=High, VF=54 | 0.118 | Cối chuẩn luôn | 0.0000 | **0.118 mm** | **0.028 mm** | Phôi trung dày H=90mm SCM420 cắt cối khép kín, Ton=80, Po=7, IP=4 chuẩn kích thước $\rightarrow \delta=0.028\text{mm}$ |
 | **22**| **H = 12mm** | Ton=16, Po=6, IP=3, Volt=Low, VF=60  | 0.095 | Chày chuẩn luôn | 0.0000 | **0.095 mm** | **0.005 mm** | Phôi mỏng H=12mm SCM420 cắt chày, Volt Low, IP=3, Ton=16 xung nhẹ êm $\rightarrow \delta=0.005\text{mm}$ |
 | **23**| **H = 200mm**| Ton=120, Po=10, IP=6, Volt=High, VF=65| 0.108 | Cối chuẩn luôn | 0.0000 | **0.108 mm** | **0.018 mm** | Phôi siêu dày H=200mm SCM420 cắt cối, Ton=120, Po=10, IP=6, VF=65, 60Hz chuẩn kích thước tuyệt đối $\rightarrow \delta=0.018\text{mm}$ |
+| **24**| **H = 90mm** | Ton=65, Po=7, IP=4, Volt=High, VF=59 | 0.103 | Chày chuẩn luôn | 0.0000 | **0.103 mm** | **0.013 mm** | Phôi H=90mm SCM420 cắt chày chuẩn xưởng, Ton=65, Po=7, IP=4, VF=59, Ampe 3.9-4.0A $\rightarrow \delta=0.013\text{mm}$ |
+| **25**| **H = 70mm** | Ton=51, Po=7, IP=4, Volt=High, VF=57 | 0.105 | Chày chuẩn luôn | 0.0000 | **0.105 mm** | **0.015 mm** | Phôi H=70mm SCM420 cắt chày chuẩn xưởng, Ton=51, Po=7, IP=4, VF=57, Ampe 3.9-4.0A $\rightarrow \delta=0.015\text{mm}$ |
+| **26**| **H = 40mm** | Ton=33, Po=8, IP=4, Volt=High, VF=53 | 0.102 | Chày chuẩn luôn | 0.0000 | **0.102 mm** | **0.012 mm** | Phôi H=40mm SCM420 cắt chày chuẩn xưởng, Ton=33, Po=8, IP=4, VF=53 $\rightarrow \delta=0.012\text{mm}$ |
 
 > 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 15 (H=160mm, SCM420 - CẮT LẤY CỐI 1 PASS):**
 > * **Bài cắt kiểm định khép kín (Rule 12):** Người dùng sử dụng 100% chế độ điện xuất ra từ Web App Tab 2 ($H=160\text{mm}$, SCM420, Cấp 4): $\text{Ton}=120, \text{Po}=11, \text{IP}=6, \text{Volt}=\text{High}, \text{VF}=70, \text{Giới hạn}=154\text{Hz}$, Offset nhập test ban đầu là $0.107\text{mm}$ (sát mốc tính toán lý thuyết $0.1071\text{mm}$).
@@ -236,6 +245,41 @@ Từ 14 bài cắt trên, trích xuất được cơ sở dữ liệu lượng c
 >   - Ở phôi siêu dày $H=200\text{mm}$, xưởng cài đặt $\text{VF}=65$ để tăng độ nhạy phản hồi điện áp servo theo dõi khe hở trong lòng rãnh sâu, kết hợp tần số hãm giới hạn $\text{Max Speed}=60\text{Hz}$ giúp bàn máy tiến cực kỳ điềm tĩnh, triệt tiêu rung giật và chống nghẹt phoi đoản mạch.
 >   - Khớp nối tuyệt hảo với Kiến trúc Phân vùng Kép (Rule 17): Tại $H=200\text{mm}$, thuật toán thống kê hội tụ xưởng dự tính $\text{Offset}_{\text{calc}} \approx 0.1102\text{mm} \implies \delta_{\text{calc}} \approx 20.2\,\mu\text{m}$. Sai số giữa lý thuyết và số đo thực tế xưởng ($0.108\text{mm}$) chỉ vỏn vẹn **$2.2\,\mu\text{m}$**, chứng minh mô hình hội tụ phôi siêu dày của phần mềm đạt độ chính xác thực chiến tuyệt vời!
 >   - Dữ liệu này tiếp tục củng cố vững chắc chỉ thị của SirPhuong: Dù cắt lấy cối, $\delta$ của phôi $H=200\text{mm}$ chỉ là $18.0\,\mu\text{m}$, hoàn toàn do chế độ điện $\text{Po}=10, \text{VF}=65, \text{Max Speed}=60\text{Hz}$ hãm bàn máy và kiểm soát hồ quang êm dịu.
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 24 (H=90mm, SCM420 - CẮT LẤY CHÀY 1 PASS CHUẨN XƯỞNG):**
+> * **Bài cắt thực nghiệm tại xưởng:** Người dùng cắt phôi dày $H=90\text{mm}$, thép dẻo SCM420 ($HB < 200$) với chế độ điện: $\text{Ton}=65, \text{Po}=7, \text{IP}=4, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=59, \text{Giới hạn}=150\text{Hz}$, Offset nhập test là $0.103\text{mm}$.
+> * **Kích thước đo sau cắt:** Cắt lấy chày: Kích thước chuẩn luôn $100\%$ không sai lệch danh nghĩa ($\Delta = 0.000$).
+> * **Bù dao Chuẩn & Lượng cào phôi:**
+>   $$\mathbf{\text{Offset}_{\text{chuẩn}}} = \mathbf{0.103\text{ mm}}$$
+>   $$\mathbf{\delta} = 0.103 - 0.090 = \mathbf{0.013\text{ mm}} \quad (13.0\,\mu\text{m})$$
+> * **Đồng hồ Ampe & Tốc độ cắt:**
+>   - Kim đồng hồ Ampe ăn **$3.9\text{A} - 4.0\text{A}$** (dòng tải cực kỳ mạnh mẽ và ổn định cho phôi trung dày $H=90\text{mm}$).
+>   - Chiều dài $L = 57\text{mm}$, thời gian cắt thực tế **46 phút** $\implies F_t = 1.239\text{ mm/phút} \implies F_t \times 40 = 49.6\text{ mm}^2/\text{phút}$ khớp hoàn hảo dải tốc độ thực tế $45 - 60\text{ mm}^2/\text{phút}$.
+> * **Bản chất vật lý đối chứng với STT 21:**
+>   - So với bài STT 21 ($H=90\text{mm}, \text{Ton}=80, \text{VF}=54$ cào $\delta = 28\mu m$), bài STT 24 hạ xung $\text{Ton}$ từ 80 xuống 65 và tăng $\text{VF}$ từ 54 lên 59 đã giúp kiểm soát hồ quang êm dịu, giảm năng lượng bộc phá hố rỗ, đưa lượng cào phôi về mức lý tưởng $\delta = 13.0\,\mu\text{m}$.
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 25 (H=70mm, SCM420 - CẮT LẤY CHÀY 1 PASS CHUẨN XƯỞNG):**
+> * **Bài cắt thực nghiệm tại xưởng:** Người dùng cắt phôi dày $H=70\text{mm}$, thép dẻo SCM420 ($HB < 200$) với chế độ điện: $\text{Ton}=51, \text{Po}=7, \text{IP}=4, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=57, \text{Giới hạn}=150\text{Hz}$, Offset nhập test là $0.105\text{mm}$.
+> * **Kích thước đo sau cắt:** Cắt lấy chày: Kích thước chuẩn luôn $100\%$ không sai lệch danh nghĩa ($\Delta = 0.000$).
+> * **Bù dao Chuẩn & Lượng cào phôi:**
+>   $$\mathbf{\text{Offset}_{\text{chuẩn}}} = \mathbf{0.105\text{ mm}}$$
+>   $$\mathbf{\delta} = 0.105 - 0.090 = \mathbf{0.015\text{ mm}} \quad (15.0\,\mu\text{m})$$
+> * **Đồng hồ Ampe & Tốc độ cắt:**
+>   - Kim đồng hồ Ampe ăn **$3.9\text{A} - 4.0\text{A}$** (chuẩn theo dải quy định Rule 12).
+>   - Chiều dài $L = 57\text{mm}$, thời gian cắt thực tế **34 phút** $\implies F_t = 1.676\text{ mm/phút} \implies F_t \times 40 = 67.1\text{ mm}^2/\text{phút}$ khớp hoàn hảo dải tốc độ thực tế $65 - 75\text{ mm}^2/\text{phút}$.
+> * **Kiểm chứng độ chính xác mô hình lý thuyết:**
+>   - Công thức nhiệt động học tính toán ra: $\text{Offset}_{\text{calc}} = 0.1066\text{mm} \implies \delta_{\text{calc}} = 16.6\,\mu\text{m}$.
+>   - Sai số giữa lý thuyết và số đo thực tế xưởng ($0.105\text{mm}$) chỉ vỏn vẹn **$1.6\,\mu\text{m}$ (0.0016mm)**, minh chứng độ hội tụ tuyệt hảo của phần mềm!
+
+> 💡 **PHÂN TÍCH ĐỘNG HỌC & HÌNH HỌC ĐO KIỂM BÀI CẮT STT 26 (H=40mm, SCM420 - CẮT LẤY CHÀY 1 PASS CHUẨN XƯỞNG):**
+> * **Bài cắt thực nghiệm tại xưởng:** Người dùng cắt phôi dày $H=40\text{mm}$, thép dẻo SCM420 ($HB < 200$) với chế độ điện: $\text{Ton}=33, \text{Po}=8, \text{IP}=4, \text{Wire}=1, \text{Volt}=\text{High}, \text{VF}=53, \text{Giới hạn}=150\text{Hz}$, Offset nhập test là $0.102\text{mm}$.
+> * **Kích thước đo sau cắt:** Cắt lấy chày: Kích thước chuẩn luôn $100\%$ không sai lệch danh nghĩa ($\Delta = 0.000$).
+> * **Bù dao Chuẩn & Lượng cào phôi:**
+>   $$\mathbf{\text{Offset}_{\text{chuẩn}}} = \mathbf{0.102\text{ mm}}$$
+>   $$\mathbf{\delta} = 0.102 - 0.090 = \mathbf{0.012\text{ mm}} \quad (12.0\,\mu\text{m})$$
+> * **Tốc độ cắt & Thời gian:**
+>   - Chiều dài $L = 57\text{mm}$, thời gian cắt thực tế **28 phút** $\implies F_t = 2.036\text{ mm/phút} \implies F_t \times 40 = 81.4\text{ mm}^2/\text{phút}$.
+>   - Bộ thông số này khớp 100% với thông số khuyến nghị xuất ra của Web App cho $H=40\text{mm}$ SCM420 ($\text{Ton}=33, \text{Po}=8, \text{IP}=4, \text{VF}=53$), củng cố thêm mốc dữ liệu thực chiến vững chắc cho dải phôi mỏng - trung thép dẻo.
 
 ---
 

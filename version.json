@@ -1,6 +1,6 @@
 {
-  "version": "3.5.68",
-  "buildTimestamp": 1794028500000,
-  "releaseDate": "2026-11-07",
-  "description": "Tinh gọn giao diện Header và Footer: Bỏ nút Hướng dẫn, In phiếu, bỏ dòng trạng thái phụ đề, đổi 'Tải bản mới' thành 'Cập nhật', giữ chân trang chuẩn © 2026."
+  "version": "3.5.69",
+  "buildTimestamp": 1794210000000,
+  "releaseDate": "2026-11-09",
+  "description": "Tích hợp 3 bài cắt thực nghiệm xưởng chuẩn SCM420 (H=40, H=70, H=90) vào Data Bank (STT 24-26) và Thư viện Web App, nâng tổng tập mẫu lên 22 bài chuẩn."
 }

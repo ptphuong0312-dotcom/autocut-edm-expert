@@ -1,4 +1,4 @@
-﻿:root {
+:root {
     --bg-main: #0b0f19;
     --bg-card: #131b2e;
     --bg-card-alt: #1a253c;
@@ -2561,7 +2561,7 @@ body {
 }
 
 /* ====================================================
-   WORKSHOP DUAL-ZONE CONTAINER & TABLE STYLES (v3.5.68)
+   WORKSHOP DUAL-ZONE CONTAINER & TABLE STYLES (v3.5.69)
    ==================================================== */
 .ws-zone-card {
     margin-bottom: 14px;
@@ -2742,7 +2742,7 @@ body {
 
 
 /* ====================================================
-   EXPANDED MOBILE UX & TOUCH CONTROLS (v3.5.68)
+   EXPANDED MOBILE UX & TOUCH CONTROLS (v3.5.69)
    ==================================================== */
 @media (max-width: 768px) {
     /* 1. 2-Tab Native Segmented Navigation */

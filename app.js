@@ -4026,7 +4026,7 @@ function initApp() {
         });
     }
 
-    const CURRENT_VERSION = "3.5.68";
+    const CURRENT_VERSION = "3.5.69";
 
     // 7a. Register Service Worker (Hỗ trợ chạy Offline khi mất mạng)
     if ('serviceWorker' in navigator) {
@@ -4182,18 +4182,24 @@ function initApp() {
                     { H: 30, material: "30HRC", passes: [{ Ton: 32, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "200Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,1003", length: "30mm", actualTime: "8p40'", calcTime: "7p45'", actualAmpe: "4,45A - 4,5A", calcAmpe: "4.7A", actualSpeed: "165-175 mm²/p", calcSpeedH40: "155 mm²/p" }] },
                     // H=40 (SCM440, STT 2 - Chuẩn gốc 1 Pass)
                     { H: 40, material: "30HRC", passes: [{ Ton: 36, Toff: 5, IP: 4, Wire: 1, Volt: "H", VF: 65, maxSpeed: "180Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,1003", length: "30mm", actualTime: "9p36'", calcTime: "10p09'", actualAmpe: "4,35A - 4,4A", calcAmpe: "4.6A", actualSpeed: "130-140 mm²/p", calcSpeedH40: "118 mm²/p" }] },
+                    // H=40 (SCM420, STT 26 - Cắt chày 1 Pass chuẩn xưởng)
+                    { H: 40, material: "HB<200", passes: [{ Ton: 33, Toff: 8, IP: 4, Wire: 1, Volt: "H", VF: 53, maxSpeed: "150Hz", offset: "0,102", actualOffset: "0,102", calcOffset: "0,0975", length: "57mm", actualTime: "28p", calcTime: "28p", actualAmpe: "--", calcAmpe: "2.9A", actualSpeed: "--", calcSpeedH40: "81 mm²/p" }] },
                     // H=63 (SCM420, STT 3 - Cắt chày 1 Pass)
                     { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 7, IP: 5, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,095", actualOffset: "0,095", calcOffset: "0,0997", length: "27mm", actualTime: "14p20'", calcTime: "14p53'", actualAmpe: "4,1A - 4,2A", calcAmpe: "4.2A", actualSpeed: "75-85 mm²/p", calcSpeedH40: "73 mm²/p" }] },
                     // H=63 (SCM420, STT 18 - Cắt chày 1 Pass)
                     { H: 63, material: "HB<200", passes: [{ Ton: 44, Toff: 8, IP: 4, Wire: 1, Volt: "H", VF: 57, maxSpeed: "150Hz", offset: "0,098", actualOffset: "0,098", calcOffset: "0,0987", length: "22,3mm", actualTime: "17p40'", calcTime: "17p40'", actualAmpe: "3,3A - 3,4A", calcAmpe: "2.9A", actualSpeed: "50-65 mm²/p", calcSpeedH40: "50 mm²/p" }] },
                     // H=68 (SCM440, STT 6 - Cắt chày Volt Low)
                     { H: 68, material: "30HRC", passes: [{ Ton: 70, Toff: 7, IP: 3, Wire: 1, Volt: "L", VF: 50, maxSpeed: "100Hz", offset: "0,097", actualOffset: "0,097", calcOffset: "0,0981", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "2,4A - 2,6A", calcAmpe: "2.0A", actualSpeed: "--", calcSpeedH40: "32 mm²/p" }] },
+                    // H=70 (SCM420, STT 25 - Cắt chày 1 Pass chuẩn xưởng)
+                    { H: 70, material: "HB<200", passes: [{ Ton: 51, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 57, maxSpeed: "150Hz", offset: "0,105", actualOffset: "0,105", calcOffset: "0,1066", length: "57mm", actualTime: "34p", calcTime: "34p", actualAmpe: "3,9A - 4,0A", calcAmpe: "3.5A", actualSpeed: "65-75 mm²/p", calcSpeedH40: "67 mm²/p" }] },
                     // H=75 (SCM420, STT 16 - Cắt cối 1 Pass)
                     { H: 75, material: "HB<200", passes: [{ Ton: 55, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 54, maxSpeed: "187Hz", offset: "0,112", actualOffset: "0,112", calcOffset: "0,1094", length: "50,3mm", actualTime: "1h13'", calcTime: "46p53'", actualAmpe: "3,4A - 3,5A", calcAmpe: "3.3A", actualSpeed: "50-65 mm²/p", calcSpeedH40: "43 mm²/p" }] },
                     // H=85 (Quy đổi từ Pass 1 bài cắt 2P-10 có đo kiểm vách P1)
                     { H: 85, material: "30HRC", fromMultiPass: true, passes: [{ Ton: 70, Toff: 8, IP: 5, Wire: 1, Volt: "H", VF: 61, maxSpeed: "150Hz", offset: "0,1025", actualOffset: "0,1025", calcOffset: "0,1034", length: "65,6mm", actualTime: "48p", calcTime: "49p20'", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.6A", actualSpeed: "55-65 mm²/p", calcSpeedH40: "53 mm²/p" }] },
                     // H=90 (SCM420, STT 21 - Cắt cối 1 Pass)
                     { H: 90, material: "HB<200", passes: [{ Ton: 80, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 54, maxSpeed: "150Hz", offset: "0,118", actualOffset: "0,118", calcOffset: "0,1185", length: "--", actualTime: "--", calcTime: "--", actualAmpe: "3,5A - 3,6A", calcAmpe: "3.3A", actualSpeed: "50-60 mm²/p", calcSpeedH40: "34 mm²/p" }] },
+                    // H=90 (SCM420, STT 24 - Cắt chày 1 Pass chuẩn xưởng)
+                    { H: 90, material: "HB<200", passes: [{ Ton: 65, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 59, maxSpeed: "150Hz", offset: "0,103", actualOffset: "0,103", calcOffset: "0,1183", length: "57mm", actualTime: "46p", calcTime: "46p", actualAmpe: "3,9A - 4,0A", calcAmpe: "3.6A", actualSpeed: "45-60 mm²/p", calcSpeedH40: "50 mm²/p" }] },
                     // H=95 (SCM440, STT 17 - Cắt cối 1 Pass)
                     { H: 95, material: "30HRC", passes: [{ Ton: 82, Toff: 7, IP: 4, Wire: 1, Volt: "H", VF: 55, maxSpeed: "150Hz", offset: "0,1135", actualOffset: "0,1135", calcOffset: "0,1087", length: "76mm", actualTime: "1h15'", calcTime: "1h17p18'", actualAmpe: "3,6A - 3,7A", calcAmpe: "3.3A", actualSpeed: "35-45 mm²/p", calcSpeedH40: "39 mm²/p" }] },
                     // H=110 (SCM420, STT 19 - Cắt chày 1 Pass)
