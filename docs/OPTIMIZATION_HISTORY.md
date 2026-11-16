@@ -491,3 +491,13 @@
   2. **Đồng bộ hệ thống & Cổng gác:**
      - Nâng phiên bản hệ thống lên `v3.5.70` trên 5 tệp (`version.json`, `index.html`, `app.js`, `style.css`, `sw.js`) và `GEMINI.md`.
      - `verify_gatekeeper.ps1`: ALL 7 GATES PASSED [v3.5.70].
+
+---
+
+### 🤖 ĐỢT 71: THIẾT LẬP HỆ THỐNG ĐIỀU PHỐI ĐA MÔ HÌNH (`5 MODEL × 3 MỨC`), CỔNG CHẶN CỨNG & ZERO-LOSS HANDOFF
+* **Thời gian:** 2026-11-16 16:16 (GMT+7)
+* **Mục tiêu & Giải pháp triển khai:**
+  1. Khảo sát toàn diện đặc thù kỹ thuật của dự án (PWA Vanilla JS `app.js` 4,336 dòng + PowerShell scripts `.ps1` + Data Bank 33 mẻ cắt thực tế + Gatekeeper 7 Gates).
+  2. Xây dựng Ma trận Phân Công Đích Danh `5 Model × 3 Mức` riêng cho từng nhóm việc thực tế của AutoCut EDM (kèm cột `<Model + Mức dự phòng>` cho mọi đầu việc Claude và danh sách cặp bị cấm).
+  3. Cài cứng 5 Luật Sắt (`Every-Turn Model Gate`, `Hard Stop`, `Subagent Quét Thô`, `Zero-Loss Handoff`, `Multi-Task Split`) vào `GEMINI.md` (Mục 6), `AGENTS.md` (Điều 21), `docs/rules/07_MULTI_MODEL_ORCHESTRATION.md`, và `.agents/workflows/khoi_dong_phien_lam_viec_bat_dau.md`.
+  4. Kiểm định dung lượng chống cắt cụt (`GEMINI.md` giữ chặt dưới trần 160 dòng / 10,240 bytes) và chạy `scripts/verify_gatekeeper.ps1` đạt 7/7 GATES PASSED.

@@ -6,13 +6,19 @@
 ---
 
 ## ⏱️ 1. THỜI GIAN LÀM VIỆC GẦN NHẤT
-* **Thời điểm cập nhật:** `2026-11-09 16:45:00` (Giờ địa phương GMT+7)
+* **Thời điểm cập nhật:** `2026-11-16 16:16:00` (Giờ địa phương GMT+7)
 * **Vị trí làm việc hiện tại:** Máy tính Ở Nhà / Công Ty
-* **Phiên bản hệ thống:** `v3.5.70` (Đồng Bộ Động Số Lượng Bài Cắt Thư Viện Web App 22 Bài 1 Pass)
+* **Phiên bản hệ thống:** `v3.5.70` (Hạ tầng Điều phối Đa Mô Hình `5 Model × 3 Mức` & Cổng Chặn Anti-Amnesia)
 
 ---
 
 ## ✅ 2. CÁC VIỆC VỪA HOÀN THÀNH
+* **Đợt 71 (2026-11-16 - Thiết Lập Hệ Thống Điều Phối Đa Mô Hình `5 Model × 3 Mức`, Hard Stop & Zero-Loss Handoff):**
+  - Khảo sát cấu trúc thực tế dự án (`app.js` 4,336 dòng, `index.html`, `style.css`, `sw.js`, `WORKSHOP_DATA_BANK.md`, `scripts/verify_gatekeeper.ps1`, `docs/rules/01..06`).
+  - Thiết kế Ma trận Phân Công Đích Danh riêng cho dự án (12 nhóm việc thực tế + danh sách cấm `Opus Low`, `Argon Low`, `Hydrogen Low`, bỏ qua `GPT-OSS 120B`), đảm bảo mọi việc giao cho Claude đều có `<Model + Mức dự phòng>` bên Gemini/Argon.
+  - Tạo sổ tay `docs/rules/07_MULTI_MODEL_ORCHESTRATION.md` và ghi cứng 5 Luật Sắt + Ma trận vào `GEMINI.md` (Mục 6), `AGENTS.md` (Điều 21), và `.agents/workflows/khoi_dong_phien_lam_viec_bat_dau.md`.
+  - Kiểm tra dung lượng `GEMINI.md` nghiêm ngặt dưới ngưỡng Gate 7 (`<= 160 dòng`, `<= 10,240 bytes`) để không bao giờ bị cắt cụt.
+
 * **Đợt 70 (v3.5.70 - Khắc Phục Triệt Để & Động Hóa Số Lượng Bài Cắt Thư Viện Web App):**
   - **1. Bản chất vấn đề:**
     + Trước đây bảng kết quả bên dưới đã nạp và hiển thị đủ 100% cả 22 bài cắt thực tế (gồm 19 bài cũ + 3 bài STT 24-26 mới).

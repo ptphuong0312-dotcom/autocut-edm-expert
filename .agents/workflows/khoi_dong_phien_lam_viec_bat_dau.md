@@ -35,7 +35,7 @@ AI **BẮT BUỘC TỰ ĐỘNG THỰC HIỆN NGAY LẬP TỨC 3 BƯỚC MÀ KHÔ
    ```
 
 ### 🔹 BƯỚC 3: BÁO CÁO PHẢN HỒI NGẮN GỌN ĐÚNG 3 GẠCH ĐẦU DÒNG
-AI chỉ trả lời ngắn gọn, trực diện, không dài dòng, tuân thủ đúng định dạng 3 gạch đầu dòng sau:
+AI mở đầu bằng `[Model: Đạt chuẩn — <Model + Mức thật>]` (theo `GEMINI.md` Mục 6; tác vụ `"Bắt đầu"` chạy chuẩn trên `Gemini 3.8 Flash (Medium)`), sau đó trả lời ngắn gọn, trực diện, không dài dòng, tuân thủ đúng định dạng 3 gạch đầu dòng sau:
 
 * **1️⃣ Việc vừa hoàn thành ở phiên trước:** *(Tóm tắt 1-2 câu về Đợt vừa làm, tính năng hoặc lỗi đã xử lý xong)*
 * **2️⃣ Trạng thái mã nguồn và đồng bộ Git hiện tại:** *(Báo cáo phiên bản, kết quả verify cú pháp 100%, commit hash gần nhất, trạng thái nhánh `main`)*
