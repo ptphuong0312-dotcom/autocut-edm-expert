@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-HỆ THỐNG BACKUP TỰ ĐỘNG XOAY VÒNG (QUY CHUẨN 5 BẢN / 3 NGÀY)
+HỆ THỐNG BACKUP TỰ ĐỘNG XOAY VÒNG (QUY CHUẨN 2 BẢN / 2 NGÀY GẦN NHẤT)
 DỰ ÁN: AUTOCUT SERVO EDM EXPERT (DK77 WIRE EDM)
 CHỦ SỞ HỮU: SirPhuong (ptphuong0312@gmail.com)
 """
@@ -55,7 +55,7 @@ def create_backup(root_dir, backup_dir, project_name):
     return zip_path
 
 def rotate_backups(backup_dir):
-    print("\n[BƯỚC 2/2] 🧹 TIẾN HÀNH QUÉT DỌN XOAY VÒNG (KHUNG 3 NGÀY - TỐI ĐA 5 BẢN)...")
+    print("\n[BƯỚC 2/2] 🧹 TIẾN HÀNH QUÉT DỌN XOAY VÒNG (KHUNG 2 NGÀY GẦN NHẤT - TỐI ĐA 2 BẢN)...")
     
     zip_files = [f for f in os.listdir(backup_dir) if f.lower().endswith('.zip') and f != '.gitkeep']
     
@@ -104,30 +104,23 @@ def rotate_backups(backup_dir):
         files_in_day = sorted(grouped[date], key=lambda x: x['sort_key'], reverse=True)
         
         if day_idx == 0:
-            # Ngày N (Ngày hiện tại / mới nhất): Giữ tối đa 3 bản mới nhất
-            keep = files_in_day[:3]
-            delete = files_in_day[3:]
+            # Ngày N (Hôm nay / mới nhất): Chỉ giữ duy nhất 1 bản mới nhất trong ngày
+            keep = files_in_day[:1]
+            delete = files_in_day[1:]
             to_keep.extend(keep)
             for d in delete:
-                to_delete.append((d, f"Ngày N ({date}): Vượt quá định mức tối đa 3 bản trong ngày"))
+                to_delete.append((d, f"Ngày N ({date}): Chỉ giữ duy nhất 1 bản mới nhất trong ngày"))
         elif day_idx == 1:
-            # Ngày N-1: Giữ duy nhất 1 bản cuối cùng
+            # Ngày N-1 (Liền trước): Chỉ giữ duy nhất 1 bản cuối cùng
             keep = files_in_day[:1]
             delete = files_in_day[1:]
             to_keep.extend(keep)
             for d in delete:
-                to_delete.append((d, f"ƯU TIÊN 1: Cô đọng ngày N-1 ({date}) - Chỉ giữ duy nhất 1 bản cuối cùng"))
-        elif day_idx == 2:
-            # Ngày N-2: Giữ duy nhất 1 bản cuối cùng
-            keep = files_in_day[:1]
-            delete = files_in_day[1:]
-            to_keep.extend(keep)
-            for d in delete:
-                to_delete.append((d, f"Khung 3 ngày: Ngày N-2 ({date}) - Chỉ giữ duy nhất 1 bản cuối cùng"))
+                to_delete.append((d, f"Ngày N-1 ({date}): Chỉ giữ duy nhất 1 bản cuối cùng"))
         else:
-            # Ngoài khung 3 ngày: Xóa sạch toàn bộ
+            # Ngoài khung 2 ngày gần nhất: Xóa sạch toàn bộ
             for d in files_in_day:
-                to_delete.append((d, f"ƯU TIÊN 3: Nằm ngoài khung 3 ngày gần nhất ({date}) - Xóa sạch"))
+                to_delete.append((d, f"Nằm ngoài khung 2 ngày gần nhất ({date}) - Xóa sạch"))
                 
     # Perform deletion
     if to_delete:
@@ -143,7 +136,7 @@ def rotate_backups(backup_dir):
     else:
         print("\n   ✨ Không có file nào cần thanh lọc (Đang trong định mức).")
         
-    print(f"\n✅ DANH SÁCH BẢN SAO LƯU ĐƯỢC GIỮ LẠI (TỔNG CỘNG: {len(to_keep)}/5 BẢN):")
+    print(f"\n✅ DANH SÁCH BẢN SAO LƯU ĐƯỢC GIỮ LẠI (TỔNG CỘNG: {len(to_keep)}/2 BẢN):")
     for idx, item in enumerate(to_keep, 1):
         size_kb = round(item['size'] / 1024, 1)
         role = ""
@@ -151,13 +144,11 @@ def rotate_backups(backup_dir):
             role = "[Ngày N - Hôm nay]"
         elif len(sorted_dates) > 1 and item['date'] == sorted_dates[1]:
             role = "[Ngày N-1 - Liền kề]"
-        elif len(sorted_dates) > 2 and item['date'] == sorted_dates[2]:
-            role = "[Ngày N-2 - Cũ nhất khung 3 ngày]"
             
         print(f"   [{idx}/{len(to_keep)}] {role} Ngày {item['date']}: {item['name']} ({size_kb} KB)")
         
     print("\n" + "=" * 78)
-    print(f"   🎉 HOÀN TẤT BACKUP & XOAY VÒNG THÀNH CÔNG! (TỔNG SỐ BẢN: {len(to_keep)} <= 5)")
+    print(f"   🎉 HOÀN TẤT BACKUP & XOAY VÒNG THÀNH CÔNG! (TỔNG SỐ BẢN: {len(to_keep)} <= 2)")
     print("=" * 78)
 
 def main():
@@ -166,7 +157,7 @@ def main():
     os.makedirs(backup_dir, exist_ok=True)
     
     print("=" * 78)
-    print("   🔄 HỆ THỐNG BACKUP XOAY VÒNG 5 BẢN / 3 NGÀY - SIRPHUONG EDM EXPERT")
+    print("   🔄 HỆ THỐNG BACKUP XOAY VÒNG 2 BẢN / 2 NGÀY GẦN NHẤT - SIRPHUONG EDM EXPERT")
     print(f"   Thư mục gốc : {root_dir}")
     print(f"   Thư mục lưu : {backup_dir}")
     print("=" * 78)

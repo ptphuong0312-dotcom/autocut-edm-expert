@@ -511,3 +511,12 @@
   2. **Ảnh trong dự án:** Xóa `scripts/preview_pdf.png` (`336.3 KB`). Kiểm tra toàn repo xác nhận không lưu ảnh chụp màn hình chat nào khác bên trong mã nguồn.
   3. **Thư mục nháp & lưu trữ cũ:** Xóa `scratch/` (`70` tệp nháp) và `archive/` (`71` tệp legacy đã nằm trong lịch sử Git).
   4. **Kiểm định an toàn:** Toàn bộ tệp ứng dụng, Data Bank, `docs/` và `scripts/` cốt lõi nguyên vẹn 100%, `verify_gatekeeper.ps1` đạt 7/7 GATES PASSED.
+
+---
+
+### 📦 ĐỢT 73: CHUẨN HÓA BACKUP XOAY VÒNG 2 BẢN / 2 NGÀY GẦN NHẤT
+* **Thời gian:** 2026-11-16 19:51 (GMT+7)
+* **Thay đổi triển khai:**
+  1. Cập nhật `scripts/backup.ps1` và `scripts/backup.py`: Chuyển từ quy chuẩn cũ (`5 bản / 3 ngày`) sang quy chuẩn mới **`2 bản / 2 ngày gần nhất`** (Ngày N giữ duy nhất `1` bản mới nhất; Ngày N-1 giữ duy nhất `1` bản cuối cùng; xóa toàn bộ từ ngày thứ 3 trở đi).
+  2. Thêm `-ErrorAction SilentlyContinue` khi quét thư mục trong `backup.ps1` để bỏ qua cảnh báo reparse point của OneDrive trong `node_modules`.
+  3. Chạy thực thi `scripts/backup.ps1`: Tự động thanh lọc toàn bộ bản cũ và chỉ giữ lại đúng 2 bản zip gần nhất.

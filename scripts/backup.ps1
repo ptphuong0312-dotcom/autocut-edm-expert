@@ -1,5 +1,5 @@
 # ==============================================================================
-# HE THONG BACKUP TU DONG XOAY VONG (QUY CHUAN 5 BAN / 3 NGAY)
+# HE THONG BACKUP TU DONG XOAY VONG (QUY CHUAN 2 BAN / 2 NGAY GAN NHAT)
 # DU AN: AUTOCUT SERVO EDM EXPERT (DK77 WIRE EDM)
 # CHU SO HUU: SirPhuong (ptphuong0312@gmail.com)
 # ==============================================================================
@@ -28,7 +28,7 @@ if (-not (Test-Path $backupDir)) {
 }
 
 Write-Host "==============================================================================" -ForegroundColor Cyan
-Write-Host "   BACKUP XOAY VONG 5 BAN / 3 NGAY - AUTOCUT SERVO EDM EXPERT" -ForegroundColor Cyan
+Write-Host "   BACKUP XOAY VONG 2 BAN / 2 NGAY GAN NHAT - AUTOCUT SERVO EDM EXPERT" -ForegroundColor Cyan
 Write-Host "   Chu so huu : SirPhuong" -ForegroundColor Cyan
 Write-Host "   Thu muc goc: $rootDir" -ForegroundColor DarkGray
 Write-Host "   Thu muc luu: $backupDir" -ForegroundColor DarkGray
@@ -47,7 +47,7 @@ $excludeDirs = @('backups', '.git', 'node_modules', '__pycache__', '.venv', '.ve
 $excludeExts = @('.zip')
 
 # Thu thap danh sach file hop le
-$allFiles = Get-ChildItem -Path $rootDir -Recurse -File | Where-Object {
+$allFiles = Get-ChildItem -Path $rootDir -Recurse -File -ErrorAction SilentlyContinue | Where-Object {
     $rel = $_.FullName.Substring($rootDir.Length + 1)
     $parts = $rel.Split([System.IO.Path]::DirectorySeparatorChar)
     $skip = $false
@@ -93,8 +93,8 @@ if (-not $DryRun) {
     Write-Host "   [DRY-RUN] Bo qua buoc tao file nen." -ForegroundColor DarkYellow
 }
 
-# 3. QUET DON & XOAY VONG THEO QUY CHUAN 5 BAN / 3 NGAY
-Write-Host "`n[BUOC 2/2] TIEN HANH QUET DON XOAY VONG (KHUNG 3 NGAY - TOI DA 5 BAN)..." -ForegroundColor Yellow
+# 3. QUET DON & XOAY VONG THEO QUY CHUAN 2 BAN / 2 NGAY GAN NHAT
+Write-Host "`n[BUOC 2/2] TIEN HANH QUET DON XOAY VONG (KHUNG 2 NGAY GAN NHAT - TOI DA 2 BAN)..." -ForegroundColor Yellow
 
 $zipFiles = Get-ChildItem -Path $backupDir -Filter "*.zip" | Where-Object { $_.Name -ne ".gitkeep" }
 $parsedBackups = @()
@@ -139,44 +139,33 @@ for ($dayIndex = 0; $dayIndex -lt $sortedDates.Count; $dayIndex++) {
     $filesInDay = @($dayGroup.Group | Sort-Object -Property SortKey -Descending)
     
     if ($dayIndex -eq 0) {
-        # Ngay N (Ngay hien tai / moi nhat): Giu toi da 3 ban moi nhat
-        $keep = @($filesInDay | Select-Object -First 3)
-        $del = @($filesInDay | Select-Object -Skip 3)
+        # Ngay N (Hom nay / ngay moi nhat): Chi giu duy nhat 1 ban MOI NHAT trong ngay
+        $keep = @($filesInDay | Select-Object -First 1)
+        $del = @($filesInDay | Select-Object -Skip 1)
         foreach ($k in $keep) { $toKeep.Add($k) }
         foreach ($d in $del) { 
             $toDelete.Add([PSCustomObject]@{ 
                 File = $d; 
-                Reason = "Ngay N ($($dayGroup.Name)): Vuot qua dinh muc toi da 3 ban trong ngay" 
+                Reason = "Ngay N ($($dayGroup.Name)): Chi giu duy nhat 1 ban moi nhat trong ngay" 
             }) 
         }
     } elseif ($dayIndex -eq 1) {
-        # Ngay N-1 (Ngay hom qua / lien ke): Chi giu duy nhat 1 ban CUOI CUNG cua ngay
+        # Ngay N-1 (Ngay gan nhat lien truoc): Chi giu duy nhat 1 ban CUOI CUNG cua ngay
         $keep = @($filesInDay | Select-Object -First 1)
         $del = @($filesInDay | Select-Object -Skip 1)
         foreach ($k in $keep) { $toKeep.Add($k) }
         foreach ($d in $del) { 
             $toDelete.Add([PSCustomObject]@{ 
                 File = $d; 
-                Reason = "UU TIEN 1: Co dong ngay N-1 ($($dayGroup.Name)) - Chi giu duy nhat 1 ban cuoi cung" 
-            }) 
-        }
-    } elseif ($dayIndex -eq 2) {
-        # Ngay N-2 (Ngay cu nhat trong khung 3 ngay): Chi giu duy nhat 1 ban CUOI CUNG cua ngay
-        $keep = @($filesInDay | Select-Object -First 1)
-        $del = @($filesInDay | Select-Object -Skip 1)
-        foreach ($k in $keep) { $toKeep.Add($k) }
-        foreach ($d in $del) { 
-            $toDelete.Add([PSCustomObject]@{ 
-                File = $d; 
-                Reason = "Khung 3 ngay: Ngay N-2 ($($dayGroup.Name)) - Chi giu duy nhat 1 ban cuoi cung" 
+                Reason = "Ngay N-1 ($($dayGroup.Name)): Chi giu duy nhat 1 ban cuoi cung" 
             }) 
         }
     } else {
-        # UU TIEN 3: Cat got toan bo cac ngay ngoai khung 3 ngay gan nhat (tu ngay thu 4 tro di)
+        # Cat got toan bo cac ngay ngoai khung 2 ngay gan nhat (tu ngay thu 3 tro di)
         foreach ($d in $filesInDay) {
             $toDelete.Add([PSCustomObject]@{ 
                 File = $d; 
-                Reason = "UU TIEN 3: Nam ngoai khung 3 ngay gan nhat ($($dayGroup.Name)) - Xoa sach" 
+                Reason = "Nam ngoai khung 2 ngay gan nhat ($($dayGroup.Name)) - Xoa sach" 
             }) 
         }
     }
@@ -201,7 +190,7 @@ if ($toDelete.Count -gt 0) {
 }
 
 # 5. In danh sach cac file duoc luu tru chuan muc
-Write-Host "`nDANH SACH BAN SAO LUU DUOC GIU LAI (TONG CONG: $($toKeep.Count)/5 BAN):" -ForegroundColor Cyan
+Write-Host "`nDANH SACH BAN SAO LUU DUOC GIU LAI (TONG CONG: $($toKeep.Count)/2 BAN):" -ForegroundColor Cyan
 $idx = 1
 foreach ($item in $toKeep) {
     $fName = $item.Name
@@ -211,12 +200,11 @@ foreach ($item in $toKeep) {
     $role = ""
     if ($fDate -eq $sortedDates[0].Name) { $role = "[Ngay N - Hom nay]" }
     elseif ($sortedDates.Count -gt 1 -and $fDate -eq $sortedDates[1].Name) { $role = "[Ngay N-1 - Lien ke]" }
-    elseif ($sortedDates.Count -gt 2 -and $fDate -eq $sortedDates[2].Name) { $role = "[Ngay N-2 - Cu nhat khung 3 ngay]" }
     
     Write-Host "   [$idx/$($toKeep.Count)] $role Ngay ${fDate}: $fName ($fSizeKB KB)" -ForegroundColor Green
     $idx++
 }
 
 Write-Host "`n==============================================================================" -ForegroundColor Cyan
-Write-Host "   HOAN TAT BACKUP & XOAY VONG THANH CONG! (TONG SO BAN: $($toKeep.Count) <= 5)" -ForegroundColor Green
+Write-Host "   HOAN TAT BACKUP & XOAY VONG THANH CONG! (TONG SO BAN: $($toKeep.Count) <= 2)" -ForegroundColor Green
 Write-Host "==============================================================================" -ForegroundColor Cyan

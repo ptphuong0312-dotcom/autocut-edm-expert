@@ -6,13 +6,17 @@
 ---
 
 ## ⏱️ 1. THỜI GIAN LÀM VIỆC GẦN NHẤT
-* **Thời điểm cập nhật:** `2026-11-16 19:35:00` (Giờ địa phương GMT+7)
+* **Thời điểm cập nhật:** `2026-11-16 19:51:00` (Giờ địa phương GMT+7)
 * **Vị trí làm việc hiện tại:** Máy tính Ở Nhà / Công Ty
-* **Phiên bản hệ thống:** `v3.5.70` (Dọn Dẹp Toàn Diện File Rác, Ảnh Dư, `scratch/` & `archive/` Cũ)
+* **Phiên bản hệ thống:** `v3.5.70` (Chuẩn Hóa Backup Xoay Vòng 2 Bản / 2 Ngày Gần Nhất)
 
 ---
 
 ## ✅ 2. CÁC VIỆC VỪA HOÀN THÀNH
+* **Đợt 73 (2026-11-16 - Chuẩn Hóa Cơ Chế Backup Xoay Vòng 2 Bản / 2 Ngày Gần Nhất):**
+  - Cập nhật [scripts/backup.ps1](file:///g:/OneDrive/Antigravity/Cat_Day_EDM/scripts/backup.ps1) và [scripts/backup.py](file:///g:/OneDrive/Antigravity/Cat_Day_EDM/scripts/backup.py): mỗi ngày chỉ giữ duy nhất 1 bản mới nhất, tối đa 2 ngày gần nhất (`<= 2` bản zip trong `backups/`).
+  - Xóa sạch mọi bản backup thừa cùng ngày và các ngày cũ hơn (chỉ giữ 1 bản hôm nay `2026-11-16` + 1 bản liền trước `2026-11-09`).
+
 * **Đợt 72 (2026-11-16 - Dọn Dẹp File Rác & Tinh Gọn Kho Mã Nguồn):**
   - Xóa sạch 6 tệp debug/test hỏng tại thư mục gốc (`debug.txt`, `debug2.txt`, `debug_ammeter.txt`, `debug_ammeter2.txt`, `debug_v53.txt`, `test_node_app.js`).
   - Xóa tệp ảnh dư duy nhất trong dự án (`scripts/preview_pdf.png`, `336 KB`). *(Xác minh các ảnh chụp màn hình gửi qua khung chat được IDE Antigravity lưu ngoài thư mục code dự án).*
