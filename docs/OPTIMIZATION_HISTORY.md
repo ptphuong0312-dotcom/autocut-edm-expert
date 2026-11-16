@@ -501,3 +501,13 @@
   2. Xây dựng Ma trận Phân Công Đích Danh `5 Model × 3 Mức` riêng cho từng nhóm việc thực tế của AutoCut EDM (kèm cột `<Model + Mức dự phòng>` cho mọi đầu việc Claude và danh sách cặp bị cấm).
   3. Cài cứng 5 Luật Sắt (`Every-Turn Model Gate`, `Hard Stop`, `Subagent Quét Thô`, `Zero-Loss Handoff`, `Multi-Task Split`) vào `GEMINI.md` (Mục 6), `AGENTS.md` (Điều 21), `docs/rules/07_MULTI_MODEL_ORCHESTRATION.md`, và `.agents/workflows/khoi_dong_phien_lam_viec_bat_dau.md`.
   4. Kiểm định dung lượng chống cắt cụt (`GEMINI.md` giữ chặt dưới trần 160 dòng / 10,240 bytes) và chạy `scripts/verify_gatekeeper.ps1` đạt 7/7 GATES PASSED.
+
+---
+
+### 🧹 ĐỢT 72: DỌN DẸP TOÀN DIỆN FILE RÁC, ẢNH DƯ, `scratch/` & `archive/` CŨ
+* **Thời gian:** 2026-11-16 19:35 (GMT+7)
+* **Các hạng mục đã dọn sạch khỏi dự án (tổng cộng 148 tệp rác/cũ, ~1.2 MB):**
+  1. **Thư mục gốc:** Xóa `debug.txt`, `debug2.txt`, `debug_ammeter.txt`, `debug_ammeter2.txt`, `debug_v53.txt`, `test_node_app.js`.
+  2. **Ảnh trong dự án:** Xóa `scripts/preview_pdf.png` (`336.3 KB`). Kiểm tra toàn repo xác nhận không lưu ảnh chụp màn hình chat nào khác bên trong mã nguồn.
+  3. **Thư mục nháp & lưu trữ cũ:** Xóa `scratch/` (`70` tệp nháp) và `archive/` (`71` tệp legacy đã nằm trong lịch sử Git).
+  4. **Kiểm định an toàn:** Toàn bộ tệp ứng dụng, Data Bank, `docs/` và `scripts/` cốt lõi nguyên vẹn 100%, `verify_gatekeeper.ps1` đạt 7/7 GATES PASSED.

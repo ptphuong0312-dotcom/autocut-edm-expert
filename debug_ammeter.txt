@@ -1,1 +1,0 @@
-        actualAmmeterReading: '≈ 3.2 A (Khớp kim đo thực tế xưởng)'

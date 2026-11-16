@@ -6,13 +6,19 @@
 ---
 
 ## ⏱️ 1. THỜI GIAN LÀM VIỆC GẦN NHẤT
-* **Thời điểm cập nhật:** `2026-11-16 16:16:00` (Giờ địa phương GMT+7)
+* **Thời điểm cập nhật:** `2026-11-16 19:35:00` (Giờ địa phương GMT+7)
 * **Vị trí làm việc hiện tại:** Máy tính Ở Nhà / Công Ty
-* **Phiên bản hệ thống:** `v3.5.70` (Hạ tầng Điều phối Đa Mô Hình `5 Model × 3 Mức` & Cổng Chặn Anti-Amnesia)
+* **Phiên bản hệ thống:** `v3.5.70` (Dọn Dẹp Toàn Diện File Rác, Ảnh Dư, `scratch/` & `archive/` Cũ)
 
 ---
 
 ## ✅ 2. CÁC VIỆC VỪA HOÀN THÀNH
+* **Đợt 72 (2026-11-16 - Dọn Dẹp File Rác & Tinh Gọn Kho Mã Nguồn):**
+  - Xóa sạch 6 tệp debug/test hỏng tại thư mục gốc (`debug.txt`, `debug2.txt`, `debug_ammeter.txt`, `debug_ammeter2.txt`, `debug_v53.txt`, `test_node_app.js`).
+  - Xóa tệp ảnh dư duy nhất trong dự án (`scripts/preview_pdf.png`, `336 KB`). *(Xác minh các ảnh chụp màn hình gửi qua khung chat được IDE Antigravity lưu ngoài thư mục code dự án).*
+  - Xóa toàn bộ thư mục nháp `scratch/` (`70` tệp tạm, `297.8 KB`) và kho mã/script cũ `archive/` (`71` tệp cũ, `561 KB` — đã có sẵn trong lịch sử Git).
+  - Chạy `verify_gatekeeper.ps1`: ALL 7 GATES PASSED [v3.5.70].
+
 * **Đợt 71 (2026-11-16 - Thiết Lập Hệ Thống Điều Phối Đa Mô Hình `5 Model × 3 Mức`, Hard Stop & Zero-Loss Handoff):**
   - Khảo sát cấu trúc thực tế dự án (`app.js` 4,336 dòng, `index.html`, `style.css`, `sw.js`, `WORKSHOP_DATA_BANK.md`, `scripts/verify_gatekeeper.ps1`, `docs/rules/01..06`).
   - Thiết kế Ma trận Phân Công Đích Danh riêng cho dự án (12 nhóm việc thực tế + danh sách cấm `Opus Low`, `Argon Low`, `Hydrogen Low`, bỏ qua `GPT-OSS 120B`), đảm bảo mọi việc giao cho Claude đều có `<Model + Mức dự phòng>` bên Gemini/Argon.
