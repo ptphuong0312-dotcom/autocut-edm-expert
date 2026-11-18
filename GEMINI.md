@@ -54,31 +54,33 @@ Web App hiện tại gồm đúng **2 Tab chức năng** (Các Tab Hãng và Th�
 
 ---
 
-## 🤖 6. ĐIỀU PHỐI ĐA MÔ HÌNH, 5 LUẬT SẮT & CỔNG CHẶN (ANTI-AMNESIA)
+## 🤖 6. ĐIỀU PHỐI ĐA MÔ HÌNH (3 QUỸ QUOTA), 5 LUẬT SẮT & CỔNG CHẶN
 > [!CAUTION]
-> **CHỈ ĐÍCH DANH 1 MODEL + 1 MỨC (`Low/Medium/High`).** Cấm tư vấn chung chung (`Med/High`). Mọi việc giao Claude bắt buộc kèm `Dự phòng` bên Gemini/Argon. Chi tiết tại `docs/rules/07_MULTI_MODEL_ORCHESTRATION.md`.
+> **CHỈ ĐÍCH DANH 1 MODEL + 1 MỨC (`Low/Medium/High/Extra`).** **Quỹ 1 (5h):** `3.8 Flash` chung quỹ `4 Hydrogen` (tránh `3.8 Flash High`). **Quỹ 2 (Tuần):** `4 Argon` + `Orchestrator (Argon)`. **Quỹ 3 (5h):** `Claude Opus/Sonnet 5.5` (kèm `<Dự phòng>` Gemini/Argon). Chi tiết tại `docs/rules/07_MULTI_MODEL_ORCHESTRATION.md`.
 
 ### 🛡️ 5 Luật Sắt Bắt Buộc Ở Mọi Lượt Chat:
 1. **Every-Turn Model Gate:** Đầu mỗi câu trả lời, tự đọc **Model + Mức thật** từ system context (cấm copy log cũ); ghi `[Model: Đạt chuẩn — <Model + Mức thật>]` nếu đúng tầng.
-2. **Hard Stop (Cổng Chặn Cứng):** Nếu đang chạy `Flash` (mọi mức) hoặc mức `Low` của `Sonnet/Opus/Hydrogen/Argon` mà nhận tác vụ chạm code lõi / toán vật lý / kiến trúc / debug sâu / UI `>= 50 dòng` chưa có Blueprint (chưa có lệnh `"Làm luôn"`): **DỪNG NGAY TRƯỚC KHI SỬA FILE**, nêu `<Model đang chạy>` + đề xuất đích danh `1 <Model + Mức chuẩn>` (+ `<Dự phòng>` nếu là Claude), chờ `"Làm đi"` / `"Làm luôn"`.
-3. **Subagent Quét Thô:** Trên `Hydrogen/Argon/Sonnet/Opus`, cấm tự đọc hàng loạt file lớn (`WORKSHOP_DATA_BANK.md`, `OPTIMIZATION_HISTORY.md`, `RESEARCH_*.md`, CSV/JSON/log) hay grep rộng trên luồng chính ➔ đẩy sang subagent `flash` hoặc `flash_lite`.
+2. **Hard Stop (Cổng Chặn Cứng):** Nếu đang chạy `3.8 Flash` (mọi mức) hoặc mức `Low` của `Sonnet/Opus/Hydrogen/Argon` mà nhận tác vụ chạm code lõi / toán vật lý / kiến trúc / debug sâu / UI `>= 50 dòng` chưa có Blueprint (chưa có lệnh `"Làm luôn"`): **DỪNG NGAY TRƯỚC KHI SỬA FILE**, nêu `<Model đang chạy>` + đề xuất đích danh `1 <Model + Mức chuẩn>` (+ `<Dự phòng>` nếu là Claude), chờ `"Làm đi"` / `"Làm luôn"`.
+3. **Subagent Quét Thô & Chống Attention Dilution:** Trên `Hydrogen/Argon/Sonnet/Opus`, cấm tự đọc hàng loạt file lớn (`WORKSHOP_DATA_BANK.md`, `OPTIMIZATION_HISTORY.md`, `RESEARCH_*.md`, CSV/log) hay grep rộng trên luồng chính ➔ đẩy sang subagent `flash` (`3.8 Flash Low`). Giữ tiền tố cố định ở đầu để tận dụng Implicit Caching.
 4. **Zero-Loss Handoff (Hết Quota Giữa Chừng):** Khi sắp/đã chạm trần quota, xuất ngay **3 dòng bàn giao** (`1. Việc đang làm dở | 2. File vừa sửa/đang dở | 3. Bước tiếp theo`) kèm đích danh `<Model + Mức dự phòng>` để SirPhuong chuyển model và gõ `"Làm tiếp"`.
-5. **Multi-Task Split:** Tin nhắn nhiều tầng việc ➔ tự bóc tách: làm phần đúng tầng (hoặc giao subagent), phần vượt tầng đóng gói bàn giao chờ chuyển model.
+5. **Multi-Task Split & Scope Lock:** Tin nhắn nhiều tầng việc ➔ tự bóc tách phần đúng tầng vs phần bàn giao. Giao `Sonnet 5.5 (High)` bắt buộc khóa rõ danh sách file được phép sửa.
 
-### 📊 Ma Trận Phân Công Riêng Cho AutoCut EDM (`5 Model × 3 Mức`):
+### 📊 Ma Trận Phân Công Riêng Cho AutoCut EDM (`v2.0`):
 | Đầu Việc Thực Tế Của Dự Án | Chỉ Định Chính (1 Model + 1 Mức) | Dự Phòng Hết Quota |
 |:---|:---|:---|
-| Quét thô Data Bank / History / `RESEARCH_*.md`, grep rộng (Subagent) | `Gemini 3.8 Flash (Low)` | `Claude Sonnet 5.5 (Low)` |
+| Quét thô Data Bank / History / `RESEARCH_*.md`, lọc log, grep rộng (Subagent) | `Gemini 3.8 Flash (Low)` | `Claude Sonnet 5.5 (Low)` |
 | Khẩu lệnh hằng ngày (`Bắt đầu`, `kiểm định offset`), `verify_gatekeeper.ps1`, `backup.ps1`, git | `Gemini 3.8 Flash (Medium)` | `Gemini 4 Hydrogen (Medium)` |
-| Thi công code/UI đã có Blueprint chi tiết, sửa `< 50 dòng`, nạp bài đã tính sẵn | `Gemini 3.8 Flash (High)` | `Claude Sonnet 5.5 (Medium)` |
+| Sửa 1 file rõ ngữ cảnh, thi công `< 50 dòng` khi **ĐÃ CÓ Blueprint**, nạp bài đã tính sẵn | `Gemini 4 Hydrogen (Medium)` | `Claude Sonnet 5.5 (Medium)` |
 | Đọc/tóm tắt tài liệu PDF AutoCut hoặc quy chuẩn *(chỉ đọc, cấm sửa code)* | `Claude Sonnet 5.5 (Low)` | `Gemini 3.8 Flash (Medium)` |
-| Frontend UI sạch `>= 50 dòng` (Tab 1 2-vùng, Mobile chips, Print A4), script `.ps1/.py` | `Claude Sonnet 5.5 (Medium)` | `Gemini 3.8 Flash (High)` |
-| Đối soát UI ⟷ Engine (Live Reactivity, Clipboard `V66`), Regex/DOM khó, dự phòng `Hydrogen High` | `Claude Sonnet 5.5 (High)` | `Gemini 4 Hydrogen (High)` |
+| Frontend UI sạch `>= 50 dòng` (Tab 1 2-vùng, Mobile chips, Print A4), script `.ps1/.py` | `Claude Sonnet 5.5 (Medium)` | `Gemini 4 Hydrogen (High)` |
+| Đối soát UI ⟷ Engine (Live Reactivity, Clipboard `V66`), Regex/DOM khó *(khóa file)* | `Claude Sonnet 5.5 (High)` | `Gemini 4 Hydrogen (High)` |
 | Thử nghiệm nhánh phụ, refactor module phụ ngoài hằng số lõi, test JSDOM/Node | `Gemini 4 Hydrogen (Medium)` | `Claude Sonnet 5.5 (Medium)` |
-| Lõi Toán-Vật Lý ($\delta$, $R_z$ Núi Lửa, Ampe, $F_c$, $H>170$), SOP 6 bước, backtest đa file | `Gemini 4 Hydrogen (High)` | `Claude Sonnet 5.5 (High)` |
+| Lõi Toán-Vật Lý ($\delta$, $R_z$ Núi Lửa, Ampe, $F_c$, $H>170$), SOP 6 bước, code đa file | `Gemini 4 Hydrogen (High)` | `Claude Sonnet 5.5 (High)` |
+| Dự phòng chiến lược khi Quỹ 2 & 3 cạn; thuật toán/phụ thuộc chồng chéo cực khó, self-audit | `Gemini 4 Hydrogen (Extra)` | `Claude Opus 5.5 (Medium)` |
 | Debug ca khó đa tầng (UI + Engine + PWA/SW) & Phản biện giả thiết vật lý trước khi code | `Claude Opus 5.5 (Medium)` | `Gemini 4 Argon (Medium)` |
 | Nghiệm thu chéo độc lập (audit code/công thức của Gemini/Sonnet) & Bug sync/timing khó | `Claude Opus 5.5 (High)` | `Gemini 4 Argon (High)` |
-| Phản biện nhanh bản vẽ thiết kế hoặc thuật toán mức trung bình | `Gemini 4 Argon (Medium)` | `Claude Opus 5.5 (Medium)` |
-| Thiết kế khung kiến trúc mới từ số 0 (Blueprint) & Đại tu mô hình toán lõi toàn cục | `Gemini 4 Argon (High)` | `Claude Opus 5.5 (High)` |
+| Đọc ảnh UI/sơ đồ/3D phức tạp, bản đồ phụ thuộc đa thư mục, phản biện thiết kế vừa–lớn | `Gemini 4 Argon (Medium)` | `Claude Opus 5.5 (Medium)` |
+| Thiết kế Blueprint kiến trúc mới từ số 0 & Đại tu mô hình toán lõi toàn cục | `Gemini 4 Argon (High)` | `Claude Opus 5.5 (High)` |
+| Đại dự án 1 phiên (vừa thiết kế kiến trúc vừa code & test hàng chục file cùng lúc) | `Orchestrator (Argon)` | `Gemini 4 Hydrogen (High)` |
 
-⛔ **CẤM / BỎ QUA:** `Claude Opus 5.5 (Low)`, `Gemini 4 Argon (Low)`, `Gemini 4 Hydrogen (Low)`, `GPT-OSS 120B`; `Claude Sonnet 5.5 (Low)` cấm sửa lõi.
+⛔ **CẤM / TRÁNH / BỎ QUA:** Cấm `Opus Low`, `Argon Low`, `Hydrogen Low` (code/logic), `Sonnet Low` (sửa code); Tránh `3.8 Flash High`; Loại bỏ `GPT-OSS 120B`.

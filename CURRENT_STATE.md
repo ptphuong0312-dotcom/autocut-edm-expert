@@ -6,13 +6,19 @@
 ---
 
 ## ⏱️ 1. THỜI GIAN LÀM VIỆC GẦN NHẤT
-* **Thời điểm cập nhật:** `2026-11-16 19:51:00` (Giờ địa phương GMT+7)
+* **Thời điểm cập nhật:** `2026-11-19 00:28:00` (Giờ địa phương GMT+7)
 * **Vị trí làm việc hiện tại:** Máy tính Ở Nhà / Công Ty
-* **Phiên bản hệ thống:** `v3.5.70` (Chuẩn Hóa Backup Xoay Vòng 2 Bản / 2 Ngày Gần Nhất)
+* **Phiên bản hệ thống:** `v3.5.70` (Đồng Bộ Hồ Sơ Năng Lực Model v2.0 & Kiến Trúc 3 Quỹ Quota)
 
 ---
 
 ## ✅ 2. CÁC VIỆC VỪA HOÀN THÀNH
+* **Đợt 74 (2026-11-19 - Đồng Bộ Ma Trận Điều Phối Đa Mô Hình Theo Hồ Sơ Năng Lực v2.0):**
+  - Cập nhật [docs/rules/07_MULTI_MODEL_ORCHESTRATION.md](file:///g:/OneDrive/Antigravity/Cat_Day_EDM/docs/rules/07_MULTI_MODEL_ORCHESTRATION.md), [GEMINI.md](file:///g:/OneDrive/Antigravity/Cat_Day_EDM/GEMINI.md) (Mục 6) và [AGENTS.md](file:///g:/OneDrive/Antigravity/Cat_Day_EDM/AGENTS.md) (Điều 21) theo tài liệu kỹ thuật v2.0.
+  - Chuẩn hóa **Kiến trúc 3 Quỹ Quota Độc Lập** (Quỹ 1 chung `3.8 Flash + 4 Hydrogen`, Quỹ 2 tuần `4 Argon + Orchestrator`, Quỹ 3 `Claude Opus/Sonnet 5.5`).
+  - Loại bỏ `Gemini 3.8 Flash (High)` khỏi mọi đầu việc thi công/dự phòng code, thay bằng `Gemini 4 Hydrogen (Medium/High)`; bổ sung `Gemini 4 Hydrogen (Extra)` làm dự phòng chiến lược và `Orchestrator (Argon)` cho đại dự án 1 phiên.
+  - Bổ sung kỷ luật **Scope Lock** cho `Sonnet 5.5 (High)`, **Implicit Caching** & chống **Attention Dilution** trên bể 1M.
+
 * **Đợt 73 (2026-11-16 - Chuẩn Hóa Cơ Chế Backup Xoay Vòng 2 Bản / 2 Ngày Gần Nhất):**
   - Cập nhật [scripts/backup.ps1](file:///g:/OneDrive/Antigravity/Cat_Day_EDM/scripts/backup.ps1) và [scripts/backup.py](file:///g:/OneDrive/Antigravity/Cat_Day_EDM/scripts/backup.py): mỗi ngày chỉ giữ duy nhất 1 bản mới nhất, tối đa 2 ngày gần nhất (`<= 2` bản zip trong `backups/`).
   - Xóa sạch mọi bản backup thừa cùng ngày và các ngày cũ hơn (chỉ giữ 1 bản hôm nay `2026-11-16` + 1 bản liền trước `2026-11-09`).

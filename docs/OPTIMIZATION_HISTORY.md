@@ -520,3 +520,13 @@
   1. Cập nhật `scripts/backup.ps1` và `scripts/backup.py`: Chuyển từ quy chuẩn cũ (`5 bản / 3 ngày`) sang quy chuẩn mới **`2 bản / 2 ngày gần nhất`** (Ngày N giữ duy nhất `1` bản mới nhất; Ngày N-1 giữ duy nhất `1` bản cuối cùng; xóa toàn bộ từ ngày thứ 3 trở đi).
   2. Thêm `-ErrorAction SilentlyContinue` khi quét thư mục trong `backup.ps1` để bỏ qua cảnh báo reparse point của OneDrive trong `node_modules`.
   3. Chạy thực thi `scripts/backup.ps1`: Tự động thanh lọc toàn bộ bản cũ và chỉ giữ lại đúng 2 bản zip gần nhất.
+
+---
+
+### 🤖 ĐỢT 74: ĐỒNG BỘ MA TRẬN ĐIỀU PHỐI ĐA MÔ HÌNH THEO HỒ SƠ NĂNG LỰC v2.0
+* **Thời gian:** 2026-11-19 00:28 (GMT+7)
+* **Thay đổi triển khai:**
+  1. Cập nhật đồng bộ [docs/rules/07_MULTI_MODEL_ORCHESTRATION.md](file:///g:/OneDrive/Antigravity/Cat_Day_EDM/docs/rules/07_MULTI_MODEL_ORCHESTRATION.md), [GEMINI.md](file:///g:/OneDrive/Antigravity/Cat_Day_EDM/GEMINI.md) (Mục 6) và [AGENTS.md](file:///g:/OneDrive/Antigravity/Cat_Day_EDM/AGENTS.md) (Điều 21) theo tài liệu kỹ thuật v2.0.
+  2. Tách rõ **3 Quỹ Quota Độc Lập** (Quỹ 1 chung `3.8 Flash` + `4 Hydrogen`; Quỹ 2 hồi theo tuần `4 Argon` + `Orchestrator (Argon)`; Quỹ 3 `Claude Opus/Sonnet 5.5`).
+  3. Thay thế `Gemini 3.8 Flash (High)` bằng `Gemini 4 Hydrogen (Medium/High)` trong mọi đầu việc code/dự phòng; bổ sung `Gemini 4 Hydrogen (Extra)` làm dự phòng chiến lược khi Quỹ 2 & 3 cạn, và `Orchestrator (Argon)` cho đại dự án 1 phiên.
+  4. Cài đặt kỷ luật **Scope Lock** (khóa rõ danh sách file cho `Sonnet 5.5 High`), quy tắc **Implicit Caching** (tiền tố cố định ≥ 4K) và chống **Attention Dilution** qua Subagent `flash`.
